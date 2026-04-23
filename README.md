@@ -16,7 +16,7 @@ This project is a platform that helps people find and adopt pets by connecting t
 - Browse animals with filters (species, age, size, location) 
 - View detailed information for a single animal  
 - User signup and login 
-- Save and remove favorite animals 
+- Save and remove favorited animals 
 - View all saved/favorited animal
 - Submit adoption inquiries 
 
@@ -165,8 +165,7 @@ npm run dev (vite)
 ```
 * Make sure backend is running before frontend requests
 
-Frontend will run on:  http://localhost:5173 (VITE) or http://localhost:3000 (CRA)
-
+Frontend will run on:  http://localhost:5173 (VITE)
 
 ## API Routes
 
@@ -363,7 +362,7 @@ Frontend will run on:  http://localhost:5173 (VITE) or http://localhost:3000 (CR
 
 ## Acknowledgments
 #### Mentors & Instructors
-Frank Stepanskim Gina Castromonte, Vera Fesianava
+Frank Stepanski, Gina Castromonte, Vera Fesianava
 Open-source libraries and tools
 
 ## License
