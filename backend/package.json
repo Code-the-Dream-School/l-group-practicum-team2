@@ -6,12 +6,8 @@
   "scripts": {
     "dev": "nodemon server.js",
     "start": "node server.js",
-<<<<<<< HEAD
     "db:schema": "node src/db/runSchema.js"
-=======
-    "db:schema": "node src/db/run-schema.js"
->>>>>>> 610fead (Add db:schema script and remove unused mongoose dependency)
-  },
+},
   "dependencies": {
     "@faker-js/faker": "^10.4.0",
     "bcrypt": "^6.0.0",
