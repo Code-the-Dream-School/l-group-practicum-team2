@@ -27,13 +27,18 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Lint
+        run: npm run lint
+
+      - name: Build
+        run: npm run build
+
   frontend-lint:
-    name: Frontend Lint (ESLint)
+    name: Frontend formatting check
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: frontend
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
@@ -47,6 +52,9 @@ jobs:
 
       - name: Install frontend dependencies
         run: npm ci
+
+      - name: Check formatting with Prettier
+        run: npm run format:check
 
   frontend-build:
     name: Frontend - build
