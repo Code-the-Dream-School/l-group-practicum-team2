@@ -1,5 +1,10 @@
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
-CREATE TYPE user_role AS ENUM ('ADMIN', 'USER');
+-- CREATE TYPE user_role AS ENUM ('ADMIN', 'USER');
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'user_role') THEN
+    CREATE TYPE user_role AS ENUM ('ADMIN', 'USER');
+  END IF;
+END $$;
 
 CREATE TABLE IF NOT EXISTS users (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -22,10 +27,23 @@ CREATE TABLE IF NOT EXISTS shelters (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- CREATE TYPE species AS ENUM ('Dog', 'Cat', 'Rabbit');
-CREATE TYPE age_category AS ENUM ('Young', 'Adult', 'Senior');
-CREATE TYPE animal_size AS ENUM ('Small', 'Medium', 'Large');
-CREATE TYPE animal_status AS ENUM ('Available', 'Adopted');
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'age_category') THEN
+    CREATE TYPE age_category AS ENUM ('YOUNG', 'ADULT', 'SENIOR');
+  END IF;
+END $$;
+
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'animal_size') THEN
+    CREATE TYPE animal_size AS ENUM ('SMALL', 'MEDIUM', 'LARGE');
+  END IF;
+END $$;
+
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'animal_status') THEN
+    CREATE TYPE animal_status AS ENUM ('AVAILABLE', 'ADOPTED');
+  END IF;
+END $$;
 
 CREATE TABLE IF NOT EXISTS animals (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -45,7 +63,7 @@ CREATE TABLE IF NOT EXISTS animals (
 
   photo_url TEXT,
 
-  status animal_status DEFAULT 'Available',
+  status animal_status DEFAULT 'AVAILABLE',
 
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -61,7 +79,13 @@ CREATE TABLE IF NOT EXISTS favorites (
   UNIQUE (user_id, animal_id)
 );
 
-CREATE TYPE message_status AS ENUM ('SENT', 'PROCESSING', 'CLOSED');
+
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'message_status') THEN
+    CREATE TYPE message_status AS ENUM ('SENT', 'PROCESSING', 'CLOSED');
+  END IF;
+END $$;
+
 CREATE TABLE IF NOT EXISTS inquiries (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
 
