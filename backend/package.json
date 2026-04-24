@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon server.js",
     "start": "node server.js",
-    "db:schema": "node src/db/run-schema.js"
+    "db:schema": "node src/db/runSchema.js"
   },
   "dependencies": {
     "@faker-js/faker": "^10.4.0",
