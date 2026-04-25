@@ -17,7 +17,7 @@ This project is a platform that helps people find and adopt pets by connecting t
 - View detailed information for a single animal  
 - User signup and login 
 - Save and remove favorited animals 
-- View all saved/favorited animal
+- View all saved/favorite animals
 - Submit adoption inquiries 
 
 
@@ -146,14 +146,15 @@ DATABASE_URL=your_neon_connection_string
 
 ### Create Database Tables
 
-After setting up your database in Neon, run the schema file:
-```
-psql $DATABASE_URL -f src/db/schema.sql
+After setting up your database in Neon, run the following command in your terminal:
+
+```bash
+npm run db:schema
 ```
 ### Seed Data
-After creating the tables, run the seed file to insert data
-```
-node src/db/seed.js
+After creating the tables, run the seed file in terminal to insert data
+```bash
+npm run db:seed
 ```
 
 
