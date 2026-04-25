@@ -109,12 +109,10 @@ CREATE TABLE IF NOT EXISTS inquiries (
 
   user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
   animal_id UUID NOT NULL REFERENCES animals(id) ON DELETE CASCADE,
-  shelter_id UUID NOT NULL REFERENCES shelters(id) ON DELETE CASCADE,
   message TEXT  NOT NULL,
   status message_status DEFAULT 'SENT',
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 CREATE INDEX IF NOT EXISTS idx_inquiries_user_id ON inquiries(user_id);
-CREATE INDEX IF NOT EXISTS idx_inquiries_shelter_id ON inquiries(shelter_id);
 CREATE INDEX IF NOT EXISTS idx_inquiries_animal_id ON inquiries(animal_id);
