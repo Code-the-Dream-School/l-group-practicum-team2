@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "dev": "nodemon server.js",
-    "start": "node server.js"
+    "start": "node server.js",
+    "db:seed": "node src/db/seed"
   },
   "dependencies": {
     "@faker-js/faker": "^10.4.0",
