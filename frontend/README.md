@@ -69,7 +69,7 @@ function Hello() {
 ```js
 // services/helloApi.js
 export const getHello = async () => {
-  const res = await fetch('/api/hello');
+  const res = await fetch("/api/hello");
   return res.json();
 };
 ```
@@ -155,7 +155,7 @@ Always clean up:
 ```jsx
 useEffect(() => {
   const id = setInterval(() => {
-    console.log('tick');
+    console.log("tick");
   }, 1000);
 
   return () => clearInterval(id);
@@ -170,7 +170,7 @@ Without cleanup, memory leaks occur.
 useEffect(() => {
   const controller = new AbortController();
 
-  fetch('/api/data', { signal: controller.signal })
+  fetch("/api/data", { signal: controller.signal })
     .then((res) => res.json())
     .then(setData)
     .catch(() => {});
