@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS animals (
   name TEXT NOT NULL,
   species TEXT NOT NULL,
   breed TEXT,
-  age_years FLOAT,
+  age_years FLOAT CHECK (age_years >= 0 AND age_years <= 30),,
   age_category age_category,
   size animal_size,
 
