@@ -7,7 +7,7 @@ function App() {
 
   useEffect(() => {
     // Call the backend API
-    fetch('http://localhost:8080/api/hello')
+    fetch('http://localhost:3000/api/hello')
       .then((response) => {
         if (!response.ok) {
           throw new Error('Failed to fetch from backend');
