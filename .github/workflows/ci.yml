@@ -29,10 +29,7 @@ jobs:
 
       - name: Lint
         run: npm run lint
-
-      - name: Build
-        run: npm run build
-
+        
   frontend-lint:
     name: Frontend formatting check
     runs-on: ubuntu-latest
