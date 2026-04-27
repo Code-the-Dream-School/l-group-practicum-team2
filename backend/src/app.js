@@ -3,6 +3,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
+const animalDetailRoutes = require('./routes/animal-detail.routes');
 
 const helloRoutes = require('./routes/hello.routes');
 
@@ -22,6 +23,7 @@ app.use(limiter);
 
 // Routes
 app.use('/api/hello', helloRoutes);
+app.use('/api/animals', animalDetailRoutes);
 
 // Root route
 app.get('/', (req, res) => {
