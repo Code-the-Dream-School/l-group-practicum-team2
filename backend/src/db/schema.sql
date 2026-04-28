@@ -1,4 +1,16 @@
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
+-- reusable trigger function
+CREATE OR REPLACE FUNCTION set_updated_at() 
+RETURNS TRIGGER 
+LANGUAGE plpgsql
+AS $$
+BEGIN 
+  NEW.updated_at = CURRENT_TIMESTAMP; 
+  RETURN NEW; 
+END; 
+$$;
+
 -- create USERS table
 DO $$ BEGIN
   IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'user_role') THEN
@@ -13,9 +25,17 @@ CREATE TABLE IF NOT EXISTS users (
   password_hash TEXT NOT NULL,
   role user_role DEFAULT 'USER' NOT NULL,
   location TEXT,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
+DROP TRIGGER IF EXISTS trigger_users_updated_at ON users;
+
+CREATE TRIGGER trigger_users_updated_at
+BEFORE UPDATE
+ON users
+FOR EACH ROW
+EXECUTE FUNCTION set_updated_at();
 
 
 
@@ -28,9 +48,16 @@ CREATE TABLE IF NOT EXISTS shelters (
   address TEXT NOT NULL,
   city TEXT NOT NULL,
   state TEXT NOT NULL,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
+DROP TRIGGER IF EXISTS trigger_shelters_updated_at ON shelters;
+
+CREATE TRIGGER trigger_shelters_updated_at
+BEFORE UPDATE ON shelters
+FOR EACH ROW
+EXECUTE FUNCTION set_updated_at();
 
 -- create ANIMALS table
 DO $$ BEGIN
@@ -65,17 +92,25 @@ CREATE TABLE IF NOT EXISTS animals (
   description TEXT,
   photo_url TEXT,
   status animal_status DEFAULT 'AVAILABLE',
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
+DROP TRIGGER IF EXISTS trigger_animals_updated_at ON animals;
+
+
+CREATE TRIGGER trigger_animals_updated_at
+BEFORE UPDATE ON animals
+FOR EACH ROW
+EXECUTE FUNCTION set_updated_at();
 
 CREATE INDEX IF NOT EXISTS idx_animals_shelter_id ON animals(shelter_id);
 CREATE INDEX IF NOT EXISTS idx_animals_status ON animals(status);
 
 -- for featured animals on home page
 -- SELECT * FROM animals WHERE special_needs = TRUE AND status = 'AVAILABLE';
-CREATE INDEX IF NOT EXISTS idx_animals_special_available
-ON animals(id)
+CREATE INDEX idx_animals_special_available
+ON animals(special_needs, status)
 WHERE special_needs = TRUE AND status = 'AVAILABLE';
 
 
@@ -86,11 +121,18 @@ CREATE TABLE IF NOT EXISTS favorites (
   user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
   animal_id UUID NOT NULL REFERENCES animals(id) ON DELETE CASCADE,
 
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
   UNIQUE (user_id, animal_id)
 );
+
+DROP TRIGGER IF EXISTS trigger_favorites_updated_at ON favorites;
+
+CREATE TRIGGER trigger_favorites_updated_at
+BEFORE UPDATE ON favorites
+FOR EACH ROW
+EXECUTE FUNCTION set_updated_at();
 
 CREATE INDEX IF NOT EXISTS idx_favorites_user_id ON favorites(user_id);
 CREATE INDEX IF NOT EXISTS idx_favorites_animal_id ON favorites(animal_id);
@@ -111,8 +153,16 @@ CREATE TABLE IF NOT EXISTS inquiries (
   animal_id UUID NOT NULL REFERENCES animals(id) ON DELETE CASCADE,
   message TEXT  NOT NULL,
   status message_status DEFAULT 'SENT',
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
+DROP TRIGGER IF EXISTS trigger_inquiries_updated_at ON inquiries;
+
+CREATE TRIGGER trigger_inquiries_updated_at
+BEFORE UPDATE ON inquiries
+FOR EACH ROW
+EXECUTE FUNCTION set_updated_at();
+
 CREATE INDEX IF NOT EXISTS idx_inquiries_user_id ON inquiries(user_id);
 CREATE INDEX IF NOT EXISTS idx_inquiries_animal_id ON inquiries(animal_id);
