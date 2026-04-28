@@ -60,6 +60,11 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
     try {
+
+         if (!process.env.JWT_SECRET) {
+            return res.status(500).json({ error: 'JWT secret not configured' });
+        }
+        
         const { email, password } = req.body;
 
         if (!email || !password) {
