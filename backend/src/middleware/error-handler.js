@@ -1,7 +1,7 @@
 const { StatusCodes } = require('http-status-codes')
 const errorHandlerMiddleware = (err, req, res, next) => {
   
-    console.log(err)
+    console.error(err)
     let customError = {
         // set default
         statusCode: err.statusCode || StatusCodes.INTERNAL_SERVER_ERROR,
@@ -11,7 +11,7 @@ const errorHandlerMiddleware = (err, req, res, next) => {
     // PostgreSQL: unique violation 23505
     if (err.code === '23505') {
         customError.msg = `Duplicate value entered, please choose another value`
-        customError.statusCode = StatusCodes.BAD_REQUEST
+        customError.statusCode = StatusCodes.CONFLICT
     }
 
     // PostgreSQL: Foreign key violation 23503
