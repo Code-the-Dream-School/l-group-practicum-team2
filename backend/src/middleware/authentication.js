@@ -1,5 +1,6 @@
 
 const jwt = require('jsonwebtoken')
+const pool = require('../config/db.postgres');
 const { UnauthenticatedError, NotFoundError } = require('../errors')
 
 
