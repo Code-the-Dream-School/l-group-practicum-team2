@@ -8,6 +8,8 @@ const helloRoutes = require('./routes/hello.routes');
 const authRoutes = require('./routes/auth.routes');
 const app = express();
 
+
+
 // Security & best‑practice middleware
 app.use(helmet());
 app.use(cors());
@@ -19,6 +21,10 @@ const limiter = rateLimit({
   max: 100,
 });
 app.use(limiter);
+
+// Authentication middleware
+// Uncomment the below when ready to use in secured routes.
+// const authenticateUser = require('./middleware/authentication');
 
 // Routes
 app.use('/api/hello', helloRoutes);
