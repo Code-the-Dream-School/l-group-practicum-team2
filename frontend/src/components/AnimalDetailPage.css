@@ -1,0 +1,221 @@
+.animal-detail-page {
+  min-height: 100vh;
+  padding: 32px 16px;
+  background: #f7f8fa;
+  color: #1f2937;
+}
+
+.animal-detail-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.animal-detail-back-link {
+  border: none;
+  background: transparent;
+  color: #2563eb;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.animal-detail-card {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 32px;
+  background: #fff;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+}
+
+.animal-detail-image {
+  width: 100%;
+  height: 420px;
+  object-fit: cover;
+  border-radius: 16px;
+}
+
+.animal-detail-image-placeholder {
+  width: 100%;
+  height: 420px;
+  border-radius: 16px;
+  background: #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6b7280;
+  font-weight: 600;
+}
+
+.animal-detail-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.animal-detail-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.animal-detail-title {
+  margin: 0;
+  font-size: 36px;
+}
+
+.animal-detail-subtitle {
+  margin-top: 8px;
+  color: #6b7280;
+}
+
+.animal-detail-badges {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.animal-detail-badge {
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.animal-detail-badge--status {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.animal-detail-badge--special {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.animal-detail-badge--senior {
+  background: #ede9fe;
+  color: #6d28d9;
+}
+
+.animal-detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.animal-detail-field {
+  background: #f9fafb;
+  border-radius: 14px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.animal-detail-field--full {
+  grid-column: 1 / -1;
+}
+
+.animal-detail-label {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #6b7280;
+}
+
+.animal-detail-value {
+  line-height: 1.5;
+}
+
+.animal-detail-shelter {
+  border-top: 1px solid #e5e7eb;
+  padding-top: 8px;
+}
+
+.animal-detail-section-title {
+  margin-bottom: 12px;
+}
+
+.animal-detail-email {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.animal-detail-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.animal-detail-primary-btn,
+.animal-detail-secondary-btn {
+  border: none;
+  border-radius: 12px;
+  padding: 14px 20px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.animal-detail-primary-btn {
+  background: #2563eb;
+  color: #fff;
+}
+
+.animal-detail-secondary-btn {
+  background: #e5e7eb;
+  color: #111827;
+}
+
+.animal-detail-state {
+  background: #fff;
+  border-radius: 20px;
+  padding: 48px 24px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+}
+
+.animal-detail-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 24, 39, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.animal-detail-modal {
+  width: 100%;
+  max-width: 420px;
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px;
+}
+
+@media (max-width: 900px) {
+  .animal-detail-card {
+    grid-template-columns: 1fr;
+  }
+
+  .animal-detail-image,
+  .animal-detail-image-placeholder {
+    height: 320px;
+  }
+}
+
+@media (max-width: 640px) {
+  .animal-detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .animal-detail-field--full {
+    grid-column: auto;
+  }
+
+  .animal-detail-title {
+    font-size: 28px;
+  }
+}
+
