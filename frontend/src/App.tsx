@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
+import { Routes, Route } from"react-router-dom";  
 import "./App.css";
 
-function App() {
+function Home() {
   const [message, setMessage] = useState("");
   const [error, setError] = useState(null);
 
@@ -34,6 +35,24 @@ function App() {
         </p>
       )}
     </main>
+  );
+}
+
+function Register() {
+  return <h1>Register Page</h1>;
+}
+
+function Login () {
+  return <h1>Login Page</h1>;
+}
+
+function App() {
+  return (
+    <Routes>
+      <Route path="/"element={<Home />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/login"element={<Login />} />
+    </Routes>
   );
 }
 
