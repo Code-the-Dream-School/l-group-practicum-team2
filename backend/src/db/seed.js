@@ -8,9 +8,14 @@ const pool = new Pool({
   ssl: { rejectUnauthorized: false },
 });
 
+const allowedTables = ["users", "shelters", "animals", "favorites", "inquiries"];
 
 
 const isTableEmpty = async (client, tableName) => {
+
+  if (!allowedTables.includes(tableName)) {
+    throw new Error(`Invalid table name: ${tableName}`);
+  }
   const res = await client.query(`SELECT COUNT(*) FROM ${tableName}`);
   return parseInt(res.rows[0].count, 10) === 0;
 };
@@ -83,7 +88,7 @@ const seedAnimals = async (client) => {
 
     const speciesList = ["DOG", "CAT", "RABBIT"];
     // const ageCategories = ["const ageCategories = ["YOUNG", "ADULT", "SENIOR"]; "]; 
-    const sizes = ["SMALL", "MEDIUM", "LASRGE"]; 
+    const sizes = ["SMALL", "MEDIUM", "LARGE"]; 
     const statuses = ["AVAILABLE", "ADOPTED"]; 
     const temperaments = [
                             "Friendly and playful",
@@ -178,6 +183,9 @@ const seedFavorites = async (client) => {
     if (animals.length === 0) {
       throw new Error("No animal found. Seed animals first.");
     }
+    if (animals.length < 3) {
+      throw new Error("Not enough animals to assign unique favorites");
+    }
 
     // keep track of used animals
     
@@ -192,18 +200,15 @@ const seedFavorites = async (client) => {
           randomAnimal = animals[Math.floor(Math.random() * animals.length)];
         } while (used.has(randomAnimal.id));
 
-        try {
-          await client.query(
-            `INSERT INTO favorites (
-              user_id, animal_id
-            ) VALUES ($1,$2)`,
-            [ user.id, randomAnimal.id ]
-          );
-          used.add(randomAnimal.id)
-        } catch (err) {
-          console.error("Insert failed:", err);
-
-        }
+        
+        await client.query(
+          `INSERT INTO favorites (
+            user_id, animal_id
+          ) VALUES ($1,$2)`,
+          [ user.id, randomAnimal.id ]
+        );
+        used.add(randomAnimal.id)
+       
         
       }
     }
