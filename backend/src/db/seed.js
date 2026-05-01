@@ -79,10 +79,10 @@ const seedAnimals = async (client) => {
       throw new Error("No shelters found. Seed shelters first.");
     }
 
-    const speciesList = ["Dog", "Cat", "Rabbit"];
-    // const ageCategories = ["Young", "Adult", "Senior"]; 
-    const sizes = ["Small", "Medium", "Large"]; 
-    const statuses = ["Available", "Adopted"]; 
+    const speciesList = ["DOG", "CAT", "RABBIT"];
+    // const ageCategories = ["const ageCategories = ["YOUNG", "ADULT", "SENIOR"]; "]; 
+    const sizes = ["SMALL", "MEDIUM", "LASRGE"]; 
+    const statuses = ["AVAILABLE", "ADOPTED"]; 
     const temperaments = [
                             "Friendly and playful",
                             "Calm and gentle",
@@ -100,11 +100,11 @@ const seedAnimals = async (client) => {
         const species = faker.helpers.arrayElement(speciesList);
 
         let breed;
-        if (species === "Dog") 
+        if (species === "DOG") 
           breed = faker.animal.dog();
-        else if (species === "Cat") 
+        else if (species === "CAT") 
           breed = faker.animal.cat();
-        else 
+        else // RABBIT
           breed = faker.animal.rabbit();
 
         const ageYears = parseFloat(faker.number.float({ min: 0.2, max: 15 }).toFixed(2));
@@ -112,11 +112,11 @@ const seedAnimals = async (client) => {
         let ageCategory;
 
         if (ageYears < 2) 
-          ageCategory = "Young";
+          ageCategory = "YOUNG";
         else if (ageYears < 8) 
-          ageCategory = "Adult";
+          ageCategory = "ADULT";
         else 
-          ageCategory = "Senior";
+          ageCategory = "SENIOR";
 
         await client.query(
           `INSERT INTO animals (
