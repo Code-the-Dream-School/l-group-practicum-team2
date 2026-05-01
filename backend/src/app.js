@@ -7,7 +7,9 @@ const notFound = require("./middleware/not-found");
 const helloRoutes = require('./routes/hello.routes');
 const authRoutes = require('./routes/auth.routes');
 const app = express();
-const auth = require('./middleware/authentication');
+
+// Uncomment the below when ready to use in secured routes.
+// const auth = require('./middleware/authentication');
 
 
 // Security & best‑practice middleware
