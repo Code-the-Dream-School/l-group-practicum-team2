@@ -1,39 +1,33 @@
 import type { Animal } from "../types/animal";
 
-type Props = {
-  animal: Animal;
-};
-
-function AnimalCard({ animal }: Props) {
-  return (
-    <div
-      style={{
-        border: "1px solid #ccc",
-        borderRadius: "10px",
-        padding: "10px",
-      }}
-    >
-      <img
-        src={animal.photo_url}
-        alt={animal.name}
-        style={{ width: "100%", borderRadius: "8px" }}
-      />
-
-      <h3>{animal.name}</h3>
-      <p>{animal.species}</p>
-      <p>{animal.breed}</p>
-      <p>{animal.age_years} years</p>
-
-      <p>
-        {animal.age_category.charAt(0) +
-          animal.age_category.slice(1).toLowerCase()}
-      </p>
-
-      <p>{animal.size.charAt(0) + animal.size.slice(1).toLowerCase()}</p>
-
-      {animal.special_needs && <p style={{ color: "red" }}>Special Needs</p>}
-    </div>
-  );
+function formatLabel(value: string) {
+   return value.charAt(0) + value.slice(1).toLowerCase();
 }
 
-export default AnimalCard;
+export default function AnimalCard({ animal }: { animal: Animal }) {
+    return (
+        <article className="animal-card">
+            <div className="animal-image-wrap">
+                <img src={animal.photo_url} alt={animal.name} className="animal-image" />
+            </div>
+            <div className="animal-card-body">
+                <div className="animal-title-row">
+                    <h3>{animal.name}</h3>
+                    <span className="age-pill">{animal.age_years} yrs</span>
+                </div>
+                <p className="breed">{animal.breed}</p>
+                <p className="description">Friendly companion looking for a loving home and a caring family.</p>
+                
+                <div className="tags">
+                    <span>{formatLabel(animal.size)}</span>
+                    <span>{formatLabel(animal.age_category)}</span>
+                    <span>{animal.species}</span>
+                </div>
+                
+                {animal.special_needs &&
+                    <p className="special-needs">Special Needs</p>
+                }
+            </div>
+        </article>
+    );
+}

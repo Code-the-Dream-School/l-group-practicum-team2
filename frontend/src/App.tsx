@@ -1,6 +1,7 @@
 import { useState } from "react";
 import AnimalCard from "./components/AnimalCard";
 import Filters from "./components/Filters";
+import "./App.css";
 
 const mockAnimals = [
   {
@@ -56,7 +57,7 @@ function App() {
   });
 
   return (
-    <main style={{ padding: "20px" }}>
+    <main className="app">
       <h1>Animals List</h1>
 
       <Filters
@@ -70,13 +71,7 @@ function App() {
 
       {filteredAnimals.length === 0 && <p>No animals found.</p>}
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
-          gap: "20px",
-        }}
-      >
+      <div className="animals-grid">
         {filteredAnimals.map((animal) => (
           <AnimalCard key={animal.id} animal={animal} />
         ))}
