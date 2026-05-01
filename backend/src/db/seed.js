@@ -8,6 +8,8 @@ const pool = new Pool({
   ssl: { rejectUnauthorized: false },
 });
 
+
+
 const isTableEmpty = async (client, tableName) => {
   const res = await client.query(`SELECT COUNT(*) FROM ${tableName}`);
   return parseInt(res.rows[0].count, 10) === 0;
@@ -176,8 +178,12 @@ const seedFavorites = async (client) => {
     if (animals.length === 0) {
       throw new Error("No animal found. Seed animals first.");
     }
+
+    // keep track of used animals
     
+
     for (const user of users) {
+      let used = new Set();
       for (let i = 0; i < 3; i++) {
 
         let randomAnimal;
@@ -186,15 +192,19 @@ const seedFavorites = async (client) => {
           randomAnimal = animals[Math.floor(Math.random() * animals.length)];
         } while (used.has(randomAnimal.id));
 
-        await client.query(
-          `INSERT INTO favorites (
-            user_id, animal_id
-          ) VALUES ($1,$2)`,
-          [
-            user.id, randomAnimal.id, 
-            
-          ]
-        );
+        try {
+          await client.query(
+            `INSERT INTO favorites (
+              user_id, animal_id
+            ) VALUES ($1,$2)`,
+            [ user.id, randomAnimal.id ]
+          );
+          used.add(randomAnimal.id)
+        } catch (err) {
+          console.error("Insert failed:", err);
+
+        }
+        
       }
     }
 
