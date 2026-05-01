@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+
 
 function Register() {
     const navigate = useNavigate();
@@ -8,6 +9,14 @@ function Register() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+
+    useEffect(() => {
+  const token = localStorage.getItem("token");
+
+  if (token) {
+    navigate("/animals");
+  }
+}, [navigate]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
