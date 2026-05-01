@@ -1,19 +1,20 @@
 
 const jwt = require('jsonwebtoken')
 const pool = require('../config/db.postgres');
-const { UnauthenticatedError, NotFoundError } = require('../errors')
+const { UnauthenticatedError, NotFoundError, InternalServerError } = require('../errors')
 
 
 const auth = async (req, res, next) => {
 
     if (!process.env.JWT_SECRET) {
-        return res.status(500).json({ error: 'JWT secret not configured' });
+        return next(new InternalServerError('JWT secret not configured'))
+        
     }
 
     // check header
     const authHeader = req.headers.authorization
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
-        throw new UnauthenticatedError('Authentication invalid')
+        return next(new UnauthenticatedError('Authentication invalid'))
     }
     const token = authHeader.split(' ')[1]
 
@@ -28,7 +29,8 @@ const auth = async (req, res, next) => {
 
         const user = result.rows[0];
         if(!user){
-            throw new NotFoundError(`No user with id ${payload.userId}`)
+            return next(new NotFoundError(`No user with id ${payload.userId}`))
+            // throw new NotFoundError(`No user with id ${payload.userId}`)
         }
 
         req.user = user
@@ -36,7 +38,8 @@ const auth = async (req, res, next) => {
         next()
 
     } catch (error) {
-        throw new UnauthenticatedError('Authentication invalid')
+        return next(new UnauthenticatedError(error.message || 'Authentication invalid'))
+        // throw new UnauthenticatedError('Authentication invalid')
     }
 }
 
