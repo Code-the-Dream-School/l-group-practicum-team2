@@ -1,5 +1,6 @@
 import { useState } from "react";
 import AnimalCard from "./components/AnimalCard";
+import Filters from "./components/Filters";
 
 const mockAnimals = [
   {
@@ -42,10 +43,22 @@ const mockAnimals = [
 
 function App() {
   const [animals] = useState(mockAnimals);
+  const [species, setSpecies] = useState("");
+  const [size, setSize] = useState("");
+  const [age, setAge] = useState("");
 
   return (
     <main style={{ padding: "20px" }}>
       <h1>Animals List</h1>
+
+      <Filters
+        species={species}
+        size={size}
+        age={age}
+        onSpeciesChange={setSpecies}
+        onSizeChange={setSize}
+        onAgeChange={setAge}
+      />
 
       <div
         style={{
