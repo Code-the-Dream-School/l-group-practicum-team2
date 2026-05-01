@@ -9,12 +9,12 @@ function Login() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-  const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token");
 
-  if (token) {
-    navigate("/animals");
-  }
-}, [navigate]);
+    if (token) {
+      navigate("/animals");
+    }
+  }, [navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

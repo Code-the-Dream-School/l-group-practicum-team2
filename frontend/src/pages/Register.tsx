@@ -1,56 +1,55 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-
 function Register() {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [error, setError] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-    useEffect(() => {
-  const token = localStorage.getItem("token");
+  useEffect(() => {
+    const token = localStorage.getItem("token");
 
-  if (token) {
-    navigate("/animals");
-  }
-}, [navigate]);
+    if (token) {
+      navigate("/animals");
+    }
+  }, [navigate]);
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setError("");
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
 
-        try {
-            const response = await fetch("http://localhost:8080/api/auth/register", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ name, email, password }),
-            });
+    try {
+      const response = await fetch("http://localhost:8080/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, email, password }),
+      });
 
-            const data = await response.json();
+      const data = await response.json();
 
-            if (!response.ok) {
-                throw new Error(data.error || "Registration failed");
-            }
+      if (!response.ok) {
+        throw new Error(data.error || "Registration failed");
+      }
 
-            localStorage.setItem("token", data.token);
+      localStorage.setItem("token", data.token);
 
-            // redirect after success
-            navigate("/animals");
-        }   catch (err) {
-            if (err instanceof Error) {
-                setError(err.message);
-            } else {
-                setError("Something went wrong");
-            }
-        }
-    };
+      // redirect after success
+      navigate("/animals");
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("Something went wrong");
+      }
+    }
+  };
 
-    return (
+  return (
     <main style={{ padding: "2rem", fontFamily: "sans-serif" }}>
       <h1>Register</h1>
 
@@ -98,8 +97,3 @@ function Register() {
 }
 
 export default Register;
-
-            
-
-
-
