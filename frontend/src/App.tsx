@@ -70,8 +70,10 @@ function App() {
 
             <h3>{animal.name}</h3>
             <p>{animal.species}</p>
-            <p>{animal.age}</p>
-            <p>{animal.size}</p>
+            <p>{animal.breed}</p>
+            <p>{animal.age_years} years </p>
+            <p>{animal.age_category.charAt(0) + animal.age_category.slice(1).toLowerCase()}</p>
+            <p>{animal.size.charAt(0) + animal.size.slice(1).toLowerCase()}</p>
 
             {animal.special_needs && (
               <p style={{ color: "red" }}>Special Needs</p>
