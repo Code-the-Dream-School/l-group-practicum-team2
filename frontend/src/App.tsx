@@ -13,7 +13,7 @@ const mockAnimals = [
     age_category: "ADULT",
     size: "MEDIUM",
     special_needs: false,
-    photo_url: "https://picsum.photos/300/200?1",
+    photo_url: "https://placedog.net/600/400?id=1",
     status: "AVAILABLE",
   },
   {
@@ -25,7 +25,8 @@ const mockAnimals = [
     age_category: "SENIOR",
     size: "SMALL",
     special_needs: true,
-    photo_url: "https://picsum.photos/300/200?2",
+    photo_url:
+      "https://images.pexels.com/photos/45201/kitty-cat-kitten-pet-45201.jpeg",
     status: "AVAILABLE",
   },
   {
@@ -37,7 +38,20 @@ const mockAnimals = [
     age_category: "YOUNG",
     size: "LARGE",
     special_needs: false,
-    photo_url: "https://picsum.photos/300/200?3",
+    photo_url: "https://placedog.net/600/400?id=2",
+    status: "AVAILABLE",
+  },
+  {
+    id: "4",
+    name: "Luna",
+    species: "Rabbit",
+    breed: "Holland Lop",
+    age_years: 2,
+    age_category: "ADULT",
+    size: "SMALL",
+    special_needs: false,
+    photo_url:
+      "https://images.pexels.com/photos/326012/pexels-photo-326012.jpeg",
     status: "AVAILABLE",
   },
 ];

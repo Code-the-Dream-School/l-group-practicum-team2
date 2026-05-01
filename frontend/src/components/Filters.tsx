@@ -21,6 +21,7 @@ function Filters({
         <option value="">All species</option>
         <option value="Dog">Dog</option>
         <option value="Cat">Cat</option>
+        <option value="Rabbit">Rabbit</option>
       </select>
 
       <select value={size} onChange={(e) => onSizeChange(e.target.value)}>
