@@ -1,21 +1,8 @@
-type Animal = {
-  id: string;
-  name: string;
-  species: string;
-  breed: string;
-  age_years: number;
-  age_category: string;
-  size: string;
-  special_needs: boolean;
-  photo_url: string;
-  status: string;
-};
-
-function formatLabel(value: string) {
-  return value.charAt(0) + value.slice(1).toLowerCase();
+function formatLabel(value) {
+  return value.charAt(0).toUpperCase() + value.slice(1);
 }
 
-export default function AnimalCard({ animal }: { animal: Animal }) {
+export default function AnimalCard({ animal }) {
   return (
     <article className="animal-card">
       <div className="animal-image-wrap">
@@ -38,7 +25,7 @@ export default function AnimalCard({ animal }: { animal: Animal }) {
         <div className="tags">
           <span>{formatLabel(animal.size)}</span>
           <span>{formatLabel(animal.age_category)}</span>
-          <span>{animal.species}</span>
+          <span>{formatLabel(animal.species)}</span>
         </div>
 
         {animal.special_needs && <p className="special-needs">Special Needs</p>}
