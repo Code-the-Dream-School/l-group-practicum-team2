@@ -191,7 +191,7 @@ const seedFavorites = async (client) => {
     
 
     for (const user of users) {
-      let used = new Set();
+      const used = new Set();
       for (let i = 0; i < 3; i++) {
 
         let randomAnimal;
@@ -241,20 +241,29 @@ const seedInquiries = async (client) => {
     
     const statusList = ['SENT', 'PROCESSING', 'CLOSED']; 
 
-    for (let i=0; i<15; i++) {
-        const randomUser = users[Math.floor(Math.random() * users.length)];
+    const usedPairs = new Set();
 
-        const randomAnimal = animals[Math.floor(Math.random() * animals.length)];
-        const message = faker.lorem.sentences(2);
-        const messageStatus = faker.helpers.arrayElement(statusList);
-   
-        await client.query(
-          `INSERT INTO inquiries (
-            user_id, animal_id, message, status
-          ) VALUES ($1,$2, $3, $4)`,
-          [ randomUser.id, randomAnimal.id, message, messageStatus ]
-        );
-     }
+    for (let i=0; i<15; i++) {
+      let randomUser;
+      let randomAnimal;
+
+      do {
+        randomUser = users[Math.floor(Math.random() * users.length)];
+        randomAnimal = animals[Math.floor(Math.random() * animals.length)];
+      } while (usedPairs.has(`${randomUser.id}-${randomAnimal.id}`));
+
+
+      const message = faker.lorem.sentences(2);
+      const messageStatus = faker.helpers.arrayElement(statusList);
+  
+      await client.query(
+        `INSERT INTO inquiries (
+          user_id, animal_id, message, status
+        ) VALUES ($1,$2, $3, $4)`,
+        [ randomUser.id, randomAnimal.id, message, messageStatus ]
+      );
+      usedPairs.add(`${randomUser.id}-${randomAnimal.id}`);
+    }
     
 
     console.log("Seeded 15 inquiries");
