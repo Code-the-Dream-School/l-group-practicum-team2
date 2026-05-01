@@ -106,7 +106,9 @@ const seedAnimals = async (client) => {
           breed = faker.animal.cat();
         else 
           breed = faker.animal.rabbit();
-        const ageYears = faker.number.float({ min: 0.2, max: 15 }).toFixed(2)
+
+        const ageYears = parseFloat(faker.number.float({ min: 0.2, max: 15 }).toFixed(2));
+
         let ageCategory;
 
         if (ageYears < 2) 
