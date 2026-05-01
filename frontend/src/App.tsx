@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Routes, Route } from"react-router-dom";  
 import "./App.css";
+import Register from "./pages/Register";
 
 function Home() {
   const [message, setMessage] = useState("");
@@ -38,9 +39,7 @@ function Home() {
   );
 }
 
-function Register() {
-  return <h1>Register Page</h1>;
-}
+
 
 function Login () {
   return <h1>Login Page</h1>;
