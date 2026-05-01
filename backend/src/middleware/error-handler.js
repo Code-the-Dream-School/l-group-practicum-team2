@@ -1,6 +1,6 @@
 const { StatusCodes } = require('http-status-codes')
-const errorHandlerMiddleware = (err, req, res, _next) => {
-  
+const errorHandlerMiddleware = (err, req, res, next) => {
+    void next; //  intentionally unused. `next` is technically part of the required function signature in middleware.
     let customError = {
         // set default
         statusCode: err.statusCode || StatusCodes.INTERNAL_SERVER_ERROR,
