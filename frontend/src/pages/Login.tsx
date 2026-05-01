@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-function Register() {
+function Login() {
   const navigate = useNavigate();
 
-  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -17,28 +16,27 @@ function Register() {
     }
   }, [navigate]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
 
     try {
-      const response = await fetch("http://localhost:8080/api/auth/register", {
+      const response = await fetch("http://localhost:8080/api/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ name, email, password }),
+        body: JSON.stringify({ email, password }),
       });
 
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || "Registration failed");
+        throw new Error(data.error || "Login failed");
       }
 
       localStorage.setItem("token", data.token);
 
-      // redirect after success
       navigate("/animals");
     } catch (err) {
       if (err instanceof Error) {
@@ -51,19 +49,9 @@ function Register() {
 
   return (
     <main style={{ padding: "2rem", fontFamily: "sans-serif" }}>
-      <h1>Register</h1>
+      <h1>Login</h1>
 
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>Name</label>
-          <br />
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-        </div>
-
         <div>
           <label>Email</label>
           <br />
@@ -84,16 +72,16 @@ function Register() {
           />
         </div>
 
-        <button type="submit">Register</button>
+        <button type="submit">Login</button>
       </form>
 
       {error && <p style={{ color: "red" }}>{error}</p>}
 
       <p>
-        Already have an account? <Link to="/login">Log in</Link>
+        Don’t have an account? <Link to="/register">Register</Link>
       </p>
     </main>
   );
 }
 
-export default Register;
+export default Login;
