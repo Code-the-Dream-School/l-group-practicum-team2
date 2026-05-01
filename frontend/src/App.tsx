@@ -47,6 +47,14 @@ function App() {
   const [size, setSize] = useState("");
   const [age, setAge] = useState("");
 
+  const filteredAnimals = animals.filter((animal) => {
+    return (
+      (species === "" || animal.species === species) &&
+      (size === "" || animal.size === size) &&
+      (age === "" || animal.age_category === age)
+    );
+  });
+
   return (
     <main style={{ padding: "20px" }}>
       <h1>Animals List</h1>
@@ -60,6 +68,8 @@ function App() {
         onAgeChange={setAge}
       />
 
+      {filteredAnimals.length === 0 && <p>No animals found.</p>}
+
       <div
         style={{
           display: "grid",
@@ -67,7 +77,7 @@ function App() {
           gap: "20px",
         }}
       >
-        {animals.map((animal) => (
+        {filteredAnimals.map((animal) => (
           <AnimalCard key={animal.id} animal={animal} />
         ))}
       </div>
