@@ -107,23 +107,34 @@ const seedAnimals = async (client) => {
         const species = faker.helpers.arrayElement(speciesList);
 
         let breed;
-        if (species === "DOG") 
-          breed = faker.animal.dog();
-        else if (species === "CAT") 
-          breed = faker.animal.cat();
-        else // RABBIT
-          breed = faker.animal.rabbit();
-
-        const ageYears = parseFloat(faker.number.float({ min: 0.2, max: 15 }).toFixed(2));
-
+        let ageYears;
         let ageCategory;
 
-        if (ageYears < 2) 
-          ageCategory = "YOUNG";
-        else if (ageYears < 8) 
-          ageCategory = "ADULT";
-        else 
-          ageCategory = "SENIOR";
+        switch (species) {
+          case "DOG":
+            breed = faker.animal.dog();
+            ageYears = parseFloat(faker.number.float({ min: 0.2, max: 13 }).toFixed(2));
+            ageCategory = ageYears <= 1 ? "YOUNG" : ageYears >= 7 ? "SENIOR" : "ADULT";
+            break;
+
+          case "CAT":
+            breed = faker.animal.cat();
+            ageYears = parseFloat(faker.number.float({ min: 0.2, max: 18 }).toFixed(2));
+            ageCategory = ageYears <= 2 ? "YOUNG" : ageYears >=11 ? "SENIOR" : "ADULT";
+            break;
+
+          case "RABBIT":
+            breed = faker.animal.rabbit();
+            ageYears = parseFloat(faker.number.float({ min: 0.2, max: 12 }).toFixed(2));
+            ageCategory = ageYears <= 1 ? "YOUNG" : ageYears >= 5 ? "SENIOR" : "ADULT";
+            break;
+          default:
+            throw new Error(`Unknown species: ${species}`);
+
+        }
+    
+          
+        
 
         await client.query(
           `INSERT INTO animals (
