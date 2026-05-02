@@ -8,7 +8,7 @@ const getAnimals = async (req, res, next) => {
         let query = "SELECT * FROM animals";
 
         if(extraLove){
-            query += ` WHERE special_needs=TRUE`;
+            query += ` WHERE special_needs IS TRUE AND status = 'AVAILABLE'`;
         }
         const result = await pool.query(query);
         const animals = result.rows;
