@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "nodemon server.js",
     "start": "node server.js",
+    "db:seed": "node src/db/seed",
     "db:schema": "node src/db/runSchema.js",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
