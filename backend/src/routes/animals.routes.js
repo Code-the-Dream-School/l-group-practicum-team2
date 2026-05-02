@@ -4,7 +4,7 @@ const {
 
     getAnimals
     
-} = require('../controllers/animals')
+} = require('../controllers/animals.controller')
 
 
 //public 
