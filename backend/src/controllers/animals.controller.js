@@ -16,12 +16,12 @@ const getAnimals = async (req, res) => {
 
     if (size) {
       values.push(size.toLowerCase());
-      conditions.push(`LOWER(a.size) = $${values.length}`);
+      conditions.push(`LOWER(a.size::text) = $${values.length}`);
     }
 
     if (age_category) {
       values.push(age_category.toLowerCase());
-      conditions.push(`LOWER(a.age_category) = $${values.length}`);
+      conditions.push(`LOWER(a.age_category::text) = $${values.length}`);
     }
 
     if (special_needs !== undefined) {
@@ -49,7 +49,7 @@ const getAnimals = async (req, res) => {
         a.created_at,
         s.name          AS shelter_name,
         s.city          AS shelter_city,
-        s.contact_email AS shelter_email,
+        s.email AS shelter_email,
         s.phone         AS shelter_phone
       FROM animals a
       LEFT JOIN shelters s ON a.shelter_id = s.id
