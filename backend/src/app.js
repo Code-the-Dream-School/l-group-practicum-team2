@@ -6,6 +6,7 @@ const rateLimit = require("express-rate-limit");
 const notFound = require("./middleware/not-found");
 const helloRoutes = require('./routes/hello.routes');
 const authRoutes = require('./routes/auth.routes');
+const animalRoutes = require('./routes/animal.routes');
 const app = express();
 
 // Security & best‑practice middleware
@@ -23,6 +24,7 @@ app.use(limiter);
 // Routes
 app.use('/api/hello', helloRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/animals', animalRoutes);
 
 // Root route
 app.get("/", (req, res) => {
