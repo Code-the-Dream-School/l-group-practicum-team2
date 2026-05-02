@@ -211,6 +211,7 @@ const seedFavorites = async (client) => {
           randomAnimal = animals[Math.floor(Math.random() * animals.length)];
         } while (used.has(randomAnimal.id));
 
+        used.add(randomAnimal.id);
         
         await client.query(
           `INSERT INTO favorites (
@@ -218,9 +219,6 @@ const seedFavorites = async (client) => {
           ) VALUES ($1,$2)`,
           [ user.id, randomAnimal.id ]
         );
-        used.add(randomAnimal.id)
-       
-        
       }
     }
 
