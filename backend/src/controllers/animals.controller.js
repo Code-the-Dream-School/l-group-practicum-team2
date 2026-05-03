@@ -4,8 +4,7 @@ const getAnimals = async (req, res) => {
   try {
     const { species, size, age_category, special_needs, status } = req.query;
 
-    // Build WHERE conditions dynamically so filters work independently and in combination.
-    // Using $1, $2... placeholders prevents SQL injection.
+    
     const conditions = [];
     const values = [];
 
