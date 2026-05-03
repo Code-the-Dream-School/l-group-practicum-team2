@@ -1,0 +1,305 @@
+require("dotenv").config();
+const { Pool } = require("pg");
+const { faker } = require("@faker-js/faker");
+const { hashPassword } = require('../utils/authHelper')
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: { rejectUnauthorized: false },
+});
+
+const allowedTables = ["users", "shelters", "animals", "favorites", "inquiries"];
+
+
+const isTableEmpty = async (client, tableName) => {
+
+  if (!allowedTables.includes(tableName)) {
+    throw new Error(`Invalid table name: ${tableName}`);
+  }
+  const res = await client.query(`SELECT COUNT(*) FROM ${tableName}`);
+  return parseInt(res.rows[0].count, 10) === 0;
+};
+
+const seedUsers = async (client) => {
+  if (!(await isTableEmpty(client, "users"))) {
+    console.log("Users already exist, skipping seed");
+    return;
+  }
+
+  for (let i = 0; i < 3; i++) {
+    const name = faker.person.firstName();
+    const email = faker.internet.email().toLowerCase();
+    const role = "USER";
+    const password_hash = await hashPassword("password$123")
+
+    await client.query(
+      `INSERT INTO users (name, email, role, password_hash)
+        VALUES ($1, $2, $3, $4)`,
+      [name, email, role, password_hash]
+    );
+  }
+
+  console.log("Users seeded");
+  return;
+    
+};
+const seedShelters = async (client) => {
+  if (!(await isTableEmpty(client, "shelters"))) {
+    console.log("Shelters already exist, skipping seed");
+    return;
+  }
+  
+
+  const nameList = ["Upland Animal Adoption Center", "Port Dustin Humane Society", "Happy Animal Rescue", "Happy Animal Shelter", "Gentle Animal Rescue"];
+
+  for (let name of nameList) {
+  //   const name = faker.company.name();
+
+    const email = faker.internet.email().toLowerCase();
+    const phone = `(${faker.string.numeric(3)}) ${faker.string.numeric(3)}-${faker.string.numeric(4)}`;
+    const address = faker.location.streetAddress();
+    const city = faker.location.city();
+    const state = faker.location.state({ abbreviated: true });
+
+    await client.query(
+      `INSERT INTO shelters (name, email, phone, address, city, state)
+        VALUES ($1, $2, $3, $4, $5, $6)`,
+      [name, email, phone, address, city, state]
+    );
+  }
+
+  console.log("Shelters seeded");
+  return;
+};
+
+const seedAnimals = async (client) => {
+    if (!(await isTableEmpty(client, "animals"))) {
+      console.log("Animals already exist, skipping seed");
+      return;
+    }
+
+    // 1. get shelters
+    const sheltersRes = await client.query("SELECT id FROM shelters");
+    const shelters = sheltersRes.rows;
+
+    if (shelters.length === 0) {
+      throw new Error("No shelters found. Seed shelters first.");
+    }
+
+    const speciesList = ["DOG", "CAT", "RABBIT"];
+    // const ageCategories = ["const ageCategories = ["YOUNG", "ADULT", "SENIOR"]; "]; 
+    const sizes = ["SMALL", "MEDIUM", "LARGE"]; 
+    const statuses = ["AVAILABLE", "ADOPTED"]; 
+    const temperaments = [
+                            "Friendly and playful",
+                            "Calm and gentle",
+                            "Energetic and curious",
+                            "Shy but affectionate",
+                            "Independent and quiet",
+                            "Loyal and protective",
+                          ];
+    // 2. create 6 animals for each shelter
+    for (const shelter of shelters) {
+      for (let i = 0; i < 6; i++) {
+
+        const name = faker.person.firstName();
+
+        const species = faker.helpers.arrayElement(speciesList);
+
+        let breed;
+        let ageYears;
+        let ageCategory;
+
+        switch (species) {
+          case "DOG":
+            breed = faker.animal.dog();
+            ageYears = parseFloat(faker.number.float({ min: 0.2, max: 13 }).toFixed(2));
+            ageCategory = ageYears <= 1 ? "YOUNG" : ageYears >= 7 ? "SENIOR" : "ADULT";
+            break;
+
+          case "CAT":
+            breed = faker.animal.cat();
+            ageYears = parseFloat(faker.number.float({ min: 0.2, max: 18 }).toFixed(2));
+            ageCategory = ageYears <= 2 ? "YOUNG" : ageYears >=11 ? "SENIOR" : "ADULT";
+            break;
+
+          case "RABBIT":
+            breed = faker.animal.rabbit();
+            ageYears = parseFloat(faker.number.float({ min: 0.2, max: 12 }).toFixed(2));
+            ageCategory = ageYears <= 1 ? "YOUNG" : ageYears >= 5 ? "SENIOR" : "ADULT";
+            break;
+          default:
+            throw new Error(`Unknown species: ${species}`);
+
+        }
+    
+          
+        
+
+        await client.query(
+          `INSERT INTO animals (
+            shelter_id,
+            name,
+            species,
+            breed,
+            age_years,
+            age_category,
+            size,
+            special_needs,
+            temperament,
+            description,
+            photo_url,
+            status
+          ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)`,
+          [
+            shelter.id,
+            name,
+            species,
+            breed,
+            ageYears,
+            ageCategory,
+            faker.helpers.arrayElement(sizes),
+            faker.datatype.boolean(),
+            faker.helpers.arrayElement(temperaments),
+            faker.lorem.paragraph(),
+            faker.image.url({ category: "animal" }),
+            faker.helpers.arrayElement(statuses),
+          ]
+        );
+      }
+    }
+
+    console.log("Seeded 6 animals for each shelter");
+    return;
+};
+
+const seedFavorites = async (client) => {
+    if (!(await isTableEmpty(client, "favorites"))) {
+      console.log("Favorites already exist, skipping seed");
+      return;
+    }
+    // get users
+    const usersRes = await client.query("SELECT id FROM users");
+    //    { ..., rows:[ { id: 'uuid-1' },{ id: 'uuid-2' },... ]}
+    const users = usersRes.rows;
+
+    if (users.length === 0) {
+      throw new Error("No user found. Seed users first.");
+    }
+
+    // get animasl array
+    const animalsRes = await client.query("SELECT id FROM animals");
+    const animals = animalsRes.rows;
+
+    if (animals.length === 0) {
+      throw new Error("No animal found. Seed animals first.");
+    }
+    if (animals.length < 3) {
+      throw new Error("Not enough animals to assign unique favorites");
+    }
+
+    // keep track of used animals
+    
+
+    for (const user of users) {
+      const used = new Set();
+      for (let i = 0; i < 3; i++) {
+
+        let randomAnimal;
+
+        do {
+          randomAnimal = animals[Math.floor(Math.random() * animals.length)];
+        } while (used.has(randomAnimal.id));
+
+        used.add(randomAnimal.id);
+        
+        await client.query(
+          `INSERT INTO favorites (
+            user_id, animal_id
+          ) VALUES ($1,$2)`,
+          [ user.id, randomAnimal.id ]
+        );
+      }
+    }
+
+    console.log("Seeded 3 favorites for each user");
+    return;
+};
+
+const seedInquiries = async (client) => {
+    if (!(await isTableEmpty(client, "inquiries"))) {
+      console.log("Inquiries already exist, skipping seed");
+      return;
+    }
+    // get users
+    const usersRes = await client.query("SELECT id FROM users");
+    //    { ..., rows:[ { id: 'uuid-1' },{ id: 'uuid-2' },... ]}
+    const users = usersRes.rows;
+
+    if (users.length === 0) {
+      throw new Error("No user found. Seed users first.");
+    }
+
+    // get animasl array
+    const animalsRes = await client.query("SELECT id FROM animals");
+    const animals = animalsRes.rows;
+
+    if (animals.length === 0) {
+      throw new Error("No animal found. Seed animals first.");
+    }
+    
+    const statusList = ['SENT', 'PROCESSING', 'CLOSED']; 
+
+    const usedPairs = new Set();
+
+    for (let i=0; i<15; i++) {
+      let randomUser;
+      let randomAnimal;
+
+      do {
+        randomUser = users[Math.floor(Math.random() * users.length)];
+        randomAnimal = animals[Math.floor(Math.random() * animals.length)];
+      } while (usedPairs.has(`${randomUser.id}-${randomAnimal.id}`));
+
+
+      const message = faker.lorem.sentences(2);
+      const messageStatus = faker.helpers.arrayElement(statusList);
+  
+      await client.query(
+        `INSERT INTO inquiries (
+          user_id, animal_id, message, status
+        ) VALUES ($1,$2, $3, $4)`,
+        [ randomUser.id, randomAnimal.id, message, messageStatus ]
+      );
+      usedPairs.add(`${randomUser.id}-${randomAnimal.id}`);
+    }
+    
+
+    console.log("Seeded 15 inquiries");
+    return;
+};
+
+const runSeeds = async () => {
+  const client = await pool.connect();
+  try {
+
+    await client.query("BEGIN");
+
+    await seedShelters(client);
+    await seedUsers(client);
+    await seedAnimals(client);
+    await seedFavorites(client);
+    await seedInquiries(client);
+
+    await client.query("COMMIT");
+    console.log("All seeds completed");
+  } catch (err) {
+    await client.query("ROLLBACK");
+    console.error("Seeding error:", err);
+  } finally {
+    client.release();
+    await pool.end();
+  }
+};
+
+runSeeds();
