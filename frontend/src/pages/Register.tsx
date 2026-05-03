@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { registerUser } from "../services/authService";
 
 function Register() {
   const navigate = useNavigate();
@@ -22,19 +23,7 @@ function Register() {
     setError("");
 
     try {
-      const response = await fetch("http://localhost:8080/api/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ name, email, password }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || "Registration failed");
-      }
+      const data = await registerUser({ name, email, password });
 
       localStorage.setItem("token", data.token);
 
