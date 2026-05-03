@@ -1,34 +1,78 @@
 import Carousel from 'react-bootstrap/Carousel';
-import ExampleCarouselImage from 'components/ExampleCarouselImage';
+import Image from 'react-bootstrap/Image';
+import Toast from 'react-bootstrap/Toast';
+import { useState } from 'react';
 
-function UncontrolledExample() {
+
+import { useSpecialNeeds } from "../context/SpecialNeedContext";
+import { useNavigate } from "react-router-dom";
+
+const SpecialNeedCarousel = () => {
+  const { specialNeeds } = useSpecialNeeds();
+  const [show, setShow] = useState(false);
+
+  // uncomment when detail page is merged
+  // const navigate = useNavigate();
+  const handleClick = (id) => {
+    setShow(true);
+    // uncomment when detail page is merged
+    // navigate(`/animals/${id}`);
+  }
   return (
-    <Carousel>
-      <Carousel.Item>
-        <ExampleCarouselImage text="First slide" />
-        <Carousel.Caption>
-          <h3>First slide label</h3>
-          <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-        </Carousel.Caption>
-      </Carousel.Item>
-      <Carousel.Item>
-        <ExampleCarouselImage text="Second slide" />
-        <Carousel.Caption>
-          <h3>Second slide label</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        </Carousel.Caption>
-      </Carousel.Item>
-      <Carousel.Item>
-        <ExampleCarouselImage text="Third slide" />
-        <Carousel.Caption>
-          <h3>Third slide label</h3>
-          <p>
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-          </p>
-        </Carousel.Caption>
-      </Carousel.Item>
+    <>
+    <Toast onClose={() => setShow(false)} show={show} delay={2000} autohide>
+      <Toast.Body>Coming soon</Toast.Body>
+    </Toast>
+    <div style={{
+                  width: '992px', 
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center'
+                }}
+    >
+    <Carousel style={{width: '100%'}} data-bs-theme="dark">
+      {
+        specialNeeds.map((specialNeed) => {
+          return (
+            <Carousel.Item>
+        
+              <div 
+                    onClick={() => handleClick(specialNeed.id)}
+                    style={{
+                            width: '100%',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center'
+                          }}
+              >
+                <Image src={specialNeed.photo_url} 
+                       style={{ width: '540px', height: '360px' }} 
+                       rounded
+                />
+              </div>
+              <Carousel.Caption
+                style={{
+                        backgroundColor: "rgba(255, 255, 255, 0.6)",
+                        padding: "10px 20px",
+                        borderRadius: "8px",
+                        color: "#000",
+                      }}
+              >
+                <h3>{specialNeed.name}</h3> 
+                <p className="mb-3">{specialNeed.breed}</p>
+              
+                <p>{specialNeed.temperament}</p>
+              </Carousel.Caption>
+            </Carousel.Item>
+          )
+        })
+      }
+      
+      
     </Carousel>
+    </div>
+    </>
   );
 }
 
-export default UncontrolledExample;
+export default SpecialNeedCarousel;
