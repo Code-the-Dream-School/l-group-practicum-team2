@@ -1,11 +1,12 @@
-function formatLabel(value) {
-  return value.charAt(0).toUpperCase() + value.slice(1);
-}
+import { formatLabel } from "../utils/formatLabel";
 
 export default function AnimalCard({ animal }) {
   return (
     <article className="animal-card">
       <div className="animal-image-wrap">
+        {animal.special_needs && (
+          <span className="special-needs-badge">Special Needs</span>
+        )}
         <img
           src={animal.photo_url}
           alt={animal.name}
@@ -27,8 +28,6 @@ export default function AnimalCard({ animal }) {
           <span>{formatLabel(animal.age_category)}</span>
           <span>{formatLabel(animal.species)}</span>
         </div>
-
-        {animal.special_needs && <p className="special-needs">Special Needs</p>}
       </div>
     </article>
   );
