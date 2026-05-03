@@ -2,7 +2,7 @@ const pool = require('../config/db.postgres');
 
 const getAnimals = async (req, res) => {
   try {
-    const { species, size, age_category, special_needs } = req.query;
+    const { species, size, age_category, special_needs, status } = req.query;
 
     // Build WHERE conditions dynamically so filters work independently and in combination.
     // Using $1, $2... placeholders prevents SQL injection.
@@ -27,6 +27,11 @@ const getAnimals = async (req, res) => {
     if (special_needs !== undefined) {
       values.push(special_needs === 'true');
       conditions.push(`a.special_needs = $${values.length}`);
+    }
+
+    if (status) {
+      values.push(status.toLowerCase());
+      conditions.push(`LOWER(a.status::text) = $${values.length}`);
     }
 
     const whereClause =
