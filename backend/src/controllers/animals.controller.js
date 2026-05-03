@@ -1,10 +1,10 @@
+const { StatusCodes } = require('http-status-codes');
 const pool = require('../config/db.postgres');
 
-const getAnimals = async (req, res) => {
+const getAnimals = async (req, res, next) => {
   try {
     const { species, size, age_category, special_needs, status } = req.query;
 
-    
     const conditions = [];
     const values = [];
 
@@ -53,7 +53,7 @@ const getAnimals = async (req, res) => {
         a.created_at,
         s.name          AS shelter_name,
         s.city          AS shelter_city,
-        s.email AS shelter_email,
+        s.email         AS shelter_email,
         s.phone         AS shelter_phone
       FROM animals a
       LEFT JOIN shelters s ON a.shelter_id = s.id
@@ -63,10 +63,9 @@ const getAnimals = async (req, res) => {
 
     const result = await pool.query(query, values);
 
-    return res.status(200).json({ animals: result.rows });
+    return res.status(StatusCodes.OK).json({ success: true, animals: result.rows });
   } catch (error) {
-    console.error('Get animals error:', error);
-    return res.status(500).json({ error: 'Server error' });
+    next(error);
   }
 };
 
