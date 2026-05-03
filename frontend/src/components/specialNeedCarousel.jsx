@@ -34,7 +34,7 @@ const SpecialNeedCarousel = () => {
       {
         specialNeeds.map((specialNeed) => {
           return (
-            <Carousel.Item>
+            <Carousel.Item key={specialNeed.id}>
         
               <div 
                     onClick={() => handleClick(specialNeed.id)}
