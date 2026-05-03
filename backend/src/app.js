@@ -4,6 +4,7 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 const rateLimit = require("express-rate-limit");
 const notFound = require("./middleware/not-found");
+const errorHandlerMiddleware = require('./middleware/error-handler')
 const helloRoutes = require('./routes/hello.routes');
 const authRoutes = require('./routes/auth.routes');
 const app = express();
@@ -24,11 +25,14 @@ app.use(limiter);
 app.use('/api/hello', helloRoutes);
 app.use('/api/auth', authRoutes);
 
+
+
 // Root route
 app.get("/", (req, res) => {
   res.send("Backend API is running");
 });
 
 app.use(notFound);
+app.use(errorHandlerMiddleware);
 
 module.exports = app;
