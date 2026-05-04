@@ -16,6 +16,6 @@ const verifyToken = (req, res, next) => {
     } catch (error) {
         return res.status(401).json({ error: 'Authentication invalid' });
     }
-;}
+}
 
 module.exports = verifyToken
