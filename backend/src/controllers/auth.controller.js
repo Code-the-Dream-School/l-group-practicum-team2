@@ -110,10 +110,10 @@ const login = async (req, res) => {
 };
 
 const getCurrentUser = (req, res) => {
-    const { userId, email, name } = req.user;
+    const { id, email, name } = req.user;
 
     return res.status(StatusCodes.OK).json({
-        user: { userId, email, name }
+        user: { userId: id, email, name }
     });
 };
 
