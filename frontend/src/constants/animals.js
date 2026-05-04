@@ -7,7 +7,7 @@ export const mockAnimals = [
     age_years: 4,
     age_category: "adult",
     size: "med",
-    special_needs: false,
+    special_needs: true,
     photo_url: "https://placedog.net/600/400?id=1",
     status: "available",
   },
