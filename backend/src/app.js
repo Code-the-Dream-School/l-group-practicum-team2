@@ -7,12 +7,14 @@ const notFound = require("./middleware/not-found");
 const helloRoutes = require('./routes/hello.routes');
 const authRoutes = require('./routes/auth.routes');
 const app = express();
+const favoritesRoutes = require('./routes/favorites.routes');
 
 // Security & best‑practice middleware
 app.use(helmet());
 app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
+
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -23,6 +25,7 @@ app.use(limiter);
 // Routes
 app.use('/api/hello', helloRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/favorites', favoritesRoutes);
 
 // Root route
 app.get("/", (req, res) => {
