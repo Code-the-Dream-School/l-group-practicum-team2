@@ -12,9 +12,9 @@ export const SpecialNeedProvider = ({ children }) => {
     setLoading(true);
 
     try {
-      // http://localhost:8080/api/animals?extraLove=true
+      // http://localhost:8080/api/animals?&special_needs=true&status=available
       const response = await fetch(
-        `${BACKEND_API}/api/animals?extraLove=true`,
+        `${BACKEND_API}/api/animals?special_needs=true&status=available`,
         {
           method: "GET",
           headers: {
@@ -23,9 +23,9 @@ export const SpecialNeedProvider = ({ children }) => {
         }
       );
       const data = await response.json();
+
       if (!response.ok) {
-        console.log("Failed to fetch special need animals");
-        throw new Error(data.msg || "Request failed");
+        throw new Error(data.msg || "Failed to fetch special need animals");
       }
       setSpecialNeeds(data.animals || []);
     } catch (error) {
