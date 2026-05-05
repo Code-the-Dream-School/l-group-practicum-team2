@@ -18,8 +18,8 @@ function normalizeAnimal(data) {
     temperament: Array.isArray(data.temperament)
       ? data.temperament
       : data.temperament
-      ? [data.temperament]
-      : [],
+        ? [data.temperament]
+        : [],
     description: data.description,
     special_needs: Boolean(data.special_needs),
     photo_url: data.photo_url,
@@ -220,11 +220,19 @@ export default function AnimalDetail() {
           </section>
 
           <div className="detail-actions">
-            <button type="button" className="btn btn-secondary" onClick={handleSave}>
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={handleSave}
+            >
               Save
             </button>
 
-            <button type="button" className="btn btn-primary" onClick={handleInquire}>
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={handleInquire}
+            >
               Inquire
             </button>
           </div>
