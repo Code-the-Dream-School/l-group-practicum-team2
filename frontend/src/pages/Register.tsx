@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { registerUser } from "../services/authService";
 
@@ -10,13 +10,7 @@ function Register() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-
-    if (token) {
-      navigate("/animals");
-    }
-  }, [navigate]);
+  // TODO: integrate with backend auth validation for already-logged-in users.
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
