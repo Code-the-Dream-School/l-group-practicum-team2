@@ -16,6 +16,7 @@ export async function registerUser(userData: RegisterData) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Accept: "application/json",
     },
     body: JSON.stringify(userData),
   });
@@ -34,6 +35,7 @@ export async function loginUser(userData: LoginData) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Accept: "application/json",
     },
     body: JSON.stringify(userData),
   });
