@@ -6,7 +6,7 @@ const rateLimit = require("express-rate-limit");
 const notFound = require("./middleware/not-found");
 const helloRoutes = require('./routes/hello.routes');
 const authRoutes = require('./routes/auth.routes');
-const animalRoutes = require('./routes/animals.routes');
+const animalsRoutes = require('./routes/animals.routes');
 const app = express();
 
 // Authentication Middleware
@@ -31,10 +31,7 @@ const errorHandlerMiddleware = require('./middleware/error-handler')
 // Routes
 app.use('/api/hello', helloRoutes);
 app.use('/api/auth', authRoutes);
-app.use('/api/animals', animalRoutes);
-
-// Error handler middleware
-const errorHandlerMiddleware = require('./middleware/error-handler')
+app.use('/api/animals', animalsRoutes);
 
 // Root route
 app.get("/", (req, res) => {

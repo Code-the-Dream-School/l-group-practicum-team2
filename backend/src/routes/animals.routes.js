@@ -1,15 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const {
 
-    getAnimals
-    
-} = require('../controllers/animals.controller')
+const { getAnimals } = require('../controllers/animals.controller');
 
+router.get('/', getAnimals);
 
-//public 
-// /animals?extraLove=true
-router.get("/", getAnimals);
-
-
-module.exports = router
+module.exports = router;
