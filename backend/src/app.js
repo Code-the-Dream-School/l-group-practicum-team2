@@ -9,6 +9,10 @@ const authRoutes = require('./routes/auth.routes');
 const animalRoutes = require('./routes/animals.routes');
 const app = express();
 
+// Authentication Middleware
+// Uncomment the below when ready to use in secured routes.
+// const authenticateUser = require('./middleware/authentication');
+
 // Security & best‑practice middleware
 app.use(helmet());
 app.use(cors());
@@ -20,6 +24,9 @@ const limiter = rateLimit({
   max: 100,
 });
 app.use(limiter);
+
+// Error handler middleware
+const errorHandlerMiddleware = require('./middleware/error-handler')
 
 // Routes
 app.use('/api/hello', helloRoutes);
@@ -34,7 +41,7 @@ app.get("/", (req, res) => {
   res.send("Backend API is running");
 });
 
+
 app.use(notFound);
 app.use(errorHandlerMiddleware);
-
 module.exports = app;
