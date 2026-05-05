@@ -9,6 +9,10 @@ const helloRoutes = require('./routes/hello.routes');
 const authRoutes = require('./routes/auth.routes');
 const app = express();
 
+// Authentication Middleware
+// Uncomment the below when ready to use in secured routes.
+// const authenticateUser = require('./middleware/authentication');
+
 // Security & best‑practice middleware
 app.use(helmet());
 app.use(cors());
@@ -34,5 +38,4 @@ app.get("/", (req, res) => {
 
 app.use(notFound);
 app.use(errorHandlerMiddleware);
-
 module.exports = app;
