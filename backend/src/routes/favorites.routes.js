@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const verifyToken = require('../middleware/verifyToken');
+const authenticateUser = require('../middleware/authentication');
 
 const {
     createFavorite,
@@ -9,8 +9,8 @@ const {
     removeFavorite,
 } = require('../controllers/favorites.controller');
 
-router.post('/', verifyToken, createFavorite);
-router.get('/', verifyToken, getFavorites);
-router.delete ('/:animalId', verifyToken, removeFavorite);
+router.post('/', authenticateUser, createFavorite);
+router.get('/', authenticateUser, getFavorites);
+router.delete('/:animalId', authenticateUser, removeFavorite);
 
 module.exports = router;
