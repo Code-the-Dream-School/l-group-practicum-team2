@@ -1,12 +1,48 @@
+import { useState } from "react";
 import { formatLabel } from "../utils/formatLabel";
+import { addFavorite, removeFavorite } from "../api/favorites";
+import { useNavigate } from "react-router-dom";
 
-export default function AnimalCard({ animal }) {
+export default function AnimalCard({ animal, isFavorite = false }) {
+  const [favorite, setFavorite] = useState(isFavorite);
+  const navigate = useNavigate();
+
+  function handleFavoriteClick(event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+
+    if (favorite) {
+      removeFavorite(animal.id);
+      setFavorite(false);
+    } else {
+      addFavorite(animal.id);
+      setFavorite(true);
+    }
+  }
+  
   return (
     <article className="animal-card">
       <div className="animal-image-wrap">
         {animal.special_needs && (
           <span className="special-needs-badge">Special Needs</span>
         )}
+
+        <button
+          type="button"
+          className="favorite-button"
+          onClick={handleFavoriteClick}
+          aria-label={favorite ? "Remove from favorites" : "Add to favorites"}
+        >
+          {favorite ? "♥" : "♡"}
+        </button>
+
         <img
           src={animal.photo_url}
           alt={animal.name}
