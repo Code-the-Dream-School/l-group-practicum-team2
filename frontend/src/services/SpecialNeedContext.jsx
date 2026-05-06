@@ -3,7 +3,7 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 const SpecialNeedContext = createContext();
 
 export const SpecialNeedProvider = ({ children }) => {
-  const BACKEND_API = "http://localhost:8080";
+  const BACKEND_API = import.meta.env.VITE_BACKEND_API;
 
   const [loading, setLoading] = useState(false);
   const [specialNeeds, setSpecialNeeds] = useState([]);
