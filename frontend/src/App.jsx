@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import AnimalList from "./pages/animals/AnimalList";
 import "./App.css";
-import FavoritesPage from "./pages/favorites/favoritesPage";
+import FavoritesPage from "./pages/favorites/FavoritesPage";
 
 function App() {
   return (
