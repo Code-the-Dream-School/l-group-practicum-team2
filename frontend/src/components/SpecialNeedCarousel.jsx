@@ -44,6 +44,7 @@ const SpecialNeedCarousel = () => {
                   }}
                 >
                   <Image
+                    alt={specialNeed.id}
                     src={specialNeed.photo_url}
                     style={{ width: "540px", height: "360px" }}
                     rounded
