@@ -6,6 +6,8 @@ const rateLimit = require('express-rate-limit');
 const notFound = require('./middleware/not-found');
 const helloRoutes = require('./routes/hello.routes');
 const authRoutes = require('./routes/auth.routes');
+
+const animalsRoutes = require('./routes/animals.routes');
 const shelterInfoRoutes = require('./routes/shelters.routes');
 const app = express();
 const favoritesRoutes = require('./routes/favorites.routes');
@@ -35,9 +37,9 @@ const errorHandlerMiddleware = require('./middleware/error-handler')
 app.use('/api/hello', helloRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/favorites', favoritesRoutes);
+app.use('/api/animals', animalsRoutes);
 app.use('/api/shelters', shelterInfoRoutes);
 
-app.use('/api/shelters', shelterInfoRoutes);
 
 
 // Root route
