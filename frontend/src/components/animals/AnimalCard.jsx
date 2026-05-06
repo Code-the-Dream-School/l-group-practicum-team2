@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { formatLabel } from "../../utils/formatLabel";
 
 export default function AnimalCard({ animal }) {

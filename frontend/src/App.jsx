@@ -1,12 +1,10 @@
 import { Route, Routes } from "react-router-dom";
-import { Routes, Route } from "react-router-dom";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import AnimalDetail from "./pages/animals/AnimalDetail";
-import NotFound from "./pages/NotFound";
 import "./App.css";
-
+import AnimalDetail from "./pages/AnimalDetail";
 import Home from "./pages/Home";
+import Login from "./pages/Login";
+import NotFound from "./pages/NotFound";
+import Register from "./pages/Register";
 
 function App() {
   return (
@@ -14,8 +12,11 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/animals/:id" element={<AnimalDetail />} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }
 
 export default App;
+
