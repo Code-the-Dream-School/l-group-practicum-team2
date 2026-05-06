@@ -1,0 +1,272 @@
+{
+  "info": {
+    "_postman_id": "7bb6b120-da8b-44c4-9c6e-d54a72d05f3c",
+    "name": "PawMatch",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "50114404"
+  },
+  "item": [
+    {
+      "name": "Get one shelter",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{path}}/api/shelters/282bd3c5-c900-4941-bace-ef92080c61df",
+          "host": [
+            "{{path}}"
+          ],
+          "path": [
+            "api",
+            "shelters",
+            "282bd3c5-c900-4941-bace-ef92080c61df"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Register user",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "const responseJson = pm.response.json();\r",
+              "pm.environment.set(\"authToken\", responseJson.token);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{authToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"name\": \"Victor\",\r\n    \"email\": \"emailvictorgmail2@gmail.com\",\r\n    \"password\": \"password\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{path}}/api/auth/register",
+          "host": [
+            "{{path}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "register"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Login user",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "const responseJson = pm.response.json();\r",
+              "pm.environment.set(\"authToken\", responseJson.token);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{authToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"email\": \"emailvictorgmail@gmail.com\",\r\n    \"password\": \"password\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{path}}/api/auth/login",
+          "host": [
+            "{{path}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get one animal",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{path}}/api/animals/15d54d98-32b8-4067-931e-8144dc5e753f",
+          "host": [
+            "{{path}}"
+          ],
+          "path": [
+            "api",
+            "animals",
+            "15d54d98-32b8-4067-931e-8144dc5e753f"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get animals",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{path}}/api/animals?species=dog&size=small&age_category=senior&special_needs=true",
+          "host": [
+            "{{path}}"
+          ],
+          "path": [
+            "api",
+            "animals"
+          ],
+          "query": [
+            {
+              "key": "species",
+              "value": "dog"
+            },
+            {
+              "key": "size",
+              "value": "small"
+            },
+            {
+              "key": "age_category",
+              "value": "senior"
+            },
+            {
+              "key": "special_needs",
+              "value": "true"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get all animals",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{path}}/api/animals",
+          "host": [
+            "{{path}}"
+          ],
+          "path": [
+            "api",
+            "animals"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
