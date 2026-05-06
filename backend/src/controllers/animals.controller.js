@@ -9,23 +9,27 @@ const getAnimalDetails = async (req, res) => {
     );
     let animal = animalQuery.rows[0];
     if (!animal) {
-      return res.status(404).json({ error: `Animal was not found`})
+      return res.status(404).json({ error: `Animal was not found` });
     }
     const shelterQuery = await pool.query(
       `SELECT name, email, phone, address, city, state, id FROM shelters WHERE id = $1`,
       [animal.shelter_id],
     );
-    const shelter = shelterQuery.rows[0]
+    const shelter = shelterQuery.rows[0];
     if (!shelter) {
-      return res.status(404).json({ error: `Shelter associated with animal was not found`})
+      return res
+        .status(404)
+        .json({ error: `Shelter associated with animal was not found` });
     }
     animal.shelter = {};
     animal.shelter.name = shelter.name;
     animal.shelter.email = shelter.email;
     animal.shelter.phone = shelter.phone;
-    
+
     const addressParts = [shelter.address, shelter.city, shelter.state];
-    const formattedAddress = addressParts.filter(part => part != null && part !== '' && part != undefined).join(', ');
+    const formattedAddress = addressParts
+      .filter((part) => part != null && part !== "" && part != undefined)
+      .join(", ");
     animal.shelter.address = formattedAddress;
 
     return res.status(200).json({ animal });
