@@ -30,7 +30,7 @@ const SpecialNeedCarousel = () => {
           alignItems: "center",
         }}
       >
-        <Carousel style={{ width: "100%" }} data-bs-theme="dark">
+        <Carousel style={{ width: "100%" }} indicators={false} data-bs-theme="dark">
           {specialNeeds.map((specialNeed) => {
             return (
               <Carousel.Item key={specialNeed.id}>
@@ -41,28 +41,38 @@ const SpecialNeedCarousel = () => {
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
+                    
                   }}
                 >
-                  <Image
-                    alt={specialNeed.id}
-                    src={specialNeed.photo_url}
-                    style={{ width: "540px", height: "360px" }}
-                    rounded
-                  />
-                </div>
-                <Carousel.Caption
-                  style={{
-                    backgroundColor: "rgba(255, 255, 255, 0.6)",
-                    padding: "10px 20px",
-                    borderRadius: "8px",
-                    color: "#000",
-                  }}
-                >
-                  <h3>{specialNeed.name}</h3>
-                  <p className="mb-3">{specialNeed.breed}</p>
+                  <div style={{
+                    cursor: 'pointer',
+                    position: 'relative'
+                  }}>
+                    <span className="special-needs-badge" style={{
+                      // position: 'absolute'
+                    }}>Special Needs</span>
+                    <Image alt={specialNeed.id}
+                            src={specialNeed.photo_url}
+                            style={{ width: "540px", height: "360px" }}
+                            rounded
+                    />
+                    <Carousel.Caption
+                      style={{
+                        backgroundColor: "rgba(255, 255, 255, 0.5)",
+                        padding: "10px 0 0 0",
+                        borderRadius: "8px",
+                        color: "#000",
+          
+                      }}
+                    >
+                      <h3>{specialNeed.name}</h3>
+                      <p className="mb-0">{specialNeed.breed}</p>
 
-                  <p>{specialNeed.temperament}</p>
-                </Carousel.Caption>
+                      <p>{specialNeed.temperament}</p>
+                    </Carousel.Caption>
+                  </div>
+                </div>
+                
               </Carousel.Item>
             );
           })}
