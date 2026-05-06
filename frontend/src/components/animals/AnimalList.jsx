@@ -1,6 +1,6 @@
 import { useState } from "react";
-import AnimalCard from "../../components/AnimalCard";
-import Filters from "../../components/Filters";
+import AnimalCard from "./AnimalCard";
+import Filters from "./Filters";
 import { mockAnimals } from "../../constants/animals";
 
 function AnimalList() {
