@@ -3,7 +3,7 @@ import Image from "react-bootstrap/Image";
 import Toast from "react-bootstrap/Toast";
 import { useState } from "react";
 
-import { useSpecialNeeds } from "../context/SpecialNeedContext";
+import { useSpecialNeeds } from "../services/SpecialNeedContext";
 import { useNavigate } from "react-router-dom";
 
 const SpecialNeedCarousel = () => {
