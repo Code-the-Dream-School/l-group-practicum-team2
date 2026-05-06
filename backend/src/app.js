@@ -1,13 +1,19 @@
-const express = require("express");
-const cors = require("cors");
-const helmet = require("helmet");
-const morgan = require("morgan");
-const rateLimit = require("express-rate-limit");
-const animalsRoutes = require("./routes/animals.routes");
+const express = require('express');
+const cors = require('cors');
+const helmet = require('helmet');
+const morgan = require('morgan');
+const rateLimit = require('express-rate-limit');
+const notFound = require('./middleware/not-found');
+const helloRoutes = require('./routes/hello.routes');
+const authRoutes = require('./routes/auth.routes');
 
-const helloRoutes = require("./routes/hello.routes");
-
+const animalsRoutes = require('./routes/animals.routes');
+const shelterInfoRoutes = require('./routes/shelters.routes');
 const app = express();
+
+// Authentication Middleware
+// Uncomment the below when ready to use in secured routes.
+// const authenticateUser = require('./middleware/authentication');
 
 // Security & best‑practice middleware
 app.use(helmet());
@@ -21,13 +27,22 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 
+// Error handler middleware
+const errorHandlerMiddleware = require('./middleware/error-handler')
+
 // Routes
-app.use("/api/hello", helloRoutes);
-app.use("/api/animals", animalsRoutes);
+app.use('/api/hello', helloRoutes);
+app.use('/api/auth', authRoutes);
+
+app.use('/api/animals', animalsRoutes);
+app.use('/api/shelters', shelterInfoRoutes);
 
 // Root route
 app.get("/", (req, res) => {
   res.send("Backend API is running");
 });
 
+
+app.use(notFound);
+app.use(errorHandlerMiddleware);
 module.exports = app;
