@@ -4,6 +4,8 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import "./App.css";
 
+import Home from "./pages/Home";
+
 function App() {
   return (
     <Routes>
