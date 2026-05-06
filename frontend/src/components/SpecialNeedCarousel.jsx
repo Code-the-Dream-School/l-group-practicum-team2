@@ -30,7 +30,11 @@ const SpecialNeedCarousel = () => {
           alignItems: "center",
         }}
       >
-        <Carousel style={{ width: "100%" }} indicators={false} data-bs-theme="dark">
+        <Carousel
+          style={{ width: "100%" }}
+          indicators={false}
+          data-bs-theme="dark"
+        >
           {specialNeeds.map((specialNeed) => {
             return (
               <Carousel.Item key={specialNeed.id}>
@@ -41,20 +45,29 @@ const SpecialNeedCarousel = () => {
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
-                    
                   }}
                 >
-                  <div style={{
-                    cursor: 'pointer',
-                    position: 'relative'
-                  }}>
-                    <span className="special-needs-badge" style={{
-                      // position: 'absolute'
-                    }}>Special Needs</span>
-                    <Image alt={specialNeed.id}
-                            src={specialNeed.photo_url}
-                            style={{ width: "540px", height: "360px" }}
-                            rounded
+                  <div
+                    style={{
+                      cursor: "pointer",
+                      position: "relative",
+                    }}
+                  >
+                    <span
+                      className="special-needs-badge"
+                      style={
+                        {
+                          // position: 'absolute'
+                        }
+                      }
+                    >
+                      Special Needs
+                    </span>
+                    <Image
+                      alt={specialNeed.id}
+                      src={specialNeed.photo_url}
+                      style={{ width: "540px", height: "360px" }}
+                      rounded
                     />
                     <Carousel.Caption
                       style={{
@@ -62,7 +75,6 @@ const SpecialNeedCarousel = () => {
                         padding: "10px 0 0 0",
                         borderRadius: "8px",
                         color: "#000",
-          
                       }}
                     >
                       <h3>{specialNeed.name}</h3>
@@ -72,7 +84,6 @@ const SpecialNeedCarousel = () => {
                     </Carousel.Caption>
                   </div>
                 </div>
-                
               </Carousel.Item>
             );
           })}
