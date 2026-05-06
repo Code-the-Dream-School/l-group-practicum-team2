@@ -12,7 +12,7 @@ export const SpecialNeedProvider = ({ children }) => {
     setLoading(true);
 
     try {
-      // http://localhost:8080/api/animals?&special_needs=true&status=available
+      // api/animals?special_needs=true&status=available
       const response = await fetch(
         `${BACKEND_API}/api/animals?special_needs=true&status=available`,
         {
