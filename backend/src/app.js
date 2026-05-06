@@ -8,6 +8,7 @@ const helloRoutes = require('./routes/hello.routes');
 const authRoutes = require('./routes/auth.routes');
 const app = express();
 const favoritesRoutes = require('./routes/favorites.routes');
+const shelterInfoRoutes = require('./routes/shelters.routes');
 
 // Authentication Middleware
 // Uncomment the below when ready to use in secured routes.
@@ -33,6 +34,7 @@ const errorHandlerMiddleware = require('./middleware/error-handler')
 app.use('/api/hello', helloRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/favorites', favoritesRoutes);
+app.use('/api/shelters', shelterInfoRoutes);
 
 // Root route
 app.get("/", (req, res) => {
