@@ -1,18 +1,23 @@
 const pool = require('../config/db.postgres');
+const {
+  BadRequestError,
+  NotFoundError,
+  InternalServerError,
+} = require('../errors');
 
 const createInquiry = async (req, res) => {
   try {
     const { animal_id, message } = req.body;
-    const user_id = req.user.id;
+    const user_id = req.user.id; // FIXED
 
     if (!animal_id) {
-      return res.status(400).json({ error: 'animal_id is required' });
+      throw new BadRequestError('animal_id is required');
     }
 
     if (typeof message !== 'string' || message.trim().length < 10) {
-      return res.status(400).json({
-        error: 'Message must be at least 10 characters long',
-      });
+      throw new BadRequestError(
+        'Message must be at least 10 characters long'
+      );
     }
 
     const animalResult = await pool.query(
@@ -21,7 +26,7 @@ const createInquiry = async (req, res) => {
     );
 
     if (animalResult.rows.length === 0) {
-      return res.status(404).json({ error: 'Animal not found' });
+      throw new NotFoundError('Animal not found');
     }
 
     const inquiryResult = await pool.query(
@@ -41,7 +46,7 @@ const createInquiry = async (req, res) => {
     });
   } catch (error) {
     console.error('Create inquiry error:', error);
-    return res.status(500).json({ error: 'Server error' });
+    throw new InternalServerError('Server error');
   }
 };
 
@@ -79,7 +84,7 @@ const getMyInquiries = async (req, res) => {
     return res.status(200).json(inquiries);
   } catch (error) {
     console.error('Get inquiries error:', error);
-    return res.status(500).json({ error: 'Server error' });
+    throw new InternalServerError('Server error');
   }
 };
 

@@ -1,46 +1,35 @@
-
-const jwt = require('jsonwebtoken')
-const pool = require('../config/db.postgres');
-const { UnauthenticatedError, NotFoundError, InternalServerError } = require('../errors')
-
+const jwt = require('jsonwebtoken');
+const {
+  UnauthenticatedError,
+  InternalServerError,
+} = require('../errors');
 
 const auth = async (req, res, next) => {
+  if (!process.env.JWT_SECRET) {
+    return next(new InternalServerError('JWT secret not configured'));
+  }
 
-    if (!process.env.JWT_SECRET) {
-        return next(new InternalServerError('JWT secret not configured'))
-        
-    }
+  const authHeader = req.headers.authorization;
 
-    // check header
-    const authHeader = req.headers.authorization
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-        return next(new UnauthenticatedError('Authentication invalid'))
-    }
-    const token = authHeader.split(' ')[1]
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return next(new UnauthenticatedError('Authentication invalid'));
+  }
 
-    try {
-        const payload = jwt.verify(token, process.env.JWT_SECRET)
+  const token = authHeader.split(' ')[1];
 
+  try {
+    const payload = jwt.verify(token, process.env.JWT_SECRET);
 
-        const result = await pool.query(
-            'SELECT id, name, email FROM users WHERE id = $1',
-            [payload.userId]
-        );
+    // FIX: standartiziruem user object
+    req.user = {
+      id: payload.userId,
+      name: payload.name,
+    };
 
-        const user = result.rows[0];
-        if(!user){
-            return next(new NotFoundError(`No user with id ${payload.userId}`))
-            // throw new NotFoundError(`No user with id ${payload.userId}`)
-        }
+    next();
+  } catch (error) {
+    return next(new UnauthenticatedError('Authentication invalid'));
+  }
+};
 
-        req.user = user
-
-        next()
-
-    } catch (error) {
-        return next(new UnauthenticatedError(error.message || 'Authentication invalid'))
-        // throw new UnauthenticatedError('Authentication invalid')
-    }
-}
-
-module.exports = auth
+module.exports = auth;

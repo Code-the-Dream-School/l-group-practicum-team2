@@ -9,14 +9,6 @@ const helloRoutes = require('./routes/hello.routes');
 const authRoutes = require('./routes/auth.routes');
 const inquiryRoutes = require('./routes/inquiries.routes');
 
-const express = require('express');
-const cors = require('cors');
-const helmet = require('helmet');
-const morgan = require('morgan');
-const rateLimit = require('express-rate-limit');
-const notFound = require('./middleware/not-found');
-const helloRoutes = require('./routes/hello.routes');
-const authRoutes = require('./routes/auth.routes');
 const shelterInfoRoutes = require('./routes/shelters.routes');
 const app = express();
 
