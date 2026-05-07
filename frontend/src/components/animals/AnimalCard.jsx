@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { formatLabel } from "../utils/formatLabel";
-import { addFavorite, removeFavorite } from "../api/favorites";
 import { useNavigate } from "react-router-dom";
+import { formatLabel } from "../../utils/formatLabel";
+import { addFavorite, removeFavorite } from "../../api/favorites";
 
 export default function AnimalCard({ animal, isFavorite = false }) {
   const [favorite, setFavorite] = useState(isFavorite);
@@ -26,7 +26,7 @@ export default function AnimalCard({ animal, isFavorite = false }) {
       setFavorite(true);
     }
   }
-  
+
   return (
     <article className="animal-card">
       <div className="animal-image-wrap">

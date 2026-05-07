@@ -1,22 +1,19 @@
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-import AnimalList from "./pages/animals/AnimalList";
-import "./App.css";
+import { Routes, Route } from "react-router-dom";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 import FavoritesPage from "./pages/favorites/FavoritesPage";
+import Home from "./pages/Home";
+import "./App.css";
 
 function App() {
   return (
-    <BrowserRouter>
-      <nav className="app-nav">
-        <h2>PawMatch</h2>
-        <Link to="/favorites" className="favorites-link">Favorites</Link>
-      </nav>
-
-      <Routes>
-        <Route path="/" element={<AnimalList />} />
-        <Route path="/favorites" element={<FavoritesPage />} />
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/favorites" element={<FavoritesPage />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+    </Routes>
   );
-  
 }
+
 export default App;
