@@ -1,34 +1,60 @@
+import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 import { formatLabel } from "../../utils/formatLabel";
 
-export default function AnimalCard({ animal }) {
+function AnimalCard({ animal }) {
   return (
-    <article className="animal-card">
-      <div className="animal-image-wrap">
-        {animal.special_needs && (
-          <span className="special-needs-badge">Special Needs</span>
-        )}
-        <img
-          src={animal.photo_url}
-          alt={animal.name}
-          className="animal-image"
-        />
-      </div>
-      <div className="animal-card-body">
-        <div className="animal-title-row">
-          <h3>{animal.name}</h3>
-          <span className="age-pill">{animal.age_years} yrs</span>
-        </div>
-        <p className="breed">{animal.breed}</p>
-        <p className="description">
-          Friendly companion looking for a loving home and a caring family.
-        </p>
+    <Link to={`/animals/${animal.id}`} className="animal-card-link">
+      <article className="animal-card">
+        <div className="animal-image-wrap">
+          {animal.special_needs && (
+            <span className="special-needs-badge">Special Needs</span>
+          )}
 
-        <div className="tags">
-          <span>{formatLabel(animal.size)}</span>
-          <span>{formatLabel(animal.age_category)}</span>
-          <span>{formatLabel(animal.species)}</span>
+          <img
+            src={animal.photo_url}
+            alt={animal.name || "Animal photo"}
+            className="animal-card-image"
+          />
         </div>
-      </div>
-    </article>
+
+        <div className="animal-card-body">
+          <div className="animal-title-row">
+            <h3>{animal.name}</h3>
+            <span className="age-pill">{animal.age_years} yrs</span>
+          </div>
+
+          <p className="breed">{animal.breed}</p>
+
+          <p className="description">
+            {animal.description ||
+              "Friendly companion looking for a loving home and a caring family."}
+          </p>
+
+          <div className="tags">
+            <span>{formatLabel(animal.size)}</span>
+            <span>{formatLabel(animal.age_category)}</span>
+            <span>{formatLabel(animal.species)}</span>
+          </div>
+        </div>
+      </article>
+    </Link>
   );
 }
+
+AnimalCard.propTypes = {
+  animal: PropTypes.shape({
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    special_needs: PropTypes.bool,
+    photo_url: PropTypes.string,
+    name: PropTypes.string,
+    age_years: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    breed: PropTypes.string,
+    description: PropTypes.string,
+    size: PropTypes.string,
+    age_category: PropTypes.string,
+    species: PropTypes.string,
+  }).isRequired,
+};
+
+export default AnimalCard;
