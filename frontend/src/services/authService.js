@@ -1,4 +1,3 @@
-
 const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/api/auth`;
 
 export async function registerUser(userData) {
@@ -6,7 +5,7 @@ export async function registerUser(userData) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "Accept": "application/json",
+      Accept: "application/json",
     },
     body: JSON.stringify(userData),
   });
@@ -25,7 +24,7 @@ export async function loginUser(userData) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "Accept": "application/json",
+      Accept: "application/json",
     },
     body: JSON.stringify(userData),
   });
