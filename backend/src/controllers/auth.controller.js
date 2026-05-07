@@ -102,10 +102,14 @@ const login = async (req, res) => {
             }
         });
 
-    } catch (error) {
+        } catch (error) {
         console.error('Login error:', error);
         return res.status(500).json({ error: 'Server error' });
     }
 };
 
-module.exports = { register, login };
+const updateProfile = async (req, res) => {
+    return res.status(200).json({ message: 'updateProfile placeholder' });
+};
+
+module.exports = { register, login, updateProfile };
