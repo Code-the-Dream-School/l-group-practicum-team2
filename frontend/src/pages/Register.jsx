@@ -22,7 +22,7 @@ function Register() {
       localStorage.setItem("token", data.token);
 
       // redirect after success
-      navigate("/animals");
+      navigate("/");
     } catch (err) {
       if (err instanceof Error) {
         setError(err.message);
