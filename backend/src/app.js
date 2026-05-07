@@ -19,7 +19,7 @@ const app = express();
 app.use(helmet());
 app.use(cors());
 app.use(express.json());
-app.use(morgan('dev'));
+app.use(morgan("dev"));
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -38,8 +38,8 @@ app.use('/api/animals', animalsRoutes);
 app.use('/api/shelters', shelterInfoRoutes);
 
 // Root route
-app.get('/', (req, res) => {
-  res.send('Backend API is running');
+app.get("/", (req, res) => {
+  res.send("Backend API is running");
 });
 
 
