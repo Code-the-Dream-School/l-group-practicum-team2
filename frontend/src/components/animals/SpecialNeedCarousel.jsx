@@ -81,9 +81,15 @@ const SpecialNeedCarousel = () => {
                     style={{
                       cursor: "pointer",
                       position: "relative",
+                      display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    width: '540px',
+                    
                     }}
                   >
                     <AnimalCard animal={specialNeed} />
+                    
                   </div>
                 </div>
               </Carousel.Item>
