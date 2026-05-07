@@ -1,5 +1,6 @@
 const { StatusCodes } = require('http-status-codes');
 const pool = require('../config/db.postgres');
+const { NotFoundError } = require('../errors');
 
 const getAnimals = async (req, res, next) => {
   try {
@@ -63,51 +64,53 @@ const getAnimals = async (req, res, next) => {
 
     const result = await pool.query(query, values);
 
-    return res.status(StatusCodes.OK).json({ success: true, animals: result.rows });
+    return res
+      .status(StatusCodes.OK)
+      .json({ success: true, animals: result.rows });
   } catch (error) {
     next(error);
   }
 };
 
-const getAnimalDetails = async (req, res) => {
+const getAnimalDetails = async (req, res, next) => {
   const { id } = req.params;
   try {
     const animalQuery = await pool.query(
       `SELECT * FROM animals WHERE id = $1`,
-      [id],
+      [id]
     );
     let animal = animalQuery.rows[0];
     if (!animal) {
-      return res.status(404).json({ error: `Animal was not found` });
+      throw new NotFoundError(`Animal was not found`);
     }
     const shelterQuery = await pool.query(
       `SELECT name, email, phone, address, city, state, id FROM shelters WHERE id = $1`,
-      [animal.shelter_id],
+      [animal.shelter_id]
     );
     const shelter = shelterQuery.rows[0];
     if (!shelter) {
-      return res
-        .status(404)
-        .json({ error: `Shelter associated with animal was not found` });
+      throw new NotFoundError('Shelter associated with animal was not found');
     }
-    animal.shelter = {};
-    animal.shelter.name = shelter.name;
-    animal.shelter.email = shelter.email;
-    animal.shelter.phone = shelter.phone;
-
     const addressParts = [shelter.address, shelter.city, shelter.state];
     const formattedAddress = addressParts
-      .filter((part) => part != null && part !== "" && part != undefined)
-      .join(", ");
-    animal.shelter.address = formattedAddress;
+      .filter((part) => part != null && part !== '' && part != undefined)
+      .join(', ');
 
-    return res.status(200).json({ animal });
+    const response = {
+      animal: {
+        ...animal,
+        shelter: {
+          name: shelter.name,
+          email: shelter.email,
+          phone: shelter.phone,
+          address: formattedAddress,
+        },
+      },
+    };
+
+    return res.status(200).json(response);
   } catch (error) {
-    console.error("Error fetching animal details:", error);
-    if (error.code === "22P02") {
-      return res.status(400).json({ error: `Invalid ID format` });
-    }
-    return res.status(500).json({ error: "Internal server error" });
+    next(error);
   }
 };
 
