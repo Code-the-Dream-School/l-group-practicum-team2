@@ -1,4 +1,4 @@
-import { formatLabel } from "../utils/formatLabel";
+import { formatLabel } from "../../utils/formatLabel";
 
 export default function AnimalCard({ animal }) {
   return (
