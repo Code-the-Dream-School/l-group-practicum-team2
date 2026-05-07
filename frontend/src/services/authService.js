@@ -20,7 +20,7 @@ export async function registerUser(userData) {
   return data;
 }
 
-export async function loginUser(LoginData) {
+export async function loginUser(userData) {
   const response = await fetch(`${API_BASE_URL}/login`, {
     method: "POST",
     headers: {
