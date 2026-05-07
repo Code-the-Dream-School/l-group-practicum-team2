@@ -7,106 +7,84 @@
 
 .animals-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 20px;
-  margin-top: 24px;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 32px;
+  max-width: 1120px;
 }
 
 .animal-card {
+  position: relative;
   background: white;
-  border: 1px solid #e5e7eb;
   border-radius: 14px;
   overflow: hidden;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
 }
 
 .animal-image-wrap {
   position: relative;
+  height: 280px;
+  overflow: hidden;
 }
 
 .animal-image {
   width: 100%;
-  height: 260px;
+  height: 100%;
   object-fit: cover;
   display: block;
 }
 
-.favorite-btn {
-  position: absolute;
-  top: 14px;
-  right: 14px;
-  border: none;
-  background: white;
-  border-radius: 999px;
-  width: 36px;
-  height: 36px;
-  font-size: 22px;
-  cursor: pointer;
-}
-
-.animal-card-body {
-  padding: 16px;
-}
-
-.animal-title-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.animal-title-row h3 {
-  margin: 0;
-  font-size: 20px;
-}
-
-.age-pill {
-  background: #f3f4f6;
-  border-radius: 999px;
-  padding: 6px 10px;
-  font-size: 13px;
-}
-
-.breed {
-  margin: 6px 0;
-  color: #374151;
-}
-
-.description {
-  color: #374151;
-  line-height: 1.4;
-}
-
-.tags {
-  display: flex;
-  gap: 8px;
-  margin-top: 12px;
-  flex-wrap: wrap;
-}
-
-.tags span {
-  background: #eef2ff;
-  color: #2563eb;
-  border-radius: 999px;
-  padding: 6px 10px;
-  font-size: 13px;
-}
-
-.special-needs {
-  margin-top: 12px;
-  color: #dc2626;
-  font-weight: bold;
-}
-
 .special-needs-badge {
   position: absolute;
-  top: 14px;
-  left: 14px;
+  top: 16px;
+  left: 16px;
+  z-index: 2;
   background: #f97316;
   color: white;
   border-radius: 6px;
-  padding: 7px 12px;
-  font-size: 11px;
-  font-weight: 500;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.favorite-button {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 3;
+
+  border: none;
+  background: white;
+  border-radius: 50%;
+
+  width: 36px;
+  height: 36px;
+
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.favorite-button span {
+  font-size: 24px;
   line-height: 1;
-  z-index: 2;
+  color: #9ca3af;
+  transition:
+    transform 0.15s ease,
+    color 0.15s ease;
+}
+
+.favorite-button:hover span {
+  transform: scale(1.08);
+}
+
+.favorite-button:active span {
+  transform: scale(0.96);
+}
+
+.favorite-button.favorited span {
+  color: #ef233c;
 }

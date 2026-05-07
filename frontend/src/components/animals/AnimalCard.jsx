@@ -36,11 +36,11 @@ export default function AnimalCard({ animal, isFavorite = false }) {
 
         <button
           type="button"
-          className="favorite-button"
+          className={`favorite-button ${favorite ? "favorited" : ""}`}
           onClick={handleFavoriteClick}
           aria-label={favorite ? "Remove from favorites" : "Add to favorites"}
         >
-          {favorite ? "♥" : "♡"}
+          <span>♥</span>
         </button>
 
         <img
@@ -70,5 +70,5 @@ export default function AnimalCard({ animal, isFavorite = false }) {
         </div>
       </div>
     </article>
-  )
+  );
 }
