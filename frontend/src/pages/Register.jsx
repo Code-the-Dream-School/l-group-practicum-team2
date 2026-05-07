@@ -12,7 +12,7 @@ function Register() {
 
   // TODO: integrate with backend auth validation for already-logged-in users.
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
