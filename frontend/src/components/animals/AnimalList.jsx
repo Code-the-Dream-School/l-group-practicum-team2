@@ -42,3 +42,4 @@ function AnimalList() {
 }
 
 export default AnimalList;
+
