@@ -4,6 +4,7 @@ import { mockAnimals } from "../constants/animals";
 import { formatLabel } from "../utils/formatLabel";
 import NotFound from "./NotFound";
 
+
 function normalizeAnimal(data) {
   if (!data) return null;
 
