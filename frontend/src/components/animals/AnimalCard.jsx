@@ -27,7 +27,6 @@ function AnimalCard({ animal, isFavorite = false }) {
       addFavorite(animal.id);
       setFavorite(true);
     }
-  
   }
   return (
     <Link to={`/animals/${animal.id}`} className="animal-card-link">
@@ -37,15 +36,14 @@ function AnimalCard({ animal, isFavorite = false }) {
             <span className="special-needs-badge">Special Needs</span>
           )}
 
-        <button
-          type="button"
-          className={`favorite-button ${favorite ? "favorited" : ""}`}
-          onClick={handleFavoriteClick}
-          aria-label={favorite ? "Remove from favorites" : "Add to favorites"}
-        >
-          <span>♥</span>
-        </button>
-
+          <button
+            type="button"
+            className={`favorite-button ${favorite ? "favorited" : ""}`}
+            onClick={handleFavoriteClick}
+            aria-label={favorite ? "Remove from favorites" : "Add to favorites"}
+          >
+            <span>♥</span>
+          </button>
 
           <img
             src={animal.photo_url}
@@ -54,7 +52,6 @@ function AnimalCard({ animal, isFavorite = false }) {
           />
         </div>
 
-
         <div className="animal-card-body">
           <div className="animal-title-row">
             <h3>{animal.name}</h3>
@@ -62,9 +59,7 @@ function AnimalCard({ animal, isFavorite = false }) {
             <span className="age-pill">{animal.age_years} yrs</span>
           </div>
 
-
           <p className="breed">{animal.breed}</p>
-
 
           <p className="description">
             {animal.description ||
