@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { registerUser } from "../services/authService";
+import LoadingSpinner from "../components/LoadingSpinner";
+import ErrorMessage from "../components/ErrorMessage";
 
 function Register() {
   const navigate = useNavigate();
@@ -9,13 +11,14 @@ function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   // TODO: integrate with backend auth validation for already-logged-in users.
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-
+    setLoading(true);
     try {
       const data = await registerUser({ name, email, password });
 
@@ -29,6 +32,8 @@ function Register() {
       } else {
         setError("Something went wrong");
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -69,12 +74,12 @@ function Register() {
 
         <button type="submit">Register</button>
       </form>
-
-      {error && <p style={{ color: "red" }}>{error}</p>}
-
       <p>
         Already have an account? <Link to="/login">Log in</Link>
       </p>
+
+      {loading && <LoadingSpinner message="Submitting details..." />}
+      {error && <ErrorMessage message={error} error={error} />}
     </main>
   );
 }
