@@ -12,7 +12,7 @@ export default function ErrorMessage({
   const handleClose = () => setShow(false);
 
   return (
-    <div style={{ display: "flex", justifyContent: "center", padding: "2rem" }}>
+    <div style={{ display: "flex", justifyContent: "center" }}>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>An error has occurred</Modal.Title>
