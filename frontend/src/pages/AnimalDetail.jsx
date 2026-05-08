@@ -3,6 +3,8 @@ import { Link, useParams } from "react-router-dom";
 import { mockAnimals } from "../constants/animals";
 import { formatLabel } from "../utils/formatLabel";
 import NotFound from "./NotFound";
+import LoadingSpinner from "../components/LoadingSpinner";
+import ErrorMessage from "../components/ErrorMessage";
 
 function normalizeAnimal(data) {
   if (!data) return null;
@@ -36,6 +38,7 @@ export default function AnimalDetail() {
   const [animal, setAnimal] = useState(null);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     let ignore = false;
@@ -51,6 +54,7 @@ export default function AnimalDetail() {
           if (!ignore) {
             setNotFound(true);
             setAnimal(null);
+            setError(true);
           }
           return;
         }
@@ -75,6 +79,7 @@ export default function AnimalDetail() {
           } else {
             setNotFound(true);
             setAnimal(null);
+            setError(true);
           }
         }
       } finally {
@@ -111,10 +116,17 @@ export default function AnimalDetail() {
     alert("Inquiry modal will be connected later.");
   };
 
+  const handleRetry = () => {
+    setError(false);
+    setLoading(true);
+    setNotFound(false);
+    setAnimal(null);
+  };
+
   if (loading) {
     return (
       <main className="detail-page">
-        <p>Loading animal details...</p>
+        <LoadingSpinner message="Loading animal details..." />
       </main>
     );
   }
@@ -238,6 +250,12 @@ export default function AnimalDetail() {
           </div>
         </div>
       </section>
+      {error && (
+        <ErrorMessage
+          message="Failed to load animal details."
+          handleRetry={handleRetry}
+        />
+      )}
     </main>
   );
 }
