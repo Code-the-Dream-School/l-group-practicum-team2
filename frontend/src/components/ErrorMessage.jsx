@@ -2,8 +2,12 @@ import Modal from "react-bootstrap/Modal";
 import { useState } from "react";
 import Button from "react-bootstrap/Button";
 
-export default function ErrorMessage({ message, handleRetry }) {
-  const [show, setShow] = useState(true);
+export default function ErrorMessage({
+  message,
+  handleRetry = null,
+  error = false,
+}) {
+  const [show, setShow] = useState(error ? true : false);
 
   const handleClose = () => setShow(false);
 
@@ -18,15 +22,17 @@ export default function ErrorMessage({ message, handleRetry }) {
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button
-            variant="primary"
-            onClick={() => {
-              handleClose();
-              handleRetry();
-            }}
-          >
-            Retry
-          </Button>
+          {handleRetry ? (
+            <Button
+              variant="primary"
+              onClick={() => {
+                handleClose();
+                handleRetry();
+              }}
+            >
+              Retry
+            </Button>
+          ) : null}
         </Modal.Footer>
       </Modal>
     </div>

@@ -6,14 +6,12 @@ export default function LoadingSpinner({ message }) {
       style={{
         display: "flex",
         justifyContent: "center",
-        padding: "2rem",
+        padding: "4rem",
         alignItems: "center",
         flexDirection: "column",
       }}
     >
-      <Spinner animation="border" role="status">
-        <span className="visually-hidden">Loading...</span>
-      </Spinner>
+      <Spinner animation="border" role="status" />
       <p style={{ margin: "2rem auto" }}>{message}</p>
     </div>
   );

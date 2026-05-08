@@ -7,6 +7,7 @@ export const SpecialNeedProvider = ({ children }) => {
 
   const [loading, setLoading] = useState(false);
   const [specialNeeds, setSpecialNeeds] = useState([]);
+  const [error, setError] = useState(false);
 
   const getSpecialNeed = async () => {
     setLoading(true);
@@ -30,6 +31,7 @@ export const SpecialNeedProvider = ({ children }) => {
       setSpecialNeeds(data.animals || []);
     } catch (error) {
       console.error(error);
+      setError(true);
     } finally {
       setLoading(false);
     }
@@ -44,6 +46,8 @@ export const SpecialNeedProvider = ({ children }) => {
       value={{
         specialNeeds,
         loading,
+        error,
+        getSpecialNeed,
       }}
     >
       {children}
