@@ -1,11 +1,16 @@
 const FAVORITES_KEY = "mockFavorites";
 
 function getStoredFavoriteIds() {
-  return JSON.parse(localStorage.getItem(FAVORITES_KEY)) || [];
+  try {
+    const storedIds = JSON.parse(localStorage.getItem(FAVORITES_KEY)) || [];
+    return storedIds.map(String);
+  } catch {
+    return [];
+  }
 }
 
 function saveFavoriteIds(ids) {
-  localStorage.setItem(FAVORITES_KEY, JSON.stringify(ids));
+  localStorage.setItem(FAVORITES_KEY, JSON.stringify(ids.map(String)));
 }
 
 export function getFavorites() {
@@ -14,13 +19,16 @@ export function getFavorites() {
 
 export function addFavorite(animalId) {
   const ids = getStoredFavoriteIds();
+  const favoriteId = String(animalId);
 
-  if (!ids.includes(animalId)) {
-    saveFavoriteIds([...ids, animalId]);
+  if (!ids.includes(favoriteId)) {
+    saveFavoriteIds([...ids, favoriteId]);
   }
 }
 
 export function removeFavorite(animalId) {
   const ids = getStoredFavoriteIds();
-  saveFavoriteIds(ids.filter((id) => id !== animalId));
+  const favoriteId = String(animalId);
+
+  saveFavoriteIds(ids.filter((id) => id !== favoriteId));
 }

@@ -5,7 +5,7 @@ import { getFavorites } from "../../api/favorites";
 function FavoritesPage() {
   const favoriteIds = getFavorites();
   const favoriteAnimals = mockAnimals.filter((animal) =>
-    favoriteIds.includes(animal.id)
+    favoriteIds.includes(String(animal.id))
   );
 
   return (
