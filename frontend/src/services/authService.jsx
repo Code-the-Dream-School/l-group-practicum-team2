@@ -11,6 +11,7 @@ export const AuthProvider = ({ children }) => {
   const [error, setError] = useState(null);
 
   const navigate = useNavigate();
+
   async function registerUser(userData) {
     setLoading(true);
     try{
@@ -31,9 +32,12 @@ export const AuthProvider = ({ children }) => {
       }
       setUser(data.user)
       localStorage.setItem("token", data.token)
+      return true;
 
     } catch(error){
       console.error(error);
+      setError(error.message);
+      return false;
 
     } finally{
       setLoading(false);
