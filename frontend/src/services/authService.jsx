@@ -46,7 +46,7 @@ export const AuthProvider = ({ children }) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Accept: "application/json",
+          "Accept": "application/json",
         },
         body: JSON.stringify(userData),
       });
@@ -58,7 +58,7 @@ export const AuthProvider = ({ children }) => {
       }
       setUser(data.user)
       localStorage.setItem("token", data.token)
-      return;
+
 
   } catch (error) {
     console.error(error);

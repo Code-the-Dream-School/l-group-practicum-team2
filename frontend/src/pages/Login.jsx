@@ -4,7 +4,7 @@ import { useAuth } from "../services/authService";
 
 
 function Login() {
-  const { login } = useAuth();
+  const { loginUser } = useAuth();
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
@@ -18,10 +18,10 @@ function Login() {
     setError("");
 
     try {
+      console.log(email, password )
       const data = await loginUser({ email, password });
-
-      localStorage.setItem("token", data.token);
-
+console.log('eeee')
+      // localStorage.setItem("token", data.token);
       navigate("/");
     } catch (err) {
       if (err instanceof Error) {
