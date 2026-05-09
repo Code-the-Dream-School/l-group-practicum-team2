@@ -1,33 +1,9 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { formatLabel } from "../../utils/formatLabel";
-import { addFavorite, removeFavorite } from "../../services/favorites";
+import Heart from "./Heart";
 
 function AnimalCard({ animal, isFavorite = false }) {
-  const [favorite, setFavorite] = useState(isFavorite);
-  const navigate = useNavigate();
-
-  function handleFavoriteClick(event) {
-    event.preventDefault();
-    event.stopPropagation();
-
-    const token = localStorage.getItem("token");
-
-    if (!token) {
-      navigate("/login");
-      return;
-    }
-
-    if (favorite) {
-      removeFavorite(animal.id);
-      setFavorite(false);
-    } else {
-      addFavorite(animal.id);
-      setFavorite(true);
-    }
-  }
   return (
     <Link to={`/animals/${animal.id}`} className="animal-card-link">
       <article className="animal-card">
@@ -36,14 +12,7 @@ function AnimalCard({ animal, isFavorite = false }) {
             <span className="special-needs-badge">Special Needs</span>
           )}
 
-          <button
-            type="button"
-            className={`favorite-button ${favorite ? "favorited" : ""}`}
-            onClick={handleFavoriteClick}
-            aria-label={favorite ? "Remove from favorites" : "Add to favorites"}
-          >
-            <span>♥</span>
-          </button>
+          <Heart animalId={animal.id} initialFavorite={isFavorite} />
 
           <img
             src={animal.photo_url}
