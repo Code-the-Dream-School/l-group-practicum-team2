@@ -10,16 +10,16 @@ import NavigationBar from "./components/navbar/NavigationBar";
 function App() {
   return (
     <>
-    <NavigationBar />
-    <div style={{maxWidth: '1320px', margin: '0 auto',padding: '1rem'}}>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/animals/:id" element={<AnimalDetail />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </div>
+      <NavigationBar />
+      <div style={{ maxWidth: "1320px", margin: "0 auto", padding: "1rem" }}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/animals/:id" element={<AnimalDetail />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </div>
     </>
   );
 }
