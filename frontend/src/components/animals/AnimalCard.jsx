@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { formatLabel } from "../../utils/formatLabel";
-import { addFavorite, removeFavorite } from "../../api/favorites";
+import { addFavorite, removeFavorite } from "../../services/favorites";
 
 function AnimalCard({ animal, isFavorite = false }) {
   const [favorite, setFavorite] = useState(isFavorite);
