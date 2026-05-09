@@ -66,18 +66,56 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem("token", data.token)
       return true;
 
-  } catch (error) {
-    console.error(error);
-    setError(error.message);
-    return false;
+    } catch (error) {
+      console.error(error);
+      setError(error.message);
+      return false;
+    }
+    finally {
+      setLoading(false);
+    }
   }
-  finally {
-    setLoading(false);
+  
+  const fetchCurrentUser = async() => {
+    setLoading(true);
+    if(!localStorage.getItem("token")){
+        setLoading(false);
+        return null;
+    }
+
+    // await new Promise((resolve)=>setTimeout(resolve, 2000))
+    try{
+      const response = await fetch(`${API_BASE_URL}/me`,{
+          'method': "GET",
+          'headers': {
+              'Authorization': `Bearer ${localStorage.getItem("token")}`
+          }
+      })
+
+      const data = await response.json()
+      
+      if (!response.ok) {
+        setError(data.error || "Login failed");
+        throw new Error(data.error || "Login failed");
+      }
+      setUser(data.user)
+      
+      return true;
+    }
+    catch(error){
+        console.error(error);
+        localStorage.removeItem("token");
+    } 
+    finally {
+        setLoading(false);
+    }
   }
-  }
+  useEffect(()=>{
+      fetchCurrentUser();
+  }, [])
 
   return (
-      <AuthContext.Provider value={{ user, loginUser, registerUser, error }}>
+      <AuthContext.Provider value={{ user, loginUser, registerUser, error, fetchCurrentUser }}>
           {children}
       </AuthContext.Provider> 
   )
