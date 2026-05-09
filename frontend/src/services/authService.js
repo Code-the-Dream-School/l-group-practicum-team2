@@ -1,11 +1,10 @@
-const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/api/auth`;
+const API_BASE_URL = "http://localhost:8080/api/auth";
 
 export async function registerUser(userData) {
   const response = await fetch(`${API_BASE_URL}/register`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Accept: "application/json",
     },
     body: JSON.stringify(userData),
   });
@@ -24,7 +23,6 @@ export async function loginUser(userData) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Accept: "application/json",
     },
     body: JSON.stringify(userData),
   });
