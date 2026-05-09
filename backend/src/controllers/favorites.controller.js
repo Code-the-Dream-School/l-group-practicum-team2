@@ -7,7 +7,7 @@ const {
 // POST /api/favorites
 const createFavorite = async (req, res) => {
   try {
-    const userId = req.user.userId;
+    const userId = req.user.id;
     const { animal_id } = req.body;
 
     if (!animal_id) {
@@ -32,7 +32,7 @@ const createFavorite = async (req, res) => {
 // GET /api/favorites
 const getFavorites = async (req, res) => {
   try {
-    const userId = req.user.userId;
+    const userId = req.user.id;
     const favorites = await getFavoritesByUser(userId);
 
     return res.status(200).json(favorites);
@@ -46,7 +46,7 @@ const getFavorites = async (req, res) => {
 // DELETE /api/favorites/:animalId
 const removeFavorite = async (req, res) => {
   try {
-    const userId = req.user.userId;
+    const userId = req.user.id;
     const { animalId } = req.params;
 
     const deleted = await deleteFavorite(userId, animalId);
