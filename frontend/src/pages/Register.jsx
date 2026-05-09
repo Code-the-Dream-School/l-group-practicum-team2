@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { registerUser } from "../services/authService";
+import { useAuth } from "../services/authService";
 
 function Register() {
+  const { register } = useAuth();
   const navigate = useNavigate();
 
   const [name, setName] = useState("");
