@@ -33,6 +33,7 @@ const errorHandlerMiddleware = require('./middleware/error-handler')
 // Routes
 app.use('/api/hello', helloRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/animals', animalsRoutes);
 
 app.use('/api/animals', animalsRoutes);
 app.use('/api/shelters', shelterInfoRoutes);
