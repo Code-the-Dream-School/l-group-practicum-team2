@@ -47,10 +47,7 @@ const register = async (req, res) => {
 
         return res.status(201).json({
             token,
-            user: {
-                id: user.id,
-                name: user.name
-            }
+            user: { id, name, email }
         });
 
     } catch (error) {
@@ -97,10 +94,7 @@ const login = async (req, res) => {
 
         return res.status(200).json({
             token,
-            user: {
-                id: user.id,
-                name: user.name
-            }
+            user: { id, name, email }
         });
 
     } catch (error) {
@@ -113,7 +107,7 @@ const getCurrentUser = (req, res) => {
     const { id, email, name } = req.user;
 
     return res.status(StatusCodes.OK).json({
-        user: { userId: id, email, name }
+        user: { id, name, email }
     });
 };
 
