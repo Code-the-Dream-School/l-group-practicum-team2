@@ -1,6 +1,6 @@
 import AnimalCard from "../../components/animals/AnimalCard";
 import { mockAnimals } from "../../constants/animals";
-import { getFavorites } from "../../api/favorites";
+import { getFavorites } from "../../services/favorites";
 
 function FavoritesPage() {
   const favoriteIds = getFavorites();
