@@ -6,8 +6,8 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
 
-  const [user, setUser] = useState(null)
-  const [loading, setLoading] = useState(false)
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
   async function registerUser(userData) {
@@ -40,31 +40,36 @@ export const AuthProvider = ({ children }) => {
   }
 
   async function loginUser(userData) {
-  const response = await fetch(`${API_BASE_URL}/login`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: JSON.stringify(userData),
-  });
+    setLoading(true);
+    try {
+      const response = await fetch(`${API_BASE_URL}/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(userData),
+      });
 
-  const data = await response.json();
+      const data = await response.json();
 
-  if (!response.ok) {
-    throw new Error(data.error || "Login failed");
+      if (!response.ok) {
+        throw new Error(data.error || "Login failed");
+      }
+      setUser(data.user)
+      localStorage.setItem("token", data.token)
+      return;
+
+  } catch (error) {
+    console.error(error);
   }
-
-  return data;
+  finally {
+    setLoading(false);
+  }
   }
 
   return (
-      <AuthContext.Provider value={{ user, loginUser, registerUser, 
-      // logout,
-      //  updateCredential, 
-      // loading, setLoading
-      // , show, setShow 
-      }}>
+      <AuthContext.Provider value={{ user, loginUser, registerUser }}>
           {children}
       </AuthContext.Provider> 
   )
