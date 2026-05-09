@@ -4,32 +4,34 @@ import { useAuth } from "../services/authService";
 
 
 function Login() {
-  const { loginUser } = useAuth();
+  const { loginUser, error } = useAuth();
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  // const [error, setError] = useState("");
 
   // TODO: integrate with backend auth validation for already-logged-in users.
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
+    // setError("");
 
-    try {
+    // try {
       console.log(email, password )
-      const data = await loginUser({ email, password });
-console.log('eeee')
+      await loginUser({ email, password });
+
       // localStorage.setItem("token", data.token);
-      navigate("/");
-    } catch (err) {
-      if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError("Something went wrong");
-      }
-    }
+      console.log('from authService', error)
+      // if(!error)
+      //   navigate("/");
+    // } catch (err) {
+    //   if (err instanceof Error) {
+    //     setError(err.message);
+    //   } else {
+    //     setError("Something went wrong");
+    //   }
+    // }
   };
 
   return (

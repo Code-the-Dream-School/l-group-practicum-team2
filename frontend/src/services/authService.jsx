@@ -8,6 +8,7 @@ export const AuthProvider = ({ children }) => {
 
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const navigate = useNavigate();
   async function registerUser(userData) {
@@ -54,6 +55,7 @@ export const AuthProvider = ({ children }) => {
       const data = await response.json();
 
       if (!response.ok) {
+        setError(data.error || "Login failed");
         throw new Error(data.error || "Login failed");
       }
       setUser(data.user)
@@ -62,6 +64,7 @@ export const AuthProvider = ({ children }) => {
 
   } catch (error) {
     console.error(error);
+    setError(error.message);
   }
   finally {
     setLoading(false);
@@ -69,7 +72,7 @@ export const AuthProvider = ({ children }) => {
   }
 
   return (
-      <AuthContext.Provider value={{ user, loginUser, registerUser }}>
+      <AuthContext.Provider value={{ user, loginUser, registerUser, error }}>
           {children}
       </AuthContext.Provider> 
   )
