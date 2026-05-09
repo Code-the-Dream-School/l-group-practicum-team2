@@ -15,23 +15,10 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // setError("");
+    const success = await loginUser({ email, password });
 
-    // try {
-      console.log(email, password )
-      await loginUser({ email, password });
-
-      // localStorage.setItem("token", data.token);
-      console.log('from authService', error)
-      // if(!error)
-      //   navigate("/");
-    // } catch (err) {
-    //   if (err instanceof Error) {
-    //     setError(err.message);
-    //   } else {
-    //     setError("Something went wrong");
-    //   }
-    // }
+    if(success)
+      navigate("/");
   };
 
   return (
