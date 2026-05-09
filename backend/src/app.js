@@ -21,7 +21,7 @@ const favoritesRoutes = require('./routes/favorites.routes');
 app.use(helmet());
 app.use(cors());
 app.use(express.json());
-app.use(morgan('dev'));
+app.use(morgan("dev"));
 
 
 const limiter = rateLimit({
@@ -43,8 +43,8 @@ app.use('/api/shelters', shelterInfoRoutes);
 
 
 // Root route
-app.get('/', (req, res) => {
-  res.send('Backend API is running');
+app.get("/", (req, res) => {
+  res.send("Backend API is running");
 });
 
 

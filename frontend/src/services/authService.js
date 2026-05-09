@@ -1,17 +1,6 @@
 const API_BASE_URL = "http://localhost:8080/api/auth";
 
-type RegisterData = {
-  name: string;
-  email: string;
-  password: string;
-};
-
-type LoginData = {
-  email: string;
-  password: string;
-};
-
-export async function registerUser(userData: RegisterData) {
+export async function registerUser(userData) {
   const response = await fetch(`${API_BASE_URL}/register`, {
     method: "POST",
     headers: {
@@ -29,7 +18,7 @@ export async function registerUser(userData: RegisterData) {
   return data;
 }
 
-export async function loginUser(userData: LoginData) {
+export async function loginUser(userData) {
   const response = await fetch(`${API_BASE_URL}/login`, {
     method: "POST",
     headers: {
