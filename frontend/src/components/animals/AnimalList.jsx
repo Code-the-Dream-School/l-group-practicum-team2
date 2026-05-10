@@ -2,9 +2,11 @@ import { useState } from "react";
 import AnimalCard from "./AnimalCard";
 import Filters from "./Filters";
 import { mockAnimals } from "../../constants/animals";
+import { useAnimal } from "../../services/animalService";
 
 function AnimalList() {
-  const [animals] = useState(mockAnimals);
+  // const [animals] = useState(mockAnimals);
+  const { animals } = useAnimal();
   const [species, setSpecies] = useState("");
   const [size, setSize] = useState("");
   const [age, setAge] = useState("");
