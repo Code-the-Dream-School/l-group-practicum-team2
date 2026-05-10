@@ -105,6 +105,7 @@ export const AuthProvider = ({ children }) => {
     catch(error){
         console.error(error);
         localStorage.removeItem("token");
+        setUser(null)
     } 
     finally {
         setLoading(false);
