@@ -47,7 +47,11 @@ const register = async (req, res) => {
 
         return res.status(201).json({
             token,
-            user: { id, name, email }
+            user: { 
+                    id: user.id,
+                    name: user.name,
+                    email: user.email, 
+                }
         });
 
     } catch (error) {
@@ -94,7 +98,10 @@ const login = async (req, res) => {
 
         return res.status(200).json({
             token,
-            user: { id, name, email }
+            user: { id: user.id,
+                    name: user.name,
+                    email: user.email, 
+                }
         });
 
     } catch (error) {
