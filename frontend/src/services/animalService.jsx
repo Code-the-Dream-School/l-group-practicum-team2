@@ -18,7 +18,7 @@ export const AnimalProvider = ({ children }) => {
         {
           method: "GET",
           headers: {
-            'Accept': "application/json",
+            Accept: "application/json",
           },
         }
       );
@@ -28,7 +28,6 @@ export const AnimalProvider = ({ children }) => {
         throw new Error(data.msg || "Failed to fetch animals");
       }
       setAnimals(data.animals || []);
-
     } catch (error) {
       console.error(error);
       setError(error.message || "Something went wrong while fetching animals");
@@ -42,9 +41,7 @@ export const AnimalProvider = ({ children }) => {
   }, []);
 
   return (
-    <AnimalContext.Provider
-      value={{ animals, loading, error }}
-    >
+    <AnimalContext.Provider value={{ animals, loading, error }}>
       {children}
     </AnimalContext.Provider>
   );
