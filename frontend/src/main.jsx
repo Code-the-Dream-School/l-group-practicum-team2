@@ -5,13 +5,16 @@ import "./index.css";
 import App from "./App.jsx";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { SpecialNeedProvider } from "./services/SpecialNeedContext";
+import { AnimalProvider } from "./services/animalService.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
-      <SpecialNeedProvider>
-        <App />
-      </SpecialNeedProvider>
+      <AnimalProvider>
+        <SpecialNeedProvider>
+          <App />
+        </SpecialNeedProvider>
+      </AnimalProvider>
     </BrowserRouter>
   </StrictMode>
 );
