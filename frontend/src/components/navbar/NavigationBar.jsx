@@ -13,13 +13,14 @@ import UserDropdown from "./UserDropdown";
 import logo from "../../assets/PawMatch.png";
 
 const NavigationBar = () => {
-  // const { user } = useAuth();
+  // const { user, logoutUser } = useAuth();
   const user = {
     userId: "5a175e5f-4d7e-4eb9-adcf-9f9fbee32a6e",
     email: "nathen.harber@yahoo.com",
     name: "Judah",
   };
   // const user = null;
+  const logoutUser = () => console.log("logout"); // temporary
 
   return (
     <Navbar bg="light" variant="light">
@@ -47,7 +48,7 @@ const NavigationBar = () => {
                 <HeartFill size={25} className="me-3" />
                 <span className="fs-5">Favorites</span>
               </Button>
-              <UserDropdown user={user} />
+              <UserDropdown user={user} onLogout={logoutUser} />
             </div>
           ) : (
             <Button
