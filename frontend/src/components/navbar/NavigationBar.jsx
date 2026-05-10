@@ -14,13 +14,10 @@ import logo from "../../assets/PawMatch.png";
 import { useAuth } from "../../services/authService";
 
 const NavigationBar = () => {
-  // const { user, logoutUser } = useAuth();
-  const user = {
-    userId: "5a175e5f-4d7e-4eb9-adcf-9f9fbee32a6e",
-    email: "nathen.harber@yahoo.com",
-    name: "Judah",
-  };
-  // const user = null;
+  const { user, 
+    // logoutUser 
+  } = useAuth();
+ 
   const logoutUser = () => console.log("logout"); // temporary
 
   return (
