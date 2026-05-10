@@ -18,7 +18,7 @@ export const AnimalProvider = ({ children }) => {
         {
           method: "GET",
           headers: {
-            accept: "application/json",
+            'Accept': "application/json",
           },
         }
       );
@@ -31,6 +31,7 @@ export const AnimalProvider = ({ children }) => {
 
     } catch (error) {
       console.error(error);
+      setError(error.message || "Something went wrong while fetching animals");
     } finally {
       setLoading(false);
     }
