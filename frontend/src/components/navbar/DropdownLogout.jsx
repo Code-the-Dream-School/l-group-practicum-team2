@@ -1,12 +1,9 @@
 import { Dropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-const DropdownLogout = () => {
-  const handleLogout = () => {
-    console.log("log out");
-  };
+const DropdownLogout = ({onLogout}) => {
   return (
-    <Dropdown.Item as={Link} to="/logout" onClick={handleLogout}>
+    <Dropdown.Item  onClick={onLogout}>
       Logout
     </Dropdown.Item>
   );

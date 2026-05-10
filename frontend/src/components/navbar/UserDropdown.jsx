@@ -2,7 +2,8 @@ import { DropdownButton, Dropdown } from "react-bootstrap";
 import { PersonFill } from "react-bootstrap-icons";
 import { Link } from "react-router-dom";
 import DropdownLogout from "./DropdownLogout";
-const UserDropdown = ({ user }) => {
+
+const UserDropdown = ({ user, onLogout }) => {
   return (
     <DropdownButton
       id="dropdown-button-drop"
@@ -21,10 +22,10 @@ const UserDropdown = ({ user }) => {
         Favorites
       </Dropdown.Item>
       <Dropdown.Item as={Link} to="/inquiries">
-        Inquireis
+        Inquiries
       </Dropdown.Item>
       <Dropdown.Divider />
-      <DropdownLogout />
+      <DropdownLogout onLogout={onLogout} />
     </DropdownButton>
   );
 };
