@@ -24,6 +24,7 @@ export async function loginUser(userData) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      "Accept": "application/json",
     },
     body: JSON.stringify(userData),
   });
@@ -31,7 +32,7 @@ export async function loginUser(userData) {
   const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(data.error || "Login failed");
+    throw new Error(data.message || "Login failed");
   }
 
   return data;

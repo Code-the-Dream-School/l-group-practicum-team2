@@ -16,7 +16,7 @@ export const AuthProvider = ({ children }) => {
 
   const navigate = useNavigate();
 
-    const handleRegister = (userData) => {
+    const handleRegister = async (userData) => {
       setLoading(true);
       try {
         const data = await registerUser(userData);
@@ -33,35 +33,21 @@ export const AuthProvider = ({ children }) => {
       }
     }
 
-  //   async function loginUser(userData) {
-  //     setLoading(true);
-  //     try {
-  //       const response = await fetch(`${API_BASE_URL}/login`, {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           Accept: "application/json",
-  //         },
-  //         body: JSON.stringify(userData),
-  //       });
-
-  //       const data = await response.json();
-
-  //       if (!response.ok) {
-  //         setError(data.error || "Login failed");
-  //         throw new Error(data.error || "Login failed");
-  //       }
-  //       setUser(data.user);
-  //       localStorage.setItem("token", data.token);
-  //       return true;
-  //     } catch (error) {
-  //       console.error(error);
-  //       setError(error.message);
-  //       return false;
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   }
+    const handleLogin = async (userData) => {
+      setLoading(true);
+      try {
+        const data = await loginUser(userData);
+        setUser(data.user);
+        localStorage.setItem("token", data.token);
+        return true;
+      } catch (error) {
+        console.error(error);
+        setError(error.message);
+        return false;
+      } finally {
+        setLoading(false);
+      }
+    }
 
   const getCurrentUser = async () => {
     setLoading(true);
