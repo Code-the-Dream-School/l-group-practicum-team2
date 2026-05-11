@@ -101,6 +101,7 @@ async function registerUser(userData) {
 
         } catch (error) {
             console.error(error);
+            setError(error.message);
             localStorage.removeItem("token");
             setUser(null);
         } finally {
