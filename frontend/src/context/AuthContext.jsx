@@ -1,7 +1,12 @@
 const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/api/auth`;
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import {
+  loginUser,
+  registerUser,
+  fetchCurrentUser,
+//   logoutUser,
+} from "../services/authService";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -11,108 +16,94 @@ export const AuthProvider = ({ children }) => {
 
   const navigate = useNavigate();
 
-  async function registerUser(userData) {
+  //   async function registerUser(userData) {
+  //     setLoading(true);
+  //     try {
+  //       const response = await fetch(`${API_BASE_URL}/register`, {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Accept: "application/json",
+  //         },
+  //         body: JSON.stringify(userData),
+  //       });
+
+  //       const data = await response.json();
+
+  //       if (!response.ok) {
+  //         console.log("data.error", data.error);
+  //         throw new Error(data.error || "Registration failed");
+  //       }
+  //       setUser(data.user);
+  //       localStorage.setItem("token", data.token);
+  //       return true;
+  //     } catch (error) {
+  //       console.error(error);
+  //       setError(error.message);
+  //       return false;
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   }
+
+  //   async function loginUser(userData) {
+  //     setLoading(true);
+  //     try {
+  //       const response = await fetch(`${API_BASE_URL}/login`, {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Accept: "application/json",
+  //         },
+  //         body: JSON.stringify(userData),
+  //       });
+
+  //       const data = await response.json();
+
+  //       if (!response.ok) {
+  //         setError(data.error || "Login failed");
+  //         throw new Error(data.error || "Login failed");
+  //       }
+  //       setUser(data.user);
+  //       localStorage.setItem("token", data.token);
+  //       return true;
+  //     } catch (error) {
+  //       console.error(error);
+  //       setError(error.message);
+  //       return false;
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   }
+
+  const getCurrentUser = async () => {
     setLoading(true);
+
     try {
-      const response = await fetch(`${API_BASE_URL}/register`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify(userData),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        console.log("data.error", data.error);
-        throw new Error(data.error || "Registration failed");
-      }
+      const data = await fetchCurrentUser();
       setUser(data.user);
-      localStorage.setItem("token", data.token);
+      setError(null);
+
       return true;
+      
     } catch (error) {
       console.error(error);
       setError(error.message);
-      return false;
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  async function loginUser(userData) {
-    setLoading(true);
-    try {
-      const response = await fetch(`${API_BASE_URL}/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify(userData),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        setError(data.error || "Login failed");
-        throw new Error(data.error || "Login failed");
-      }
-      setUser(data.user);
-      localStorage.setItem("token", data.token);
-      return true;
-    } catch (error) {
-      console.error(error);
-      setError(error.message);
-      return false;
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  const fetchCurrentUser = async () => {
-    setLoading(true);
-
-    if (!localStorage.getItem("token")) {
-      setLoading(false);
-      return null;
-    }
-
-    // await new Promise((resolve)=>setTimeout(resolve, 2000))
-    try {
-      const response = await fetch(`${API_BASE_URL}/me`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        setError(data.error || "Login failed");
-        throw new Error(data.error || "Login failed");
-      }
-      setUser(data.user);
-
-      return true;
-    } catch (error) {
-      console.error(error);
-      setError(error.message);
-      localStorage.removeItem("token");
       setUser(null);
+      localStorage.removeItem("token");
+      return false;
+      
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchCurrentUser();
+    getCurrentUser();
   }, []);
 
   useEffect(() => {
-    console.log(user);
+    console.log('user', user);
   }, [user]);
 
   return (

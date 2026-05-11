@@ -38,33 +38,27 @@ export async function loginUser(userData) {
 
 export const fetchCurrentUser = async () => {
     
-    if (!localStorage.getItem("token")) {
-      setLoading(false);
-      return null;
-    }
-
+    if (!localStorage.getItem("token")) 
+      throw new Error("No token found");
+    
     // await new Promise((resolve)=>setTimeout(resolve, 2000))
-    try {
-      const response = await fetch(`${API_BASE_URL}/me`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+    
+    const response = await fetch(`${API_BASE_URL}/me`, {
+      method: "GET",
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
 
-      const data = await response.json();
+    const data = await response.json();
 
-      if (!response.ok) {
-        throw new Error(data.error || "Login failed");
-      }
-      
-      return  {
-                'success': true, 
-                'user': data
-              };
-    } catch (error) {
-      return  {
-                'success': false,
-                'error': error.message}
-              }
-  };
+    if (!response.ok) {
+      throw new Error(data.message || "Login failed");
+    }
+    
+    return  {
+              'success': true,
+              'user': data.user,
+              'error': null
+            };
+};
