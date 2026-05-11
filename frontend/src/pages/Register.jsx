@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../services/authService";
 
 function Register() {
-  const { registerUser,error } = useAuth();
+  const { registerUser, error } = useAuth();
   const navigate = useNavigate();
 
   const [name, setName] = useState("");
@@ -12,12 +12,10 @@ function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     const success = await registerUser({ name, email, password });
     // redirect after success
-    if(success)
-      navigate("/");
-
+    if (success) navigate("/");
   };
 
   return (

@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../services/authService";
 
-
 function Login() {
   const { loginUser, error } = useAuth();
   const navigate = useNavigate();
@@ -17,8 +16,7 @@ function Login() {
     e.preventDefault();
     const success = await loginUser({ email, password });
 
-    if(success)
-      navigate("/");
+    if (success) navigate("/");
   };
 
   return (
