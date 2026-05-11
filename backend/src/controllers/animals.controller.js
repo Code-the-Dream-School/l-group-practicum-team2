@@ -1,5 +1,6 @@
 const { StatusCodes } = require('http-status-codes');
 const pool = require('../config/db.postgres');
+const { NotFoundError } = require('../errors');
 
 const getAnimals = async (req, res, next) => {
   try {
@@ -63,10 +64,54 @@ const getAnimals = async (req, res, next) => {
 
     const result = await pool.query(query, values);
 
-    return res.status(StatusCodes.OK).json({ success: true, animals: result.rows });
+    return res
+      .status(StatusCodes.OK)
+      .json({ success: true, animals: result.rows });
   } catch (error) {
     next(error);
   }
 };
 
-module.exports = { getAnimals };
+const getAnimalDetails = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const animalQuery = await pool.query(
+      `SELECT * FROM animals WHERE id = $1`,
+      [id]
+    );
+    let animal = animalQuery.rows[0];
+    if (!animal) {
+      throw new NotFoundError(`Animal was not found`);
+    }
+    const shelterQuery = await pool.query(
+      `SELECT name, email, phone, address, city, state, id FROM shelters WHERE id = $1`,
+      [animal.shelter_id]
+    );
+    const shelter = shelterQuery.rows[0];
+    if (!shelter) {
+      throw new NotFoundError('Shelter associated with animal was not found');
+    }
+    const addressParts = [shelter.address, shelter.city, shelter.state];
+    const formattedAddress = addressParts
+      .filter((part) => part != null && part !== '' && part != undefined)
+      .join(', ');
+
+    const response = {
+      animal: {
+        ...animal,
+        shelter: {
+          name: shelter.name,
+          email: shelter.email,
+          phone: shelter.phone,
+          address: formattedAddress,
+        },
+      },
+    };
+
+    return res.status(200).json(response);
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { getAnimals, getAnimalDetails };

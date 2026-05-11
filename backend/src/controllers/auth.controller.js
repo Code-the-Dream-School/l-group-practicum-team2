@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { StatusCodes } = require('http-status-codes');
 const pool = require('../config/db.postgres');
 
 const register = async (req, res) => {
@@ -108,8 +109,4 @@ const login = async (req, res) => {
     }
 };
 
-const updateProfile = async (req, res) => {
-    return res.status(200).json({ message: 'updateProfile placeholder' });
-};
-
-module.exports = { register, login, updateProfile };
+module.exports = { register, login };
