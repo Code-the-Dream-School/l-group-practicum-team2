@@ -48,8 +48,8 @@ async function registerUser(userData) {
             const response = await fetch(`${API_BASE_URL}/login`, {
                 method: "POST",
                 headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json",
+                    "Content-Type": "application/json",
+                    "Accept": "application/json",
                 },
                 body: JSON.stringify(userData),
             });
@@ -61,15 +61,15 @@ async function registerUser(userData) {
                 throw new Error(data.error || "Login failed");
             }
             setUser(data.user);
-            localStorage.setItem("token", data.token);
-            return true;
-        } catch (error) {
-            console.error(error);
-            setError(error.message);
-            return false;
-        } finally {
-            setLoading(false);
-        }
+                localStorage.setItem("token", data.token);
+                return true;
+            } catch (error) {
+                console.error(error);
+                setError(error.message);
+                return false;
+            } finally {
+                setLoading(false);
+            }
     }
 
     const fetchCurrentUser = async () => {
@@ -112,6 +112,11 @@ async function registerUser(userData) {
     useEffect(() => {
         fetchCurrentUser();
     }, []);
+
+    useEffect(()=>{
+        console.log(user);
+    }, [user]);
+
 
     return (
         <AuthContext.Provider
