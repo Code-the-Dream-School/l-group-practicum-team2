@@ -20,7 +20,6 @@ function AnimalList() {
   return (
     <main className="app">
       <h1>Animals List</h1>
-
       <Filters
         species={species}
         size={size}
@@ -30,7 +29,9 @@ function AnimalList() {
         onAgeChange={setAge}
       />
 
-      {filteredAnimals.length === 0 && <p>No animals found.</p>}
+      {filteredAnimals.length === 0 && (
+        <ErrorMessage message="Failed to load animals." />
+      )}
 
       <div className="animals-grid">
         {filteredAnimals.map((animal) => (
