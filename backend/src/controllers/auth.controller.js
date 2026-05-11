@@ -2,6 +2,12 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { StatusCodes } = require('http-status-codes');
 const pool = require('../config/db.postgres');
+const {
+    BadRequestError,
+    UnauthenticatedError,
+    InternalServerError
+} = require('../errors');
+
 
 const register = async (req, res) => {
     try {
@@ -108,5 +114,7 @@ const login = async (req, res) => {
         return res.status(500).json({ error: 'Server error' });
     }
 };
+
+
 
 module.exports = { register, login };
