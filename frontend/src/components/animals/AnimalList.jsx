@@ -2,6 +2,7 @@ import { useState } from "react";
 import AnimalCard from "./AnimalCard";
 import Filters from "./Filters";
 import { mockAnimals } from "../../constants/animals";
+import ErrorMessage from "../ErrorMessage";
 
 function AnimalList() {
   const [animals] = useState(mockAnimals);
