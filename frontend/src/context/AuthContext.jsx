@@ -16,35 +16,22 @@ export const AuthProvider = ({ children }) => {
 
   const navigate = useNavigate();
 
-  //   async function registerUser(userData) {
-  //     setLoading(true);
-  //     try {
-  //       const response = await fetch(`${API_BASE_URL}/register`, {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           Accept: "application/json",
-  //         },
-  //         body: JSON.stringify(userData),
-  //       });
+    const handleRegister = (userData) => {
+      setLoading(true);
+      try {
+        const data = await registerUser(userData);
 
-  //       const data = await response.json();
-
-  //       if (!response.ok) {
-  //         console.log("data.error", data.error);
-  //         throw new Error(data.error || "Registration failed");
-  //       }
-  //       setUser(data.user);
-  //       localStorage.setItem("token", data.token);
-  //       return true;
-  //     } catch (error) {
-  //       console.error(error);
-  //       setError(error.message);
-  //       return false;
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   }
+        setUser(data.user);
+        localStorage.setItem("token", data.token);
+        return true;
+      } catch (error) {
+        console.error(error);
+        setError(error.message);
+        return false;
+      } finally {
+        setLoading(false);
+      }
+    }
 
   //   async function loginUser(userData) {
   //     setLoading(true);
@@ -92,7 +79,7 @@ export const AuthProvider = ({ children }) => {
       setUser(null);
       localStorage.removeItem("token");
       return false;
-      
+
     } finally {
       setLoading(false);
     }

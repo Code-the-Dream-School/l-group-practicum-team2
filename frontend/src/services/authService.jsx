@@ -5,6 +5,7 @@ export async function registerUser(userData) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      "Accept": "application/json",
     },
     body: JSON.stringify(userData),
   });
@@ -12,7 +13,7 @@ export async function registerUser(userData) {
   const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(data.error || "Registration failed");
+    throw new Error(data.message || "Registration failed");
   }
 
   return data;
@@ -56,9 +57,5 @@ export const fetchCurrentUser = async () => {
       throw new Error(data.message || "Login failed");
     }
     
-    return  {
-              'success': true,
-              'user': data.user,
-              'error': null
-            };
+    return  data;
 };
