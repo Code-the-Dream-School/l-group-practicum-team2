@@ -9,9 +9,14 @@ const {
 } = require('../controllers/auth.controller');
 
 const authenticateUser = require('../middleware/authentication');
+const {
+  validateRegisterInput,
+  validateLoginInput,
+} = require('../middleware/input-validation');
 
-router.post('/register', register);
-router.post('/login', login);
+router.post('/register', validateRegisterInput, register);
+router.post('/login', validateLoginInput, login);
+router.get('/me', authenticateUser, getCurrentUser);
 
 router.get('/me', authenticateUser, getCurrentUser);
 router.patch('/', authenticateUser, updateProfile);
