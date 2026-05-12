@@ -26,10 +26,12 @@ function AnimalList() {
   const hasActiveFilters =
     species !== "" || size !== "" || ageCategory !== "" || specialNeeds;
 
+  const equalsCI = (a, b)=> a?.toLowerCase() === b?.toLowerCase();
+
   const filteredAnimals = mockAnimals.filter((animal) => {
-    if (species && animal.species !== species) return false;
-    if (size && animal.size !== size) return false;
-    if (ageCategory && animal.age_category !== ageCategory) return false;
+    if (species && !equalsCI(animal.species, species)) return false;
+    if (size && !equalsCI(animal.size, size)) return false;
+    if (ageCategory && !equalsCI(animal.age_category, ageCategory)) return false;
     if (specialNeeds && !animal.special_needs) return false;
     return true;
   });
