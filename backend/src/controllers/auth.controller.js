@@ -123,6 +123,29 @@ if (!currentPassword) {
         new BadRequestError('Current password is required')
     );
 }
+const result = await pool.query(
+    'SELECT id, name, email, password_hash FROM users WHERE id = $1',
+    [req.user.id]
+);
+
+const user =result.rows[0];
+
+if (!user) {
+    return next(
+        new UnauthenticatedError('Invalid credentials')
+    );
+}
+
+const isMatch = await bcrypt.compare(
+    currentPassword,
+    user.password_hash
+);
+
+if (!isMatch) {
+    return next(
+        new UnauthenticatedError('Invalid creditials')
+    );
+}
 
 return res.status(StatusCodes.OK).json({
     message: 'current password received'
