@@ -1,7 +1,6 @@
 const BACKEND_API = import.meta.env.VITE_API_BASE_URL;
 
 export const fetchAnimals = async () => {
-  console.log(BACKEND_API)
   try {
     const response = await fetch(
       `${BACKEND_API}/api/animals?status=available`,
