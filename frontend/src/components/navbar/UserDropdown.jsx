@@ -2,6 +2,7 @@ import { DropdownButton, Dropdown } from "react-bootstrap";
 import { PersonFill } from "react-bootstrap-icons";
 import { Link } from "react-router-dom";
 import DropdownLogout from "./DropdownLogout";
+import PropTypes from "prop-types";
 
 const UserDropdown = ({ user, onLogout }) => {
   return (
@@ -11,7 +12,7 @@ const UserDropdown = ({ user, onLogout }) => {
       title={
         <>
           <PersonFill size={25} className="me-3" />
-          <span className="fs-5">{user?.name}</span>
+          <span className="fs-5">{user.name}</span>
         </>
       }
     >
@@ -29,4 +30,16 @@ const UserDropdown = ({ user, onLogout }) => {
     </DropdownButton>
   );
 };
+<<<<<<< HEAD
+=======
+UserDropdown.propTypes = {
+  user: PropTypes.shape({
+    userId: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+  }).isRequired,
+
+  onLogout: PropTypes.func.isRequired,
+};
+>>>>>>> origin/main
 export default UserDropdown;
