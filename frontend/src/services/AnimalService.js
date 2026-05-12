@@ -1,4 +1,4 @@
-const BACKEND_API = import.meta.env.VITE_BACKEND_API;
+const BACKEND_API = import.meta.env.VITE_API_BASE_URL;
 
 export const fetchAnimals = async () => {
   try {
