@@ -1,23 +1,30 @@
 const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/api/auth`;
 
 export async function registerUser(userData) {
-  const response = await fetch(`${API_BASE_URL}/register`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: JSON.stringify(userData),
-  });
+  try {
+      const response = await fetch(`${API_BASE_URL}/register`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+      },
+      body: JSON.stringify(userData),
+    });
 
-  const data = await response.json();
+    const data = await response.json();
 
-  if (!response.ok) {
-    console.error(data.message);
-    throw new Error(data.message || "Registration failed");
+    if (!response.ok) {
+      console.error(data.message);
+      throw new Error(data.message || "Registration failed");
+    }
+
+    return data;
+  } catch(error){
+    console.error("Network error:", error);
+    throw new Error(
+      error.message || "Unable to connect to the server"
+    );
   }
-
-  return data;
 }
 
 export async function loginUser(userData) {
