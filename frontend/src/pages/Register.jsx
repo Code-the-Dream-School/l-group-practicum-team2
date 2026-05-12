@@ -16,7 +16,7 @@ function Register() {
     const success = await handleRegister({ name, email, password });
     // redirect after success
     if (success) navigate("/");
-  }
+  };
 
   return (
     <main style={{ padding: "2rem", fontFamily: "sans-serif" }}>

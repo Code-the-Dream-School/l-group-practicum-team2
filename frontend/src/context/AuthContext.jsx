@@ -4,7 +4,7 @@ import {
   loginUser,
   registerUser,
   fetchCurrentUser,
-//   logoutUser,
+  //   logoutUser,
 } from "../services/authService";
 const AuthContext = createContext();
 
@@ -15,38 +15,38 @@ export const AuthProvider = ({ children }) => {
 
   const navigate = useNavigate();
 
-    const handleRegister = async (userData) => {
-      setLoading(true);
-      try {
-        const data = await registerUser(userData);
+  const handleRegister = async (userData) => {
+    setLoading(true);
+    try {
+      const data = await registerUser(userData);
 
-        setUser(data.user);
-        localStorage.setItem("token", data.token);
-        return true;
-      } catch (error) {
-        console.error(error);
-        setError(error.message);
-        return false;
-      } finally {
-        setLoading(false);
-      }
+      setUser(data.user);
+      localStorage.setItem("token", data.token);
+      return true;
+    } catch (error) {
+      console.error(error);
+      setError(error.message);
+      return false;
+    } finally {
+      setLoading(false);
     }
+  };
 
-    const handleLogin = async (userData) => {
-      setLoading(true);
-      try {
-        const data = await loginUser(userData);
-        setUser(data.user);
-        localStorage.setItem("token", data.token);
-        return true;
-      } catch (error) {
-        console.error(error);
-        setError(error.message);
-        return false;
-      } finally {
-        setLoading(false);
-      }
+  const handleLogin = async (userData) => {
+    setLoading(true);
+    try {
+      const data = await loginUser(userData);
+      setUser(data.user);
+      localStorage.setItem("token", data.token);
+      return true;
+    } catch (error) {
+      console.error(error);
+      setError(error.message);
+      return false;
+    } finally {
+      setLoading(false);
     }
+  };
 
   const getCurrentUser = async () => {
     setLoading(true);
@@ -57,14 +57,12 @@ export const AuthProvider = ({ children }) => {
       setError(null);
 
       return true;
-      
     } catch (error) {
       console.error(error);
       setError(error.message);
       setUser(null);
       localStorage.removeItem("token");
       return false;
-
     } finally {
       setLoading(false);
     }
@@ -75,7 +73,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    console.log('user', user);
+    console.log("user", user);
   }, [user]);
 
   return (

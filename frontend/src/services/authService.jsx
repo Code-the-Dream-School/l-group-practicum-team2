@@ -5,7 +5,7 @@ export async function registerUser(userData) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "Accept": "application/json",
+      Accept: "application/json",
     },
     body: JSON.stringify(userData),
   });
@@ -13,8 +13,7 @@ export async function registerUser(userData) {
   const data = await response.json();
 
   if (!response.ok) {
-
-    console.error(data.message)
+    console.error(data.message);
     throw new Error(data.message || "Registration failed");
   }
 
@@ -26,7 +25,7 @@ export async function loginUser(userData) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "Accept": "application/json",
+      Accept: "application/json",
     },
     body: JSON.stringify(userData),
   });
@@ -41,25 +40,23 @@ export async function loginUser(userData) {
 }
 
 export const fetchCurrentUser = async () => {
-    
-    if (!localStorage.getItem("token")) 
-      return null;
-    
-    // await new Promise((resolve)=>setTimeout(resolve, 2000))
-    
-    const response = await fetch(`${API_BASE_URL}/me`, {
-      method: "GET",
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem("token")}`,
-         "Accept": "application/json",
-      },
-    });
+  if (!localStorage.getItem("token")) return null;
 
-    const data = await response.json();
+  // await new Promise((resolve)=>setTimeout(resolve, 2000))
 
-    if (!response.ok) {
-      throw new Error(data.message || "Login failed");
-    }
-    
-    return  data;
+  const response = await fetch(`${API_BASE_URL}/me`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      Accept: "application/json",
+    },
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || "Login failed");
+  }
+
+  return data;
 };
