@@ -33,7 +33,7 @@ export async function loginUser(userData) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Accept: "application/json",
+        "Accept": "application/json",
       },
       body: JSON.stringify(userData),
     });
@@ -70,7 +70,7 @@ export const fetchCurrentUser = async () => {
     const data = await response.json();
 
     if (!response.ok) {
-      throw new Error(data.message || "Login failed");
+      throw new Error(data.message || "Failed to fetch current user");
     }
 
     return data;
