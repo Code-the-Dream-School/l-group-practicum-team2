@@ -114,11 +114,19 @@ const login = async (req, res) => {
         return res.status(500).json({ error: 'Server error' });
     }
 };
-    const updateProfile = async (req, res, next) => {
+const updateProfile = async (req, res, next) => {
         try {
-            return res.status(StatusCodes.OK).json({
-                message:' update profile route working'
-            });
+           const { currentPassword } = req.body;
+
+if (!currentPassword) {
+    return next(
+        new BadRequestError('Current password is required')
+    );
+}
+
+return res.status(StatusCodes.OK).json({
+    message: 'current password received'
+});
         } catch (error) {
             return next(
                 new InternalServerError(error.message || 'Server Error')
