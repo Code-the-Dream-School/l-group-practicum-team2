@@ -1,26 +1,24 @@
 const BACKEND_API = import.meta.env.VITE_BACKEND_API;
 
 export const fetchAnimals = async () => {
-    
-    try{
-        const response = await fetch(
-            `${BACKEND_API}/api/animals?status=available`,
-            {
-                method: "GET",
-                headers: {
-                    "Accept": "application/json",
-                },
-            }
-        )
-        
-        const data = await response.json();
+  try {
+    const response = await fetch(
+      `${BACKEND_API}/api/animals?status=available`,
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+        },
+      }
+    );
 
-        if (!response.ok) {
-            throw new Error(data.message || "Failed to fetch animals");
-        }
-        return data
+    const data = await response.json();
 
-    } catch (error) {
-        throw new Error(error.message || "Network error");
+    if (!response.ok) {
+      throw new Error(data.message || "Failed to fetch animals");
     }
-}
+    return data;
+  } catch (error) {
+    throw new Error(error.message || "Network error");
+  }
+};

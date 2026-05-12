@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import AnimalCard from "./AnimalCard";
 import Filters from "./Filters";
 // import { mockAnimals } from "../../constants/animals";
-import  {fetchAnimals}  from "../../services/AnimalService";
+import { fetchAnimals } from "../../services/AnimalService";
 
 function AnimalList() {
   const [animals, setAnimals] = useState([]);
@@ -11,7 +11,6 @@ function AnimalList() {
   const [age, setAge] = useState("");
 
   const filteredAnimals = animals.filter((animal) => {
-    
     return (
       (species === "" || animal.species === species) &&
       (size === "" || animal.size === size) &&
@@ -19,7 +18,7 @@ function AnimalList() {
     );
   });
 
-  useEffect(()=>{
+  useEffect(() => {
     const loadAnimals = async () => {
       try {
         const data = await fetchAnimals();
@@ -31,8 +30,8 @@ function AnimalList() {
     };
 
     loadAnimals();
-  }, [])
-  
+  }, []);
+
   return (
     <main className="app">
       <h1>Animals List</h1>
