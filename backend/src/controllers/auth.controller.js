@@ -190,7 +190,13 @@ const updatedUser = await pool.query(
     RETURNING id, name`,
     [name, updatedPasswordHash, req.user.id]
 );
-
+if (newPassword && !name) {
+    return res.status(StatusCodes.OK).json({
+        data: {
+            message: 'User password updated successfully'
+        }
+    });
+}
     return res.status(StatusCodes.OK).json({
         data: updatedUser.rows[0]
     });
