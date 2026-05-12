@@ -114,7 +114,19 @@ const login = async (req, res) => {
         return res.status(500).json({ error: 'Server error' });
     }
 };
+    const updateProfile = async (req, res, next) => {
+        try {
+            return res.status(StatusCodes.OK).json({
+                message:' update profile route working'
+            });
+        } catch (error) {
+            return next(
+                new InternalServerError(error.message || 'Server Error')
+            );
+        }
+
+};
 
 
 
-module.exports = { register, login };
+module.exports = { register, login, updateProfile };
