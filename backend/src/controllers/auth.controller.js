@@ -116,11 +116,19 @@ const login = async (req, res) => {
 };
 const updateProfile = async (req, res, next) => {
         try {
-           const { currentPassword } = req.body;
+           const { name, newPassword, currentPassword } = req.body;
 
 if (!currentPassword) {
     return next(
         new BadRequestError('Current password is required')
+    );
+}
+
+if (!name && !newPassword) {
+    return next(
+        new BadRequestError(
+            'Please provide a name or new password'
+        )
     );
 }
 const result = await pool.query(
