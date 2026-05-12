@@ -151,9 +151,30 @@ const isMatch = await bcrypt.compare(
 
 if (!isMatch) {
     return next(
-        new UnauthenticatedError('Invalid creditials')
+        new UnauthenticatedError('Invalid credentials')
     );
 }
+
+if (newPassword) {
+    if (newPassword.length < 6) {
+        return next(
+            new BadRequestError(
+                'Password must be at least 6 characters long'
+            )
+        );
+    }
+
+     const passwordRegex = /^[a-zA-Z0-9]+$/;
+
+    if (!passwordRegex.test(newPassword)) {
+        return next(
+            new BadRequestError(
+                'Password must be alphanumeric'
+            )
+        );
+    }
+}
+
 
 return res.status(StatusCodes.OK).json({
     message: 'current password received'
