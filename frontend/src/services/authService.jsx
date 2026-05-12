@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://localhost:8080/api/auth";
+const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/api/auth`;
 
 export async function registerUser(userData) {
   const response = await fetch(`${API_BASE_URL}/register`, {
@@ -43,7 +43,7 @@ export async function loginUser(userData) {
 export const fetchCurrentUser = async () => {
     
     if (!localStorage.getItem("token")) 
-      throw new Error("No token found");
+      return null;
     
     // await new Promise((resolve)=>setTimeout(resolve, 2000))
     
@@ -51,6 +51,7 @@ export const fetchCurrentUser = async () => {
       method: "GET",
       headers: {
         'Authorization': `Bearer ${localStorage.getItem("token")}`,
+         "Accept": "application/json",
       },
     });
 

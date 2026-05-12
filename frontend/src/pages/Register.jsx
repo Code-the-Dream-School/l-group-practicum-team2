@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../services/authService";
+import { useAuth } from "../context/authContext";
 
 function Register() {
-  const { registerUser, error } = useAuth();
+  const { handleRegister, error } = useAuth();
   const navigate = useNavigate();
 
   const [name, setName] = useState("");
@@ -13,10 +13,10 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const success = await registerUser({ name, email, password });
+    const success = await handleRegister({ name, email, password });
     // redirect after success
     if (success) navigate("/");
-  };
+  }
 
   return (
     <main style={{ padding: "2rem", fontFamily: "sans-serif" }}>
