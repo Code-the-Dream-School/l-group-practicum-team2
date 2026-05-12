@@ -114,6 +114,7 @@ const login = async (req, res) => {
         return res.status(500).json({ error: 'Server error' });
     }
 };
+
 const updateProfile = async (req, res, next) => {
         try {
            const { name, newPassword, currentPassword } = req.body;
@@ -175,10 +176,24 @@ if (newPassword) {
     }
 }
 
+let updatedPasswordHash = user.password_hash;
 
-return res.status(StatusCodes.OK).json({
-    message: 'current password received'
-});
+if (newPassword) {
+    updatedPasswordHash = await bcrypt.hash(newPassword, 10);
+}
+
+const updatedUser = await pool.query(
+    `UPDATE users
+    SET name = COALESCE($1, name),
+        password_hash = $2
+    WHERE id = $3
+    RETURNING id, name`,
+    [name, updatedPasswordHash, req.user.id]
+);
+
+    return res.status(StatusCodes.OK).json({
+        data: updatedUser.rows[0]
+    });
         } catch (error) {
             return next(
                 new InternalServerError(error.message || 'Server Error')
