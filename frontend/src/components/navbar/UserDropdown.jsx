@@ -30,8 +30,6 @@ const UserDropdown = ({ user, onLogout }) => {
     </DropdownButton>
   );
 };
-<<<<<<< HEAD
-=======
 UserDropdown.propTypes = {
   user: PropTypes.shape({
     userId: PropTypes.string.isRequired,
@@ -41,5 +39,4 @@ UserDropdown.propTypes = {
 
   onLogout: PropTypes.func.isRequired,
 };
->>>>>>> origin/main
 export default UserDropdown;
