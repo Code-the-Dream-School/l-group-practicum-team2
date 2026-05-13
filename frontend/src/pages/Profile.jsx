@@ -17,7 +17,27 @@ function Profile() {
         setSuccess("");
         setLoading(true);
 
-        setLoading(false);
+        try {
+  const token = localStorage.getItem("token");
+
+  await updateUserCredentials(
+    {
+      name,
+      currentPassword,
+    },
+    token
+  );
+
+  setSuccess("Profile updated successfully");
+} catch (err) {
+  if (err instanceof Error) {
+    setError(err.message);
+  } else {
+    setError("Something went wrong");
+  }
+} finally {
+  setLoading(false);
+}
     };
 
   return (
