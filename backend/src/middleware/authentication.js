@@ -20,7 +20,7 @@ const auth = async (req, res, next) => {
   try {
     const payload = jwt.verify(token, process.env.JWT_SECRET);
 
-    // FIX: standartiziruem user object
+    // FIX: standartize user object
     req.user = {
       id: payload.userId,
       name: payload.name,
