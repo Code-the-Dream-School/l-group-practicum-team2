@@ -1,13 +1,17 @@
 import { Route, Routes } from "react-router-dom";
-import AnimalList from "./pages/animals/AnimalList";
-import AnimalDetail from "./pages/animals/AnimalDetail";
-import NotFound from "./pages/NotFound";
 import "./App.css";
+import AnimalDetail from "./pages/AnimalDetail";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import NotFound from "./pages/NotFound";
+import Register from "./pages/Register";
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<AnimalList />} />
+      <Route path="/" element={<Home />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
       <Route path="/animals/:id" element={<AnimalDetail />} />
       <Route path="*" element={<NotFound />} />
     </Routes>

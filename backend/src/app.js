@@ -9,6 +9,8 @@ const helloRoutes = require('./routes/hello.routes');
 const authRoutes = require('./routes/auth.routes');
 const inquiryRoutes = require('./routes/inquiries.routes');
 
+
+const animalsRoutes = require('./routes/animals.routes');
 const shelterInfoRoutes = require('./routes/shelters.routes');
 const app = express();
 
@@ -20,7 +22,7 @@ const app = express();
 app.use(helmet());
 app.use(cors());
 app.use(express.json());
-app.use(morgan('dev'));
+app.use(morgan("dev"));
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -34,13 +36,11 @@ const errorHandlerMiddleware = require('./middleware/error-handler')
 // Routes
 app.use('/api/hello', helloRoutes);
 app.use('/api/auth', authRoutes);
-app.use('/api/inquiries', inquiryRoutes);
-
 app.use('/api/shelters', shelterInfoRoutes);
 
 // Root route
-app.get('/', (req, res) => {
-  res.send('Backend API is running');
+app.get("/", (req, res) => {
+  res.send("Backend API is running");
 });
 
 
