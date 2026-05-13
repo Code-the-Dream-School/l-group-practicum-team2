@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import AnimalCard from "./AnimalCard";
 import Filters from "./Filters";
-// import { mockAnimals } from "../../constants/animals";
 import { fetchAnimals } from "../../services/AnimalService";
 
 function AnimalList() {
@@ -22,7 +21,6 @@ function AnimalList() {
     const loadAnimals = async () => {
       try {
         const data = await fetchAnimals();
-        // console.log(data)
         setAnimals(data.animals);
       } catch (error) {
         console.error(error.message);
