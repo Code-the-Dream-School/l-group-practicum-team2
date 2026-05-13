@@ -1,10 +1,14 @@
 import { useState, useEffect } from "react";
 import AnimalCard from "./AnimalCard";
 import Filters from "./Filters";
+import { mockAnimals } from "../../constants/animals";
+// for testing purpose. remove before merge
 import { fetchAnimals } from "../../services/AnimalService";
 
 function AnimalList() {
-  const [animals, setAnimals] = useState([]);
+  
+
+  const [animals] = useState(mockAnimals);
   const [species, setSpecies] = useState("");
   const [size, setSize] = useState("");
   const [age, setAge] = useState("");
@@ -17,11 +21,12 @@ function AnimalList() {
     );
   });
 
+  // for testing purpose. remove before merge
   useEffect(() => {
     const loadAnimals = async () => {
       try {
         const data = await fetchAnimals();
-        setAnimals(data.animals);
+        console.log(data.animals);
       } catch (error) {
         console.error(error.message);
       }
