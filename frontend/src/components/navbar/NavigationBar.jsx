@@ -8,9 +8,10 @@ import { useAuth } from "../../context/AuthContext";
 const NavigationBar = () => {
   const {
     user,
-    // logoutUser
+    logoutUser
   } = useAuth();
-  const logoutUser = () => console.log("logout"); // temporary
+
+  const { user, logoutUser } = useAuth();
 
   return (
     <Navbar bg="light" variant="light">

@@ -7,6 +7,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { AuthProvider } from "./context/AuthContext.jsx";
 import { SpecialNeedProvider } from "./services/SpecialNeedContext";
 import { AnimalProvider } from "./contexts/AnimalContext.jsx";
+import { AuthProvider } from "./context/AuthContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
