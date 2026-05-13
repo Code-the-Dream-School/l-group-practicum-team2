@@ -7,6 +7,7 @@ import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 import Register from "./pages/Register";
 import NavigationBar from "./components/navbar/NavigationBar";
+import Profile from "./pages/Profile";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/animals/:id" element={<AnimalDetail />} />
           <Route path="*" element={<NotFound />} />
+          <Route path="/profile"element={<Profile />} />
         </Routes>
       </div>
     </>
