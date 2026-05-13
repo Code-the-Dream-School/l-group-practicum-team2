@@ -75,7 +75,8 @@ function InquiryForm({ animalId, onSuccess, onCancel }) {
       />
 
       <small id="inquiry-help" className="inquiry-form-hint">
-        Minimum {MIN_MESSAGE_LENGTH} characters. {message.trim().length}/{MIN_MESSAGE_LENGTH}+
+        Minimum {MIN_MESSAGE_LENGTH} characters. {message.trim().length}/
+        {MIN_MESSAGE_LENGTH}+
       </small>
 
       {validationError && (
@@ -102,11 +103,7 @@ function InquiryForm({ animalId, onSuccess, onCancel }) {
           </button>
         )}
 
-        <button
-          type="submit"
-          className="btn btn-primary"
-          disabled={submitting}
-        >
+        <button type="submit" className="btn btn-primary" disabled={submitting}>
           {submitting ? "Sending..." : "Send Inquiry"}
         </button>
       </div>
