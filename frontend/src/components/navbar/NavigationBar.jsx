@@ -14,9 +14,10 @@ import logo from "../../assets/PawMatch.png";
 import { useAuth } from "../../context/AuthContext";
 
 const NavigationBar = () => {
-  const { user, 
-    // logoutUser 
-    } = useAuth();
+  const {
+    user,
+    // logoutUser
+  } = useAuth();
   const logoutUser = () => console.log("logout"); // temporary
 
   return (
