@@ -1,6 +1,9 @@
 import { Card, Form, Button } from "react-bootstrap";
+import { useState } from "react";
+
 
 function Profile() {
+    const [name, setName] = useState("");
   return (
     <main style={{ maxWidth: "800px", margin: "0 auto", padding: "2rem" }}>
       <h1 className="mb-2">Account Settings</h1>
@@ -14,7 +17,12 @@ function Profile() {
         <Form>
           <Form.Group className="mb-3">
             <Form.Label>Name</Form.Label>
-            <Form.Control type="text" placeholder="Enter your name" />
+            <Form.Control 
+            type="text"
+             placeholder="Enter your name"
+             value={name}
+             onChange={(e) => setName(e.target.value)}
+              />
           </Form.Group>
 
           <Button variant="primary">Save Profile Changes</Button>
