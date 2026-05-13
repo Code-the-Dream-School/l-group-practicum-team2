@@ -4,7 +4,6 @@ import { mockAnimals } from "../constants/animals";
 import { formatLabel } from "../utils/formatLabel";
 import NotFound from "./NotFound";
 
-
 function normalizeAnimal(data) {
   if (!data) return null;
 
@@ -66,6 +65,8 @@ export default function AnimalDetail() {
           setAnimal(normalizeAnimal(data));
         }
       } catch (error) {
+        console.error("Failed to fetch animal:", error);
+
         const fallbackAnimal = mockAnimals.find(
           (item) => String(item.id) === String(id)
         );

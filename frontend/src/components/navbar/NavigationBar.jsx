@@ -2,8 +2,6 @@ import {
   Navbar,
   Nav,
   Container,
-  Row,
-  Col,
   Button,
   Image,
 } from "react-bootstrap";
