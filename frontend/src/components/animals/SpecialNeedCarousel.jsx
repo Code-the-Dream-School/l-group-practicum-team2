@@ -1,11 +1,10 @@
-import { } from "...";
 import { useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import Carousel from "react-bootstrap/Carousel";
 import Toast from "react-bootstrap/Toast";
 
 import { HeartFill } from "react-bootstrap-icons";
-import { } from "react-router-dom";
+import {} from "react-router-dom";
 import { useSpecialNeeds } from "../../services/SpecialNeedContext";
 import AnimalCard from "./AnimalCard";
 const SpecialNeedCarousel = () => {

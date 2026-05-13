@@ -10,4 +10,3 @@ DropdownLogout.propTypes = {
 };
 
 export default DropdownLogout;
-
