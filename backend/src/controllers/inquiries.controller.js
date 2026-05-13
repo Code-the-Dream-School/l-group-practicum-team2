@@ -1,11 +1,7 @@
 const pool = require('../config/db.postgres');
-const {
-  BadRequestError,
-  NotFoundError,
-  InternalServerError,
-} = require('../errors');
+const { BadRequestError, NotFoundError } = require('../errors');
 
-const createInquiry = async (req, res) => {
+const createInquiry = async (req, res, next) => {
   try {
     const { animal_id, message } = req.body;
     const user_id = req.user.id; // FIXED
@@ -46,11 +42,11 @@ const createInquiry = async (req, res) => {
     });
   } catch (error) {
     console.error('Create inquiry error:', error);
-    throw new InternalServerError('Server error');
+    next(error); // using next error instead
   }
 };
 
-const getMyInquiries = async (req, res) => {
+const getMyInquiries = async (req, res, next) => {
   try {
     const user_id = req.user.id;
 
@@ -84,7 +80,7 @@ const getMyInquiries = async (req, res) => {
     return res.status(200).json(inquiries);
   } catch (error) {
     console.error('Get inquiries error:', error);
-    throw new InternalServerError('Server error');
+    next(error);
   }
 };
 
