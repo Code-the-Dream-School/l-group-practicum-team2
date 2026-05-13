@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 function Filters({
   species,
   size,
@@ -31,5 +33,14 @@ function Filters({
     </div>
   );
 }
+
+Filters.propTypes = {
+  species: PropTypes.string.isRequired,
+  size: PropTypes.string.isRequired,
+  age: PropTypes.string.isRequired,
+  onSpeciesChange: PropTypes.func.isRequired,
+  onSizeChange: PropTypes.func.isRequired,
+  onAgeChange: PropTypes.func.isRequired,
+};
 
 export default Filters;
