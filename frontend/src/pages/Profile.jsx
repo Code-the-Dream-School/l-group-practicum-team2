@@ -15,6 +15,9 @@ function Profile() {
 
         setError("");
         setSuccess("");
+        setLoading(true);
+
+        setLoading(false);
     };
 
   return (
@@ -37,7 +40,9 @@ function Profile() {
               />
           </Form.Group>
 
-          <Button variant="primary">Save Profile Changes</Button>
+          <Button variant="primary" type="submit" disabled={loading}>
+             {loading ? "Saving..." : "Save Profile Changes"}
+        </Button>
         </Form>
       </Card>
 
