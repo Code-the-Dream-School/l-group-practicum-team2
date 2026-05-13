@@ -1,5 +1,6 @@
 import { Card, Form, Button } from "react-bootstrap";
 import { useState } from "react";
+import { updateUserCredentials } from "../services/authService";
 
 
 function Profile() {
@@ -9,7 +10,7 @@ function Profile() {
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState("");
     const [error, setError] = useState("");
-    
+
   return (
       <main style={{ maxWidth: "800px", margin: "0 auto", padding: "2rem" }}>
       <h1 className="mb-2">Account Settings</h1>
