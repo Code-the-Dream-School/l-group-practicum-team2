@@ -12,7 +12,10 @@ function Profile() {
     const [error, setError] = useState("");
     const handleProfileUpdate = async (e) => {
         e.preventDefault();
-    }
+
+        setError("");
+        setSuccess("");
+    };
 
   return (
       <main style={{ maxWidth: "800px", margin: "0 auto", padding: "2rem" }}>
@@ -23,7 +26,6 @@ function Profile() {
 
       <Card className="p-4 mb-4 shadow-sm">
         <h3 className="mb-3">Profile Information</h3>
-
         <Form onSubmit={handleProfileUpdate}>
           <Form.Group className="mb-3">
             <Form.Label>Name</Form.Label>
