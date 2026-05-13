@@ -11,16 +11,10 @@ import { Link } from "react-router-dom";
 import { HeartFill, PersonFill } from "react-bootstrap-icons";
 import UserDropdown from "./UserDropdown";
 import logo from "../../assets/PawMatch.png";
+import { useAuth } from "../../context/AuthContext";
 
 const NavigationBar = () => {
-  // const { user, logoutUser } = useAuth();
-  const user = {
-    userId: "5a175e5f-4d7e-4eb9-adcf-9f9fbee32a6e",
-    email: "nathen.harber@yahoo.com",
-    name: "Judah",
-  };
-  // const user = null;
-  const logoutUser = () => console.log("logout"); // temporary
+  const { user, logoutUser } = useAuth();
 
   return (
     <Navbar bg="light" variant="light">
