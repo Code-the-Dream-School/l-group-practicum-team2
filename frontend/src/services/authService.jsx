@@ -2,11 +2,11 @@ const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/api/auth`;
 
 export async function registerUser(userData) {
   try {
-      const response = await fetch(`${API_BASE_URL}/register`, {
+    const response = await fetch(`${API_BASE_URL}/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Accept": "application/json",
+        Accept: "application/json",
       },
       body: JSON.stringify(userData),
     });
@@ -19,11 +19,9 @@ export async function registerUser(userData) {
     }
 
     return data;
-  } catch(error){
+  } catch (error) {
     console.error("Network error:", error);
-    throw new Error(
-      error.message || "Unable to connect to the server"
-    );
+    throw new Error(error.message || "Unable to connect to the server");
   }
 }
 
@@ -33,7 +31,7 @@ export async function loginUser(userData) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Accept": "application/json",
+        Accept: "application/json",
       },
       body: JSON.stringify(userData),
     });
@@ -47,11 +45,8 @@ export async function loginUser(userData) {
     return data;
   } catch (error) {
     console.error("Network error:", error);
-    throw new Error(
-      error.message || "Unable to connect to the server"
-    );
+    throw new Error(error.message || "Unable to connect to the server");
   }
-  
 }
 
 export const fetchCurrentUser = async () => {
@@ -62,8 +57,8 @@ export const fetchCurrentUser = async () => {
     const response = await fetch(`${API_BASE_URL}/me`, {
       method: "GET",
       headers: {
-        'Authorization': `Bearer ${localStorage.getItem("token")}`,
-        'Accept': "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        Accept: "application/json",
       },
     });
 
@@ -76,9 +71,6 @@ export const fetchCurrentUser = async () => {
     return data;
   } catch (error) {
     console.error("Network error:", error);
-    throw new Error(
-      error.message || "Unable to connect to the server"
-    );
+    throw new Error(error.message || "Unable to connect to the server");
   }
-  
 };

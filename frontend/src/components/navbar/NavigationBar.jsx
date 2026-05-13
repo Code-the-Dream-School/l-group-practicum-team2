@@ -14,7 +14,7 @@ import logo from "../../assets/PawMatch.png";
 import { useAuth } from "../../context/AuthContext";
 
 const NavigationBar = () => {
-    // const { user, logoutUser } = useAuth();
+  // const { user, logoutUser } = useAuth();
   const user = {
     userId: "5a175e5f-4d7e-4eb9-adcf-9f9fbee32a6e",
     email: "nathen.harber@yahoo.com",
