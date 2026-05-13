@@ -1,9 +1,9 @@
 import AnimalCard from "../../components/animals/AnimalCard";
 import { mockAnimals } from "../../constants/animals";
-import { getFavorites } from "../../services/favorites";
+import { fetchFavorites } from "../../services/favorites";
 
 function FavoritesPage() {
-  const favoriteIds = getFavorites();
+  const favoriteIds = fetchFavorites();
   const favoriteAnimals = mockAnimals.filter((animal) =>
     favoriteIds.includes(String(animal.id))
   );
