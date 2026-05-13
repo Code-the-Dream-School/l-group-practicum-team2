@@ -4,8 +4,14 @@ import { useState } from "react";
 
 function Profile() {
     const [name, setName] = useState("");
+    const [currentPassword, setCurrentPassword] = useState("");
+    const [newPassword, setNewPassword] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [success, setSuccess] = useState("");
+    const [error, setError] = useState("");
+    
   return (
-    <main style={{ maxWidth: "800px", margin: "0 auto", padding: "2rem" }}>
+      <main style={{ maxWidth: "800px", margin: "0 auto", padding: "2rem" }}>
       <h1 className="mb-2">Account Settings</h1>
       <p className="text-muted mb-4">
         Manage your account information and password settings.
@@ -38,6 +44,8 @@ function Profile() {
             <Form.Control
               type="password"
               placeholder="Enter current password"
+              value={currentPassword}
+              onChange={(e) => setCurrentPassword(e.target.value)}
             />
           </Form.Group>
 
@@ -46,6 +54,8 @@ function Profile() {
             <Form.Control
               type="password"
               placeholder="Enter new password"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
             />
           </Form.Group>
 
