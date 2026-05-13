@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { StatusCodes } = require('http-status-codes');
 const pool = require('../config/db.postgres');
 
 const register = async (req, res) => {
@@ -103,4 +104,12 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = { register, login };
+const getCurrentUser = (req, res) => {
+    const { id, email, name } = req.user;
+
+    return res.status(StatusCodes.OK).json({
+        user: { userId: id, email, name }
+    });
+};
+
+module.exports = { register, login, getCurrentUser };

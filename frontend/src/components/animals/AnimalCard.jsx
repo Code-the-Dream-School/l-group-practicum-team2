@@ -1,8 +1,9 @@
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { formatLabel } from "../../utils/formatLabel";
+import Heart from "./Heart";
 
-function AnimalCard({ animal }) {
+function AnimalCard({ animal, isFavorite = false }) {
   return (
     <Link to={`/animals/${animal.id}`} className="animal-card-link">
       <article className="animal-card">
@@ -10,6 +11,8 @@ function AnimalCard({ animal }) {
           {animal.special_needs && (
             <span className="special-needs-badge">Special Needs</span>
           )}
+
+          <Heart animalId={animal.id} initialFavorite={isFavorite} />
 
           <img
             src={animal.photo_url}
@@ -21,6 +24,7 @@ function AnimalCard({ animal }) {
         <div className="animal-card-body">
           <div className="animal-title-row">
             <h3>{animal.name}</h3>
+
             <span className="age-pill">{animal.age_years} yrs</span>
           </div>
 

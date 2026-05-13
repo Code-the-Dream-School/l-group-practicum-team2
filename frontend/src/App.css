@@ -18,10 +18,12 @@
   border-radius: 14px;
   overflow: hidden;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+  cursor: pointer;
 }
 
 .animal-image-wrap {
   position: relative;
+  overflow: hidden;
 }
 
 .animal-card-image {
@@ -31,17 +33,42 @@
   display: block;
 }
 
-.favorite-btn {
+.favorite-button {
   position: absolute;
   top: 14px;
   right: 14px;
+  z-index: 3;
   border: none;
   background: white;
-  border-radius: 999px;
+  border-radius: 50%;
   width: 36px;
   height: 36px;
-  font-size: 22px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.favorite-button span {
+  font-size: 22px;
+  line-height: 1;
+  color: #9ca3af;
+  transition:
+    transform 0.15s ease,
+    color 0.15s ease;
+}
+
+.favorite-button:hover span {
+  transform: scale(1.08);
+}
+
+.favorite-button:active span {
+  transform: scale(0.96);
+}
+
+.favorite-button.favorited span {
+  color: #ef233c;
 }
 
 .animal-card-body {
@@ -91,12 +118,6 @@
   font-size: 13px;
 }
 
-.special-needs {
-  margin-top: 12px;
-  color: #dc2626;
-  font-weight: bold;
-}
-
 .special-needs-badge {
   position: absolute;
   top: 14px;
@@ -116,15 +137,12 @@
   display: block;
 }
 
-.animal-card {
-  cursor: pointer;
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
+.animal-card-image {
+  transition: transform 0.25s ease;
 }
 
-.animal-card:hover {
-  transform: translateY(-4px);
+.animal-card:hover .animal-card-image {
+  transform: scale(1.04);
 }
 
 .detail-page {
