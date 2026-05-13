@@ -5,7 +5,7 @@ import "./index.css";
 import App from "./App.jsx";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { SpecialNeedProvider } from "./services/SpecialNeedContext";
-import { AnimalProvider } from "./services/animalService.jsx";
+import { AnimalProvider } from "./contexts/AnimalContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
