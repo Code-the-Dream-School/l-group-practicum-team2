@@ -7,7 +7,7 @@ export const fetchAnimals = async () => {
       {
         method: "GET",
         headers: {
-          "Accept": "application/json",
+          Accept: "application/json",
         },
       }
     );

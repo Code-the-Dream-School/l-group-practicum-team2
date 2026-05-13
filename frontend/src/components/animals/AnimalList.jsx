@@ -6,8 +6,6 @@ import { mockAnimals } from "../../constants/animals";
 import { fetchAnimals } from "../../services/AnimalService";
 
 function AnimalList() {
-  
-
   const [animals] = useState(mockAnimals);
   const [species, setSpecies] = useState("");
   const [size, setSize] = useState("");
