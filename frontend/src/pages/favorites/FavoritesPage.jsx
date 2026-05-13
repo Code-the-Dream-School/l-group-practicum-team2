@@ -13,7 +13,7 @@ function FavoritesPage() {
       <h1>Favorites</h1>
 
       {favoriteAnimals.length === 0 ? (
-        <p>{`You don't have any favorites yet`}</p>
+        <p>{`You don't have favorites`}</p>
       ) : (
         <div className="animals-grid">
           {favoriteAnimals.map((animal) => (
