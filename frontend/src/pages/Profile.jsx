@@ -10,6 +10,9 @@ function Profile() {
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState("");
     const [error, setError] = useState("");
+    const handleProfileUpdate = async (e) => {
+        e.preventDefault();
+    }
 
   return (
       <main style={{ maxWidth: "800px", margin: "0 auto", padding: "2rem" }}>
@@ -21,7 +24,7 @@ function Profile() {
       <Card className="p-4 mb-4 shadow-sm">
         <h3 className="mb-3">Profile Information</h3>
 
-        <Form>
+        <Form onSubmit={handleProfileUpdate}>
           <Form.Group className="mb-3">
             <Form.Label>Name</Form.Label>
             <Form.Control 
