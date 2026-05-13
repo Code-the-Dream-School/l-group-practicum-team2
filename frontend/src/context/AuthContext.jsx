@@ -4,26 +4,11 @@ import {
   loginUser,
   registerUser,
   fetchCurrentUser,
-    logoutUser,
 } from "../services/authService";
-
-
-
-
 
 export const AuthProvider = ({ children }) => {
   const AuthContext = createContext();
-  const [user, setUser] = useState(
-     // for testing only — remove when backend auth is ready
-    // {
-    //     id: "e070302d-2b83-44b4-b728-aa0b597fdfeb",
-    //     name: "John",
-    //     email: "user1@bb.com",
-    // }
-
-    // production version:
-    // null
-  );
+  const [user, setUser] = useState(null);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -83,33 +68,29 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-
   const logoutUser = async (withLoading = true) => {
-    if (withLoading) 
-        setLoading(true);
+    if (withLoading) setLoading(true);
 
     try {
-        setUser(null);
-        // uncomment when FavoriteContext and InquiryCOntext is ready
-        // setFavorites([]); 
-        // setInquiries([]);     
-        localStorage.removeItem("token");
-
+      setUser(null);
+      // uncomment when FavoriteContext and InquiryCOntext is ready
+      // setFavorites([]);
+      // setInquiries([]);
+      localStorage.removeItem("token");
     } catch (error) {
-        console.error(error);
+      console.error(error);
     } finally {
-        if (withLoading) setLoading(false);
+      if (withLoading) setLoading(false);
     }
   };
 
-    useEffect(() => {
-      getCurrentUser();
-    }, []);
+  useEffect(() => {
+    getCurrentUser();
+  }, []);
 
-  useEffect(()=>{
-    console.log("user changed:" ,user)
-  }, [user])
-
+  useEffect(() => {
+    console.log("user changed:", user);
+  }, [user]);
 
   return (
     <AuthContext.Provider
@@ -120,7 +101,7 @@ export const AuthProvider = ({ children }) => {
         handleLogin,
         handleRegister,
         getCurrentUser,
-        logoutUser
+        logoutUser,
       }}
     >
       {children}

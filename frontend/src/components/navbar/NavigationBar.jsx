@@ -6,12 +6,8 @@ import logo from "../../assets/PawMatch.png";
 import { useAuth } from "../../context/AuthContext";
 
 const NavigationBar = () => {
-  const {
-    user,
-    logoutUser
-  } = useAuth();
-
   const { user, logoutUser } = useAuth();
+
 
   return (
     <Navbar bg="light" variant="light">
