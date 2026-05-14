@@ -12,7 +12,7 @@ const authenticateUser = require('../middleware/authentication');
 const {
   validateRegisterInput,
   validateLoginInput,
-} = require('../middleware/input-validation');
+} = require('../validators/input-validation');
 
 router.post('/register', validateRegisterInput, register);
 router.post('/login', validateLoginInput, login);
