@@ -1,6 +1,4 @@
 import { Button, Container, Image, Nav, Navbar } from "react-bootstrap";
-import { Navbar, Nav, Container, Button, Image } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import { HeartFill, PersonFill } from "react-bootstrap-icons";
 import { Link } from "react-router-dom";
 import logo from "../../assets/PawMatch.png";
