@@ -30,7 +30,7 @@ export const AuthProvider = ({ children }) => {
       // setFavorites([]);
       // setInquiries([]);
       localStorage.removeItem("token");
-      navigate('/login')
+      navigate("/login");
     } catch (error) {
       console.error(error);
     } finally {

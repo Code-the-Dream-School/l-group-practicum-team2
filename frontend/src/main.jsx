@@ -8,7 +8,6 @@ import { SpecialNeedProvider } from "./services/SpecialNeedContext";
 import { AuthProvider } from "./context/AuthContext.jsx";
 import { AnimalProvider } from "./contexts/AnimalContext.jsx";
 
-
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>

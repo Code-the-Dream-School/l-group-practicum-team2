@@ -5,7 +5,6 @@ import logo from "../../assets/PawMatch.png";
 import { useAuth } from "../../context/AuthContext";
 import UserDropdown from "./UserDropdown";
 
-
 const NavigationBar = () => {
   const { user, logoutUser } = useAuth();
 
