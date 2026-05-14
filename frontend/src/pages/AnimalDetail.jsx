@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { mockAnimals } from "../constants/animals";
 import { formatLabel } from "../utils/formatLabel";
 import NotFound from "./NotFound";
 import LoadingSpinner from "../components/LoadingSpinner";
 import ErrorMessage from "../components/ErrorMessage";
+import InquiryModal from "../components/inquiries/InquiryModal";
 
 function normalizeAnimal(data) {
   if (!data) return null;
@@ -33,12 +34,23 @@ function normalizeAnimal(data) {
   };
 }
 
+function isUserLoggedIn() {
+  return Boolean(localStorage.getItem("token"));
+}
+
 export default function AnimalDetail() {
   const { id } = useParams();
+  const navigate = useNavigate();
+
   const [animal, setAnimal] = useState(null);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
   const [error, setError] = useState(false);
+
+  // Inquiry state
+  const [showInquiryModal, setShowInquiryModal] = useState(false);
+  const [inquirySent, setInquirySent] = useState(false);
+  const [successMessage, setSuccessMessage] = useState(null);
 
   useEffect(() => {
     let ignore = false;
@@ -69,6 +81,8 @@ export default function AnimalDetail() {
           setAnimal(normalizeAnimal(data));
         }
       } catch (error) {
+        console.error("Failed to fetch animal:", error);
+
         const fallbackAnimal = mockAnimals.find(
           (item) => String(item.id) === String(id)
         );
@@ -96,24 +110,31 @@ export default function AnimalDetail() {
     };
   }, [id]);
 
-  const isAuthenticated = false;
-
   const handleSave = () => {
-    if (!isAuthenticated) {
-      alert("Please log in to save this animal to favorites.");
+    if (!isUserLoggedIn()) {
+      navigate("/login");
       return;
     }
-
     alert("Save action will be connected later.");
   };
 
   const handleInquire = () => {
-    if (!isAuthenticated) {
-      alert("Please log in to send an inquiry.");
+    if (!isUserLoggedIn()) {
+      navigate("/login");
       return;
     }
+    setShowInquiryModal(true);
+  };
 
-    alert("Inquiry modal will be connected later.");
+  const handleInquirySuccess = () => {
+    setShowInquiryModal(false);
+    setInquirySent(true);
+    setSuccessMessage(
+      "Your inquiry has been sent! The shelter will contact you soon."
+    );
+
+    // Auto-hide toast after 5s
+    setTimeout(() => setSuccessMessage(null), 5000);
   };
 
   const handleRetry = () => {
@@ -139,6 +160,16 @@ export default function AnimalDetail() {
 
   return (
     <main className="detail-page">
+      {successMessage && (
+        <div
+          className="inquiry-toast inquiry-toast-success"
+          role="status"
+          aria-live="polite"
+        >
+          {successMessage}
+        </div>
+      )}
+
       <div className="detail-back-link">
         <Link to="/">← Back to animals list</Link>
       </div>
@@ -176,17 +207,14 @@ export default function AnimalDetail() {
               <span className="detail-label">Age</span>
               <strong>{animal.age_years} yrs</strong>
             </div>
-
             <div className="detail-meta-card">
               <span className="detail-label">Size</span>
               <strong>{formatLabel(animal.size)}</strong>
             </div>
-
             <div className="detail-meta-card">
               <span className="detail-label">Species</span>
               <strong>{formatLabel(animal.species)}</strong>
             </div>
-
             <div className="detail-meta-card">
               <span className="detail-label">Breed</span>
               <strong>{animal.breed}</strong>
@@ -244,8 +272,9 @@ export default function AnimalDetail() {
               type="button"
               className="btn btn-primary"
               onClick={handleInquire}
+              disabled={inquirySent}
             >
-              Inquire
+              {inquirySent ? "Inquiry sent ✓" : "I'm Interested"}
             </button>
           </div>
         </div>
@@ -256,6 +285,14 @@ export default function AnimalDetail() {
           handleRetry={handleRetry}
         />
       )}
+
+      <InquiryModal
+        show={showInquiryModal}
+        onHide={() => setShowInquiryModal(false)}
+        animalId={animal.id}
+        animalName={animal.name}
+        onSuccess={handleInquirySuccess}
+      />
     </main>
   );
 }
