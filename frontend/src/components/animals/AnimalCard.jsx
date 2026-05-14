@@ -59,6 +59,7 @@ AnimalCard.propTypes = {
     age_category: PropTypes.string,
     species: PropTypes.string,
   }).isRequired,
+  isFavorite: PropTypes.bool,
 };
 
 export default AnimalCard;
