@@ -101,6 +101,12 @@
 .description {
   color: #374151;
   line-height: 1.4;
+  min-height: calc(1.4em * 3);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .tags {
