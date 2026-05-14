@@ -126,12 +126,12 @@ npm start
 ```
 Create a .env file inside the backend folder:
 ```
-PORT=3000
+PORT=8080
 DATABASE_URL=your_neon_connection_string
 JWT_SECRET=your_secret_key
 ```
 Backend runs on:
-http://localhost:3000
+http://localhost:8080
 
 ### Database Setup (Neon)
 
@@ -163,6 +163,10 @@ npm run db:seed
 cd frontend
 npm install
 npm run dev (vite)
+```
+Create a .env file inside the frontend folder:
+```
+VITE_API_BASE_URL=http://localhost:8080
 ```
 * Make sure backend is running before frontend requests
 
