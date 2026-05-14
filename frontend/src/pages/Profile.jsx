@@ -124,7 +124,13 @@ function Profile() {
             />
           </Form.Group>
 
-          <Button variant="primary">Update Password</Button>
+          <Button variant="primary" type="submit" disabled={loading}>
+             {loading ? "Updating..." : "Update Password"}
+        </Button>
+
+            {success && <p className="text-success mt-3">{success}</p>}
+
+            {error && <p className="text-danger mt-3">{error}</p>}
         </Form>
       </Card>
     </main>
