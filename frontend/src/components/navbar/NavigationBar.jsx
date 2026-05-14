@@ -1,17 +1,10 @@
-import {
-  Navbar,
-  Nav,
-  Container,
-  Row,
-  Col,
-  Button,
-  Image,
-} from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Button, Container, Image, Nav, Navbar } from "react-bootstrap";
 import { HeartFill, PersonFill } from "react-bootstrap-icons";
-import UserDropdown from "./UserDropdown";
+import { Link } from "react-router-dom";
 import logo from "../../assets/PawMatch.png";
 import { useAuth } from "../../context/AuthContext";
+import UserDropdown from "./UserDropdown";
+
 
 const NavigationBar = () => {
   const { user, logoutUser } = useAuth();

@@ -6,14 +6,18 @@ import App from "./App.jsx";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { SpecialNeedProvider } from "./services/SpecialNeedContext";
 import { AuthProvider } from "./context/AuthContext.jsx";
+import { AnimalProvider } from "./contexts/AnimalContext.jsx";
+
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
       <AuthProvider>
-        <SpecialNeedProvider>
-          <App />
-        </SpecialNeedProvider>
+        <AnimalProvider>
+          <SpecialNeedProvider>
+            <App />
+          </SpecialNeedProvider>
+        </AnimalProvider>
       </AuthProvider>
     </BrowserRouter>
   </StrictMode>
