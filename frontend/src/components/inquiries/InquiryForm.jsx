@@ -1,0 +1,121 @@
+import { useState } from "react";
+import PropTypes from "prop-types";
+import { createInquiry } from "../../services/inquiries";
+
+const MIN_MESSAGE_LENGTH = 10;
+
+function InquiryForm({ animalId, onSuccess, onCancel }) {
+  const [message, setMessage] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState(null);
+  const [validationError, setValidationError] = useState(null);
+
+  const validate = (value) => {
+    const trimmed = value.trim();
+    if (trimmed.length === 0) {
+      return "Message is required.";
+    }
+    if (trimmed.length < MIN_MESSAGE_LENGTH) {
+      return `Message must be at least ${MIN_MESSAGE_LENGTH} characters.`;
+    }
+    return null;
+  };
+
+  const handleChange = (e) => {
+    setMessage(e.target.value);
+    if (validationError) {
+      setValidationError(validate(e.target.value));
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const validationMessage = validate(message);
+    if (validationMessage) {
+      setValidationError(validationMessage);
+      return;
+    }
+
+    setSubmitting(true);
+    setError(null);
+
+    try {
+      const result = await createInquiry({
+        animal_id: animalId,
+        message: message.trim(),
+      });
+      onSuccess(result.data);
+    } catch (err) {
+      console.error("Failed to send inquiry:", err);
+      setError(err.message || "Something went wrong. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  return (
+    <form className="inquiry-form" onSubmit={handleSubmit} noValidate>
+      <label htmlFor="inquiry-message" className="inquiry-form-label">
+        Your message to the shelter
+      </label>
+
+      <textarea
+        id="inquiry-message"
+        className="inquiry-form-textarea"
+        value={message}
+        onChange={handleChange}
+        placeholder="Tell the shelter why you're interested and a bit about your home..."
+        rows={5}
+        minLength={MIN_MESSAGE_LENGTH}
+        required
+        disabled={submitting}
+        aria-invalid={Boolean(validationError)}
+        aria-describedby="inquiry-help"
+      />
+
+      <small id="inquiry-help" className="inquiry-form-hint">
+        Minimum {MIN_MESSAGE_LENGTH} characters. {message.trim().length}/
+        {MIN_MESSAGE_LENGTH}+
+      </small>
+
+      {validationError && (
+        <p className="inquiry-form-error" role="alert">
+          {validationError}
+        </p>
+      )}
+
+      {error && (
+        <p className="inquiry-form-error" role="alert">
+          {error}
+        </p>
+      )}
+
+      <div className="inquiry-form-actions">
+        {onCancel && (
+          <button
+            type="button"
+            className="btn btn-secondary"
+            onClick={onCancel}
+            disabled={submitting}
+          >
+            Cancel
+          </button>
+        )}
+
+        <button type="submit" className="btn btn-primary" disabled={submitting}>
+          {submitting ? "Sending..." : "Send Inquiry"}
+        </button>
+      </div>
+    </form>
+  );
+}
+
+InquiryForm.propTypes = {
+  animalId: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    .isRequired,
+  onSuccess: PropTypes.func.isRequired,
+  onCancel: PropTypes.func,
+};
+
+export default InquiryForm;

@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AnimalCard from "./AnimalCard";
 import Filters from "./Filters";
 import { mockAnimals } from "../../constants/animals";
+import { fetchAnimals } from "../../services/AnimalService";
 
 function AnimalList() {
   const [animals] = useState(mockAnimals);
@@ -16,6 +17,18 @@ function AnimalList() {
       (age === "" || animal.age_category === age)
     );
   });
+
+  useEffect(() => {
+    const loadAnimals = async () => {
+      try {
+        const data = await fetchAnimals();
+      } catch (error) {
+        console.error(error.message);
+      }
+    };
+
+    loadAnimals();
+  }, []);
 
   return (
     <main className="app">
