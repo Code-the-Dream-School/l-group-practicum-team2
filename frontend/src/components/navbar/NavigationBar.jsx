@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { HeartFill, PersonFill } from "react-bootstrap-icons";
 import UserDropdown from "./UserDropdown";
 import logo from "../../assets/PawMatch.png";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../contexts/AuthContext";
 
 const NavigationBar = () => {
   const {
