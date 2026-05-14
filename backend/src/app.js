@@ -23,9 +23,14 @@ const favoritesRoutes = require('./routes/favorites.routes');
 // Security & best‑practice middleware
 app.use(helmet());
 app.use(cors());
-app.use(express.json());
-app.use(morgan("dev"));
 
+app.use(express.json());
+
+if (process.env.NODE_ENV !== 'production') {
+  app.use(morgan('dev'));
+} else {
+  app.use(morgan('combined'));
+}
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
