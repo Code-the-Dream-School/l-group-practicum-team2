@@ -40,6 +40,38 @@ function Profile() {
 }
     };
 
+    const handlePasswordUpdate = async (e) => {
+  e.preventDefault();
+
+  setError("");
+  setSuccess("");
+  setLoading(true);
+
+  try {
+    const token = localStorage.getItem("token");
+
+    await updateUserCredentials(
+      {
+        newPassword,
+        currentPassword,
+      },
+      token
+    );
+
+    setSuccess("Password updated successfully");
+    setCurrentPassword("");
+    setNewPassword("");
+  } catch (err) {
+    if (err instanceof Error) {
+      setError(err.message);
+    } else {
+      setError("Something went wrong");
+    }
+  } finally {
+    setLoading(false);
+  }
+};
+
   return (
       <main style={{ maxWidth: "800px", margin: "0 auto", padding: "2rem" }}>
       <h1 className="mb-2">Account Settings</h1>
@@ -71,8 +103,7 @@ function Profile() {
 
       <Card className="p-4 shadow-sm">
         <h3 className="mb-3">Password & Security</h3>
-
-        <Form>
+        <Form onSubmit={handlePasswordUpdate}>
           <Form.Group className="mb-3">
             <Form.Label>Current Password</Form.Label>
             <Form.Control
