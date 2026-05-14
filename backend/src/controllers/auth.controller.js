@@ -83,25 +83,10 @@ const login = async (req, res) => {
       [email]
     );
 
-<<<<<<< feature/IGT-84-auth-fetch-current-user-context
-        return res.status(201).json({
-            token,
-            user: { 
-                    id: user.id,
-                    name: user.name,
-                    email: user.email, 
-                }
-        });
-
-    } catch (error) {
-        console.error('Register error:', error);
-        return res.status(500).json({ error: 'Server error' });
-=======
     const user = result.rows[0];
 
     if (!user) {
       return res.status(401).json({ error: 'Invalid credentials' });
->>>>>>> main
     }
 
     const isMatch = await bcrypt.compare(password, user.password_hash);
@@ -220,27 +205,6 @@ if (newPassword && !name) {
             );
         }
 
-<<<<<<< feature/IGT-84-auth-fetch-current-user-context
-        const token = jwt.sign(
-            { userId: user.id, name: user.name },
-            process.env.JWT_SECRET,
-            { expiresIn: '1d' }
-        );
-
-        return res.status(200).json({
-            token,
-            user: { id: user.id,
-                    name: user.name,
-                    email: user.email, 
-                }
-        });
-
-    } catch (error) {
-        console.error('Login error:', error);
-        return res.status(500).json({ error: 'Server error' });
-    }
-=======
->>>>>>> main
 };
 
 const getCurrentUser = (req, res) => {
