@@ -12,6 +12,7 @@ import AnimalCard from "./AnimalCard";
 import { HeartFill } from "react-bootstrap-icons";
 import {} from "react-router-dom";
 import { useSpecialNeeds } from "../../services/SpecialNeedContext";
+
 import AnimalCard from "./AnimalCard";
 const SpecialNeedCarousel = () => {
   const { specialNeeds } = useSpecialNeeds();
