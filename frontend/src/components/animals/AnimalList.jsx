@@ -18,7 +18,6 @@ function AnimalList() {
     );
   });
 
-
   useEffect(() => {
     const loadAnimals = async () => {
       try {
