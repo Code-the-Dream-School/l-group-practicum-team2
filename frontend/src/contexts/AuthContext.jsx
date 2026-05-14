@@ -9,7 +9,6 @@ import {
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -84,7 +83,6 @@ export const AuthProvider = ({ children }) => {
       if (withLoading) setLoading(false);
     }
   };
-
 
   useEffect(() => {
     getCurrentUser();
