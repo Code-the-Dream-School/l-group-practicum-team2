@@ -21,7 +21,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/animals/:id" element={<AnimalDetail />} />
           <Route path="*" element={<NotFound />} />
-          <Route path="/profile"element={<Profile />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </div>
     </>
