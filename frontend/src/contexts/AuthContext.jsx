@@ -84,41 +84,6 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const handleLogin = async (userData) => {
-    setLoading(true);
-    try {
-      const data = await loginUser(userData);
-      setUser(data.user);
-      localStorage.setItem("token", data.token);
-      return true;
-    } catch (error) {
-      console.error(error);
-      setError(error.message);
-      return false;
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const getCurrentUser = async () => {
-    setLoading(true);
-
-    try {
-      const data = await fetchCurrentUser();
-      setUser(data.user);
-      setError(null);
-
-      return true;
-    } catch (error) {
-      console.error(error);
-      setError(error.message);
-      setUser(null);
-      localStorage.removeItem("token");
-      return false;
-    } finally {
-      setLoading(false);
-    }
-  };
 
   useEffect(() => {
     getCurrentUser();
