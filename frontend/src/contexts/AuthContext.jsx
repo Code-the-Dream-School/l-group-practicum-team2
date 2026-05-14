@@ -6,8 +6,10 @@ import {
   fetchCurrentUser,
 } from "../services/authService";
 
+const AuthContext = createContext();
+
 export const AuthProvider = ({ children }) => {
-  const AuthContext = createContext();
+  
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -70,17 +72,16 @@ export const AuthProvider = ({ children }) => {
     if (withLoading) setLoading(true);
 
     try {
-      const data = await registerUser(userData);
-
-      setUser(data.user);
-      localStorage.setItem("token", data.token);
-      return true;
+      setUser(null);
+      // uncomment when FavoriteContext and InquiryCOntext is ready
+      // setFavorites([]);
+      // setInquiries([]);
+      localStorage.removeItem("token");
+      navigate("/login");
     } catch (error) {
       console.error(error);
-      setError(error.message);
-      return false;
     } finally {
-      setLoading(false);
+      if (withLoading) setLoading(false);
     }
   };
 
