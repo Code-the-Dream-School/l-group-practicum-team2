@@ -1,5 +1,5 @@
 import Modal from "react-bootstrap/Modal";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 
 export default function ErrorMessage({
@@ -8,6 +8,10 @@ export default function ErrorMessage({
   error = false,
 }) {
   const [show, setShow] = useState(error ? true : false);
+
+  useEffect(() => {
+    setShow(error ? true : false);
+  }, [error]);
 
   const handleClose = () => setShow(false);
 
