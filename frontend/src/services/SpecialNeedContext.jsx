@@ -10,8 +10,8 @@ export const SpecialNeedProvider = ({ children }) => {
   const [error, setError] = useState(false);
 
   const getSpecialNeed = async () => {
+    setError(false);
     setLoading(true);
-
     try {
       // api/animals?special_needs=true&status=available
       const response = await fetch(
