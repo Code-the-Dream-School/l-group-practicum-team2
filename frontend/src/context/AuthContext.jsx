@@ -9,7 +9,6 @@ import {
 export const AuthProvider = ({ children }) => {
   const AuthContext = createContext();
   const [user, setUser] = useState(null);
-
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -19,7 +18,6 @@ export const AuthProvider = ({ children }) => {
     setLoading(true);
     try {
       const data = await registerUser(userData);
-
       setUser(data.user);
       localStorage.setItem("token", data.token);
       return true;
@@ -72,16 +70,53 @@ export const AuthProvider = ({ children }) => {
     if (withLoading) setLoading(true);
 
     try {
-      setUser(null);
-      // uncomment when FavoriteContext and InquiryCOntext is ready
-      // setFavorites([]);
-      // setInquiries([]);
-      localStorage.removeItem("token");
-      navigate("/login");
+      const data = await registerUser(userData);
+
+      setUser(data.user);
+      localStorage.setItem("token", data.token);
+      return true;
     } catch (error) {
       console.error(error);
+      setError(error.message);
+      return false;
     } finally {
-      if (withLoading) setLoading(false);
+      setLoading(false);
+    }
+  };
+
+  const handleLogin = async (userData) => {
+    setLoading(true);
+    try {
+      const data = await loginUser(userData);
+      setUser(data.user);
+      localStorage.setItem("token", data.token);
+      return true;
+    } catch (error) {
+      console.error(error);
+      setError(error.message);
+      return false;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getCurrentUser = async () => {
+    setLoading(true);
+
+    try {
+      const data = await fetchCurrentUser();
+      setUser(data.user);
+      setError(null);
+
+      return true;
+    } catch (error) {
+      console.error(error);
+      setError(error.message);
+      setUser(null);
+      localStorage.removeItem("token");
+      return false;
+    } finally {
+      setLoading(false);
     }
   };
 

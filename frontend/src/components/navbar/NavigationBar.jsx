@@ -1,12 +1,16 @@
-import { Button, Container, Image, Nav, Navbar } from "react-bootstrap";
-import { HeartFill, PersonFill } from "react-bootstrap-icons";
+import { Navbar, Nav, Container, Button, Image } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { HeartFill, PersonFill } from "react-bootstrap-icons";
+import UserDropdown from "./UserDropdown";
 import logo from "../../assets/PawMatch.png";
 import { useAuth } from "../../context/AuthContext";
-import UserDropdown from "./UserDropdown";
 
 const NavigationBar = () => {
-  const { user, logoutUser } = useAuth();
+  const {
+    user,
+    // logoutUser
+  } = useAuth();
+  const logoutUser = () => console.log("logout"); // temporary
 
 
   return (

@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { mockAnimals } from "../constants/animals";
 import { formatLabel } from "../utils/formatLabel";
 import NotFound from "./NotFound";
-import InquiryModal from "../components/inquiries/InquiryModal";
 
 function normalizeAnimal(data) {
   if (!data) return null;
@@ -32,22 +31,11 @@ function normalizeAnimal(data) {
   };
 }
 
-function isUserLoggedIn() {
-  return Boolean(localStorage.getItem("token"));
-}
-
 export default function AnimalDetail() {
   const { id } = useParams();
-  const navigate = useNavigate();
-
   const [animal, setAnimal] = useState(null);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
-
-  // Inquiry state
-  const [showInquiryModal, setShowInquiryModal] = useState(false);
-  const [inquirySent, setInquirySent] = useState(false);
-  const [successMessage, setSuccessMessage] = useState(null);
 
   useEffect(() => {
     let ignore = false;
@@ -105,31 +93,24 @@ export default function AnimalDetail() {
     };
   }, [id]);
 
+  const isAuthenticated = false;
+
   const handleSave = () => {
-    if (!isUserLoggedIn()) {
-      navigate("/login");
+    if (!isAuthenticated) {
+      alert("Please log in to save this animal to favorites.");
       return;
     }
+
     alert("Save action will be connected later.");
   };
 
   const handleInquire = () => {
-    if (!isUserLoggedIn()) {
-      navigate("/login");
+    if (!isAuthenticated) {
+      alert("Please log in to send an inquiry.");
       return;
     }
-    setShowInquiryModal(true);
-  };
 
-  const handleInquirySuccess = () => {
-    setShowInquiryModal(false);
-    setInquirySent(true);
-    setSuccessMessage(
-      "Your inquiry has been sent! The shelter will contact you soon."
-    );
-
-    // Auto-hide toast after 5s
-    setTimeout(() => setSuccessMessage(null), 5000);
+    alert("Inquiry modal will be connected later.");
   };
 
   if (loading) {
@@ -148,16 +129,6 @@ export default function AnimalDetail() {
 
   return (
     <main className="detail-page">
-      {successMessage && (
-        <div
-          className="inquiry-toast inquiry-toast-success"
-          role="status"
-          aria-live="polite"
-        >
-          {successMessage}
-        </div>
-      )}
-
       <div className="detail-back-link">
         <Link to="/">← Back to animals list</Link>
       </div>
@@ -195,14 +166,17 @@ export default function AnimalDetail() {
               <span className="detail-label">Age</span>
               <strong>{animal.age_years} yrs</strong>
             </div>
+
             <div className="detail-meta-card">
               <span className="detail-label">Size</span>
               <strong>{formatLabel(animal.size)}</strong>
             </div>
+
             <div className="detail-meta-card">
               <span className="detail-label">Species</span>
               <strong>{formatLabel(animal.species)}</strong>
             </div>
+
             <div className="detail-meta-card">
               <span className="detail-label">Breed</span>
               <strong>{animal.breed}</strong>
@@ -260,21 +234,12 @@ export default function AnimalDetail() {
               type="button"
               className="btn btn-primary"
               onClick={handleInquire}
-              disabled={inquirySent}
             >
-              {inquirySent ? "Inquiry sent ✓" : "I'm Interested"}
+              Inquire
             </button>
           </div>
         </div>
       </section>
-
-      <InquiryModal
-        show={showInquiryModal}
-        onHide={() => setShowInquiryModal(false)}
-        animalId={animal.id}
-        animalName={animal.name}
-        onSuccess={handleInquirySuccess}
-      />
     </main>
   );
 }
