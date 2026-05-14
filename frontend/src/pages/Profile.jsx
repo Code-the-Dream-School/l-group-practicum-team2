@@ -63,6 +63,9 @@ function Profile() {
           <Button variant="primary" type="submit" disabled={loading}>
              {loading ? "Saving..." : "Save Profile Changes"}
         </Button>
+        {success && <p className="text-success mt-3">{success}</p>}
+
+        {error && <p className="text-danger mt-3">{error}</p>}
         </Form>
       </Card>
 
