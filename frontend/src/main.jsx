@@ -11,19 +11,13 @@ import { AnimalProvider } from "./contexts/AnimalContext.jsx";
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
-<<<<<<< feature/IGT-84-auth-fetch-current-user-context
       <AuthProvider>
-        <SpecialNeedProvider>
-          <App />
-        </SpecialNeedProvider>
+        <AnimalProvider>
+          <SpecialNeedProvider>
+            <App />
+          </SpecialNeedProvider>
+        </AnimalProvider>
       </AuthProvider>
-=======
-      <AnimalProvider>
-        <SpecialNeedProvider>
-          <App />
-        </SpecialNeedProvider>
-      </AnimalProvider>
->>>>>>> main
     </BrowserRouter>
   </StrictMode>
 );
