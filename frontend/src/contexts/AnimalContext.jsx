@@ -9,7 +9,6 @@ export const AnimalProvider = ({ children }) => {
   const [animals, setAnimals] = useState([]);
   const [error, setError] = useState(null);
 
-
   const getAnimals = async () => {
     setLoading(true);
 
@@ -27,7 +26,6 @@ export const AnimalProvider = ({ children }) => {
   useEffect(() => {
     getAnimals();
   }, []);
-
 
   return (
     <AnimalContext.Provider value={{ animals, loading, error }}>
