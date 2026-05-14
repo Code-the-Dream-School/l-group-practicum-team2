@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import AnimalCard from "./AnimalCard";
 import Filters from "./Filters";
 import { mockAnimals } from "../../constants/animals";
-// for testing purpose. remove before merge
 import { fetchAnimals } from "../../services/AnimalService";
 
 function AnimalList() {
@@ -19,12 +18,11 @@ function AnimalList() {
     );
   });
 
-  // for testing purpose. remove before merge
+
   useEffect(() => {
     const loadAnimals = async () => {
       try {
         const data = await fetchAnimals();
-        console.log(data.animals);
       } catch (error) {
         console.error(error.message);
       }
