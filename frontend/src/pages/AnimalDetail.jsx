@@ -65,6 +65,8 @@ export default function AnimalDetail() {
           setAnimal(normalizeAnimal(data));
         }
       } catch (error) {
+        console.error("Failed to fetch animal:", error);
+
         const fallbackAnimal = mockAnimals.find(
           (item) => String(item.id) === String(id)
         );

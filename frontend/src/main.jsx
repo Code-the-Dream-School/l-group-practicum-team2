@@ -6,15 +6,24 @@ import App from "./App.jsx";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { AuthProvider } from "./context/AuthContext.jsx";
 import { SpecialNeedProvider } from "./services/SpecialNeedContext";
+import { AnimalProvider } from "./contexts/AnimalContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
+<<<<<<< feature/IGT-84-auth-fetch-current-user-context
       <AuthProvider>
         <SpecialNeedProvider>
           <App />
         </SpecialNeedProvider>
       </AuthProvider>
+=======
+      <AnimalProvider>
+        <SpecialNeedProvider>
+          <App />
+        </SpecialNeedProvider>
+      </AnimalProvider>
+>>>>>>> main
     </BrowserRouter>
   </StrictMode>
 );
