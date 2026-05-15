@@ -2,6 +2,12 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { StatusCodes } = require('http-status-codes');
 const pool = require('../config/db.postgres');
+const {
+    BadRequestError,
+    UnauthenticatedError,
+    InternalServerError
+} = require('../errors');
+
 
 const register = async (req, res) => {
   try {
@@ -60,6 +66,10 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
   try {
+    if (!process.env.JWT_SECRET) {
+      return res.status(500).json({ error: 'JWT secret not configured' });
+    }
+
     const { email, password } = req.body;
 
     if (!email || !password) {
@@ -104,12 +114,105 @@ const login = async (req, res) => {
   }
 };
 
+const updateProfile = async (req, res, next) => {
+        try {
+           const { name, newPassword, currentPassword } = req.body;
+
+if (!currentPassword) {
+    return next(
+        new BadRequestError('Current password is required')
+    );
+}
+
+if (!name && !newPassword) {
+    return next(
+        new BadRequestError(
+            'Please provide a name or new password'
+        )
+    );
+}
+const result = await pool.query(
+    'SELECT id, name, email, password_hash FROM users WHERE id = $1',
+    [req.user.id]
+);
+
+const user =result.rows[0];
+
+if (!user) {
+    return next(
+        new UnauthenticatedError('Invalid credentials')
+    );
+}
+
+const isMatch = await bcrypt.compare(
+    currentPassword,
+    user.password_hash
+);
+
+if (!isMatch) {
+    return next(
+        new UnauthenticatedError('Invalid credentials')
+    );
+}
+
+if (newPassword) {
+    if (newPassword.length < 6) {
+        return next(
+            new BadRequestError(
+                'Password must be at least 6 characters long'
+            )
+        );
+    }
+
+     const passwordRegex = /^[a-zA-Z0-9]+$/;
+
+    if (!passwordRegex.test(newPassword)) {
+        return next(
+            new BadRequestError(
+                'Password must be alphanumeric'
+            )
+        );
+    }
+}
+
+let updatedPasswordHash = user.password_hash;
+
+if (newPassword) {
+    updatedPasswordHash = await bcrypt.hash(newPassword, 10);
+}
+
+const updatedUser = await pool.query(
+    `UPDATE users
+    SET name = COALESCE($1, name),
+        password_hash = $2
+    WHERE id = $3
+    RETURNING id, name`,
+    [name, updatedPasswordHash, req.user.id]
+);
+if (newPassword && !name) {
+    return res.status(StatusCodes.OK).json({
+        data: {
+            message: 'User password updated successfully'
+        }
+    });
+}
+    return res.status(StatusCodes.OK).json({
+        data: updatedUser.rows[0]
+    });
+        } catch (error) {
+            return next(
+                new InternalServerError(error.message || 'Server Error')
+            );
+        }
+
+};
+
 const getCurrentUser = (req, res) => {
     const { id, email, name } = req.user;
 
     return res.status(StatusCodes.OK).json({
-        user: { userId: id, email, name }
+        user: { id, name, email }
     });
 };
 
-module.exports = { register, login, getCurrentUser };
+module.exports = { register, login, updateProfile, getCurrentUser };
