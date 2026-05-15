@@ -13,7 +13,7 @@ export const AnimalProvider = ({ children }) => {
     setLoading(true);
 
     try {
-      const data = fetchAnimals();
+      const data = await fetchAnimals();
       setAnimals(data.animals || []);
     } catch (error) {
       console.error(error);
@@ -26,6 +26,7 @@ export const AnimalProvider = ({ children }) => {
   useEffect(() => {
     getAnimals();
   }, []);
+
 
   return (
     <AnimalContext.Provider value={{ animals, loading, error }}>
