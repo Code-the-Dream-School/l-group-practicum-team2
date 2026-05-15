@@ -58,14 +58,3 @@ coverage/
 .cache/
 .temp/
 
-# =========================
-# Claude (local only)
-# =========================
-CLAUDE.md
-.claude/
-
-# =========================
-# Project planning docs (local only)
-# =========================
-PawMatch_MVP_Plan*.pdf
-PawMatch_ProjectSummary.md

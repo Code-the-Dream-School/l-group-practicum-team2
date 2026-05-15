@@ -1,7 +1,10 @@
+
 import { useSearchParams } from "react-router-dom";
+import { useState, useEffect } from "react";
 import AnimalCard from "./AnimalCard";
 import Filters from "./Filters";
 import { mockAnimals } from "../../constants/animals";
+import { fetchAnimals } from "../../services/AnimalService";
 
 function AnimalList() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -35,6 +38,18 @@ function AnimalList() {
     if (specialNeeds && !animal.special_needs) return false;
     return true;
   });
+
+  useEffect(() => {
+    const loadAnimals = async () => {
+      try {
+        const data = await fetchAnimals();
+      } catch (error) {
+        console.error(error.message);
+      }
+    };
+
+    loadAnimals();
+  }, []);
 
   return (
     <main className="app">
