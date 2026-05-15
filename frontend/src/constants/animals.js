@@ -13,6 +13,7 @@ export const mockAnimals = [
     special_needs: true,
     photo_url: "https://placedog.net/600/400?id=1",
     status: "available",
+    shelter_id: "shelter-1",
     shelter: {
       name: "Happy Tails Shelter",
       city: "Boston",
@@ -34,6 +35,7 @@ export const mockAnimals = [
     photo_url:
       "https://images.pexels.com/photos/45201/kitty-cat-kitten-pet-45201.jpeg",
     status: "available",
+    shelter_id: "shelter-2",
     shelter: {
       name: "City Pet Rescue",
       city: "Chicago",
@@ -54,6 +56,7 @@ export const mockAnimals = [
     special_needs: false,
     photo_url: "https://placedog.net/600/400?id=2",
     status: "available",
+    shelter_id: "shelter-3",
     shelter: {
       name: "Green Valley Shelter",
       city: "Denver",
@@ -75,6 +78,7 @@ export const mockAnimals = [
     photo_url:
       "https://images.pexels.com/photos/326012/pexels-photo-326012.jpeg",
     status: "available",
+    shelter_id: "shelter-4",
     shelter: {
       name: "Little Paws Haven",
       city: "Seattle",

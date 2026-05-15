@@ -4,6 +4,7 @@ import { mockAnimals } from "../constants/animals";
 import { formatLabel } from "../utils/formatLabel";
 import NotFound from "./NotFound";
 import InquiryModal from "../components/inquiries/InquiryModal";
+import ShelterInfo from "../components/shelters/ShelterInfo";
 
 function normalizeAnimal(data) {
   if (!data) return null;
@@ -24,11 +25,7 @@ function normalizeAnimal(data) {
     description: data.description,
     special_needs: Boolean(data.special_needs),
     photo_url: data.photo_url,
-    shelter: {
-      name: data.shelter?.name || "",
-      city: data.shelter?.city || "",
-      contact_email: data.shelter?.contact_email || "",
-    },
+    shelter_id: data.shelter_id || null,
   };
 }
 
@@ -227,25 +224,7 @@ export default function AnimalDetail() {
             <p>{animal.description || "No description available."}</p>
           </section>
 
-          <section className="detail-section shelter-card">
-            <h2>Shelter information</h2>
-            <p>
-              <strong>Name:</strong> {animal.shelter?.name || "N/A"}
-            </p>
-            <p>
-              <strong>City:</strong> {animal.shelter?.city || "N/A"}
-            </p>
-            <p>
-              <strong>Contact email:</strong>{" "}
-              {animal.shelter?.contact_email ? (
-                <a href={`mailto:${animal.shelter.contact_email}`}>
-                  {animal.shelter.contact_email}
-                </a>
-              ) : (
-                "N/A"
-              )}
-            </p>
-          </section>
+          <ShelterInfo shelterId={animal.shelter_id} />
 
           <div className="detail-actions">
             <button
