@@ -10,7 +10,7 @@ import {
 const SpecialNeedContext = createContext();
 
 export const SpecialNeedProvider = ({ children }) => {
-  const BACKEND_API = import.meta.env.VITE_BACKEND_API;
+  const BACKEND_API = import.meta.env.VITE_API_BASE_URL;
 
   const [loading, setLoading] = useState(false);
   const [specialNeeds, setSpecialNeeds] = useState([]);
