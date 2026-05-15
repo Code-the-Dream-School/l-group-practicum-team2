@@ -1,7 +1,7 @@
 const MOCK_FAVORITES_KEY = "mockFavorites";
 const BACKEND_API = import.meta.env.VITE_BACKEND_API;
 
-function getMockStoredFavoriteIds() {
+function getStoredFavoriteIds() {
   try {
     const storedIds =
       JSON.parse(localStorage.getItem(MOCK_FAVORITES_KEY)) || [];
@@ -11,7 +11,7 @@ function getMockStoredFavoriteIds() {
   }
 }
 
-function saveMockFavoriteIds(ids) {
+function saveFavoriteIds(ids) {
   localStorage.setItem(MOCK_FAVORITES_KEY, JSON.stringify(ids.map(String)));
 }
 
