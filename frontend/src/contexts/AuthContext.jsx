@@ -88,10 +88,6 @@ export const AuthProvider = ({ children }) => {
     getCurrentUser();
   }, []);
 
-  useEffect(() => {
-    console.log("user changed:", user);
-  }, [user]);
-
   return (
     <AuthContext.Provider
       value={{
