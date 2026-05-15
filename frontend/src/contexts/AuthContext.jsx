@@ -52,7 +52,7 @@ export const AuthProvider = ({ children }) => {
 
     try {
       const data = await fetchCurrentUser();
-      setUser(data.user);
+      setUser(data && data.user ? data.user : null);
       setError(null);
 
       return true;
