@@ -1,8 +1,11 @@
-import { Col, Row } from "react-bootstrap";
 import Carousel from "react-bootstrap/Carousel";
 import Toast from "react-bootstrap/Toast";
-import { Row, Col } from "react-bootstrap";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { Col, Row } from "react-bootstrap";
+
+import { useSpecialNeeds } from "../../services/SpecialNeedContext";
+
+import {} from "react-router-dom";
 import { useSpecialNeeds } from "../../services/SpecialNeedContext";
 
 import AnimalCard from "./AnimalCard";
