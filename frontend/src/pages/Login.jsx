@@ -1,33 +1,21 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { loginUser } from "../services/authService";
+import { useAuth } from "../contexts/AuthContext";
 
 function Login() {
+  const { handleLogin, error } = useAuth();
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
 
   // TODO: integrate with backend auth validation for already-logged-in users.
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
+    const success = await handleLogin({ email, password });
 
-    try {
-      const data = await loginUser({ email, password });
-
-      localStorage.setItem("token", data.token);
-
-      navigate("/");
-    } catch (err) {
-      if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError("Something went wrong");
-      }
-    }
+    if (success) navigate("/");
   };
 
   return (

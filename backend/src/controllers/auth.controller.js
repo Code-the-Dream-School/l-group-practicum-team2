@@ -211,7 +211,7 @@ const getCurrentUser = (req, res) => {
     const { id, email, name } = req.user;
 
     return res.status(StatusCodes.OK).json({
-        user: { userId: id, email, name }
+        user: { id, name, email }
     });
 };
 
