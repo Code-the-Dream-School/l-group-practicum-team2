@@ -1,4 +1,3 @@
-
 import { useSearchParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import AnimalCard from "./AnimalCard";
@@ -29,12 +28,13 @@ function AnimalList() {
   const hasActiveFilters =
     species !== "" || size !== "" || ageCategory !== "" || specialNeeds;
 
-  const equalsCI = (a, b)=> a?.toLowerCase() === b?.toLowerCase();
+  const equalsCI = (a, b) => a?.toLowerCase() === b?.toLowerCase();
 
   const filteredAnimals = mockAnimals.filter((animal) => {
     if (species && !equalsCI(animal.species, species)) return false;
     if (size && !equalsCI(animal.size, size)) return false;
-    if (ageCategory && !equalsCI(animal.age_category, ageCategory)) return false;
+    if (ageCategory && !equalsCI(animal.age_category, ageCategory))
+      return false;
     if (specialNeeds && !animal.special_needs) return false;
     return true;
   });
