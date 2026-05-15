@@ -5,9 +5,6 @@ import { Col, Row } from "react-bootstrap";
 
 import { useSpecialNeeds } from "../../services/SpecialNeedContext";
 
-import {} from "react-router-dom";
-import { useSpecialNeeds } from "../../services/SpecialNeedContext";
-
 import AnimalCard from "./AnimalCard";
 import { HeartFill } from "react-bootstrap-icons";
 import ErrorMessage from "../ErrorMessage";

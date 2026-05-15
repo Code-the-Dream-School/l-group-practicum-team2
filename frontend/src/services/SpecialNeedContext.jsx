@@ -8,10 +8,9 @@ import {
 } from "react";
 
 const SpecialNeedContext = createContext();
+const BACKEND_API = import.meta.env.VITE_API_BASE_URL;
 
 export const SpecialNeedProvider = ({ children }) => {
-  const BACKEND_API = import.meta.env.VITE_API_BASE_URL;
-
   const [loading, setLoading] = useState(false);
   const [specialNeeds, setSpecialNeeds] = useState([]);
   const [error, setError] = useState(false);
