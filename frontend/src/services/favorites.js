@@ -1,19 +1,4 @@
-const MOCK_FAVORITES_KEY = "mockFavorites";
-const BACKEND_API = import.meta.env.VITE_BACKEND_API;
-
-function getStoredFavoriteIds() {
-  try {
-    const storedIds =
-      JSON.parse(localStorage.getItem(MOCK_FAVORITES_KEY)) || [];
-    return storedIds.map(String);
-  } catch {
-    return [];
-  }
-}
-
-function saveFavoriteIds(ids) {
-  localStorage.setItem(MOCK_FAVORITES_KEY, JSON.stringify(ids.map(String)));
-}
+const BACKEND_API = import.meta.env.VITE_API_BASE_URL;
 
 export async function fetchFavorites() {
   const response = await fetch(`${BACKEND_API}/api/favorites`, {
@@ -27,7 +12,6 @@ export async function fetchFavorites() {
   if (!response.ok) {
     throw new Error(data.error || "Network response was not ok");
   }
-  if (!data) return data;
   return data;
 }
 
