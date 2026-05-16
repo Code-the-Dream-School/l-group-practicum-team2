@@ -1,21 +1,18 @@
 const BACKEND_API = import.meta.env.VITE_API_BASE_URL;
 
-export async function getUserInquiries(userId) {
+export async function getUserInquiries() {
   const token = localStorage.getItem("token");
 
   if (!token) {
     throw new Error("Not authenticated");
   }
-  const response = await fetch(
-    `${BACKEND_API}/api/inquiries?user_id=${userId}`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
+  const response = await fetch(`${BACKEND_API}/api/inquiries`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
   const data = await response.json();
   if (!response.ok) {
     throw new Error(
