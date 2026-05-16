@@ -23,6 +23,7 @@ const SpecialNeedCarousel = () => {
   };
   if(loading)
     return <LoadingSpinner message="Loading special needs companions..." />;
+  
   return (
     <>
           <Row>
@@ -55,6 +56,7 @@ const SpecialNeedCarousel = () => {
             </Col>
           </Row>
 
+<<<<<<< HEAD
           <Toast
             onClose={() => setShow(false)}
             show={show}
@@ -69,6 +71,8 @@ const SpecialNeedCarousel = () => {
       //   handleRetry={getSpecialNeed}
       //   error={error}
       // /> */}
+=======
+>>>>>>> 9136e873 (remove unnecessary logic to keep component UI pure)
       <div
         style={{
           width: "992px",
@@ -84,30 +88,23 @@ const SpecialNeedCarousel = () => {
         >
           {specialNeedsAnimals.map((specialNeedsAnimal) => {
             return (
+              
               <Carousel.Item key={specialNeedsAnimal.id}>
-                <div
-                  onClick={() => handleClick(specialNeedsAnimal.id)}
+                 
+                 <div
                   style={{
-                    width: "100%",
                     display: "flex",
-                    flexDirection: "column",
+                    justifyContent: "center",
                     alignItems: "center",
+                    width: "100%",
                   }}
                 >
-                  <div
-                    style={{
-                      cursor: "pointer",
-                      position: "relative",
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      width: "540px",
-                    }}
-                  >
+                  <div style={{ width: "540px" }}>
                     <AnimalCard animal={specialNeedsAnimal} />
                   </div>
                 </div>
               </Carousel.Item>
+       
             );
           })}
         </Carousel>
