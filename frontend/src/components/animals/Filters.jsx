@@ -36,7 +36,7 @@ function Filters({
       >
         <option value="">Any size</option>
         <option value="small">Small</option>
-        <option value="med">Medium</option>
+        <option value="medium">Medium</option>
         <option value="large">Large</option>
       </select>
 

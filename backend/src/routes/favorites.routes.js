@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const authenticateUser = require('../middleware/authentication');
-const { validateFavoriteInput } = require('../middleware/input-validation');
+const { validateFavoriteInput } = require('../validators/input-validation');
 
 const {
   createFavorite,
