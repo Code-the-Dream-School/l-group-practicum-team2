@@ -2,31 +2,32 @@ import Carousel from "react-bootstrap/Carousel";
 import Toast from "react-bootstrap/Toast";
 import { useState } from "react";
 import { Col, Row } from "react-bootstrap";
-
-import { useSpecialNeeds } from "../../services/SpecialNeedContext";
-
 import AnimalCard from "./AnimalCard";
 import { HeartFill } from "react-bootstrap-icons";
 import ErrorMessage from "../ErrorMessage";
 import LoadingSpinner from "../LoadingSpinner";
+import { useAnimal } from "../../contexts/AnimalContext";
+
+
+
 
 const SpecialNeedCarousel = () => {
-  const { specialNeeds, loading, error, getSpecialNeed } = useSpecialNeeds();
+  const { animals } = useAnimal();
+
+  const specialNeedsAnimals = animals.filter(a => a.special_needs);
   const [show, setShow] = useState(false);
 
-  // uncomment when detail page is merged
+  // uncomment when detail page integrated with AnimalContext is merged
   // const navigate = useNavigate();
   const handleClick = () => {
     setShow(true);
-    // uncomment when detail page is merged
+    // uncomment when detail page integrated with AnimalContext is merged
     // navigate(`/animals/${id}`);
   };
+  if(loading)
+    return <LoadingSpinner message="Loading special needs companions..." />;
   return (
     <>
-      {loading ? (
-        <LoadingSpinner message="Loading special needs companions..." />
-      ) : (
-        <>
           <Row>
             <Col xs="auto" style={{ padding: "2rem 1rem" }}>
               <div
@@ -65,56 +66,55 @@ const SpecialNeedCarousel = () => {
           >
             <Toast.Body>Coming soon</Toast.Body>
           </Toast>
-          <div
-            style={{
-              width: "992px",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <Carousel
-              style={{ width: "100%" }}
-              indicators={false}
-              data-bs-theme="dark"
-            >
-              {specialNeeds.map((specialNeed) => {
-                return (
-                  <Carousel.Item key={specialNeed.id}>
-                    <div
-                      onClick={() => handleClick(specialNeed.id)}
-                      style={{
-                        width: "100%",
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                      }}
-                    >
-                      <div
-                        style={{
-                          cursor: "pointer",
-                          position: "relative",
-                          display: "flex",
-                          flexDirection: "column",
-                          alignItems: "center",
-                          width: "540px",
-                        }}
-                      >
-                        <AnimalCard animal={specialNeed} />
-                      </div>
-                    </div>
-                  </Carousel.Item>
-                );
-              })}
-            </Carousel>
-          </div>
-        </>
-      )}
-      <ErrorMessage
-        message="Failed to load special needs companions. Please try again."
-        handleRetry={getSpecialNeed}
-        error={error}
-      />
+        
+      {/* // <ErrorMessage
+      //   message="Failed to load special needs companions. Please try again."
+      //   handleRetry={getSpecialNeed}
+      //   error={error}
+      // /> */}
+      <div
+        style={{
+          width: "992px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <Carousel
+          style={{ width: "100%" }}
+          indicators={false}
+          data-bs-theme="dark"
+        >
+          {specialNeedsAnimals.map((specialNeedsAnimal) => {
+            return (
+              <Carousel.Item key={specialNeedsAnimal.id}>
+                <div
+                  onClick={() => handleClick(specialNeedsAnimal.id)}
+                  style={{
+                    width: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                >
+                  <div
+                    style={{
+                      cursor: "pointer",
+                      position: "relative",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      width: "540px",
+                    }}
+                  >
+                    <AnimalCard animal={specialNeedsAnimal} />
+                  </div>
+                </div>
+              </Carousel.Item>
+            );
+          })}
+        </Carousel>
+      </div>
     </>
   );
 };
