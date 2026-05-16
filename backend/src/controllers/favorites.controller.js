@@ -4,7 +4,7 @@ const {
   deleteFavorite,
 } = require('../db/favorites');
 
-const { BadRequestError } = require('../errors');
+const { BadRequestError, NotFoundError } = require('../errors');
 const { StatusCodes } = require('http-status-codes');
 
 // POST /api/favorites
@@ -51,7 +51,7 @@ const removeFavorite = async (req, res, next) => {
     const deleted = await deleteFavorite(userId, animalId);
 
     if (!deleted) {
-      throw new BadRequestError('Favorite not found');
+      throw new NotFoundError('Favorite not found');
     }
 
     return res.status(StatusCodes.OK).json({ message: 'Favorite removed' });
