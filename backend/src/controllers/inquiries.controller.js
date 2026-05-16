@@ -42,7 +42,6 @@ const createInquiry = async (req, res, next) => {
       status: inquiry.status.toLowerCase(),
     });
   } catch (error) {
-    console.error('Create inquiry error:', error);
     next(error); // using next error instead
   }
 };
@@ -80,7 +79,6 @@ const getMyInquiries = async (req, res, next) => {
 
     return res.status(StatusCodes.OK).json(inquiries);
   } catch (error) {
-    console.error('Get inquiries error:', error);
     next(error);
   }
 };
