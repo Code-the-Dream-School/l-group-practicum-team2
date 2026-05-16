@@ -13,11 +13,11 @@ const register = async (req, res, next) => {
     const { name, email, password } = req.body;
 
     if (!name || !email || !password) {
-      throw BadRequestError('Name, email and password are required');
+      throw new BadRequestError('Name, email and password are required');
     }
 
     if (password.length < 6) {
-      throw BadRequestError('Password must be at least 6 characters long');
+      throw new BadRequestError('Password must be at least 6 characters long');
     }
 
     const existingUser = await pool.query(
@@ -26,7 +26,7 @@ const register = async (req, res, next) => {
     );
 
     if (existingUser.rows.length > 0) {
-      throw BadRequestError('Email already exists');
+      throw new BadRequestError('Email already exists');
     }
 
     const password_hash = await bcrypt.hash(password, 10);
@@ -67,7 +67,7 @@ const login = async (req, res, next) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
-      throw BadRequestError('Email and password are required');
+      throw new BadRequestError('Email and password are required');
     }
 
     const result = await pool.query(
@@ -78,7 +78,8 @@ const login = async (req, res, next) => {
     const user = result.rows[0];
 
     if (!user) {
-      throw BadRequestError('Invalid credentials');
+      console.error(user);
+      throw new BadRequestError('Invalid credentials');
     }
 
     const isMatch = await bcrypt.compare(password, user.password_hash);
@@ -110,11 +111,11 @@ const updateProfile = async (req, res, next) => {
     const { name, newPassword, currentPassword } = req.body;
 
     if (!currentPassword) {
-      throw BadRequestError('Current password is required');
+      throw new BadRequestError('Current password is required');
     }
 
     if (!name && !newPassword) {
-      throw BadRequestError('Please provide a name or new password');
+      throw new BadRequestError('Please provide a name or new password');
     }
     const result = await pool.query(
       'SELECT id, name, email, password_hash FROM users WHERE id = $1',
@@ -124,24 +125,24 @@ const updateProfile = async (req, res, next) => {
     const user = result.rows[0];
 
     if (!user) {
-      throw UnauthenticatedError('Invalid credentials');
+      throw new UnauthenticatedError('Invalid credentials');
     }
 
     const isMatch = await bcrypt.compare(currentPassword, user.password_hash);
 
     if (!isMatch) {
-      throw UnauthenticatedError('Invalid credentials');
+      throw new UnauthenticatedError('Invalid credentials');
     }
 
     if (newPassword) {
       if (newPassword.length < 6) {
-        throw BadRequestError('Password must be at least 6 characters long');
+        throw new BadRequestError('Password must be at least 6 characters long');
       }
 
       const passwordRegex = /^[a-zA-Z0-9]+$/;
 
       if (!passwordRegex.test(newPassword)) {
-        throw BadRequestError('Password must be alphanumeric');
+        throw new BadRequestError('Password must be alphanumeric');
       }
     }
 
