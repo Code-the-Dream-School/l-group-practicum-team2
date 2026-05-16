@@ -1,5 +1,6 @@
 const pool = require('../config/db.postgres');
 const { BadRequestError, NotFoundError } = require('../errors');
+const { StatusCodes } = require('http-status-codes');
 
 const createInquiry = async (req, res, next) => {
   try {
@@ -36,7 +37,7 @@ const createInquiry = async (req, res, next) => {
 
     const inquiry = inquiryResult.rows[0];
 
-    return res.status(201).json({
+    return res.status(StatusCodes.CREATED).json({
       ...inquiry,
       status: inquiry.status.toLowerCase(),
     });
@@ -77,7 +78,7 @@ const getMyInquiries = async (req, res, next) => {
       status: inquiry.status.toLowerCase(),
     }));
 
-    return res.status(200).json(inquiries);
+    return res.status(StatusCodes.OK).json(inquiries);
   } catch (error) {
     console.error('Get inquiries error:', error);
     next(error);
