@@ -3,11 +3,10 @@ const jwt = require('jsonwebtoken');
 const { StatusCodes } = require('http-status-codes');
 const pool = require('../config/db.postgres');
 const {
-    BadRequestError,
-    UnauthenticatedError,
-    InternalServerError
+  BadRequestError,
+  UnauthenticatedError,
+  InternalServerError,
 } = require('../errors');
-
 
 const register = async (req, res) => {
   try {
@@ -73,9 +72,7 @@ const login = async (req, res) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
-      return res
-        .status(400)
-        .json({ error: 'Email and password are required' });
+      return res.status(400).json({ error: 'Email and password are required' });
     }
 
     const result = await pool.query(
@@ -115,104 +112,82 @@ const login = async (req, res) => {
 };
 
 const updateProfile = async (req, res, next) => {
-        try {
-           const { name, newPassword, currentPassword } = req.body;
+  try {
+    const { name, newPassword, currentPassword } = req.body;
 
-if (!currentPassword) {
-    return next(
-        new BadRequestError('Current password is required')
-    );
-}
-
-if (!name && !newPassword) {
-    return next(
-        new BadRequestError(
-            'Please provide a name or new password'
-        )
-    );
-}
-const result = await pool.query(
-    'SELECT id, name, email, password_hash FROM users WHERE id = $1',
-    [req.user.id]
-);
-
-const user =result.rows[0];
-
-if (!user) {
-    return next(
-        new UnauthenticatedError('Invalid credentials')
-    );
-}
-
-const isMatch = await bcrypt.compare(
-    currentPassword,
-    user.password_hash
-);
-
-if (!isMatch) {
-    return next(
-        new UnauthenticatedError('Invalid credentials')
-    );
-}
-
-if (newPassword) {
-    if (newPassword.length < 6) {
-        return next(
-            new BadRequestError(
-                'Password must be at least 6 characters long'
-            )
-        );
+    if (!currentPassword) {
+      return next(new BadRequestError('Current password is required'));
     }
 
-     const passwordRegex = /^[a-zA-Z0-9]+$/;
-
-    if (!passwordRegex.test(newPassword)) {
-        return next(
-            new BadRequestError(
-                'Password must be alphanumeric'
-            )
-        );
+    if (!name && !newPassword) {
+      return next(new BadRequestError('Please provide a name or new password'));
     }
-}
+    const result = await pool.query(
+      'SELECT id, name, email, password_hash FROM users WHERE id = $1',
+      [req.user.id]
+    );
 
-let updatedPasswordHash = user.password_hash;
+    const user = result.rows[0];
 
-if (newPassword) {
-    updatedPasswordHash = await bcrypt.hash(newPassword, 10);
-}
+    if (!user) {
+      return next(new UnauthenticatedError('Invalid credentials'));
+    }
 
-const updatedUser = await pool.query(
-    `UPDATE users
+    const isMatch = await bcrypt.compare(currentPassword, user.password_hash);
+
+    if (!isMatch) {
+      return next(new UnauthenticatedError('Invalid credentials'));
+    }
+
+    if (newPassword) {
+      if (newPassword.length < 6) {
+        return next(
+          new BadRequestError('Password must be at least 6 characters long')
+        );
+      }
+
+      const passwordRegex = /^[a-zA-Z0-9]+$/;
+
+      if (!passwordRegex.test(newPassword)) {
+        return next(new BadRequestError('Password must be alphanumeric'));
+      }
+    }
+
+    let updatedPasswordHash = user.password_hash;
+
+    if (newPassword) {
+      updatedPasswordHash = await bcrypt.hash(newPassword, 10);
+    }
+
+    const updatedUser = await pool.query(
+      `UPDATE users
     SET name = COALESCE($1, name),
         password_hash = $2
     WHERE id = $3
     RETURNING id, name`,
-    [name, updatedPasswordHash, req.user.id]
-);
-if (newPassword && !name) {
-    return res.status(StatusCodes.OK).json({
+      [name, updatedPasswordHash, req.user.id]
+    );
+    if (newPassword && !name) {
+      return res.status(StatusCodes.OK).json({
         data: {
-            message: 'User password updated successfully'
-        }
-    });
-}
+          message: 'User password updated successfully',
+        },
+      });
+    }
     return res.status(StatusCodes.OK).json({
-        data: updatedUser.rows[0]
+      data: updatedUser.rows[0],
     });
-        } catch (error) {
-            return next(
-                new InternalServerError(error.message || 'Server Error')
-            );
-        }
-
+  } catch (error) {
+    return next(new InternalServerError(error.message || 'Server Error'));
+  }
 };
 
 const getCurrentUser = (req, res) => {
-    const { id, email, name } = req.user;
+  const { id, email, name } = req.user;
 
-    return res.status(StatusCodes.OK).json({
-        user: { id, name, email }
-    });
+  return res.status(StatusCodes.OK).json({
+    user: { id, name, email },
+  });
 };
 
 module.exports = { register, login, updateProfile, getCurrentUser };

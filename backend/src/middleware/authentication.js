@@ -1,8 +1,5 @@
 const jwt = require('jsonwebtoken');
-const {
-  UnauthenticatedError,
-  InternalServerError,
-} = require('../errors');
+const { UnauthenticatedError, InternalServerError } = require('../errors');
 
 const auth = async (req, res, next) => {
   if (!process.env.JWT_SECRET) {
