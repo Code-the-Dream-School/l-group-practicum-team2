@@ -8,9 +8,6 @@ import ErrorMessage from "../ErrorMessage";
 import LoadingSpinner from "../LoadingSpinner";
 import { useAnimal } from "../../contexts/AnimalContext";
 
-
-
-
 const SpecialNeedCarousel = () => {
   const { animals } = useAnimal();
 
