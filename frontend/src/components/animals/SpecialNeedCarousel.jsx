@@ -9,6 +9,7 @@ import LoadingSpinner from "../LoadingSpinner";
 import { useAnimal } from "../../contexts/AnimalContext";
 
 const SpecialNeedCarousel = () => {
+<<<<<<< HEAD
   const { animals } = useAnimal();
 
   const specialNeedsAnimals = animals.filter(a => a.special_needs);
@@ -24,6 +25,10 @@ const SpecialNeedCarousel = () => {
   if(loading)
     return <LoadingSpinner message="Loading special needs companions..." />;
   
+=======
+  const { specialNeedsAnimals } = useAnimal();
+
+>>>>>>> cb37b69a (run prettier format)
   return (
     <>
           <Row>
@@ -88,10 +93,8 @@ const SpecialNeedCarousel = () => {
         >
           {specialNeedsAnimals.map((specialNeedsAnimal) => {
             return (
-              
               <Carousel.Item key={specialNeedsAnimal.id}>
-                 
-                 <div
+                <div
                   style={{
                     display: "flex",
                     justifyContent: "center",
@@ -104,7 +107,6 @@ const SpecialNeedCarousel = () => {
                   </div>
                 </div>
               </Carousel.Item>
-       
             );
           })}
         </Carousel>

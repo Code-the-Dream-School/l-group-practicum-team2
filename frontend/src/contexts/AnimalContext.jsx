@@ -67,7 +67,7 @@ export const AnimalProvider = ({ children }) => {
     return true;
   });
 
-  const specialNeedsAnimals = animals.filter(a => a.special_needs);
+  const specialNeedsAnimals = animals.filter((a) => a.special_needs);
 
   const hasActiveFilters =
     filters.species !== "" ||
