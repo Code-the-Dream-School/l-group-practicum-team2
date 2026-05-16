@@ -1,0 +1,1 @@
+export const equalsCI = (a, b) => a?.toLowerCase() === b?.toLowerCase();
