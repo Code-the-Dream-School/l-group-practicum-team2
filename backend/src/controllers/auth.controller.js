@@ -3,11 +3,10 @@ const jwt = require('jsonwebtoken');
 const { StatusCodes } = require('http-status-codes');
 const pool = require('../config/db.postgres');
 const {
-    BadRequestError,
-    UnauthenticatedError,
-    InternalServerError
+  BadRequestError,
+  UnauthenticatedError,
+  InternalServerError,
 } = require('../errors');
-
 
 const register = async (req, res, next) => {
   try {
@@ -27,7 +26,7 @@ const register = async (req, res, next) => {
     );
 
     if (existingUser.rows.length > 0) {
-      throw BadRequestError('Email already exists' );
+      throw BadRequestError('Email already exists');
     }
 
     const password_hash = await bcrypt.hash(password, 10);
@@ -85,7 +84,7 @@ const login = async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password_hash);
 
     if (!isMatch) {
-      throw new UnauthenticatedError("Invalid credentials");
+      throw new UnauthenticatedError('Invalid credentials');
     }
 
     const token = jwt.sign(
@@ -111,80 +110,76 @@ const updateProfile = async (req, res, next) => {
     const { name, newPassword, currentPassword } = req.body;
 
     if (!currentPassword) {
-        throw BadRequestError('Current password is required');
+      throw BadRequestError('Current password is required');
     }
 
     if (!name && !newPassword) {
-        throw BadRequestError('Please provide a name or new password');
+      throw BadRequestError('Please provide a name or new password');
     }
     const result = await pool.query(
-        'SELECT id, name, email, password_hash FROM users WHERE id = $1',
-        [req.user.id]
+      'SELECT id, name, email, password_hash FROM users WHERE id = $1',
+      [req.user.id]
     );
 
-    const user =result.rows[0];
+    const user = result.rows[0];
 
     if (!user) {
-        throw UnauthenticatedError('Invalid credentials');
+      throw UnauthenticatedError('Invalid credentials');
     }
 
-    const isMatch = await bcrypt.compare(
-        currentPassword,
-        user.password_hash
-    );
+    const isMatch = await bcrypt.compare(currentPassword, user.password_hash);
 
     if (!isMatch) {
-        throw UnauthenticatedError('Invalid credentials');
+      throw UnauthenticatedError('Invalid credentials');
     }
 
     if (newPassword) {
-        if (newPassword.length < 6) {
-            throw BadRequestError('Password must be at least 6 characters long');
-        }
+      if (newPassword.length < 6) {
+        throw BadRequestError('Password must be at least 6 characters long');
+      }
 
-        const passwordRegex = /^[a-zA-Z0-9]+$/;
+      const passwordRegex = /^[a-zA-Z0-9]+$/;
 
-        if (!passwordRegex.test(newPassword)) {
-            throw BadRequestError('Password must be alphanumeric');
-        }
+      if (!passwordRegex.test(newPassword)) {
+        throw BadRequestError('Password must be alphanumeric');
+      }
     }
 
     let updatedPasswordHash = user.password_hash;
 
     if (newPassword) {
-        updatedPasswordHash = await bcrypt.hash(newPassword, 10);
+      updatedPasswordHash = await bcrypt.hash(newPassword, 10);
     }
 
     const updatedUser = await pool.query(
-        `UPDATE users
+      `UPDATE users
         SET name = COALESCE($1, name),
             password_hash = $2
         WHERE id = $3
         RETURNING id, name`,
-        [name, updatedPasswordHash, req.user.id]
+      [name, updatedPasswordHash, req.user.id]
     );
     if (newPassword && !name) {
-        return res.status(StatusCodes.OK).json({
-            data: {
-                message: 'User password updated successfully'
-            }
-        });
+      return res.status(StatusCodes.OK).json({
+        data: {
+          message: 'User password updated successfully',
+        },
+      });
     }
     return res.status(StatusCodes.OK).json({
-        data: updatedUser.rows[0]
+      data: updatedUser.rows[0],
     });
   } catch (error) {
-      next(error);
+    next(error);
   }
-
 };
 
 const getCurrentUser = (req, res) => {
-    const { id, email, name } = req.user;
+  const { id, email, name } = req.user;
 
-    return res.status(StatusCodes.OK).json({
-        user: { id, name, email }
-    });
+  return res.status(StatusCodes.OK).json({
+    user: { id, name, email },
+  });
 };
 
 module.exports = { register, login, updateProfile, getCurrentUser };

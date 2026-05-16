@@ -2,10 +2,10 @@ const express = require('express');
 const router = express.Router();
 
 const {
-    register,
-    login,
-    updateProfile,
-    getCurrentUser
+  register,
+  login,
+  updateProfile,
+  getCurrentUser,
 } = require('../controllers/auth.controller');
 
 const authenticateUser = require('../middleware/authentication');

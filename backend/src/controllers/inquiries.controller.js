@@ -11,9 +11,7 @@ const createInquiry = async (req, res, next) => {
     }
 
     if (typeof message !== 'string' || message.trim().length < 10) {
-      throw new BadRequestError(
-        'Message must be at least 10 characters long'
-      );
+      throw new BadRequestError('Message must be at least 10 characters long');
     }
 
     const animalResult = await pool.query(
