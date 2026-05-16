@@ -27,7 +27,6 @@ export const AnimalProvider = ({ children }) => {
     getAnimals();
   }, []);
 
-
   return (
     <AnimalContext.Provider value={{ animals, loading, error }}>
       {children}

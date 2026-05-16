@@ -3,10 +3,10 @@ import { useState, useEffect } from "react";
 import AnimalCard from "./AnimalCard";
 import Filters from "./Filters";
 
-import { useAnimal } from '../../contexts/AnimalContext'
+import { useAnimal } from "../../contexts/AnimalContext";
 
 function AnimalList() {
-  const {animals} = useAnimal();
+  const { animals } = useAnimal();
   const [searchParams, setSearchParams] = useSearchParams();
 
   const species = searchParams.get("species") || "";
