@@ -24,7 +24,6 @@ export const AnimalProvider = ({ children }) => {
       const data = await fetchAnimals();
       setAnimals(data.animals || []);
     } catch (error) {
-      console.error(error);
       setError(error.message || "Something went wrong while fetching animals");
     } finally {
       setLoading(false);
