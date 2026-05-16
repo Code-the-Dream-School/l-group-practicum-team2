@@ -1,11 +1,14 @@
-const express = require('express');
-const cors = require('cors');
-const helmet = require('helmet');
-const morgan = require('morgan');
-const rateLimit = require('express-rate-limit');
-const notFound = require('./middleware/not-found');
+const express = require("express");
+const cors = require("cors");
+const helmet = require("helmet");
+const morgan = require("morgan");
+const rateLimit = require("express-rate-limit");
+const notFound = require("./middleware/not-found");
+
 const helloRoutes = require('./routes/hello.routes');
 const authRoutes = require('./routes/auth.routes');
+const inquiryRoutes = require('./routes/inquiries.routes');
+
 
 const animalsRoutes = require('./routes/animals.routes');
 const shelterInfoRoutes = require('./routes/shelters.routes');
@@ -20,9 +23,14 @@ const favoritesRoutes = require('./routes/favorites.routes');
 // Security & best‑practice middleware
 app.use(helmet());
 app.use(cors());
-app.use(express.json());
-app.use(morgan("dev"));
 
+app.use(express.json());
+
+if (process.env.NODE_ENV !== 'production') {
+  app.use(morgan('dev'));
+} else {
+  app.use(morgan('combined'));
+}
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -39,6 +47,8 @@ app.use('/api/auth', authRoutes);
 app.use('/api/favorites', favoritesRoutes);
 app.use('/api/animals', animalsRoutes);
 app.use('/api/shelters', shelterInfoRoutes);
+app.use("/api/inquiries", inquiryRoutes);
+app.use("/api/inquiries", animalsRoutes);
 
 
 

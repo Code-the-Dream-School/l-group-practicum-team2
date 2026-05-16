@@ -1,4 +1,11 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 const SpecialNeedContext = createContext();
 
@@ -8,11 +15,10 @@ export const SpecialNeedProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [specialNeeds, setSpecialNeeds] = useState([]);
 
-  const getSpecialNeed = async () => {
+  const getSpecialNeed = useCallback(async () => {
     setLoading(true);
 
     try {
-      // api/animals?special_needs=true&status=available
       const response = await fetch(
         `${BACKEND_API}/api/animals?special_needs=true&status=available`,
         {
@@ -33,11 +39,14 @@ export const SpecialNeedProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [BACKEND_API]);
 
   useEffect(() => {
-    getSpecialNeed();
-  }, []);
+    async function loadData() {
+      await getSpecialNeed();
+    }
+    loadData();
+  }, [getSpecialNeed]);
 
   return (
     <SpecialNeedContext.Provider
@@ -49,6 +58,10 @@ export const SpecialNeedProvider = ({ children }) => {
       {children}
     </SpecialNeedContext.Provider>
   );
+};
+
+SpecialNeedProvider.propTypes = {
+  children: PropTypes.node.isRequired,
 };
 
 export const useSpecialNeeds = () => useContext(SpecialNeedContext);
