@@ -49,7 +49,6 @@ export async function loginUser(userData) {
   }
 }
 
-
 export async function updateUserCredentials(userData, token) {
   const response = await fetch(`${API_BASE_URL}`, {
     method: "PATCH",
@@ -94,4 +93,3 @@ export const fetchCurrentUser = async () => {
     throw new Error(error.message || "Unable to connect to the server");
   }
 };
- 
