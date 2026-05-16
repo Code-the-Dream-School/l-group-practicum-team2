@@ -1,65 +1,26 @@
-import { useSearchParams } from "react-router-dom";
-import { useState, useEffect } from "react";
 import AnimalCard from "./AnimalCard";
 import Filters from "./Filters";
-import { mockAnimals } from "../../constants/animals";
-import { fetchAnimals } from "../../services/AnimalService";
+
+import { useAnimal } from "../../contexts/AnimalContext";
 
 function AnimalList() {
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  const species = searchParams.get("species") || "";
-  const size = searchParams.get("size") || "";
-  const ageCategory = searchParams.get("age_category") || "";
-  const specialNeeds = searchParams.get("special_needs") === "true";
-
-  const updateParam = (key, value) => {
-    const next = new URLSearchParams(searchParams);
-    if (value === "" || value === false) {
-      next.delete(key);
-    } else {
-      next.set(key, String(value));
-    }
-    setSearchParams(next);
-  };
-
-  const clearFilters = () => setSearchParams({});
-
-  const hasActiveFilters =
-    species !== "" || size !== "" || ageCategory !== "" || specialNeeds;
-
-  const equalsCI = (a, b) => a?.toLowerCase() === b?.toLowerCase();
-
-  const filteredAnimals = mockAnimals.filter((animal) => {
-    if (species && !equalsCI(animal.species, species)) return false;
-    if (size && !equalsCI(animal.size, size)) return false;
-    if (ageCategory && !equalsCI(animal.age_category, ageCategory))
-      return false;
-    if (specialNeeds && !animal.special_needs) return false;
-    return true;
-  });
-
-  useEffect(() => {
-    const loadAnimals = async () => {
-      try {
-        const data = await fetchAnimals();
-      } catch (error) {
-        console.error(error.message);
-      }
-    };
-
-    loadAnimals();
-  }, []);
+  const {
+    filteredAnimals,
+    filters,
+    hasActiveFilters,
+    updateParam,
+    clearFilters,
+  } = useAnimal();
 
   return (
     <main className="app">
       <h1>Animals List</h1>
 
       <Filters
-        species={species}
-        size={size}
-        age={ageCategory}
-        specialNeeds={specialNeeds}
+        species={filters.species}
+        size={filters.size}
+        age={filters.ageCategory}
+        specialNeeds={filters.specialNeeds}
         onSpeciesChange={(v) => updateParam("species", v)}
         onSizeChange={(v) => updateParam("size", v)}
         onAgeChange={(v) => updateParam("age_category", v)}
