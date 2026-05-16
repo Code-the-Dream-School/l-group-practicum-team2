@@ -12,7 +12,6 @@ import { equalsCI } from "../utils/equalsCI";
 const AnimalContext = createContext();
 const BACKEND_API = import.meta.env.VITE_API_BASE_URL;
 export const AnimalProvider = ({ children }) => {
-
   const [loading, setLoading] = useState(false);
   const [animals, setAnimals] = useState([]);
   const [error, setError] = useState(null);
