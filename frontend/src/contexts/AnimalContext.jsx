@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useEffect, useState, useMemo } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useMemo,
+} from "react";
 import { fetchAnimals } from "../services/AnimalService";
 import { useSearchParams } from "react-router-dom";
 import { equalsCI } from "../utils/equalsCI";
@@ -6,7 +12,6 @@ import { equalsCI } from "../utils/equalsCI";
 const AnimalContext = createContext();
 
 export const AnimalProvider = ({ children }) => {
-
   const [loading, setLoading] = useState(false);
   const [animals, setAnimals] = useState([]);
   const [error, setError] = useState(null);
@@ -26,13 +31,15 @@ export const AnimalProvider = ({ children }) => {
     }
   };
 
-
-  const filters = useMemo(() => ({
-    species: searchParams.get("species") || "",
-    size: searchParams.get("size") || "",
-    ageCategory: searchParams.get("age_category") || "",
-    specialNeeds: searchParams.get("special_needs") === "true",
-  }), [searchParams]);
+  const filters = useMemo(
+    () => ({
+      species: searchParams.get("species") || "",
+      size: searchParams.get("size") || "",
+      ageCategory: searchParams.get("age_category") || "",
+      specialNeeds: searchParams.get("special_needs") === "true",
+    }),
+    [searchParams]
+  );
 
   const updateParam = (key, value) => {
     const next = new URLSearchParams(searchParams);
@@ -48,11 +55,14 @@ export const AnimalProvider = ({ children }) => {
 
   const clearFilters = () => setSearchParams({});
 
-
   const filteredAnimals = animals.filter((animal) => {
-    if (filters.species && !equalsCI(animal.species, filters.species)) return false;
+    if (filters.species && !equalsCI(animal.species, filters.species))
+      return false;
     if (filters.size && !equalsCI(animal.size, filters.size)) return false;
-    if (filters.ageCategory && !equalsCI(animal.age_category, filters.ageCategory))
+    if (
+      filters.ageCategory &&
+      !equalsCI(animal.age_category, filters.ageCategory)
+    )
       return false;
     if (filters.specialNeeds && !animal.special_needs) return false;
     return true;
@@ -64,25 +74,23 @@ export const AnimalProvider = ({ children }) => {
     filters.ageCategory !== "" ||
     filters.specialNeeds;
 
-
   useEffect(() => {
     getAnimals();
   }, []);
 
   return (
-    <AnimalContext.Provider 
-      value={{ 
-        animals, 
+    <AnimalContext.Provider
+      value={{
+        animals,
         filteredAnimals,
-        loading, 
-        error, 
+        loading,
+        error,
         filters,
         updateParam,
         clearFilters,
-        hasActiveFilters
-
-        
-    }}>
+        hasActiveFilters,
+      }}
+    >
       {children}
     </AnimalContext.Provider>
   );

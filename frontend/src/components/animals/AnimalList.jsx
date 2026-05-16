@@ -4,8 +4,13 @@ import Filters from "./Filters";
 import { useAnimal } from "../../contexts/AnimalContext";
 
 function AnimalList() {
-  const { filteredAnimals,filters, hasActiveFilters, updateParam, clearFilters } = useAnimal();
-  
+  const {
+    filteredAnimals,
+    filters,
+    hasActiveFilters,
+    updateParam,
+    clearFilters,
+  } = useAnimal();
 
   return (
     <main className="app">
