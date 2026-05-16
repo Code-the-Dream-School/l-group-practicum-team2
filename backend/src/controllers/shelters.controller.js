@@ -10,7 +10,7 @@ const getShelterInfo = async (req, res, next) => {
       [id]
     );
     if (query.rows.length === 0) {
-      throw new NotFoundError('Shelter not found' );
+      throw new NotFoundError('Shelter not found');
     }
     const shelter = query.rows[0];
     const response = {
@@ -24,7 +24,7 @@ const getShelterInfo = async (req, res, next) => {
     };
     return res.status(StatusCodes.OK).json(response);
   } catch (error) {
-    next(error)
+    next(error);
   }
 };
 

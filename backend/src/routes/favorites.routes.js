@@ -4,9 +4,9 @@ const router = express.Router();
 const authenticateUser = require('../middleware/authentication');
 
 const {
-    createFavorite,
-    getFavorites,
-    removeFavorite,
+  createFavorite,
+  getFavorites,
+  removeFavorite,
 } = require('../controllers/favorites.controller');
 
 router.post('/', authenticateUser, createFavorite);
