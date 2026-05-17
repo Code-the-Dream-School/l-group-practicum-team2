@@ -101,12 +101,31 @@ function Profile() {
             />
           </Form.Group>
 
-          <Button variant="primary" type="submit" disabled={loading}>
-            {loading ? "Saving..." : "Save Profile Changes"}
-          </Button>
-          {success && <p className="text-success mt-3">{success}</p>}
+          <Form.Group className="mb-3">
+            <Form.Label>Current Password</Form.Label>
+            <Form.Control
+            type="password"
+            placeholder="Enter current password"
+            value={profilePassword}
+            onChange={(e) => setProfilePassword(e.target.value)}
+        />
+        </Form.Group>
 
-          {error && <p className="text-danger mt-3">{error}</p>}
+          <Button
+  variant="primary"
+  type="submit"
+  disabled={profileLoading}
+>
+  {profileLoading ? "Saving..." : "Save Profile Changes"}
+</Button>
+
+{profileSuccess && (
+  <p className="text-success mt-3">{profileSuccess}</p>
+)}
+
+{profileError && (
+  <p className="text-danger mt-3">{profileError}</p>
+)}
         </Form>
       </Card>
 
@@ -118,8 +137,8 @@ function Profile() {
             <Form.Control
               type="password"
               placeholder="Enter current password"
-              value={currentPassword}
-              onChange={(e) => setCurrentPassword(e.target.value)}
+              value={passwordCurrentPassword}
+              onChange={(e) => setPasswordCurrentPassword(e.target.value)}
             />
           </Form.Group>
 
@@ -133,13 +152,21 @@ function Profile() {
             />
           </Form.Group>
 
-          <Button variant="primary" type="submit" disabled={loading}>
-            {loading ? "Updating..." : "Update Password"}
-          </Button>
+          <Button
+  variant="primary"
+  type="submit"
+  disabled={passwordLoading}
+>
+  {passwordLoading ? "Updating..." : "Update Password"}
+</Button>
 
-          {success && <p className="text-success mt-3">{success}</p>}
+{passwordSuccess && (
+  <p className="text-success mt-3">{passwordSuccess}</p>
+)}
 
-          {error && <p className="text-danger mt-3">{error}</p>}
+{passwordError && (
+  <p className="text-danger mt-3">{passwordError}</p>
+)}
         </Form>
       </Card>
     </main>
