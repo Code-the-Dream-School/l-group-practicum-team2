@@ -6,18 +6,17 @@ function Profile() {
   const [name, setName] = useState("");
   const [profilePassword, setProfilePassword] = useState("");
 
-  const [passwordCurrentPassword, setCurrentPassword] = useState("");
+  const [passwordCurrentPassword, setPasswordCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
 
   const [profileLoading, setProfileLoading] = useState(false);
   const [passwordLoading, setPasswordLoading] = useState(false);
 
   const [profileSuccess, setProfileSuccess] = useState("");
-  const [passwordSuccess, setPasswordSuccess] = ueseState("");
+  const [passwordSuccess, setPasswordSuccess] = useState("");
 
   const [profileError, setProfileError] = useState("");
   const [passwordError, setPasswordError] = useState("");
-
 
   const handleProfileUpdate = async (e) => {
     e.preventDefault();
@@ -104,28 +103,22 @@ function Profile() {
           <Form.Group className="mb-3">
             <Form.Label>Current Password</Form.Label>
             <Form.Control
-            type="password"
-            placeholder="Enter current password"
-            value={profilePassword}
-            onChange={(e) => setProfilePassword(e.target.value)}
-        />
-        </Form.Group>
+              type="password"
+              placeholder="Enter current password"
+              value={profilePassword}
+              onChange={(e) => setProfilePassword(e.target.value)}
+            />
+          </Form.Group>
 
-          <Button
-  variant="primary"
-  type="submit"
-  disabled={profileLoading}
->
-  {profileLoading ? "Saving..." : "Save Profile Changes"}
-</Button>
+          <Button variant="primary" type="submit" disabled={profileLoading}>
+            {profileLoading ? "Saving..." : "Save Profile Changes"}
+          </Button>
 
-{profileSuccess && (
-  <p className="text-success mt-3">{profileSuccess}</p>
-)}
+          {profileSuccess && (
+            <p className="text-success mt-3">{profileSuccess}</p>
+          )}
 
-{profileError && (
-  <p className="text-danger mt-3">{profileError}</p>
-)}
+          {profileError && <p className="text-danger mt-3">{profileError}</p>}
         </Form>
       </Card>
 
@@ -152,21 +145,15 @@ function Profile() {
             />
           </Form.Group>
 
-          <Button
-  variant="primary"
-  type="submit"
-  disabled={passwordLoading}
->
-  {passwordLoading ? "Updating..." : "Update Password"}
-</Button>
+          <Button variant="primary" type="submit" disabled={passwordLoading}>
+            {passwordLoading ? "Updating..." : "Update Password"}
+          </Button>
 
-{passwordSuccess && (
-  <p className="text-success mt-3">{passwordSuccess}</p>
-)}
+          {passwordSuccess && (
+            <p className="text-success mt-3">{passwordSuccess}</p>
+          )}
 
-{passwordError && (
-  <p className="text-danger mt-3">{passwordError}</p>
-)}
+          {passwordError && <p className="text-danger mt-3">{passwordError}</p>}
         </Form>
       </Card>
     </main>
