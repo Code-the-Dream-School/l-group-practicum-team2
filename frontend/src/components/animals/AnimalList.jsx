@@ -3,8 +3,7 @@ import Filters from "./Filters";
 
 import { useAnimal } from "../../contexts/AnimalContext";
 
-
-import AnimalListSkeleton from './AnimalListSkeleton'
+import AnimalListSkeleton from "./AnimalListSkeleton";
 
 function AnimalList() {
   const {
@@ -13,19 +12,18 @@ function AnimalList() {
     hasActiveFilters,
     updateParam,
     clearFilters,
-    loading
+    loading,
   } = useAnimal();
 
-if(loading){
+  if (loading) {
+    return (
+      <main className="app" style={{ width: "100%" }}>
+        {/* <h1>Animals List</h1> */}
 
-  return (
-    <main className="app" style={{width: '100%'}}>
-      {/* <h1>Animals List</h1> */}
-
-      <AnimalListSkeleton />
-
-    </main>
-  )}
+        <AnimalListSkeleton />
+      </main>
+    );
+  }
   return (
     <main className="app">
       <h1>Animals List</h1>
