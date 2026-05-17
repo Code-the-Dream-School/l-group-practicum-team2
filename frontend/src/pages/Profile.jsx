@@ -4,11 +4,21 @@ import { updateUserCredentials } from "../services/authService";
 
 function Profile() {
   const [name, setName] = useState("");
-  const [currentPassword, setCurrentPassword] = useState("");
+  const [profilePassword, setPtofilePassword] = useState("");
+
+  const [passwordCurrentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState("");
-  const [error, setError] = useState("");
+
+  const [profileLoading, setProfileLoading] = useState(false);
+  const [passwordLoading, setPasswordLoading] = useState(false);
+
+  const [profileSuccess, setProfileSuccess] = useState("");
+  const [passwordSuccess, setPasswordSuccess] = ueseState("");
+
+  const [profileError, setProfileError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+
+
   const handleProfileUpdate = async (e) => {
     e.preventDefault();
 
