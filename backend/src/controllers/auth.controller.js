@@ -150,16 +150,17 @@ const updateProfile = async (req, res, next) => {
       updatedPasswordHash = await bcrypt.hash(newPassword, 10);
     }
 
-    const updatedUser = await pool.query(
-      `UPDATE users
-        SET name = COALESCE($1, name),
-            password_hash = $2
-        WHERE id = $3
-        RETURNING id, name`,
-      [name, updatedPasswordHash, req.user.id]
-    );
-    if (newPassword && !name) {
-      return res.status(StatusCodes.OK).json({
+   
+const updatedUser = await pool.query(
+    `UPDATE users
+    SET name = COALESCE($1, name),
+        password_hash = $2
+    WHERE id = $3
+    RETURNING id, name, email`,
+    [name, updatedPasswordHash, req.user.id]
+);
+if (newPassword && !name) {
+    return res.status(StatusCodes.OK).json({
         data: {
           message: 'User password updated successfully',
         },
