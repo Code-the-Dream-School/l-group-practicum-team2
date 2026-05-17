@@ -7,10 +7,12 @@ import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 import Register from "./pages/Register";
 import NavigationBar from "./components/navbar/NavigationBar";
+import FullScreenSpinner from "./components/FullScreenSpinner";
 
 function App() {
   return (
     <>
+      <FullScreenSpinner />
       <NavigationBar />
       <div style={{ maxWidth: "1320px", margin: "0 auto", padding: "1rem" }}>
         <Routes>
