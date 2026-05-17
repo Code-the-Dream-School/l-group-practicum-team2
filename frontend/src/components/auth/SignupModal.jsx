@@ -1,10 +1,20 @@
 import { Modal, Button, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import NameInputBox from './NameInputBox';
+
 const SignupModal = ({setShow}) => {
 
+    const [name, setName] = useState('')
+    const [nameError, setNameError] = useState('')
+
+    const handleSubmit = async(e) =>{
+        e.preventDefault();
+        console.log(name);
+    }
     return(
         <Form style={{ width: '100%'}} 
-        // onSubmit={handleSubmit}
+        onSubmit={handleSubmit}
         >
             <Modal.Header closeButton>
                 <Modal.Title>Sign in to your account</Modal.Title>
@@ -15,6 +25,7 @@ const SignupModal = ({setShow}) => {
                 </div>   
                 <div className='my-3'>
                     <Form.Label><b>Name</b></Form.Label>
+                    <NameInputBox name={name} setName={setName} nameError={nameError} setNameError={setNameError} />
                 </div>
 
                 <div className='my-3'>
@@ -33,7 +44,7 @@ const SignupModal = ({setShow}) => {
                 </div>
             
                 <Button 
-                // type="submit" disabled={ emailError!=="" || passwordError!=="" || email==="" || password==="" }
+                disabled={ nameError!=="" || name===""  }
                 >
                     Register
                 </Button>

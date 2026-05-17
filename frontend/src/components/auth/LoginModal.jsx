@@ -14,6 +14,7 @@ const LoginModal = ({setShow}) => {
             <Modal.Body >
                 <div className='my-3'>
                     <Form.Label><b>Email</b></Form.Label>
+                    
                 </div>
                 <div className='my-3'>
                     <Form.Label><b>Password</b></Form.Label>

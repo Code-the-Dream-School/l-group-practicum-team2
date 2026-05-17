@@ -1,5 +1,5 @@
-import LoginModal from './LoginModal'
-import SignupModal from './SignupModal'
+import LoginModal from '../auth/LoginModal'
+import SignupModal from '../auth/SignupModal'
 import { useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import {PersonFill} from 'react-bootstrap-icons'
