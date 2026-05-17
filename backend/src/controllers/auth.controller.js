@@ -35,7 +35,7 @@ const register = async (req, res, next) => {
     const newUser = await pool.query(
       `INSERT INTO users (name, email, password_hash)
        VALUES ($1, $2, $3)
-       RETURNING id, name`,
+       RETURNING id, name, email`,
       [name, email, password_hash]
     );
 
@@ -49,10 +49,7 @@ const register = async (req, res, next) => {
 
     return res.status(StatusCodes.CREATED).json({
       token,
-      user: {
-        id: user.id,
-        name: user.name,
-      },
+      user
     });
   } catch (error) {
     next(error);
