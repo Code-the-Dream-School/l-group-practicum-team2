@@ -4,7 +4,7 @@ import { updateUserCredentials } from "../services/authService";
 
 function Profile() {
   const [name, setName] = useState("");
-  const [profilePassword, setPtofilePassword] = useState("");
+  const [profilePassword, setProfilePassword] = useState("");
 
   const [passwordCurrentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -22,9 +22,9 @@ function Profile() {
   const handleProfileUpdate = async (e) => {
     e.preventDefault();
 
-    setError("");
-    setSuccess("");
-    setLoading(true);
+    setProfileError("");
+    setProfileSuccess("");
+    setProfileLoading(true);
 
     try {
       const token = localStorage.getItem("token");
@@ -32,20 +32,20 @@ function Profile() {
       await updateUserCredentials(
         {
           name,
-          currentPassword,
+          currentPassword: profilePassword,
         },
         token
       );
 
-      setSuccess("Profile updated successfully");
+      setProfileSuccess("Profile updated successfully");
     } catch (err) {
       if (err instanceof Error) {
-        setError(err.message);
+        setProfileError(err.message);
       } else {
-        setError("Something went wrong");
+        setProfileError("Something went wrong");
       }
     } finally {
-      setLoading(false);
+      setProfileLoading(false);
     }
   };
 
