@@ -167,7 +167,7 @@ if (newPassword && !name) {
       });
     }
     return res.status(StatusCodes.OK).json({
-      data: updatedUser.rows[0],
+        user: updatedUser.rows[0]
     });
   } catch (error) {
     next(error);
