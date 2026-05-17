@@ -78,7 +78,6 @@ const login = async (req, res, next) => {
     const user = result.rows[0];
 
     if (!user) {
-      console.error(user);
       throw new BadRequestError('Invalid credentials');
     }
 
