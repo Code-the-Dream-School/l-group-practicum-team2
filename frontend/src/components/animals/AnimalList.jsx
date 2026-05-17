@@ -3,6 +3,9 @@ import Filters from "./Filters";
 
 import { useAnimal } from "../../contexts/AnimalContext";
 
+
+import AnimalListSkeleton from './AnimalListSkeleton'
+
 function AnimalList() {
   const {
     filteredAnimals,
@@ -10,8 +13,19 @@ function AnimalList() {
     hasActiveFilters,
     updateParam,
     clearFilters,
+    loading
   } = useAnimal();
 
+if(loading){
+
+  return (
+    <main className="app" style={{width: '100%'}}>
+      {/* <h1>Animals List</h1> */}
+
+      <AnimalListSkeleton />
+
+    </main>
+  )}
   return (
     <main className="app">
       <h1>Animals List</h1>
