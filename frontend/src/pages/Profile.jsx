@@ -52,9 +52,9 @@ function Profile() {
   const handlePasswordUpdate = async (e) => {
     e.preventDefault();
 
-    setError("");
-    setSuccess("");
-    setLoading(true);
+    setPasswordError("");
+    setPasswordSuccess("");
+    setPasswordLoading(true);
 
     try {
       const token = localStorage.getItem("token");
@@ -62,22 +62,22 @@ function Profile() {
       await updateUserCredentials(
         {
           newPassword,
-          currentPassword,
+          currentPassword: passwordCurrentPassword,
         },
         token
       );
 
-      setSuccess("Password updated successfully");
-      setCurrentPassword("");
+      setPasswordSuccess("Password updated successfully");
+      setPasswordCurrentPassword("");
       setNewPassword("");
     } catch (err) {
       if (err instanceof Error) {
-        setError(err.message);
+        setPasswordError(err.message);
       } else {
-        setError("Something went wrong");
+        setPasswordError("Something went wrong");
       }
     } finally {
-      setLoading(false);
+      setPasswordLoading(false);
     }
   };
 
