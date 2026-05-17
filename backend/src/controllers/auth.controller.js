@@ -96,6 +96,7 @@ const login = async (req, res, next) => {
       user: {
         id: user.id,
         name: user.name,
+        email
       },
     });
   } catch (error) {
