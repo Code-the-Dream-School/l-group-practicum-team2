@@ -165,16 +165,12 @@ const updatedUser = await pool.query(
     RETURNING id, name, email`,
     [name, updatedPasswordHash, req.user.id]
 );
-if (newPassword && !name) {
+
     return res.status(StatusCodes.OK).json({
-        data: {
-          message: 'User password updated successfully',
-        },
-      });
-    }
-    return res.status(StatusCodes.OK).json({
-        user: updatedUser.rows[0]
-    });
+        user: updatedUser.rows[0],
+        message: 
+          newPassword ? "Password updated successfully" : "Profile updated successfully"
+    })
   } catch (error) {
     next(error);
   }
