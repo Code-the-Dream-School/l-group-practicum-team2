@@ -1,6 +1,6 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { createInquiry } from "../../services/inquiries";
+import { addInquiry } from "../../services/inquiries";
 
 const MIN_MESSAGE_LENGTH = 10;
 
@@ -41,7 +41,7 @@ function InquiryForm({ animalId, onSuccess, onCancel }) {
     setError(null);
 
     try {
-      const result = await createInquiry({
+      const result = await addInquiry({
         animal_id: animalId,
         message: message.trim(),
       });

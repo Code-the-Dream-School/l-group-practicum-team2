@@ -8,20 +8,17 @@ const {
   InternalServerError,
 } = require('../errors');
 
-const register = async (req, res) => {
+const register = async (req, res, next) => {
+
   try {
     const { name, email, password } = req.body;
 
     if (!name || !email || !password) {
-      return res
-        .status(400)
-        .json({ error: 'Name, email and password are required' });
+      throw new BadRequestError('Name, email and password are required');
     }
 
     if (password.length < 6) {
-      return res
-        .status(400)
-        .json({ error: 'Password must be at least 6 characters long' });
+      throw new BadRequestError('Password must be at least 6 characters long');
     }
 
     const existingUser = await pool.query(
@@ -30,7 +27,7 @@ const register = async (req, res) => {
     );
 
     if (existingUser.rows.length > 0) {
-      return res.status(400).json({ error: 'Email already exists' });
+      throw new BadRequestError('Email already exists');
     }
 
     const password_hash = await bcrypt.hash(password, 10);
@@ -50,7 +47,7 @@ const register = async (req, res) => {
       { expiresIn: '1d' }
     );
 
-    return res.status(201).json({
+    return res.status(StatusCodes.CREATED).json({
       token,
       user: {
         id: user.id,
@@ -58,21 +55,20 @@ const register = async (req, res) => {
       },
     });
   } catch (error) {
-    console.error('Register error:', error);
-    return res.status(500).json({ error: 'Server error' });
+    next(error);
   }
 };
 
-const login = async (req, res) => {
+const login = async (req, res, next) => {
   try {
     if (!process.env.JWT_SECRET) {
-      return res.status(500).json({ error: 'JWT secret not configured' });
+      throw new InternalServerError('JWT secret not configured');
     }
 
     const { email, password } = req.body;
 
     if (!email || !password) {
-      return res.status(400).json({ error: 'Email and password are required' });
+      throw new BadRequestError('Email and password are required');
     }
 
     const result = await pool.query(
@@ -83,13 +79,13 @@ const login = async (req, res) => {
     const user = result.rows[0];
 
     if (!user) {
-      return res.status(401).json({ error: 'Invalid credentials' });
+      throw new BadRequestError('Invalid credentials');
     }
 
     const isMatch = await bcrypt.compare(password, user.password_hash);
 
     if (!isMatch) {
-      return res.status(401).json({ error: 'Invalid credentials' });
+      throw new UnauthenticatedError('Invalid credentials');
     }
 
     const token = jwt.sign(
@@ -98,7 +94,7 @@ const login = async (req, res) => {
       { expiresIn: '1d' }
     );
 
-    return res.status(200).json({
+    return res.status(StatusCodes.OK).json({
       token,
       user: {
         id: user.id,
@@ -106,8 +102,7 @@ const login = async (req, res) => {
       },
     });
   } catch (error) {
-    console.error('Login error:', error);
-    return res.status(500).json({ error: 'Server error' });
+    next(error);
   }
 };
 
@@ -116,11 +111,11 @@ const updateProfile = async (req, res, next) => {
     const { name, newPassword, currentPassword } = req.body;
 
     if (!currentPassword) {
-      return next(new BadRequestError('Current password is required'));
+      throw new BadRequestError('Current password is required');
     }
 
     if (!name && !newPassword) {
-      return next(new BadRequestError('Please provide a name or new password'));
+      throw new BadRequestError('Please provide a name or new password');
     }
     const result = await pool.query(
       'SELECT id, name, email, password_hash FROM users WHERE id = $1',
@@ -130,26 +125,24 @@ const updateProfile = async (req, res, next) => {
     const user = result.rows[0];
 
     if (!user) {
-      return next(new UnauthenticatedError('Invalid credentials'));
+      throw new UnauthenticatedError('Invalid credentials');
     }
 
     const isMatch = await bcrypt.compare(currentPassword, user.password_hash);
 
     if (!isMatch) {
-      return next(new UnauthenticatedError('Invalid credentials'));
+      throw new UnauthenticatedError('Invalid credentials');
     }
 
     if (newPassword) {
       if (newPassword.length < 6) {
-        return next(
-          new BadRequestError('Password must be at least 6 characters long')
-        );
+        throw new BadRequestError('Password must be at least 6 characters long');
       }
 
       const passwordRegex = /^[a-zA-Z0-9]+$/;
 
       if (!passwordRegex.test(newPassword)) {
-        return next(new BadRequestError('Password must be alphanumeric'));
+        throw new BadRequestError('Password must be alphanumeric');
       }
     }
 
@@ -161,10 +154,10 @@ const updateProfile = async (req, res, next) => {
 
     const updatedUser = await pool.query(
       `UPDATE users
-    SET name = COALESCE($1, name),
-        password_hash = $2
-    WHERE id = $3
-    RETURNING id, name`,
+        SET name = COALESCE($1, name),
+            password_hash = $2
+        WHERE id = $3
+        RETURNING id, name`,
       [name, updatedPasswordHash, req.user.id]
     );
     if (newPassword && !name) {
@@ -178,7 +171,7 @@ const updateProfile = async (req, res, next) => {
       data: updatedUser.rows[0],
     });
   } catch (error) {
-    return next(new InternalServerError(error.message || 'Server Error'));
+    next(error);
   }
 };
 
