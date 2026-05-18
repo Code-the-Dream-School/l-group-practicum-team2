@@ -10,12 +10,12 @@ const NameInputBox = ({name, setName, nameError, setNameError}) => {
     }
     const validateName = (name) =>{
 
-        const re = /^[a-zA-Z0-9]{6,20}$/
+        const re = /^[a-zA-Z0-9.-_]{2,20}$/
 
         if(name === "")
             setNameError("Name is required")
         else if(!re.test(name))
-            setNameError("Name must be between 2 and 20 letters and  must contain only alphanumeric characters and -.")
+            setNameError("Name must be between 2 and 20 letters and contain only alphanumeric characters and ._-")
         else
             setNameError("")
     }
