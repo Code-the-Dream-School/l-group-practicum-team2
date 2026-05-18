@@ -1,4 +1,4 @@
-import {FloatingLabel, Form} from "react-bootstrap";
+import {Form} from "react-bootstrap";
 import {useState} from "react";
 
 const NameInputBox = ({name, setName, nameError, setNameError}) => {

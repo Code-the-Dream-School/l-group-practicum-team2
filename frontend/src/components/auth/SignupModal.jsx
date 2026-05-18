@@ -2,15 +2,19 @@ import { Modal, Button, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import NameInputBox from './NameInputBox';
+import EmailInputBox from './EmailInputBox';
 
 const SignupModal = ({setShow}) => {
 
     const [name, setName] = useState('')
     const [nameError, setNameError] = useState('')
+    const [email, setEmail] = useState("");
+    const [emailError, setEmailError] = useState("");
 
     const handleSubmit = async(e) =>{
         e.preventDefault();
-        console.log(name);
+        
+        console.log('name', name);
     }
     return(
         <Form style={{ width: '100%'}} 
@@ -22,6 +26,10 @@ const SignupModal = ({setShow}) => {
             <Modal.Body >
                 <div className='my-3'>
                     <Form.Label ><b>Email</b></Form.Label>
+                    <EmailInputBox 
+                        email={email} setEmail={setEmail} 
+                        emailError={emailError} setEmailError={setEmailError}
+                    />
                 </div>   
                 <div className='my-3'>
                     <Form.Label><b>Name</b></Form.Label>
@@ -43,8 +51,8 @@ const SignupModal = ({setShow}) => {
 
                 </div>
             
-                <Button 
-                disabled={ nameError!=="" || name===""  }
+                <Button type='submit'
+                disabled={ nameError!=="" || name==="" || emailError!=='' || email==='' }
                 >
                     Register
                 </Button>
