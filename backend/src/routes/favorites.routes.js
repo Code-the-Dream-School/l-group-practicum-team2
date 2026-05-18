@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const authenticateUser = require('../middleware/authentication');
+const { validateFavoriteInput } = require('../validators/input-validation');
 
 const {
   createFavorite,
@@ -9,7 +10,7 @@ const {
   removeFavorite,
 } = require('../controllers/favorites.controller');
 
-router.post('/', authenticateUser, createFavorite);
+router.post('/', authenticateUser, validateFavoriteInput, createFavorite);
 router.get('/', authenticateUser, getFavorites);
 router.delete('/:animalId', authenticateUser, removeFavorite);
 

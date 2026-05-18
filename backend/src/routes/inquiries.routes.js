@@ -6,8 +6,9 @@ const {
   createInquiry,
   getMyInquiries,
 } = require('../controllers/inquiries.controller');
+const { validateInquiryInput } = require('../validators/input-validation');
 
-router.post('/', authenticateUser, createInquiry);
+router.post('/', authenticateUser, validateInquiryInput, createInquiry);
 router.get('/', authenticateUser, getMyInquiries);
 
 module.exports = router;
