@@ -1,20 +1,18 @@
-const express = require("express");
-const cors = require("cors");
-const helmet = require("helmet");
-const morgan = require("morgan");
-const rateLimit = require("express-rate-limit");
-const notFound = require("./middleware/not-found");
+const express = require('express');
+const cors = require('cors');
+const helmet = require('helmet');
+const morgan = require('morgan');
+const rateLimit = require('express-rate-limit');
+const notFound = require('./middleware/not-found');
 
 const helloRoutes = require('./routes/hello.routes');
 const authRoutes = require('./routes/auth.routes');
 const inquiryRoutes = require('./routes/inquiries.routes');
 
-
 const animalsRoutes = require('./routes/animals.routes');
 const shelterInfoRoutes = require('./routes/shelters.routes');
 const app = express();
 const favoritesRoutes = require('./routes/favorites.routes');
-
 
 // Authentication Middleware
 // Uncomment the below when ready to use in secured routes.
@@ -39,7 +37,7 @@ const limiter = rateLimit({
 app.use(limiter);
 
 // Error handler middleware
-const errorHandlerMiddleware = require('./middleware/error-handler')
+const errorHandlerMiddleware = require('./middleware/error-handler');
 
 // Routes
 app.use('/api/hello', helloRoutes);
@@ -47,16 +45,13 @@ app.use('/api/auth', authRoutes);
 app.use('/api/favorites', favoritesRoutes);
 app.use('/api/animals', animalsRoutes);
 app.use('/api/shelters', shelterInfoRoutes);
-app.use("/api/inquiries", inquiryRoutes);
-app.use("/api/inquiries", animalsRoutes);
-
-
+app.use('/api/inquiries', inquiryRoutes);
+app.use('/api/inquiries', animalsRoutes);
 
 // Root route
-app.get("/", (req, res) => {
-  res.send("Backend API is running");
+app.get('/', (req, res) => {
+  res.send('Backend API is running');
 });
-
 
 app.use(notFound);
 app.use(errorHandlerMiddleware);
