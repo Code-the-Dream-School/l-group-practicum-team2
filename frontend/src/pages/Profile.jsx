@@ -3,6 +3,7 @@ import { useState } from "react";
 
 function Profile() {
     const [showNameModal, setShowNameModal] = useState(false);
+    const [showPasswordModal, setShowPasswordModal] = useState(false);
   return (
     <main style={{ maxWidth: "800px", margin: "0 auto", padding: "2rem" }}>
       <h1 className="mb-2">Account Settings</h1>
@@ -51,7 +52,11 @@ function Profile() {
             <p className="text-muted mb-0">******</p>
           </div>
 
-          <Button variant="outline-primary" size="sm">
+          <Button
+           variant="outline-primary"
+            size="sm"
+            onClick={() => setShowPasswordModal(true)}
+            >
             Edit
           </Button>
         </div>
@@ -109,6 +114,50 @@ function Profile() {
           </Button>
         </Modal.Footer>
       </Modal>
+      <Modal
+        show={showPasswordModal}
+        onHide={() => setShowPasswordModal(false)}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Update Password</Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body>
+          <Form>
+            <Form.Group className="mb-3">
+              <Form.Label>Current Password</Form.Label>
+
+              <Form.Control
+                type="password"
+                placeholder="Enter current password"
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3">
+              <Form.Label>New Password</Form.Label>
+
+              <Form.Control
+                type="password"
+                placeholder="Enter new password"
+              />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+
+        <Modal.Footer>
+          <Button
+            variant="secondary"
+            onClick={() => setShowPasswordModal(false)}
+          >
+            Cancel
+          </Button>
+
+          <Button variant="primary">
+            Update Password
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
     </main>
   );
 }
