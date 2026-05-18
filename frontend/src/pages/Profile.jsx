@@ -2,6 +2,7 @@ import { Card, Button, Modal, Form } from "react-bootstrap";
 import { useState } from "react";
 
 function Profile() {
+    const [showNameModal, setShowModal] = useState(false);
   return (
     <main style={{ maxWidth: "800px", margin: "0 auto", padding: "2rem" }}>
       <h1 className="mb-2">Account Settings</h1>
@@ -17,7 +18,11 @@ function Profile() {
             <p className="text-muted mb-0">user@example.com</p>
           </div>
 
-          <Button variant="outline-primary" size="sm">
+          <Button 
+            variant="outline-primary"
+            size="sm"
+            onClick={() => setShowModal(true)}
+            >
             Edit
           </Button>
         </div>
