@@ -1,4 +1,5 @@
-import { Card, Button } from "react-bootstrap";
+import { Card, Button, Modal, Form } from "react-bootstrap";
+import { useState } from "react";
 
 function Profile() {
   return (
