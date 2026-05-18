@@ -2,6 +2,7 @@ import AnimalCard from "../../components/animals/AnimalCard";
 import { mockAnimals } from "../../constants/animals";
 import { fetchFavorites } from "../../services/favorites";
 import { useEffect, useState } from "react";
+import ErrorMessage from "../../components/ErrorMessage";
 
 function FavoritesPage() {
   const [favoriteAnimals, setFavoriteAnimals] = useState([]);
@@ -22,7 +23,7 @@ function FavoritesPage() {
       <h1>Favorites</h1>
 
       {favoriteAnimals.length === 0 ? (
-        <p>{`You don't have favorites`}</p>
+        <ErrorMessage message="You haven't saved any animals yet." />
       ) : (
         <div className="animals-grid">
           {favoriteAnimals.map((animal) => (

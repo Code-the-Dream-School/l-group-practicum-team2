@@ -8,16 +8,16 @@ import {
 } from "react";
 
 const SpecialNeedContext = createContext();
+const BACKEND_API = import.meta.env.VITE_API_BASE_URL;
 
 export const SpecialNeedProvider = ({ children }) => {
-  const BACKEND_API = import.meta.env.VITE_API_BASE_URL;
-
   const [loading, setLoading] = useState(false);
   const [specialNeeds, setSpecialNeeds] = useState([]);
+  const [error, setError] = useState(false);
 
   const getSpecialNeed = useCallback(async () => {
+    setError(false);
     setLoading(true);
-
     try {
       const response = await fetch(
         `${BACKEND_API}/api/animals?special_needs=true&status=available`,
@@ -29,13 +29,14 @@ export const SpecialNeedProvider = ({ children }) => {
         }
       );
       const data = await response.json();
-
+      //
       if (!response.ok) {
         throw new Error(data.msg || "Failed to fetch special need animals");
       }
       setSpecialNeeds(data.animals || []);
     } catch (error) {
       console.error(error);
+      setError(true);
     } finally {
       setLoading(false);
     }
@@ -53,6 +54,8 @@ export const SpecialNeedProvider = ({ children }) => {
       value={{
         specialNeeds,
         loading,
+        error,
+        getSpecialNeed,
       }}
     >
       {children}
