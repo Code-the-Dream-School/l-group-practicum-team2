@@ -4,9 +4,10 @@ import { useState } from 'react';
 import NameInputBox from './NameInputBox';
 import EmailInputBox from './EmailInputBox';
 import PasswordInputBox from './PasswordInputBox';
+import { useAuth } from '../../contexts/AuthContext'; 
 
 const SignupModal = ({setShow}) => {
-
+    const { handleRegister } = useAuth();
     const [name, setName] = useState('')
     const [nameError, setNameError] = useState('')
     const [email, setEmail] = useState("");
@@ -17,9 +18,12 @@ const SignupModal = ({setShow}) => {
     const handleSubmit = async(e) =>{
         e.preventDefault();
         
-        console.log('name', name);
-        console.log('email', email);
-        console.log('password', password);
+        const success = await handleRegister({ email, password });
+        
+        if (success) {
+            setShow(null)
+        }
+        // Notification bar (coming soon) will display the error
     }
     return(
         <Form style={{ width: '100%'}} 
