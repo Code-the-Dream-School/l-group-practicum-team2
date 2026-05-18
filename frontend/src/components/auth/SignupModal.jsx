@@ -18,7 +18,7 @@ const SignupModal = ({setShow}) => {
     const handleSubmit = async(e) =>{
         e.preventDefault();
         
-        const success = await handleRegister({ email, password });
+        const success = await handleRegister({ email, name, password });
         
         if (success) {
             setShow(null)
