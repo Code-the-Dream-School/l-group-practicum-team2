@@ -1,7 +1,7 @@
 const {
   addFavorite,
   getFavoritesByUser,
-  deleteFavorite
+  deleteFavorite,
 } = require('../db/favorites');
 
 // POST /api/favorites
@@ -22,7 +22,6 @@ const createFavorite = async (req, res) => {
     }
 
     return res.status(201).json(favorite);
-
   } catch (error) {
     console.error('Create favorite error:', error);
     return res.status(500).json({ error: 'Server error' });
@@ -36,7 +35,6 @@ const getFavorites = async (req, res) => {
     const favorites = await getFavoritesByUser(userId);
 
     return res.status(200).json(favorites);
-
   } catch (error) {
     console.error('Get favorites error:', error);
     return res.status(500).json({ error: 'Server error' });
@@ -56,7 +54,6 @@ const removeFavorite = async (req, res) => {
     }
 
     return res.status(200).json({ message: 'Favorite removed' });
-
   } catch (error) {
     console.error('Remove favorite error:', error);
     return res.status(500).json({ error: 'Server error' });
@@ -66,5 +63,5 @@ const removeFavorite = async (req, res) => {
 module.exports = {
   createFavorite,
   getFavorites,
-  removeFavorite
+  removeFavorite,
 };
