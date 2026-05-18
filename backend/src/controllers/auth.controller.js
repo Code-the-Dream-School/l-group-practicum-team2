@@ -118,6 +118,9 @@ const updateProfile = async (req, res, next) => {
     if(name !== undefined && name.trim() === ''){
       throw new BadRequestError('Name cannot be empty');
     }
+    if (newPassword !== undefined && newPassword.trim() === '') {
+      throw new BadRequestError('New password cannot be empty');
+    }
     const result = await pool.query(
       'SELECT id, name, email, password_hash FROM users WHERE id = $1',
       [req.user.id]
