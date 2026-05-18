@@ -1,88 +1,100 @@
-import { Modal, Button, Form } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import { useState } from 'react';
-import NameInputBox from './NameInputBox';
-import EmailInputBox from './EmailInputBox';
-import PasswordInputBox from './PasswordInputBox';
-import { useAuth } from '../../contexts/AuthContext'; 
-import PropTypes from 'prop-types';
+import { Modal, Button, Form } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import { useState } from "react";
+import NameInputBox from "./NameInputBox";
+import EmailInputBox from "./EmailInputBox";
+import PasswordInputBox from "./PasswordInputBox";
+import { useAuth } from "../../contexts/AuthContext";
+import PropTypes from "prop-types";
 
 SignupModal.propTypes = {
   setShow: PropTypes.func.isRequired,
 };
-const SignupModal = ({setShow}) => {
-    const { handleRegister } = useAuth();
-    const [name, setName] = useState('')
-    const [nameError, setNameError] = useState('')
-    const [email, setEmail] = useState("");
-    const [emailError, setEmailError] = useState("");
-    const [password, setPassword] = useState("");
-    const [passwordError, setPasswordError] = useState("");
+const SignupModal = ({ setShow }) => {
+  const { handleRegister } = useAuth();
+  const [name, setName] = useState("");
+  const [nameError, setNameError] = useState("");
+  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
 
-    const handleSubmit = async(e) =>{
-        e.preventDefault();
-        
-        const success = await handleRegister({ email, name, password });
-        
-        if (success) {
-            setShow(null)
-        }
-        // Notification bar (coming soon) will display the error
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const success = await handleRegister({ email, name, password });
+
+    if (success) {
+      setShow(null);
     }
-    return(
-        <Form style={{ width: '100%'}} 
-        onSubmit={handleSubmit}
+    // Notification bar (coming soon) will display the error
+  };
+  return (
+    <Form style={{ width: "100%" }} onSubmit={handleSubmit}>
+      <Modal.Header closeButton>
+        <Modal.Title>Sign in to your account</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <div className="my-3">
+          <Form.Label>
+            <b>Email</b>
+          </Form.Label>
+          <EmailInputBox
+            email={email}
+            setEmail={setEmail}
+            emailError={emailError}
+            setEmailError={setEmailError}
+          />
+        </div>
+        <div className="my-3">
+          <Form.Label>
+            <b>Name</b>
+          </Form.Label>
+          <NameInputBox
+            name={name}
+            setName={setName}
+            nameError={nameError}
+            setNameError={setNameError}
+          />
+        </div>
+
+        <div className="my-3">
+          <Form.Label>
+            <b>Password</b>
+          </Form.Label>
+          <PasswordInputBox
+            password={password}
+            setPassword={setPassword}
+            passwordError={passwordError}
+            setPasswordError={setPasswordError}
+          />
+        </div>
+      </Modal.Body>
+      <Modal.Footer className="d-flex justify-content-between align-items-center">
+        <div>
+          Already have an account?
+          <Link className="ms-1" onClick={() => setShow("login")}>
+            login
+          </Link>
+        </div>
+
+        <Button
+          type="submit"
+          disabled={
+            nameError !== "" ||
+            name === "" ||
+            emailError !== "" ||
+            email === "" ||
+            passwordError !== "" ||
+            password === ""
+          }
         >
-            <Modal.Header closeButton>
-                <Modal.Title>Sign in to your account</Modal.Title>
-            </Modal.Header>
-            <Modal.Body >
-                <div className='my-3'>
-                    <Form.Label ><b>Email</b></Form.Label>
-                    <EmailInputBox 
-                        email={email} setEmail={setEmail} 
-                        emailError={emailError} setEmailError={setEmailError}
-                    />
-                </div>   
-                <div className='my-3'>
-                    <Form.Label><b>Name</b></Form.Label>
-                    <NameInputBox name={name} setName={setName} nameError={nameError} setNameError={setNameError} />
-                </div>
-
-                <div className='my-3'>
-                    <Form.Label><b>Password</b></Form.Label>
-                    <PasswordInputBox 
-                        password={password} setPassword={setPassword} 
-                        passwordError={passwordError} setPasswordError={setPasswordError} 
-                    />
-                </div>
-                 
-            </Modal.Body>
-            <Modal.Footer className="d-flex justify-content-between align-items-center">
-                <div>
-                    Already have an account? 
-           
-                        <Link className='ms-1' onClick={()=>setShow('login')} >
-                        login 
-                    </Link>
-
-                </div>
-            
-                <Button type='submit'
-                    disabled={ 
-                        nameError!=="" || name==="" || 
-                        emailError!=='' || email==='' || 
-                        passwordError!=="" || password===''   }
-                >
-                    Register
-                </Button>
-                
-                
-            
-            </Modal.Footer>
-        </Form>
-    )
-}
+          Register
+        </Button>
+      </Modal.Footer>
+    </Form>
+  );
+};
 SignupModal.propTypes = {
   setShow: PropTypes.func.isRequired,
 };
