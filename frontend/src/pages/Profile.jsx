@@ -2,8 +2,8 @@ import { Card, Button, Modal, Form } from "react-bootstrap";
 import { useState } from "react";
 
 function Profile() {
-    const [showNameModal, setShowNameModal] = useState(false);
-    const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [showNameModal, setShowNameModal] = useState(false);
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
   return (
     <main style={{ maxWidth: "800px", margin: "0 auto", padding: "2rem" }}>
       <h1 className="mb-2">Account Settings</h1>
@@ -19,10 +19,7 @@ function Profile() {
             <p className="text-muted mb-0">user@example.com</p>
           </div>
 
-          <Button 
-            variant="outline-primary"
-            size="sm"
-            >
+          <Button variant="outline-primary" size="sm">
             Edit
           </Button>
         </div>
@@ -35,11 +32,11 @@ function Profile() {
             <p className="text-muted mb-0">John Doe</p>
           </div>
 
-          <Button 
-          variant="outline-primary"
-           size="sm"
-           onClick={() => setShowNameModal(true)}
-           >
+          <Button
+            variant="outline-primary"
+            size="sm"
+            onClick={() => setShowNameModal(true)}
+          >
             Edit
           </Button>
         </div>
@@ -53,10 +50,10 @@ function Profile() {
           </div>
 
           <Button
-           variant="outline-primary"
+            variant="outline-primary"
             size="sm"
             onClick={() => setShowPasswordModal(true)}
-            >
+          >
             Edit
           </Button>
         </div>
@@ -71,10 +68,7 @@ function Profile() {
 
         <Button variant="danger">Delete Account</Button>
       </Card>
-           <Modal
-        show={showNameModal}
-        onHide={() => setShowNameModal(false)}
-      >
+      <Modal show={showNameModal} onHide={() => setShowNameModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Edit Name</Modal.Title>
         </Modal.Header>
@@ -84,10 +78,7 @@ function Profile() {
             <Form.Group className="mb-3">
               <Form.Label>New Name</Form.Label>
 
-              <Form.Control
-                type="text"
-                placeholder="Enter new name"
-              />
+              <Form.Control type="text" placeholder="Enter new name" />
             </Form.Group>
 
             <Form.Group className="mb-3">
@@ -102,16 +93,11 @@ function Profile() {
         </Modal.Body>
 
         <Modal.Footer>
-          <Button
-            variant="secondary"
-            onClick={() => setShowNameModal(false)}
-          >
+          <Button variant="secondary" onClick={() => setShowNameModal(false)}>
             Cancel
           </Button>
 
-          <Button variant="primary">
-            Save Changes
-          </Button>
+          <Button variant="primary">Save Changes</Button>
         </Modal.Footer>
       </Modal>
       <Modal
@@ -136,10 +122,7 @@ function Profile() {
             <Form.Group className="mb-3">
               <Form.Label>New Password</Form.Label>
 
-              <Form.Control
-                type="password"
-                placeholder="Enter new password"
-              />
+              <Form.Control type="password" placeholder="Enter new password" />
             </Form.Group>
           </Form>
         </Modal.Body>
@@ -152,12 +135,9 @@ function Profile() {
             Cancel
           </Button>
 
-          <Button variant="primary">
-            Update Password
-          </Button>
+          <Button variant="primary">Update Password</Button>
         </Modal.Footer>
       </Modal>
-
     </main>
   );
 }
