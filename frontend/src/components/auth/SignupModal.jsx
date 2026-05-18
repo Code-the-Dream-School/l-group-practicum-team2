@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import NameInputBox from './NameInputBox';
 import EmailInputBox from './EmailInputBox';
+import PasswordInputBox from './PasswordInputBox';
 
 const SignupModal = ({setShow}) => {
 
@@ -10,11 +11,15 @@ const SignupModal = ({setShow}) => {
     const [nameError, setNameError] = useState('')
     const [email, setEmail] = useState("");
     const [emailError, setEmailError] = useState("");
+    const [password, setPassword] = useState("");
+    const [passwordError, setPasswordError] = useState("");
 
     const handleSubmit = async(e) =>{
         e.preventDefault();
         
         console.log('name', name);
+        console.log('email', email);
+        console.log('password', password);
     }
     return(
         <Form style={{ width: '100%'}} 
@@ -38,6 +43,10 @@ const SignupModal = ({setShow}) => {
 
                 <div className='my-3'>
                     <Form.Label><b>Password</b></Form.Label>
+                    <PasswordInputBox 
+                        password={password} setPassword={setPassword} 
+                        passwordError={passwordError} setPasswordError={setPasswordError} 
+                    />
                 </div>
                  
             </Modal.Body>
@@ -52,7 +61,10 @@ const SignupModal = ({setShow}) => {
                 </div>
             
                 <Button type='submit'
-                disabled={ nameError!=="" || name==="" || emailError!=='' || email==='' }
+                    disabled={ 
+                        nameError!=="" || name==="" || 
+                        emailError!=='' || email==='' || 
+                        passwordError!=="" || password===''   }
                 >
                     Register
                 </Button>
