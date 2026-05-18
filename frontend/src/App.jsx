@@ -16,8 +16,6 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/favorites" element={<FavoritesPage />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
           <Route path="/animals/:id" element={<AnimalDetail />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
