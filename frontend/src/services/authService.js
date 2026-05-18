@@ -49,6 +49,25 @@ export async function loginUser(userData) {
   }
 }
 
+export async function updateUserCredentials(userData, token) {
+  const response = await fetch(`${API_BASE_URL}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(userData),
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || "Failed to update credentials");
+  }
+
+  return data;
+}
+
 export const fetchCurrentUser = async () => {
   if (!localStorage.getItem("token")) return null;
 

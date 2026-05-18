@@ -1,6 +1,6 @@
 require('dotenv').config();
 const app = require('./src/app');
-const pool = require('./src/config/db.postgres')
+const pool = require('./src/config/db.postgres');
 
 const PORT = process.env.PORT || 8080;
 
@@ -13,14 +13,13 @@ const start = async () => {
 
     app.listen(PORT, () => {
       console.log(`Server running on http://localhost:${PORT}`);
-    })
+    });
   } catch (error) {
     console.error('Database connection failed');
     console.error(error.message);
-    console.error(error)
+    console.error(error);
     process.exit(1); // stop app if DB fails
   }
-}
+};
 
 start();
-

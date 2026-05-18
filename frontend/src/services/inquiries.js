@@ -1,42 +1,46 @@
-const USE_MOCK = import.meta.env.VITE_USE_MOCK_INQUIRIES === "true";
+const BACKEND_API = import.meta.env.VITE_API_BASE_URL;
 
-export async function createInquiry({ animal_id, message }) {
-  // Mock-mode, until BE endpoint is noy merged
-  if (USE_MOCK) {
-    await new Promise((resolve) => setTimeout(resolve, 600));
-    return {
-      ok: true,
-      data: {
-        id: `mock-${Date.now()}`,
-        animal_id,
-        message,
-        created_at: new Date().toISOString(),
-      },
-    };
-  }
-
+export async function getUserInquiries() {
   const token = localStorage.getItem("token");
 
   if (!token) {
     throw new Error("Not authenticated");
   }
+  const response = await fetch(`${BACKEND_API}/api/inquiries`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error(
+      data.msg || data.message || "Failed to fetch inquiries. Please try again."
+    );
+  }
+  return { ok: true, data };
+}
 
-  const response = await fetch("/api/inquiries", {
+export async function addInquiry({ animalId, message }) {
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    throw new Error("Not authenticated");
+  }
+  const response = await fetch(`${BACKEND_API}/api/inquiries`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ animal_id, message }),
+    body: JSON.stringify({ animal_id: animalId, message }),
   });
-
-  const data = await response.json().catch(() => ({}));
-
+  const data = await response.json();
   if (!response.ok) {
     throw new Error(
       data.msg || data.message || "Failed to send inquiry. Please try again."
     );
   }
-
   return { ok: true, data };
 }
