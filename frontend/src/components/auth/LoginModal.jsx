@@ -4,6 +4,11 @@ import { useState } from 'react';
 import EmailInputBox from './EmailInputBox';
 import PasswordInputBox from './PasswordInputBox';
 import { useAuth } from '../../contexts/AuthContext'; 
+import PropTypes from 'prop-types';
+
+LoginModal.propTypes = {
+  setShow: PropTypes.func.isRequired,
+};
 const LoginModal = ({setShow}) => {
     const {handleLogin } = useAuth();
     const [email, setEmail] = useState("");
@@ -62,4 +67,8 @@ const LoginModal = ({setShow}) => {
         </Form>
     )
 }
+LoginModal.propTypes = {
+  setShow: PropTypes.func.isRequired,
+};
+
 export default LoginModal

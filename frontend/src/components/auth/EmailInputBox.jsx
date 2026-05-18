@@ -1,5 +1,5 @@
 import { Form } from "react-bootstrap";
-import {useState} from "react";
+import PropTypes from 'prop-types';
 
 const EmailInputBox = ({email, setEmail, emailError, setEmailError}) => {
 
@@ -10,8 +10,6 @@ const EmailInputBox = ({email, setEmail, emailError, setEmailError}) => {
             validateEmail(e.target.value)
     }
     const validateEmail = (email) =>{
-        console.log("validate email: " + email )
-
         const re = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/
 
         if(email === "")
@@ -40,4 +38,10 @@ const EmailInputBox = ({email, setEmail, emailError, setEmailError}) => {
 
 )
 }
+EmailInputBox.propTypes = {
+    email: PropTypes.string.isRequired,
+    setEmail: PropTypes.func.isRequired,
+    emailError: PropTypes.string.isRequired,
+    setEmailError: PropTypes.func.isRequired,
+};
 export default EmailInputBox

@@ -5,7 +5,11 @@ import NameInputBox from './NameInputBox';
 import EmailInputBox from './EmailInputBox';
 import PasswordInputBox from './PasswordInputBox';
 import { useAuth } from '../../contexts/AuthContext'; 
+import PropTypes from 'prop-types';
 
+SignupModal.propTypes = {
+  setShow: PropTypes.func.isRequired,
+};
 const SignupModal = ({setShow}) => {
     const { handleRegister } = useAuth();
     const [name, setName] = useState('')
@@ -79,4 +83,8 @@ const SignupModal = ({setShow}) => {
         </Form>
     )
 }
+SignupModal.propTypes = {
+  setShow: PropTypes.func.isRequired,
+};
+
 export default SignupModal;

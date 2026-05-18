@@ -1,8 +1,8 @@
 import {Form} from "react-bootstrap";
 import {useState} from "react";
+import PropTypes from 'prop-types';
 
 const NameInputBox = ({name, setName, nameError, setNameError}) => {
-    console.log('in nameinput ')
     const handleChange = e =>{
         setName(e.target.value)
         if(nameError)
@@ -31,4 +31,10 @@ const NameInputBox = ({name, setName, nameError, setNameError}) => {
         </>
     )
 }
+NameInputBox.propTypes = {
+    name: PropTypes.string.isRequired,
+    setName: PropTypes.func.isRequired,
+    nameError: PropTypes.string.isRequired,
+    setNameError: PropTypes.func.isRequired,
+};
 export default NameInputBox

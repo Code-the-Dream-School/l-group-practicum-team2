@@ -1,6 +1,7 @@
 import {Form, InputGroup} from "react-bootstrap";
 import {useState} from "react";
 import {Eye, EyeSlash} from "react-bootstrap-icons";
+import PropTypes from 'prop-types';
 
 const PasswordInputBox = ({password, setPassword, passwordError, setPasswordError}) => {
 
@@ -12,7 +13,7 @@ const PasswordInputBox = ({password, setPassword, passwordError, setPasswordErro
             validatePassword(e.target.value)
     }
     const validatePassword = (pa) =>{
-        console.log("validate password")
+
         const re = /^[A-Za-z0-9]{6,20}$/
         if(pa === "")
             setPasswordError("Password is required")
@@ -54,4 +55,10 @@ const PasswordInputBox = ({password, setPassword, passwordError, setPasswordErro
 
     )
 }
+PasswordInputBox.propTypes = {
+    password: PropTypes.string.isRequired,
+    setPassword: PropTypes.func.isRequired,
+    passwordError: PropTypes.string.isRequired,
+    setPasswordError: PropTypes.func.isRequired,
+};
 export default PasswordInputBox
