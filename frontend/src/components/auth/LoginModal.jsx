@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import EmailInputBox from './EmailInputBox';
 import PasswordInputBox from './PasswordInputBox';
-
+import { useAuth } from '../../contexts/AuthContext'; 
 const LoginModal = ({setShow}) => {
-
+    const {handleLogin } = useAuth();
     const [email, setEmail] = useState("");
     const [emailError, setEmailError] = useState("");
 
@@ -15,8 +15,12 @@ const LoginModal = ({setShow}) => {
     const handleSubmit = async(e) =>{
         e.preventDefault();
         
-        console.log('email', email);
-        console.log('password', password)
+        const success = await handleLogin({ email, password });
+        
+        if (success) {
+            setShow(null)
+        }
+        // Notification bar (coming soon) will display the error
     }
     return(
         <Form style={{ width: '100%'}} onSubmit={handleSubmit}
