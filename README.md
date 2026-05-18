@@ -157,6 +157,13 @@ After creating the tables, run the seed file in terminal to insert data
 npm run db:seed
 ```
 
+### Database Index Migration
+
+Run the following command to apply animal filter indexes:
+
+```bash
+psql $DATABASE_URL -f src/db/20260517_add_animal_filter_indexes.sql
+```
 
 ### Frontend Setup
 ```
