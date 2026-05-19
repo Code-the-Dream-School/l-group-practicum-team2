@@ -28,14 +28,8 @@
         "header": [],
         "url": {
           "raw": "{{path}}/api/shelters/282bd3c5-c900-4941-bace-ef92080c61df",
-          "host": [
-            "{{path}}"
-          ],
-          "path": [
-            "api",
-            "shelters",
-            "282bd3c5-c900-4941-bace-ef92080c61df"
-          ]
+          "host": ["{{path}}"],
+          "path": ["api", "shelters", "282bd3c5-c900-4941-bace-ef92080c61df"]
         }
       },
       "response": []
@@ -83,14 +77,8 @@
         },
         "url": {
           "raw": "{{path}}/api/auth/register",
-          "host": [
-            "{{path}}"
-          ],
-          "path": [
-            "api",
-            "auth",
-            "register"
-          ]
+          "host": ["{{path}}"],
+          "path": ["api", "auth", "register"]
         }
       },
       "response": []
@@ -138,14 +126,8 @@
         },
         "url": {
           "raw": "{{path}}/api/auth/login",
-          "host": [
-            "{{path}}"
-          ],
-          "path": [
-            "api",
-            "auth",
-            "login"
-          ]
+          "host": ["{{path}}"],
+          "path": ["api", "auth", "login"]
         }
       },
       "response": []
@@ -172,14 +154,8 @@
         "header": [],
         "url": {
           "raw": "{{path}}/api/animals/15d54d98-32b8-4067-931e-8144dc5e753f",
-          "host": [
-            "{{path}}"
-          ],
-          "path": [
-            "api",
-            "animals",
-            "15d54d98-32b8-4067-931e-8144dc5e753f"
-          ]
+          "host": ["{{path}}"],
+          "path": ["api", "animals", "15d54d98-32b8-4067-931e-8144dc5e753f"]
         }
       },
       "response": []
@@ -206,13 +182,8 @@
         "header": [],
         "url": {
           "raw": "{{path}}/api/animals?species=dog&size=small&age_category=senior&special_needs=true",
-          "host": [
-            "{{path}}"
-          ],
-          "path": [
-            "api",
-            "animals"
-          ],
+          "host": ["{{path}}"],
+          "path": ["api", "animals"],
           "query": [
             {
               "key": "species",
@@ -257,13 +228,8 @@
         "header": [],
         "url": {
           "raw": "{{path}}/api/animals",
-          "host": [
-            "{{path}}"
-          ],
-          "path": [
-            "api",
-            "animals"
-          ]
+          "host": ["{{path}}"],
+          "path": ["api", "animals"]
         }
       },
       "response": []

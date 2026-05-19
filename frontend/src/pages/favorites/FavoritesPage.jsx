@@ -1,19 +1,29 @@
 import AnimalCard from "../../components/animals/AnimalCard";
 import { mockAnimals } from "../../constants/animals";
-import { getFavorites } from "../../services/favorites";
+import { fetchFavorites } from "../../services/favorites";
+import { useEffect, useState } from "react";
+import ErrorMessage from "../../components/ErrorMessage";
 
 function FavoritesPage() {
-  const favoriteIds = getFavorites();
-  const favoriteAnimals = mockAnimals.filter((animal) =>
-    favoriteIds.includes(String(animal.id))
-  );
+  const [favoriteAnimals, setFavoriteAnimals] = useState([]);
+  useEffect(() => {
+    async function fetchData() {
+      setFavoriteAnimals(await fetchFavorites());
+      setFavoriteAnimals(
+        favoriteAnimals.filter((animal) =>
+          favoriteIds.includes(String(animal.id))
+        )
+      );
+    }
+    fetchData();
+  }, []);
 
   return (
     <main className="app">
       <h1>Favorites</h1>
 
       {favoriteAnimals.length === 0 ? (
-        <p>{`You don't have favorites`}</p>
+        <ErrorMessage message="You haven't saved any animals yet." />
       ) : (
         <div className="animals-grid">
           {favoriteAnimals.map((animal) => (
