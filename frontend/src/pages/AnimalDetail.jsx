@@ -26,6 +26,10 @@ function normalizeAnimal(data) {
     special_needs: Boolean(data.special_needs),
     photo_url: data.photo_url,
     shelter_id: data.shelter_id || null,
+    shelter_name: data.shelter_name || data.shelter?.name || null,
+    shelter_city: data.shelter_city || data.shelter?.city || null,
+    shelter_email: data.shelter_email || data.shelter?.contact_email || null,
+    shelter_phone: data.shelter_phone || data.shelter?.phone || null,
   };
 }
 
@@ -82,7 +86,7 @@ export default function AnimalDetail() {
 
         if (!ignore) {
           if (fallbackAnimal) {
-            setAnimal(fallbackAnimal);
+            setAnimal(normalizeAnimal(fallbackAnimal));
           } else {
             setNotFound(true);
             setAnimal(null);
@@ -224,7 +228,12 @@ export default function AnimalDetail() {
             <p>{animal.description || "No description available."}</p>
           </section>
 
-          <ShelterInfo shelterId={animal.shelter_id} />
+          <ShelterInfo
+            shelter_name={animal.shelter_name}
+            shelter_city={animal.shelter_city}
+            shelter_email={animal.shelter_email}
+            shelter_phone={animal.shelter_phone}
+          />
 
           <div className="detail-actions">
             <button
