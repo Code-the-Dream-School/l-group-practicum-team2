@@ -397,6 +397,46 @@
   padding: 80px 24px;
   text-align: center;
 }
+
+.not-found-illustration {
+  font-size: 72px;
+  line-height: 1;
+  margin-bottom: 16px;
+}
+
+.not-found-paw {
+  display: inline-block;
+  transform: rotate(-15deg);
+}
+
+.not-found-code {
+  font-size: 96px;
+  font-weight: 800;
+  color: #2563eb;
+  margin: 0 0 8px;
+  letter-spacing: -2px;
+}
+
+.not-found-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 12px;
+}
+
+.not-found-message {
+  color: #475569;
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 0 auto 28px;
+  max-width: 480px;
+}
+
+.not-found-cta {
+  display: inline-block;
+  text-decoration: none;
+}
+
 /* Inquiry form */
 .inquiry-form {
   display: flex;
