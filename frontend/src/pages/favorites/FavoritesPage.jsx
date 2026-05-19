@@ -1,22 +1,16 @@
-import AnimalCard from "../../components/animals/AnimalCard";
-import { mockAnimals } from "../../constants/animals";
-import { fetchFavorites } from "../../services/favorites";
 import { useEffect, useState } from "react";
+import AnimalCard from "../../components/animals/AnimalCard";
 import ErrorMessage from "../../components/ErrorMessage";
+import { fetchFavorites } from "../../services/favorites";
 
 function FavoritesPage() {
   const [favoriteAnimals, setFavoriteAnimals] = useState([]);
   useEffect(() => {
-    async function fetchData() {
-      setFavoriteAnimals(await fetchFavorites());
-      setFavoriteAnimals(
-        favoriteAnimals.filter((animal) =>
-          favoriteIds.includes(String(animal.id))
-        )
-      );
-    }
-    fetchData();
-  }, []);
+  async function fetchData() {
+    setFavoriteAnimals(await fetchFavorites());
+  }
+  fetchData();
+}, []);
 
   return (
     <main className="app">

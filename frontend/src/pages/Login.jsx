@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext";
 import ErrorMessage from "../components/ErrorMessage";
 import LoadingSpinner from "../components/LoadingSpinner";
+import { useAuth } from "../contexts/AuthContext";
 
 function Login() {
-  const { handleLogin, error } = useAuth();
+  const { handleLogin, error, loading } = useAuth();
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");

@@ -1,9 +1,10 @@
+import PropTypes from "prop-types";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
+  fetchCurrentUser,
   loginUser,
   registerUser,
-  fetchCurrentUser,
 } from "../services/authService";
 
 const AuthContext = createContext();
@@ -84,9 +85,22 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  useEffect(() => {
-    getCurrentUser();
-  }, []);
+useEffect(() => {
+  fetchCurrentUser()
+    .then((data) => {
+      setUser(data && data.user ? data.user : null);
+      setError(null);
+    })
+    .catch((error) => {
+      console.error(error);
+      setError(error.message);
+      setUser(null);
+      localStorage.removeItem("token");
+    })
+    .finally(() => {
+      setLoading(false);
+    });
+}, []);
 
   return (
     <AuthContext.Provider
@@ -103,6 +117,9 @@ export const AuthProvider = ({ children }) => {
       {children}
     </AuthContext.Provider>
   );
+};
+AuthProvider.propTypes = {
+  children: PropTypes.node.isRequired,
 };
 
 export const useAuth = () => useContext(AuthContext);

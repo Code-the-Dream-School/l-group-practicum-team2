@@ -1,9 +1,6 @@
 import AnimalCard from "./AnimalCard";
 import Filters from "./Filters";
-import { mockAnimals } from "../../constants/animals";
 import ErrorMessage from "../ErrorMessage";
-import { fetchAnimals } from "../../services/AnimalService";
-
 import { useAnimal } from "../../contexts/AnimalContext";
 
 function AnimalList() {
