@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
-import { mockAnimals } from "../constants/animals";
+import { useNavigate, useParams } from "react-router-dom";
+import InquiryModal from "../components/inquiries/InquiryModal";
+import { fetchAnimalById } from "../services/animals";
 import { formatLabel } from "../utils/formatLabel";
 import NotFound from "./NotFound";
-import InquiryModal from "../components/inquiries/InquiryModal";
 
 function normalizeAnimal(data) {
   if (!data) return null;
@@ -16,265 +16,133 @@ function normalizeAnimal(data) {
     age_years: data.age_years,
     age_category: data.age_category,
     size: data.size,
-    temperament: Array.isArray(data.temperament)
-      ? data.temperament
-      : data.temperament
-        ? [data.temperament]
-        : [],
+    //  temperament 
+    temperament: data.temperament || "",
     description: data.description,
-    special_needs: Boolean(data.special_needs),
+    special_needs: data.special_needs,
     photo_url: data.photo_url,
-    shelter: {
-      name: data.shelter?.name || "",
-      city: data.shelter?.city || "",
-      contact_email: data.shelter?.contact_email || "",
-    },
+    status: data.status,
+    shelter: data.shelter || null,
   };
 }
 
-function isUserLoggedIn() {
-  return Boolean(localStorage.getItem("token"));
+//  Display-only helper:
+function temperamentToTags(temperament) {
+  if (!temperament || typeof temperament !== "string") return [];
+  return temperament
+    .split(",")
+    .map((t) => t.trim())
+    .filter(Boolean);
 }
 
-export default function AnimalDetail() {
+function AnimalDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
 
   const [animal, setAnimal] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [notFound, setNotFound] = useState(false);
-
-  // Inquiry state
-  const [showInquiryModal, setShowInquiryModal] = useState(false);
-  const [inquirySent, setInquirySent] = useState(false);
-  const [successMessage, setSuccessMessage] = useState(null);
+  const [error, setError] = useState(null);
+  const [showInquiry, setShowInquiry] = useState(false);
 
   useEffect(() => {
-    let ignore = false;
+    let cancelled = false;
 
     async function loadAnimal() {
       setLoading(true);
-      setNotFound(false);
+      setError(null);
 
       try {
-        const response = await fetch(`/api/animals/${id}`);
-
-        if (response.status === 404) {
-          if (!ignore) {
-            setNotFound(true);
-            setAnimal(null);
-          }
-          return;
-        }
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch animal");
-        }
-
-        const data = await response.json();
-
-        if (!ignore) {
-          setAnimal(normalizeAnimal(data));
-        }
-      } catch (error) {
-        console.error("Failed to fetch animal:", error);
-
-        const fallbackAnimal = mockAnimals.find(
-          (item) => String(item.id) === String(id)
-        );
-
-        if (!ignore) {
-          if (fallbackAnimal) {
-            setAnimal(fallbackAnimal);
-          } else {
-            setNotFound(true);
-            setAnimal(null);
-          }
-        }
+        const data = await fetchAnimalById(id);
+        if (cancelled) return;
+        setAnimal(normalizeAnimal(data));
+      } catch (err) {
+        if (!cancelled) setError(err.message || "Failed to load animal");
       } finally {
-        if (!ignore) {
-          setLoading(false);
-        }
+        if (!cancelled) setLoading(false);
       }
     }
 
     loadAnimal();
-
     return () => {
-      ignore = true;
+      cancelled = true;
     };
   }, [id]);
 
-  const handleSave = () => {
-    if (!isUserLoggedIn()) {
-      navigate("/login");
-      return;
-    }
-    alert("Save action will be connected later.");
-  };
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p className="error">{error}</p>;
+  if (!animal) return <NotFound />;
 
-  const handleInquire = () => {
-    if (!isUserLoggedIn()) {
-      navigate("/login");
-      return;
-    }
-    setShowInquiryModal(true);
-  };
-
-  const handleInquirySuccess = () => {
-    setShowInquiryModal(false);
-    setInquirySent(true);
-    setSuccessMessage(
-      "Your inquiry has been sent! The shelter will contact you soon."
-    );
-
-    // Auto-hide toast after 5s
-    setTimeout(() => setSuccessMessage(null), 5000);
-  };
-
-  if (loading) {
-    return (
-      <main className="detail-page">
-        <p>Loading animal details...</p>
-      </main>
-    );
-  }
-
-  if (notFound || !animal) {
-    return <NotFound />;
-  }
-
-  const isSenior = animal.age_category === "senior";
+ 
+  const temperamentTags = temperamentToTags(animal.temperament);
 
   return (
-    <main className="detail-page">
-      {successMessage && (
-        <div
-          className="inquiry-toast inquiry-toast-success"
-          role="status"
-          aria-live="polite"
-        >
-          {successMessage}
-        </div>
-      )}
+    <main className="animal-detail">
+      <button onClick={() => navigate(-1)} className="back-btn">
+        ← Back
+      </button>
 
-      <div className="detail-back-link">
-        <Link to="/">← Back to animals list</Link>
-      </div>
+      <div className="animal-detail-card">
+        <img
+          src={animal.photo_url}
+          alt={animal.name}
+          className="animal-detail-image"
+        />
 
-      <section className="detail-layout">
-        <div className="detail-image-column">
-          <img
-            src={animal.photo_url}
-            alt={animal.name}
-            className="detail-image"
-          />
-        </div>
+        <div className="animal-detail-info">
+          <h1>{animal.name}</h1>
+          <p className="breed">{animal.breed}</p>
 
-        <div className="detail-content-column">
-          <div className="detail-header-row">
-            <div>
-              <h1>{animal.name}</h1>
-              <p className="detail-subtitle">
-                {formatLabel(animal.species)} • {animal.breed}
-              </p>
-            </div>
-
-            <div className="detail-badges">
-              {animal.special_needs && (
-                <span className="detail-badge warning">Special Needs</span>
-              )}
-              {isSenior && (
-                <span className="detail-badge secondary">Senior</span>
-              )}
-            </div>
+          <div className="animal-meta">
+            <span>{formatLabel(animal.species)}</span>
+            <span>{formatLabel(animal.size)}</span>
+            <span>{formatLabel(animal.age_category)}</span>
+            <span>{animal.age_years} yrs</span>
           </div>
 
-          <div className="detail-meta-grid">
-            <div className="detail-meta-card">
-              <span className="detail-label">Age</span>
-              <strong>{animal.age_years} yrs</strong>
+  
+          {temperamentTags.length > 0 && (
+            <div className="temperament-tags">
+              {temperamentTags.map((tag) => (
+                <span key={tag} className="temperament-tag">
+                  {formatLabel(tag)}
+                </span>
+              ))}
             </div>
-            <div className="detail-meta-card">
-              <span className="detail-label">Size</span>
-              <strong>{formatLabel(animal.size)}</strong>
-            </div>
-            <div className="detail-meta-card">
-              <span className="detail-label">Species</span>
-              <strong>{formatLabel(animal.species)}</strong>
-            </div>
-            <div className="detail-meta-card">
-              <span className="detail-label">Breed</span>
-              <strong>{animal.breed}</strong>
-            </div>
-          </div>
+          )}
 
-          <section className="detail-section">
-            <h2>Temperament</h2>
-            <div className="tags">
-              {animal.temperament?.length ? (
-                animal.temperament.map((item) => (
-                  <span key={item}>{formatLabel(item)}</span>
-                ))
-              ) : (
-                <span>No temperament info</span>
-              )}
-            </div>
-          </section>
+          <p className="description">{animal.description}</p>
 
-          <section className="detail-section">
-            <h2>Description</h2>
-            <p>{animal.description || "No description available."}</p>
-          </section>
-
-          <section className="detail-section shelter-card">
-            <h2>Shelter information</h2>
-            <p>
-              <strong>Name:</strong> {animal.shelter?.name || "N/A"}
-            </p>
-            <p>
-              <strong>City:</strong> {animal.shelter?.city || "N/A"}
-            </p>
-            <p>
-              <strong>Contact email:</strong>{" "}
-              {animal.shelter?.contact_email ? (
+          {animal.shelter && (
+            <div className="shelter-info">
+              <h3>Shelter</h3>
+              <p>{animal.shelter.name}</p>
+              <p>{animal.shelter.city}</p>
+              <p>
                 <a href={`mailto:${animal.shelter.contact_email}`}>
                   {animal.shelter.contact_email}
                 </a>
-              ) : (
-                "N/A"
-              )}
-            </p>
-          </section>
+              </p>
+            </div>
+          )}
 
-          <div className="detail-actions">
-            <button
-              type="button"
-              className="btn btn-secondary"
-              onClick={handleSave}
-            >
-              Save
-            </button>
-
-            <button
-              type="button"
-              className="btn btn-primary"
-              onClick={handleInquire}
-              disabled={inquirySent}
-            >
-              {inquirySent ? "Inquiry sent ✓" : "I'm Interested"}
-            </button>
-          </div>
+          <button
+            type="button"
+            className="inquiry-btn"
+            onClick={() => setShowInquiry(true)}
+          >
+            Send Inquiry
+          </button>
         </div>
-      </section>
+      </div>
 
-      <InquiryModal
-        show={showInquiryModal}
-        onHide={() => setShowInquiryModal(false)}
-        animalId={animal.id}
-        animalName={animal.name}
-        onSuccess={handleInquirySuccess}
-      />
+      {showInquiry && (
+        <InquiryModal
+          animal={animal}
+          onClose={() => setShowInquiry(false)}
+        />
+      )}
     </main>
   );
 }
+
+export default AnimalDetail;
