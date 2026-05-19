@@ -1,27 +1,28 @@
 import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-  useMemo,
+    createContext,
+    useContext,
+    useEffect,
+    useState,
+    useMemo,
 } from "react";
-import { fetchFavorites, addFavorite, removeFavorite} from "../services/favoriteService";
+import { fetchFavorites, addFavorite, removeFavorite} from "../services/favorites";
+import { useAuth } from "./AuthContext";
 
 const FavoriteContext = createContext();
 const BACKEND_API = import.meta.env.VITE_API_BASE_URL;
 
 export const FavoriteProvider = ({ children }) => {
-  const [loading, setLoading] = useState(false);
-  const [favorites, setFavorites] = useState([]);
-  const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [favorites, setFavorites] = useState([]);
+    const [error, setError] = useState(null);
+    const { user } = useAuth();
 
-
-  const getFavorites = async () => {
+    const getFavorites = async () => {
     setLoading(true);
 
     try {
       const data = await fetchFavorites();
-      setFavorites(data.favorites || []);
+      setFavorites(data.map(f => f.id) || []);
     } catch (error) {
       setError(error.message || "Something went wrong while fetching favorites");
     } finally {
@@ -56,7 +57,8 @@ export const FavoriteProvider = ({ children }) => {
   
 
   useEffect(() => {
-    getFavorites();
+    if(user)
+        getFavorites();
   }, [user]);
 
   return (
