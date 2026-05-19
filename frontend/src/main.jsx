@@ -7,15 +7,18 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { AuthProvider } from "./contexts/AuthContext.jsx";
 import { SpecialNeedProvider } from "./services/SpecialNeedContext";
 import { AnimalProvider } from "./contexts/AnimalContext.jsx";
+import { FavoriteProvider } from "./contexts/FavoriteContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
       <AuthProvider>
         <AnimalProvider>
-          <SpecialNeedProvider>
-            <App />
-          </SpecialNeedProvider>
+          <FavoriteProvider>
+            <SpecialNeedProvider>
+              <App />
+            </SpecialNeedProvider>
+          </FavoriteProvider>
         </AnimalProvider>
       </AuthProvider>
     </BrowserRouter>
