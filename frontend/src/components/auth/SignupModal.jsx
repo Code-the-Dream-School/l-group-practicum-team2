@@ -7,9 +7,7 @@ import PasswordInputBox from "./PasswordInputBox";
 import { useAuth } from "../../contexts/AuthContext";
 import PropTypes from "prop-types";
 
-SignupModal.propTypes = {
-  setShow: PropTypes.func.isRequired,
-};
+
 const SignupModal = ({ setShow }) => {
   const { handleRegister } = useAuth();
   const [name, setName] = useState("");
@@ -73,9 +71,9 @@ const SignupModal = ({ setShow }) => {
       <Modal.Footer className="d-flex justify-content-between align-items-center">
         <div>
           Already have an account?
-          <Link className="ms-1" onClick={() => setShow("login")}>
+          <Button variant="link" className="ms-1" onClick={() => setShow("login")}>
             login
-          </Link>
+          </Button>
         </div>
 
         <Button
