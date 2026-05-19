@@ -85,22 +85,22 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-useEffect(() => {
-  fetchCurrentUser()
-    .then((data) => {
-      setUser(data && data.user ? data.user : null);
-      setError(null);
-    })
-    .catch((error) => {
-      console.error(error);
-      setError(error.message);
-      setUser(null);
-      localStorage.removeItem("token");
-    })
-    .finally(() => {
-      setLoading(false);
-    });
-}, []);
+  useEffect(() => {
+    fetchCurrentUser()
+      .then((data) => {
+        setUser(data && data.user ? data.user : null);
+        setError(null);
+      })
+      .catch((error) => {
+        console.error(error);
+        setError(error.message);
+        setUser(null);
+        localStorage.removeItem("token");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
 
   return (
     <AuthContext.Provider

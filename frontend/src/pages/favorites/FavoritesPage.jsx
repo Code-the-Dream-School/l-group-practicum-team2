@@ -6,11 +6,11 @@ import { fetchFavorites } from "../../services/favorites";
 function FavoritesPage() {
   const [favoriteAnimals, setFavoriteAnimals] = useState([]);
   useEffect(() => {
-  async function fetchData() {
-    setFavoriteAnimals(await fetchFavorites());
-  }
-  fetchData();
-}, []);
+    async function fetchData() {
+      setFavoriteAnimals(await fetchFavorites());
+    }
+    fetchData();
+  }, []);
 
   return (
     <main className="app">
