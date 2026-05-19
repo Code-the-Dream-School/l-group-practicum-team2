@@ -207,6 +207,71 @@ if (newPassword && !name) {
 
 };
 
+const deleteAccount = async (req, res, next) => {
+    try {
+        const { currentPassword } = req.body;
+
+        if (!currentPassword) {
+            return next(
+                new BadRequestError(
+                    'Current password is required'
+                )
+            );
+        }
+
+       const result = await pool.query(
+    'SELECT id, password_hash FROM users WHERE id = $1',
+    [req.user.id]
+);
+
+const user = result.rows[0];
+
+if (!user) {
+    return next(
+        new UnauthenticatedError('Invalid credentials')
+    );
+}
+
+const isMatch = await bcrypt.compare(
+    currentPassword,
+    user.password_hash
+);
+
+if (!isMatch) {
+    return next(
+        new UnauthenticatedError('Invalid credentials')
+    );
+}
+
+await pool.query(
+    'DELETE FROM favorites WHERE user_id = $1',
+    [req.user.id]
+);
+
+await pool.query(
+    'DELETE FROM inquiries WHERE user_id = $1',
+    [req.user.id]
+);
+
+await pool.query(
+    'DELETE FROM users WHERE id = $1',
+    [req.user.id]
+);
+
+return res.status(StatusCodes.OK).json({
+    data: {
+        message: 'User account deleted successfully'
+    }
+});
+    } catch (error) {
+        return next(
+            new InternalServerError(
+                error.message || 'Server Error'
+            )
+        );
+    }
+};
+
 const getCurrentUser = (req, res) => {
     const { id, email, name } = req.user;
 
@@ -215,4 +280,4 @@ const getCurrentUser = (req, res) => {
     });
 };
 
-module.exports = { register, login, updateProfile, getCurrentUser };
+module.exports = { register, login, updateProfile, getCurrentUser, deleteAccount };
