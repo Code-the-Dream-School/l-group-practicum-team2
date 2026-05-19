@@ -57,7 +57,11 @@ const LoginModal = ({ setShow }) => {
       <Modal.Footer className="d-flex justify-content-between align-items-center">
         <div>
           Don’t have an account?
-          <Button variant="link" className="ms-1" onClick={() => setShow("signup")}>
+          <Button
+            variant="link"
+            className="ms-1"
+            onClick={() => setShow("signup")}
+          >
             Register
           </Button>
         </div>
