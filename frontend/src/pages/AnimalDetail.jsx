@@ -4,9 +4,6 @@ import InquiryModal from "../components/inquiries/InquiryModal";
 import { fetchAnimalById } from "../services/animals";
 import { formatLabel } from "../utils/formatLabel";
 import NotFound from "./NotFound";
-import LoadingSpinner from "../components/LoadingSpinner";
-import ErrorMessage from "../components/ErrorMessage";
-import InquiryModal from "../components/inquiries/InquiryModal";
 
 function normalizeAnimal(data) {
   if (!data) return null;
@@ -19,7 +16,6 @@ function normalizeAnimal(data) {
     age_years: data.age_years,
     age_category: data.age_category,
     size: data.size,
-    //  temperament
     temperament: data.temperament || "",
     description: data.description,
     special_needs: data.special_needs,
@@ -29,12 +25,12 @@ function normalizeAnimal(data) {
   };
 }
 
-//  Display-only helper:
 function temperamentToTags(temperament) {
   if (!temperament || typeof temperament !== "string") return [];
+
   return temperament
     .split(",")
-    .map((t) => t.trim())
+    .map((tag) => tag.trim())
     .filter(Boolean);
 }
 
@@ -46,13 +42,6 @@ function AnimalDetail() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showInquiry, setShowInquiry] = useState(false);
-  const [notFound, setNotFound] = useState(false);
-  const [error, setError] = useState(false);
-
-  // Inquiry state
-  const [showInquiryModal, setShowInquiryModal] = useState(false);
-  const [inquirySent, setInquirySent] = useState(false);
-  const [successMessage, setSuccessMessage] = useState(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -73,6 +62,7 @@ function AnimalDetail() {
     }
 
     loadAnimal();
+
     return () => {
       cancelled = true;
     };
@@ -87,7 +77,7 @@ function AnimalDetail() {
   return (
     <main className="animal-detail">
       <button onClick={() => navigate(-1)} className="back-btn">
-        ← Back
+        Back
       </button>
 
       <div className="animal-detail-card">
@@ -142,13 +132,6 @@ function AnimalDetail() {
           </button>
         </div>
       </div>
-      </section>
-      {error && (
-        <ErrorMessage
-          message="Failed to load animal details."
-          handleRetry={handleRetry}
-        />
-      )}
 
       {showInquiry && (
         <InquiryModal animal={animal} onClose={() => setShowInquiry(false)} />
