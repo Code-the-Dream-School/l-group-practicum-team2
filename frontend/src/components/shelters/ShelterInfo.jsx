@@ -1,7 +1,6 @@
 import PropTypes from "prop-types";
 import { GeoAlt } from "react-bootstrap-icons";
 
-
 export default function ShelterInfo({
   shelter_name,
   shelter_city,
