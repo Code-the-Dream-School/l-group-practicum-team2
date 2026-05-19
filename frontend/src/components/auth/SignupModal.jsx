@@ -32,7 +32,7 @@ const SignupModal = ({ setShow }) => {
   return (
     <Form style={{ width: "100%" }} onSubmit={handleSubmit}>
       <Modal.Header closeButton>
-        <Modal.Title>Sign in to your account</Modal.Title>
+        <Modal.Title>Create your accoun</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <div className="my-3">
