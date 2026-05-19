@@ -1,5 +1,8 @@
 import AnimalCard from "./AnimalCard";
 import Filters from "./Filters";
+import { mockAnimals } from "../../constants/animals";
+import ErrorMessage from "../ErrorMessage";
+import { fetchAnimals } from "../../services/AnimalService";
 
 import { useAnimal } from "../../contexts/AnimalContext";
 
@@ -15,7 +18,6 @@ function AnimalList() {
   return (
     <main className="app">
       <h1>Animals List</h1>
-
       <Filters
         species={filters.species}
         size={filters.size}
@@ -27,6 +29,9 @@ function AnimalList() {
         onSpecialNeedsChange={(v) => updateParam("special_needs", v)}
       />
 
+      {filteredAnimals.length === 0 && (
+        <ErrorMessage message="Failed to load animals." />
+      )}
       {hasActiveFilters && (
         <button
           type="button"

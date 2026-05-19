@@ -30,15 +30,9 @@
         "url": {
           "raw": "http://localhost:8080/api/auth/register",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "8080",
-          "path": [
-            "api",
-            "auth",
-            "register"
-          ]
+          "path": ["api", "auth", "register"]
         }
       },
       "response": []
@@ -69,15 +63,9 @@
         "url": {
           "raw": "http://localhost:8080/api/auth/login",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "8080",
-          "path": [
-            "api",
-            "auth",
-            "login"
-          ]
+          "path": ["api", "auth", "login"]
         }
       },
       "response": []
@@ -109,14 +97,9 @@
         "url": {
           "raw": "http://localhost:8080/api/favorites",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "8080",
-          "path": [
-            "api",
-            "favorites"
-          ]
+          "path": ["api", "favorites"]
         }
       },
       "response": []
@@ -139,14 +122,9 @@
         "url": {
           "raw": "http://localhost:8080/api/favorites",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "8080",
-          "path": [
-            "api",
-            "favorites"
-          ]
+          "path": ["api", "favorites"]
         }
       },
       "response": []
@@ -169,15 +147,9 @@
         "url": {
           "raw": "http://localhost:8080/api/favorites/a19fa4a1-8bff-4198-b1b0-36fcff268925",
           "protocol": "http",
-          "host": [
-            "localhost"
-          ],
+          "host": ["localhost"],
           "port": "8080",
-          "path": [
-            "api",
-            "favorites",
-            "a19fa4a1-8bff-4198-b1b0-36fcff268925"
-          ]
+          "path": ["api", "favorites", "a19fa4a1-8bff-4198-b1b0-36fcff268925"]
         }
       },
       "response": []

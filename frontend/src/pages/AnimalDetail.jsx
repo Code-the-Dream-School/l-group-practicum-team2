@@ -4,6 +4,9 @@ import InquiryModal from "../components/inquiries/InquiryModal";
 import { fetchAnimalById } from "../services/animals";
 import { formatLabel } from "../utils/formatLabel";
 import NotFound from "./NotFound";
+import LoadingSpinner from "../components/LoadingSpinner";
+import ErrorMessage from "../components/ErrorMessage";
+import InquiryModal from "../components/inquiries/InquiryModal";
 
 function normalizeAnimal(data) {
   if (!data) return null;
@@ -43,6 +46,13 @@ function AnimalDetail() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showInquiry, setShowInquiry] = useState(false);
+  const [notFound, setNotFound] = useState(false);
+  const [error, setError] = useState(false);
+
+  // Inquiry state
+  const [showInquiryModal, setShowInquiryModal] = useState(false);
+  const [inquirySent, setInquirySent] = useState(false);
+  const [successMessage, setSuccessMessage] = useState(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -134,6 +144,13 @@ function AnimalDetail() {
           </button>
         </div>
       </div>
+      </section>
+      {error && (
+        <ErrorMessage
+          message="Failed to load animal details."
+          handleRetry={handleRetry}
+        />
+      )}
 
       {showInquiry && (
         <InquiryModal
