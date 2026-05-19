@@ -1,8 +1,5 @@
 import { Link } from "react-router-dom";
 
-// Friendly 404 page shown for any route the router does not match.
-// Keeps the pet theme so the user stays in the experience and has a clear
-// way back to the animals list.
 export default function NotFound() {
   return (
     <main className="not-found-page">
