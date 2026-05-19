@@ -7,7 +7,7 @@ const EmailInputBox = ({ email, setEmail, emailError, setEmailError }) => {
     if (emailError) validateEmail(e.target.value);
   };
   const validateEmail = (email) => {
-    const re = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+    const re = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i;
 
     if (email === "") setEmailError("Email is required");
     else if (!re.test(email)) setEmailError("Email format is invalid");
