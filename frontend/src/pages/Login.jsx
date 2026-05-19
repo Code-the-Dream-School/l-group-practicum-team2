@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+import ErrorMessage from "../components/ErrorMessage";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 function Login() {
   const { handleLogin, error } = useAuth();
@@ -42,15 +44,14 @@ function Login() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-
         <button type="submit">Login</button>
       </form>
-
-      {error && <p style={{ color: "red" }}>{error}</p>}
 
       <p>
         Don’t have an account? <Link to="/register">Register</Link>
       </p>
+      {loading && <LoadingSpinner message="Submitting details..." />}
+      {error && <ErrorMessage message={error} error={error} />}
     </main>
   );
 }

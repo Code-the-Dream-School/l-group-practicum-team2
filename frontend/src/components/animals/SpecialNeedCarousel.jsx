@@ -1,30 +1,29 @@
 import Carousel from "react-bootstrap/Carousel";
 import Toast from "react-bootstrap/Toast";
-import { Row, Col } from "react-bootstrap";
 import { useState } from "react";
 import { Col, Row } from "react-bootstrap";
-import Carousel from "react-bootstrap/Carousel";
-import Toast from "react-bootstrap/Toast";
-
-import { useSpecialNeeds } from "../../services/SpecialNeedContext";
-
 import AnimalCard from "./AnimalCard";
 import { HeartFill } from "react-bootstrap-icons";
-import {} from "react-router-dom";
-import { useSpecialNeeds } from "../../services/SpecialNeedContext";
+import ErrorMessage from "../ErrorMessage";
+import LoadingSpinner from "../LoadingSpinner";
+import { useAnimal } from "../../contexts/AnimalContext";
 
-import AnimalCard from "./AnimalCard";
 const SpecialNeedCarousel = () => {
-  const { specialNeeds } = useSpecialNeeds();
+  const { animals, loading, error } = useAnimal();
+
+  const specialNeedsAnimals = animals.filter((a) => a.special_needs);
   const [show, setShow] = useState(false);
 
-  // uncomment when detail page is merged
+  // uncomment when detail page integrated with AnimalContext is merged
   // const navigate = useNavigate();
   const handleClick = () => {
     setShow(true);
-    // uncomment when detail page is merged
+    // uncomment when detail page integrated with AnimalContext is merged
     // navigate(`/animals/${id}`);
   };
+  if (loading)
+    return <LoadingSpinner message="Loading special needs companions..." />;
+
   return (
     <>
       <Row>
@@ -60,6 +59,13 @@ const SpecialNeedCarousel = () => {
       <Toast onClose={() => setShow(false)} show={show} delay={2000} autohide>
         <Toast.Body>Coming soon</Toast.Body>
       </Toast>
+
+      {error && (
+        <ErrorMessage
+          message="Failed to load special needs companions. Please try again."
+          error={error}
+        />
+      )}
       <div
         style={{
           width: "992px",
@@ -73,29 +79,19 @@ const SpecialNeedCarousel = () => {
           indicators={false}
           data-bs-theme="dark"
         >
-          {specialNeeds.map((specialNeed) => {
+          {specialNeedsAnimals.map((specialNeedsAnimal) => {
             return (
-              <Carousel.Item key={specialNeed.id}>
+              <Carousel.Item key={specialNeedsAnimal.id}>
                 <div
-                  onClick={() => handleClick(specialNeed.id)}
                   style={{
-                    width: "100%",
                     display: "flex",
-                    flexDirection: "column",
+                    justifyContent: "center",
                     alignItems: "center",
+                    width: "100%",
                   }}
                 >
-                  <div
-                    style={{
-                      cursor: "pointer",
-                      position: "relative",
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      width: "540px",
-                    }}
-                  >
-                    <AnimalCard animal={specialNeed} />
+                  <div style={{ width: "540px" }}>
+                    <AnimalCard animal={specialNeedsAnimal} />
                   </div>
                 </div>
               </Carousel.Item>

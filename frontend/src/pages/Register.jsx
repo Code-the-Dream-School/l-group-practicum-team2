@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+import LoadingSpinner from "../components/LoadingSpinner";
+import ErrorMessage from "../components/ErrorMessage";
 
 function Register() {
   const { handleRegister, error } = useAuth();
@@ -55,12 +57,12 @@ function Register() {
 
         <button type="submit">Register</button>
       </form>
-
-      {error && <p style={{ color: "red" }}>{error}</p>}
-
       <p>
         Already have an account? <Link to="/login">Log in</Link>
       </p>
+
+      {loading && <LoadingSpinner message="Submitting details..." />}
+      {error && <ErrorMessage message={error} error={error} />}
     </main>
   );
 }

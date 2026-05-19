@@ -35,7 +35,7 @@ const register = async (req, res, next) => {
     const newUser = await pool.query(
       `INSERT INTO users (name, email, password_hash)
        VALUES ($1, $2, $3)
-       RETURNING id, name`,
+       RETURNING id, name, email`,
       [name, email, password_hash]
     );
 
@@ -49,10 +49,7 @@ const register = async (req, res, next) => {
 
     return res.status(StatusCodes.CREATED).json({
       token,
-      user: {
-        id: user.id,
-        name: user.name,
-      },
+      user
     });
   } catch (error) {
     next(error);
@@ -99,6 +96,7 @@ const login = async (req, res, next) => {
       user: {
         id: user.id,
         name: user.name,
+        email
       },
     });
   } catch (error) {
@@ -116,6 +114,12 @@ const updateProfile = async (req, res, next) => {
 
     if (!name && !newPassword) {
       throw new BadRequestError('Please provide a name or new password');
+    }
+    if(name !== undefined && name.trim() === ''){
+      throw new BadRequestError('Name cannot be empty');
+    }
+    if (newPassword !== undefined && newPassword.trim() === '') {
+      throw new BadRequestError('New password cannot be empty');
     }
     const result = await pool.query(
       'SELECT id, name, email, password_hash FROM users WHERE id = $1',
@@ -152,24 +156,21 @@ const updateProfile = async (req, res, next) => {
       updatedPasswordHash = await bcrypt.hash(newPassword, 10);
     }
 
-    const updatedUser = await pool.query(
-      `UPDATE users
-        SET name = COALESCE($1, name),
-            password_hash = $2
-        WHERE id = $3
-        RETURNING id, name`,
-      [name, updatedPasswordHash, req.user.id]
-    );
-    if (newPassword && !name) {
-      return res.status(StatusCodes.OK).json({
-        data: {
-          message: 'User password updated successfully',
-        },
-      });
-    }
+   
+const updatedUser = await pool.query(
+    `UPDATE users
+    SET name = COALESCE($1, name),
+        password_hash = $2
+    WHERE id = $3
+    RETURNING id, name, email`,
+    [name, updatedPasswordHash, req.user.id]
+);
+
     return res.status(StatusCodes.OK).json({
-      data: updatedUser.rows[0],
-    });
+        user: updatedUser.rows[0],
+        message: 
+          newPassword ? "Password updated successfully" : "Profile updated successfully"
+    })
   } catch (error) {
     next(error);
   }
