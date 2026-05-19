@@ -7,7 +7,6 @@ export const mockAnimals = [
     age_years: 4,
     age_category: "adult",
     size: "med",
-    temperament: "friendly, gentle, playful", 
+    temperament: "friendly, gentle, playful",
   },
- 
 ];

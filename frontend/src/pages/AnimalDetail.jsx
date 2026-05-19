@@ -19,7 +19,7 @@ function normalizeAnimal(data) {
     age_years: data.age_years,
     age_category: data.age_category,
     size: data.size,
-    //  temperament 
+    //  temperament
     temperament: data.temperament || "",
     description: data.description,
     special_needs: data.special_needs,
@@ -82,7 +82,6 @@ function AnimalDetail() {
   if (error) return <p className="error">{error}</p>;
   if (!animal) return <NotFound />;
 
- 
   const temperamentTags = temperamentToTags(animal.temperament);
 
   return (
@@ -109,7 +108,6 @@ function AnimalDetail() {
             <span>{animal.age_years} yrs</span>
           </div>
 
-  
           {temperamentTags.length > 0 && (
             <div className="temperament-tags">
               {temperamentTags.map((tag) => (
@@ -153,10 +151,7 @@ function AnimalDetail() {
       )}
 
       {showInquiry && (
-        <InquiryModal
-          animal={animal}
-          onClose={() => setShowInquiry(false)}
-        />
+        <InquiryModal animal={animal} onClose={() => setShowInquiry(false)} />
       )}
     </main>
   );
