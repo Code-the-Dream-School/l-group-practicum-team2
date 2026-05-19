@@ -196,9 +196,7 @@ const deleteAccount = async (req, res, next) => {
 const user = result.rows[0];
 
 if (!user) {
-    return next(
-        new UnauthenticatedError('Invalid credentials')
-    );
+   throw new UnauthenticatedError('Invalid credentials');
 }
 
 const isMatch = await bcrypt.compare(
@@ -212,15 +210,7 @@ if (!isMatch) {
     );
 }
 
-await pool.query(
-    'DELETE FROM favorites WHERE user_id = $1',
-    [req.user.id]
-);
 
-await pool.query(
-    'DELETE FROM inquiries WHERE user_id = $1',
-    [req.user.id]
-);
 
 await pool.query(
     'DELETE FROM users WHERE id = $1',
@@ -233,11 +223,7 @@ return res.status(StatusCodes.OK).json({
     }
 });
     } catch (error) {
-        return next(
-            new InternalServerError(
-                error.message || 'Server Error'
-            )
-        );
+       next(error); 
     }
 };
 
