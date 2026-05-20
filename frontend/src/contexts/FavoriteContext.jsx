@@ -1,30 +1,31 @@
-import React, {
-    createContext,
-    useContext,
-    useEffect,
-    useState,
-} from "react";
-import { fetchFavorites, addFavorite, removeFavorite} from "../services/favoriteService";
+import React, { createContext, useContext, useEffect, useState } from "react";
+import {
+  fetchFavorites,
+  addFavorite,
+  removeFavorite,
+} from "../services/favoriteService";
 import { useAuth } from "./AuthContext";
-import { useAnimal } from './AnimalContext';
+import { useAnimal } from "./AnimalContext";
 
 const FavoriteContext = createContext();
 
 export const FavoriteProvider = ({ children }) => {
-    const [loading, setLoading] = useState(false);
-    const [favoriteIds, setFavoriteIds] = useState([]);
-    const [error, setError] = useState(null);
-    const { user } = useAuth();
-    const { animals } = useAnimal();
+  const [loading, setLoading] = useState(false);
+  const [favoriteIds, setFavoriteIds] = useState([]);
+  const [error, setError] = useState(null);
+  const { user } = useAuth();
+  const { animals } = useAnimal();
 
-    const getFavorites = async () => {
+  const getFavorites = async () => {
     setLoading(true);
 
     try {
       const data = await fetchFavorites();
-      setFavoriteIds(data.map(f => f.id) || []);
+      setFavoriteIds(data.map((f) => f.id) || []);
     } catch (error) {
-      setError(error.message || "Something went wrong while fetching favorites");
+      setError(
+        error.message || "Something went wrong while fetching favorites"
+      );
     } finally {
       setLoading(false);
     }
@@ -34,7 +35,7 @@ export const FavoriteProvider = ({ children }) => {
 
     try {
       await addFavorite(animalId);
-      setFavoriteIds(prev => [...prev, animalId]);
+      setFavoriteIds((prev) => [...prev, animalId]);
     } catch (error) {
       setError(error.message || "Something went wrong while adding favorites");
     } finally {
@@ -46,21 +47,21 @@ export const FavoriteProvider = ({ children }) => {
 
     try {
       await removeFavorite(animalId);
-      setFavoriteIds(prev => prev.filter(a => a !== animalId));
+      setFavoriteIds((prev) => prev.filter((a) => a !== animalId));
     } catch (error) {
-      setError(error.message || "Something went wrong while removing favorites");
+      setError(
+        error.message || "Something went wrong while removing favorites"
+      );
     } finally {
       setLoading(false);
     }
   };
 
   const isFavorite = (animalId) => favoriteIds.includes(animalId);
-  const favoriteAnimals = animals.filter(animal => isFavorite(animal.id));
-
+  const favoriteAnimals = animals.filter((animal) => isFavorite(animal.id));
 
   useEffect(() => {
-    if(user)
-        getFavorites();
+    if (user) getFavorites();
   }, [user]);
 
   return (
