@@ -1,6 +1,6 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { addInquiry } from "../../services/inquiries";
+import { addInquiry } from "../../services/inquiryService";
 
 const MIN_MESSAGE_LENGTH = 10;
 
