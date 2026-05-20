@@ -3,11 +3,21 @@ import { mockAnimals } from "../../constants/animals";
 import { fetchFavorites } from "../../services/favorites";
 import { useEffect, useState } from "react";
 import ErrorMessage from "../../components/ErrorMessage";
-import { useFavorite } from "../../contexts/FavoriteContext";
+
 function FavoritesPage() {
-  
-  const { favorites: favoriteAnimals } = useFavorite();
-console.log(favoriteAnimals)
+  const [favoriteAnimals, setFavoriteAnimals] = useState([]);
+  useEffect(() => {
+    async function fetchData() {
+      setFavoriteAnimals(await fetchFavorites());
+      setFavoriteAnimals(
+        favoriteAnimals.filter((animal) =>
+          favoriteIds.includes(String(animal.id))
+        )
+      );
+    }
+    fetchData();
+  }, []);
+
   return (
     <main className="app">
       <h1>Favorites</h1>
