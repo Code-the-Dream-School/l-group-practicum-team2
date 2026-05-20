@@ -4,6 +4,7 @@ import {
   loginUser,
   registerUser,
   fetchCurrentUser,
+  updateUserCredentials,
 } from "../services/authService";
 
 const AuthContext = createContext();
