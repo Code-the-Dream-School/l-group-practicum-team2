@@ -58,7 +58,6 @@ export default function AnimalDetail() {
       (item) => String(item.id) === String(id)
     );
 
-    console.log("!!!", fallbackAnimal);
 
     if (!fallbackAnimal) {
       setNotFound(true);
@@ -101,7 +100,6 @@ export default function AnimalDetail() {
 
   const handleRetry = () => {
     setError(false);
-    // setLoading(true);
     setNotFound(false);
     setAnimal(null);
   };
