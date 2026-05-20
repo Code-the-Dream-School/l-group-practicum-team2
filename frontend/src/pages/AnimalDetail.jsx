@@ -157,7 +157,7 @@ export default function AnimalDetail() {
     return <NotFound />;
   }
 
-  const isSenior = animal.age_category === "senior";
+  const isSenior = animal.age_category?.toUpperCase() === "SENIOR";
 
   return (
     <main className="detail-page">
