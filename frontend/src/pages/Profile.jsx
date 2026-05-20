@@ -81,6 +81,8 @@ const handleProfileUpdate = async (e) => {
   }
 };
 
+
+
   return (
     <main style={{ maxWidth: "800px", margin: "0 auto", padding: "2rem" }}>
       <h1 className="mb-2">Account Settings</h1>
@@ -145,13 +147,13 @@ const handleProfileUpdate = async (e) => {
 
         <Button variant="danger">Delete Account</Button>
       </Card>
-      <Modal show={showNameModal} onHide={() => setShowNameModal(false)}>
+      <Modal show={showNameModal} onHide={handleCloseNameModal}>
         <Modal.Header closeButton>
           <Modal.Title>Edit Name</Modal.Title>
         </Modal.Header>
 
-        <Modal.Body>
-          <Form>
+        <Form onSubmit={handleProfileUpdate}>
+            <Modal.Body>
             <Form.Group className="mb-3">
               <Form.Label>New Name</Form.Label>
 
@@ -166,7 +168,7 @@ const handleProfileUpdate = async (e) => {
                 placeholder="Enter current password"
               />
             </Form.Group>
-          </Form>
+          
         </Modal.Body>
 
         <Modal.Footer>
@@ -176,6 +178,7 @@ const handleProfileUpdate = async (e) => {
 
           <Button variant="primary">Save Changes</Button>
         </Modal.Footer>
+        </Form>
       </Modal>
       <Modal
         show={showPasswordModal}
@@ -186,7 +189,7 @@ const handleProfileUpdate = async (e) => {
         </Modal.Header>
 
         <Modal.Body>
-          <Form>
+          
             <Form.Group className="mb-3">
               <Form.Label>Current Password</Form.Label>
 
@@ -201,7 +204,6 @@ const handleProfileUpdate = async (e) => {
 
               <Form.Control type="password" placeholder="Enter new password" />
             </Form.Group>
-          </Form>
         </Modal.Body>
 
         <Modal.Footer>
@@ -214,6 +216,7 @@ const handleProfileUpdate = async (e) => {
 
           <Button variant="primary">Update Password</Button>
         </Modal.Footer>
+        
       </Modal>
     </main>
   );
