@@ -1,9 +1,86 @@
 import { Card, Button, Modal, Form } from "react-bootstrap";
 import { useState } from "react";
+import { updateUserCredentials } from "../services/authService";
 
 function Profile() {
   const [showNameModal, setShowNameModal] = useState(false);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [name, setName] = useState("");
+  const [profilePassword, setProfilePassword] = useState("");
+
+  const [passwordCurrentPassword, setPasswordCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const [profileLoading, setProfileLoading] = useState(false);
+  const [passwordLoading, setPasswordLoading] = useState(false);
+
+  const [profileSuccess, setProfileSuccess] = useState("");
+  const [passwordSuccess, setPasswordSuccess] = useState("");
+
+  const [profileError, setProfileError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+
+  const isProfileFormValid = name.trim() && profilePassword.trim();
+
+  const isPasswordFormValid =
+    passwordCurrentPassword.trim() &&
+    newPassword.trim() &&
+    confirmPassword.trim() &&
+    newPassword === confirmPassword;
+
+    const handleCloseNameModal = () => {
+  setShowNameModal(false);
+  setName("");
+  setProfilePassword("");
+  setProfileError("");
+};
+
+const handleClosePasswordModal = () => {
+  setShowPasswordModal(false);
+  setPasswordCurrentPassword("");
+  setNewPassword("");
+  setConfirmPassword("");
+  setPasswordError("");
+};
+
+const handleProfileUpdate = async (e) => {
+  e.preventDefault();
+
+  setProfileError("");
+  setProfileSuccess("");
+  setProfileLoading(true);
+
+  if (!name.trim() || !profilePassword.trim()) {
+    setProfileError("Name and current password are required.");
+    setProfileLoading(false);
+    return;
+  }
+
+  try {
+    const token = localStorage.getItem("token");
+
+    await updateUserCredentials(
+      {
+        name,
+        currentPassword: profilePassword,
+      },
+      token
+    );
+
+    setProfileSuccess("Profile updated successfully");
+    handleCloseNameModal();
+  } catch (err) {
+    if (err instanceof Error) {
+      setProfileError(err.message);
+    } else {
+      setProfileError("Something went wrong");
+    }
+  } finally {
+    setProfileLoading(false);
+  }
+};
+
   return (
     <main style={{ maxWidth: "800px", margin: "0 auto", padding: "2rem" }}>
       <h1 className="mb-2">Account Settings</h1>
