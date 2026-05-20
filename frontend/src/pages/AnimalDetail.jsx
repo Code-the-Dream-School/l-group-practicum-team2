@@ -58,7 +58,6 @@ export default function AnimalDetail() {
       (item) => String(item.id) === String(id)
     );
 
-
     if (!fallbackAnimal) {
       setNotFound(true);
       setAnimal(null);
