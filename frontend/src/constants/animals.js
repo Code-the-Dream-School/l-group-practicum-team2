@@ -1,3 +1,7 @@
+// Mock animals used as a fallback until the backend endpoints are wired up.
+// Shelter info lives on flat fields (shelter_name / shelter_city / etc.) so it
+// matches the shape ShelterInfo expects from AnimalContext once the refactor
+// to merge animal + shelter data on the server lands.
 export const mockAnimals = [
   {
     id: "1",
@@ -13,11 +17,10 @@ export const mockAnimals = [
     special_needs: true,
     photo_url: "https://placedog.net/600/400?id=1",
     status: "available",
-    shelter: {
-      name: "Happy Tails Shelter",
-      city: "Boston",
-      contact_email: "hello@happytails.org",
-    },
+    shelter_name: "Happy Tails Shelter",
+    shelter_city: "Boston",
+    shelter_email: "hello@happytails.org",
+    shelter_phone: "(617) 555-0142",
   },
   {
     id: "2",
@@ -34,11 +37,10 @@ export const mockAnimals = [
     photo_url:
       "https://images.pexels.com/photos/45201/kitty-cat-kitten-pet-45201.jpeg",
     status: "available",
-    shelter: {
-      name: "City Pet Rescue",
-      city: "Chicago",
-      contact_email: "adopt@citypetrescue.org",
-    },
+    shelter_name: "City Pet Rescue",
+    shelter_city: "Chicago",
+    shelter_email: "adopt@citypetrescue.org",
+    shelter_phone: "(312) 555-0188",
   },
   {
     id: "3",
@@ -54,11 +56,10 @@ export const mockAnimals = [
     special_needs: false,
     photo_url: "https://placedog.net/600/400?id=2",
     status: "available",
-    shelter: {
-      name: "Green Valley Shelter",
-      city: "Denver",
-      contact_email: "contact@greenvalleyshelter.org",
-    },
+    shelter_name: "Green Valley Shelter",
+    shelter_city: "Denver",
+    shelter_email: "contact@greenvalleyshelter.org",
+    shelter_phone: "(303) 555-0173",
   },
   {
     id: "4",
@@ -75,10 +76,9 @@ export const mockAnimals = [
     photo_url:
       "https://images.pexels.com/photos/326012/pexels-photo-326012.jpeg",
     status: "available",
-    shelter: {
-      name: "Little Paws Haven",
-      city: "Seattle",
-      contact_email: "info@littlepawshaven.org",
-    },
+    shelter_name: "Little Paws Haven",
+    shelter_city: "Seattle",
+    shelter_email: "info@littlepawshaven.org",
+    shelter_phone: "(206) 555-0119",
   },
 ];
