@@ -54,7 +54,9 @@ export default function AnimalDetail() {
   const [successMessage, setSuccessMessage] = useState(null);
 
   useEffect(() => {
-    const fallbackAnimal = animals.find((item) => String(item.id) === String(id));
+    const fallbackAnimal = animals.find(
+      (item) => String(item.id) === String(id)
+    );
 
     console.log("!!!", fallbackAnimal);
 
