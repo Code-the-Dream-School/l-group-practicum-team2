@@ -157,7 +157,12 @@ const handleProfileUpdate = async (e) => {
             <Form.Group className="mb-3">
               <Form.Label>New Name</Form.Label>
 
-              <Form.Control type="text" placeholder="Enter new name" />
+              <Form.Control
+               type="text"
+                placeholder="Enter new name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                 />
             </Form.Group>
 
             <Form.Group className="mb-3">
@@ -166,6 +171,8 @@ const handleProfileUpdate = async (e) => {
               <Form.Control
                 type="password"
                 placeholder="Enter current password"
+                value={profilePassword}
+                onChange={(e) => setProfilePassword(e.target.value)}
               />
             </Form.Group>
           
@@ -187,6 +194,7 @@ const handleProfileUpdate = async (e) => {
         <Modal.Header closeButton>
           <Modal.Title>Update Password</Modal.Title>
         </Modal.Header>
+        <Form onSubmit={handlePasswordUpdate}>
 
         <Modal.Body>
           
@@ -196,6 +204,8 @@ const handleProfileUpdate = async (e) => {
               <Form.Control
                 type="password"
                 placeholder="Enter current password"
+                value={passwordCurrentPassword}
+                onChange={(e) => setPasswordCurrentPassword(e.target.value)}
               />
             </Form.Group>
 
@@ -216,7 +226,7 @@ const handleProfileUpdate = async (e) => {
 
           <Button variant="primary">Update Password</Button>
         </Modal.Footer>
-        
+        </Form>
       </Modal>
     </main>
   );
