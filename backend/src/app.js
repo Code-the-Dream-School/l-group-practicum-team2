@@ -14,6 +14,9 @@ const shelterInfoRoutes = require('./routes/shelters.routes');
 const app = express();
 const favoritesRoutes = require('./routes/favorites.routes');
 
+// Check if required environment variables are set
+const validateEnvVars = require('./validators/config');
+validateEnvVars();
 // Authentication Middleware
 // Uncomment the below when ready to use in secured routes.
 // const authenticateUser = require('./middleware/authentication');

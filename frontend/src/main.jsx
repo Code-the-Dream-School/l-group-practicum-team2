@@ -5,7 +5,6 @@ import "./index.css";
 import App from "./App.jsx";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { AuthProvider } from "./contexts/AuthContext.jsx";
-import { SpecialNeedProvider } from "./services/SpecialNeedContext";
 import { AnimalProvider } from "./contexts/AnimalContext.jsx";
 
 createRoot(document.getElementById("root")).render(
@@ -13,9 +12,7 @@ createRoot(document.getElementById("root")).render(
     <BrowserRouter>
       <AuthProvider>
         <AnimalProvider>
-          <SpecialNeedProvider>
-            <App />
-          </SpecialNeedProvider>
+          <App />
         </AnimalProvider>
       </AuthProvider>
     </BrowserRouter>
