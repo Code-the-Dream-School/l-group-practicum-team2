@@ -4,7 +4,7 @@ import React, {
     useEffect,
     useState,
 } from "react";
-import { fetchFavorites, addFavorite, removeFavorite} from "../services/favorites";
+import { fetchFavorites, addFavorite, removeFavorite} from "../services/favoriteService";
 import { useAuth } from "./AuthContext";
 import { useAnimal } from './AnimalContext';
 

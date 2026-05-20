@@ -13,7 +13,9 @@ createRoot(document.getElementById("root")).render(
     <BrowserRouter>
       <AuthProvider>
         <AnimalProvider>
-          <App />
+          <FavoriteProvider>
+            <App />
+          </FavoriteProvider>
         </AnimalProvider>
       </AuthProvider>
     </BrowserRouter>
