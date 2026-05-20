@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
-import { mockAnimals } from "../constants/animals";
-import { formatLabel } from "../utils/formatLabel";
-import NotFound from "./NotFound";
-import LoadingSpinner from "../components/LoadingSpinner";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import ErrorMessage from "../components/ErrorMessage";
 import InquiryModal from "../components/inquiries/InquiryModal";
+import LoadingSpinner from "../components/LoadingSpinner";
 import ShelterInfo from "../components/shelters/ShelterInfo";
+import { useAnimal } from "../contexts/AnimalContext";
+import { formatLabel } from "../utils/formatLabel";
+import NotFound from "./NotFound";
 
 function normalizeAnimal(data) {
   if (!data) return null;
@@ -40,11 +40,11 @@ function isUserLoggedIn() {
 }
 
 export default function AnimalDetail() {
+  const { animals, loading } = useAnimal();
   const { id } = useParams();
   const navigate = useNavigate();
 
   const [animal, setAnimal] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
   const [error, setError] = useState(false);
 
@@ -54,68 +54,26 @@ export default function AnimalDetail() {
   const [successMessage, setSuccessMessage] = useState(null);
 
   useEffect(() => {
-    let ignore = false;
+    const fallbackAnimal = animals.find(
+      (item) => String(item.id) === String(id)
+    );
 
-    async function loadAnimal() {
-      setLoading(true);
-      setNotFound(false);
-
-      try {
-        const response = await fetch(`/api/animals/${id}`);
-
-        if (response.status === 404) {
-          if (!ignore) {
-            setNotFound(true);
-            setAnimal(null);
-            setError(true);
-          }
-          return;
-        }
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch animal");
-        }
-
-        const data = await response.json();
-
-        if (!ignore) {
-          setAnimal(normalizeAnimal(data));
-        }
-      } catch (error) {
-        console.error("Failed to fetch animal:", error);
-
-        const fallbackAnimal = mockAnimals.find(
-          (item) => String(item.id) === String(id)
-        );
-
-        if (!ignore) {
-          if (fallbackAnimal) {
-            setAnimal(normalizeAnimal(fallbackAnimal));
-          } else {
-            setNotFound(true);
-            setAnimal(null);
-            setError(true);
-          }
-        }
-      } finally {
-        if (!ignore) {
-          setLoading(false);
-        }
-      }
+    if (!fallbackAnimal) {
+      setNotFound(true);
+      setAnimal(null);
+      setError(true);
+      return;
     }
 
-    loadAnimal();
-
-    return () => {
-      ignore = true;
-    };
-  }, [id]);
+    setAnimal(normalizeAnimal(fallbackAnimal));
+  }, [animals, id]);
 
   const handleSave = () => {
     if (!isUserLoggedIn()) {
       navigate("/login");
       return;
     }
+
     alert("Save action will be connected later.");
   };
 
@@ -124,6 +82,7 @@ export default function AnimalDetail() {
       navigate("/login");
       return;
     }
+
     setShowInquiryModal(true);
   };
 
@@ -140,7 +99,6 @@ export default function AnimalDetail() {
 
   const handleRetry = () => {
     setError(false);
-    setLoading(true);
     setNotFound(false);
     setAnimal(null);
   };
@@ -197,6 +155,7 @@ export default function AnimalDetail() {
               {animal.special_needs && (
                 <span className="detail-badge warning">Special Needs</span>
               )}
+
               {isSenior && (
                 <span className="detail-badge secondary">Senior</span>
               )}
@@ -208,14 +167,17 @@ export default function AnimalDetail() {
               <span className="detail-label">Age</span>
               <strong>{animal.age_years} yrs</strong>
             </div>
+
             <div className="detail-meta-card">
               <span className="detail-label">Size</span>
               <strong>{formatLabel(animal.size)}</strong>
             </div>
+
             <div className="detail-meta-card">
               <span className="detail-label">Species</span>
               <strong>{formatLabel(animal.species)}</strong>
             </div>
+
             <div className="detail-meta-card">
               <span className="detail-label">Breed</span>
               <strong>{animal.breed}</strong>
@@ -224,6 +186,7 @@ export default function AnimalDetail() {
 
           <section className="detail-section">
             <h2>Temperament</h2>
+
             <div className="tags">
               {animal.temperament?.length ? (
                 animal.temperament.map((item) => (
@@ -267,6 +230,7 @@ export default function AnimalDetail() {
           </div>
         </div>
       </section>
+
       {error && (
         <ErrorMessage
           message="Failed to load animal details."
