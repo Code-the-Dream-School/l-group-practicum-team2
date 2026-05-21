@@ -1,9 +1,11 @@
+import PropTypes from "prop-types";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
+  deleteAccount,
+  fetchCurrentUser,
   loginUser,
   registerUser,
-  fetchCurrentUser,
 } from "../services/authService";
 
 const AuthContext = createContext();
@@ -67,6 +69,37 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const handleDelete = async (currentPassword) => {
+  setLoading(true);
+  setError(null);
+
+  try {
+    const data = await deleteAccount(currentPassword);
+
+    setUser(null);
+    localStorage.removeItem("token");
+    setError(null);
+    navigate("/", { replace: true });
+
+    return {
+      success: true,
+      message:
+        data.data?.message ||
+        data.message ||
+        "User account deleted successfully",
+    };
+  } catch (error) {
+    console.error(error);
+    setError(error.message);
+
+    return {
+      success: false,
+      message: error.message || "Failed to delete account",
+    };
+  } finally {
+    setLoading(false);
+  }
+};
   const logoutUser = async (withLoading = true) => {
     if (withLoading) setLoading(true);
 
@@ -84,7 +117,27 @@ export const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    getCurrentUser();
+    let ignore = false;
+
+    fetchCurrentUser()
+      .then((data) => {
+        if (!ignore) {
+          setUser(data && data.user ? data.user : null);
+          setError(null);
+        }
+      })
+      .catch((error) => {
+        if (!ignore) {
+          console.error(error);
+          setError(error.message);
+          setUser(null);
+          localStorage.removeItem("token");
+        }
+      });
+
+    return () => {
+      ignore = true;
+    };
   }, []);
 
   return (
@@ -97,11 +150,16 @@ export const AuthProvider = ({ children }) => {
         handleRegister,
         getCurrentUser,
         logoutUser,
+        handleDelete,
       }}
     >
       {children}
     </AuthContext.Provider>
   );
+};
+
+AuthProvider.propTypes = {
+  children: PropTypes.node.isRequired,
 };
 
 export const useAuth = () => useContext(AuthContext);

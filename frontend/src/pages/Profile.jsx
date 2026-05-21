@@ -1,22 +1,29 @@
-import { Card, Form, Button } from "react-bootstrap";
 import { useState } from "react";
+import { Button, Card, Form } from "react-bootstrap";
+import { useAuth } from "../contexts/AuthContext";
 import { updateUserCredentials } from "../services/authService";
 
 function Profile() {
+  const { handleDelete } = useAuth();
+
   const [name, setName] = useState("");
   const [profilePassword, setProfilePassword] = useState("");
 
   const [passwordCurrentPassword, setPasswordCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
 
+  const [deletePassword, setDeletePassword] = useState("");
+
   const [profileLoading, setProfileLoading] = useState(false);
   const [passwordLoading, setPasswordLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   const [profileSuccess, setProfileSuccess] = useState("");
   const [passwordSuccess, setPasswordSuccess] = useState("");
 
   const [profileError, setProfileError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [deleteError, setDeleteError] = useState("");
 
   const handleProfileUpdate = async (e) => {
     e.preventDefault();
@@ -80,6 +87,29 @@ function Profile() {
     }
   };
 
+  const handleDeleteAccount = async (e) => {
+    e.preventDefault();
+
+    setDeleteError("");
+    setDeleteLoading(true);
+
+    try {
+      const result = await handleDelete(deletePassword);
+
+      if (!result.success) {
+        setDeleteError(result.message);
+      }
+    } catch (err) {
+      if (err instanceof Error) {
+        setDeleteError(err.message);
+      } else {
+        setDeleteError("Something went wrong");
+      }
+    } finally {
+      setDeleteLoading(false);
+    }
+  };
+
   return (
     <main style={{ maxWidth: "800px", margin: "0 auto", padding: "2rem" }}>
       <h1 className="mb-2">Account Settings</h1>
@@ -122,7 +152,7 @@ function Profile() {
         </Form>
       </Card>
 
-      <Card className="p-4 shadow-sm">
+      <Card className="p-4 mb-4 shadow-sm">
         <h3 className="mb-3">Password & Security</h3>
         <Form onSubmit={handlePasswordUpdate}>
           <Form.Group className="mb-3">
@@ -154,6 +184,31 @@ function Profile() {
           )}
 
           {passwordError && <p className="text-danger mt-3">{passwordError}</p>}
+        </Form>
+      </Card>
+
+      <Card className="p-4 shadow-sm border-danger">
+        <h3 className="mb-3 text-danger">Delete Account</h3>
+        <p className="text-muted">
+          Permanently delete your account. This action cannot be undone.
+        </p>
+
+        <Form onSubmit={handleDeleteAccount}>
+          <Form.Group className="mb-3">
+            <Form.Label>Current Password</Form.Label>
+            <Form.Control
+              type="password"
+              placeholder="Enter current password"
+              value={deletePassword}
+              onChange={(e) => setDeletePassword(e.target.value)}
+            />
+          </Form.Group>
+
+          <Button variant="danger" type="submit" disabled={deleteLoading}>
+            {deleteLoading ? "Deleting..." : "Delete Account"}
+          </Button>
+
+          {deleteError && <p className="text-danger mt-3">{deleteError}</p>}
         </Form>
       </Card>
     </main>
