@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import logo from "../../assets/PawMatch.png";
 import { useAuth } from "../../contexts/AuthContext";
 import UserDropdown from "./UserDropdown";
+import { SigninButton } from "./SigninButton";
 
 const NavigationBar = () => {
   const { user, logoutUser } = useAuth();
@@ -37,15 +38,7 @@ const NavigationBar = () => {
               <UserDropdown user={user} onLogout={logoutUser} />
             </div>
           ) : (
-            <Button
-              as={Link}
-              to="/login"
-              variant="primary"
-              className="px-4 py-2"
-            >
-              <PersonFill size={25} className="me-1" />
-              <span className="fs-5">Sign in</span>
-            </Button>
+            <SigninButton />
           )}
         </div>
       </Container>

@@ -1,6 +1,6 @@
 import AnimalCard from "../../components/animals/AnimalCard";
 import { mockAnimals } from "../../constants/animals";
-import { fetchFavorites } from "../../services/favorites";
+import { fetchFavorites } from "../../services/favoriteService";
 import { useEffect, useState } from "react";
 import ErrorMessage from "../../components/ErrorMessage";
 

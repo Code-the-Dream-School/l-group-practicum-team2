@@ -5,7 +5,7 @@ import React, {
   useState,
   useMemo,
 } from "react";
-import { fetchAnimals } from "../services/AnimalService";
+import { fetchAnimals } from "../services/animalService";
 import { useSearchParams } from "react-router-dom";
 import { equalsCI } from "../utils/equalsCI";
 
