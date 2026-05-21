@@ -70,36 +70,36 @@ export const AuthProvider = ({ children }) => {
   };
 
   const handleDelete = async (currentPassword) => {
-  setLoading(true);
-  setError(null);
-
-  try {
-    const data = await deleteAccount(currentPassword);
-
-    setUser(null);
-    localStorage.removeItem("token");
+    setLoading(true);
     setError(null);
-    navigate("/", { replace: true });
 
-    return {
-      success: true,
-      message:
-        data.data?.message ||
-        data.message ||
-        "User account deleted successfully",
-    };
-  } catch (error) {
-    console.error(error);
-    setError(error.message);
+    try {
+      const data = await deleteAccount(currentPassword);
 
-    return {
-      success: false,
-      message: error.message || "Failed to delete account",
-    };
-  } finally {
-    setLoading(false);
-  }
-};
+      setUser(null);
+      localStorage.removeItem("token");
+      setError(null);
+      navigate("/", { replace: true });
+
+      return {
+        success: true,
+        message:
+          data.data?.message ||
+          data.message ||
+          "User account deleted successfully",
+      };
+    } catch (error) {
+      console.error(error);
+      setError(error.message);
+
+      return {
+        success: false,
+        message: error.message || "Failed to delete account",
+      };
+    } finally {
+      setLoading(false);
+    }
+  };
   const logoutUser = async (withLoading = true) => {
     if (withLoading) setLoading(true);
 
