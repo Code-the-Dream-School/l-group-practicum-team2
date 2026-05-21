@@ -7,7 +7,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import PropTypes from "prop-types";
 
 const LoginModal = ({ setShow }) => {
-  const { handleLogin, openSignup } = useAuth();
+  const { handleLogin, openSignup, closeAuthModal } = useAuth();
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
 
@@ -20,7 +20,7 @@ const LoginModal = ({ setShow }) => {
     const success = await handleLogin({ email, password });
 
     if (success) {
-      setShow(null);
+      closeAuthModal()
     }
     // Notification bar (coming soon) will display the error
   };
