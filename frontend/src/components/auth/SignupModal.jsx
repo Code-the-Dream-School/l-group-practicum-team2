@@ -8,7 +8,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import PropTypes from "prop-types";
 
 const SignupModal = ({ setShow }) => {
-  const { handleRegister } = useAuth();
+  const { handleRegister, openLogin } = useAuth();
   const [name, setName] = useState("");
   const [nameError, setNameError] = useState("");
   const [email, setEmail] = useState("");
@@ -73,7 +73,7 @@ const SignupModal = ({ setShow }) => {
           <Button
             variant="link"
             className="ms-1"
-            onClick={() => setShow("login")}
+            onClick={() => openLogin()}
           >
             login
           </Button>
