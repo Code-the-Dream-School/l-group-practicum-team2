@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
+  const [authModal, setAuthModal] = useState(null);
   const navigate = useNavigate();
 
   const handleRegister = async (userData) => {
@@ -96,7 +96,7 @@ export const AuthProvider = ({ children }) => {
     try {
       setUser(null);
       // uncomment when FavoriteContext and InquiryCOntext is ready
-      // setFavorites([]);
+      // setFavoriteAnimals([]);
       // setInquiries([]);
       localStorage.removeItem("token");
     } catch (error) {
@@ -105,6 +105,10 @@ export const AuthProvider = ({ children }) => {
       if (withLoading) setLoading(false);
     }
   };
+
+  const openLogin = () =>setAuthModal("login");
+  const openSignup = () => setAuthModal('signup');
+  const closeAuthModal = () => setAuthModal(null);
 
   useEffect(() => {
     getCurrentUser();
@@ -121,6 +125,10 @@ export const AuthProvider = ({ children }) => {
         getCurrentUser,
         logoutUser,
         handleUpdate,
+
+        openLogin,
+        openSignup,
+        closeAuthModal
       }}
     >
       {children}
