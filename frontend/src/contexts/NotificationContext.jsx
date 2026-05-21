@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState } from "react";
+import PropTypes from "prop-types";
 
 const NotificationContext = createContext();
 
@@ -6,7 +7,7 @@ export const NotificationProvider = ({ children }) => {
   const [notifications, setNotifications] = useState([]);
 
   const addNotification = (type, message) => {
-    const id = Date.now();
+    const id = crypto.randomUUID();
 
     const newNotification = {
       id,
@@ -43,4 +44,7 @@ export const NotificationProvider = ({ children }) => {
   );
 };
 
+NotificationProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+};
 export const useNotification = () => useContext(NotificationContext);
