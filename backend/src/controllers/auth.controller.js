@@ -9,7 +9,7 @@ const {
 } = require('../errors');
 
 const register = async (req, res, next) => {
- 
+
   try {
     const { name, email, password } = req.body;
 
@@ -177,38 +177,54 @@ const updatedUser = await pool.query(
 };
 
 const deleteAccount = async (req, res, next) => {
-  try {
-    const { currentPassword } = req.body;
+    try {
+        const { currentPassword } = req.body;
 
-    if (!currentPassword) {
-      throw new BadRequestError('Current password is required');
-    }
+        if (!currentPassword) {
+            return next(
+                new BadRequestError(
+                    'Current password is required'
+                )
+            );
+        }
 
-    const result = await pool.query(
-      'SELECT id, password_hash FROM users WHERE id = $1',
-      [req.user.id]
+       const result = await pool.query(
+    'SELECT id, password_hash FROM users WHERE id = $1',
+    [req.user.id]
+);
+
+const user = result.rows[0];
+
+if (!user) {
+   throw new UnauthenticatedError('Invalid credentials');
+}
+
+const isMatch = await bcrypt.compare(
+    currentPassword,
+    user.password_hash
+);
+
+if (!isMatch) {
+    return next(
+        new UnauthenticatedError('Invalid credentials')
     );
+}
 
-    const user = result.rows[0];
 
-    if (!user) {
-      throw new UnauthenticatedError('Invalid credentials');
+
+await pool.query(
+    'DELETE FROM users WHERE id = $1',
+    [req.user.id]
+);
+
+return res.status(StatusCodes.OK).json({
+    data: {
+        message: 'User account deleted successfully'
     }
-
-    const isMatch = await bcrypt.compare(currentPassword, user.password_hash);
-
-    if (!isMatch) {
-      throw new UnauthenticatedError('Invalid credentials');
+});
+    } catch (error) {
+       next(error); 
     }
-
-    await pool.query('DELETE FROM users WHERE id = $1', [req.user.id]);
-
-    return res.status(StatusCodes.OK).json({
-      message: 'User account deleted successfully',
-    });
-  } catch (error) {
-    next(error);
-  }
 };
 
 const getCurrentUser = (req, res) => {
@@ -219,4 +235,4 @@ const getCurrentUser = (req, res) => {
   });
 };
 
-module.exports = { register, login, updateProfile, getCurrentUser, deleteAccount, };
+module.exports = { register, login, updateProfile, getCurrentUser, deleteAccount };
