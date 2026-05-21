@@ -11,7 +11,7 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [authModal, setAuthModal] = useState(null);
   const navigate = useNavigate();
@@ -72,15 +72,12 @@ export const AuthProvider = ({ children }) => {
 
   const getCurrentUser = async () => {
     setLoading(true);
-
     try {
       const data = await fetchCurrentUser();
       setUser(data && data.user ? data.user : null);
       setError(null);
-
       return true;
     } catch (error) {
-      console.error(error);
       setError(error.message);
       setUser(null);
       localStorage.removeItem("token");
@@ -124,7 +121,13 @@ export const AuthProvider = ({ children }) => {
         handleRegister,
         getCurrentUser,
         logoutUser,
+<<<<<<< HEAD
         handleUpdate,
+=======
+        
+        authModal, 
+        setAuthModal,
+>>>>>>> 6c77f0ef (set auth loading true while fetching current user on app load)
 
         openLogin,
         openSignup,

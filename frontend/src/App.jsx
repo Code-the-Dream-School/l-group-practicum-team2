@@ -28,7 +28,6 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/favorites" element={<FavoritesPage />} />
           <Route path="/animals/:id" element={<AnimalDetail />} />
-<<<<<<< HEAD
           <Route path="/profile" element={<Profile />} />
           <Route path="/login" element={<Login />} />
 
@@ -40,18 +39,6 @@ function App() {
               </ProtectedRoute>
             }
           />
-
-          <Route
-            path="/inquiries"
-            element={
-              <ProtectedRoute>
-                <InquiriesPage />
-              </ProtectedRoute>
-            }
-          />
-
-=======
->>>>>>> 8222494c (move login/signup modal logic into AuthModal component)
           <Route path="*" element={<NotFound />} />
           
           <Route path="/profile" element={
