@@ -40,7 +40,7 @@ function isUserLoggedIn() {
 }
 
 export default function AnimalDetail() {
-  const { animals, loading } = useAnimal();
+  const { getAnimalById, loading } = useAnimal();
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -54,9 +54,7 @@ export default function AnimalDetail() {
   const [successMessage, setSuccessMessage] = useState(null);
 
   useEffect(() => {
-    const fallbackAnimal = animals.find(
-      (item) => String(item.id) === String(id)
-    );
+    const fallbackAnimal = getAnimalById(id);
 
     if (!fallbackAnimal) {
       setNotFound(true);
@@ -66,7 +64,7 @@ export default function AnimalDetail() {
     }
 
     setAnimal(normalizeAnimal(fallbackAnimal));
-  }, [animals, id]);
+  }, [getAnimalById, id]);
 
   const handleSave = () => {
     if (!isUserLoggedIn()) {
