@@ -197,30 +197,43 @@ const handleProfileUpdate = async (e) => {
         <Form onSubmit={handlePasswordUpdate}>
 
         <Modal.Body>
-          
-            <Form.Group className="mb-3">
-              <Form.Label>Current Password</Form.Label>
+  <Form.Group className="mb-3">
+    <Form.Label>Current Password</Form.Label>
 
-              <Form.Control
-                type="password"
-                placeholder="Enter current password"
-                value={passwordCurrentPassword}
-                onChange={(e) => setPasswordCurrentPassword(e.target.value)}
-              />
-            </Form.Group>
+    <Form.Control
+      type="password"
+      placeholder="Enter current password"
+      value={passwordCurrentPassword}
+      onChange={(e) => setPasswordCurrentPassword(e.target.value)}
+    />
+  </Form.Group>
 
-            <Form.Group className="mb-3">
-              <Form.Label>New Password</Form.Label>
+  <Form.Group className="mb-3">
+    <Form.Label>New Password</Form.Label>
 
-              <Form.Control
-               type="password"
-                placeholder="Enter new password"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-                 />
-            </Form.Group>
-        </Modal.Body>
+    <Form.Control
+      type="password"
+      placeholder="Enter new password"
+      value={newPassword}
+      onChange={(e) => setNewPassword(e.target.value)}
+    />
+  </Form.Group>
 
+  <Form.Group className="mb-3">
+    <Form.Label>Confirm New Password</Form.Label>
+
+    <Form.Control
+      type="password"
+      placeholder="Confirm new password"
+      value={confirmPassword}
+      onChange={(e) => setConfirmPassword(e.target.value)}
+    />
+  </Form.Group>
+
+  {passwordError && (
+    <p className="text-danger mt-3">{passwordError}</p>
+  )}
+</Modal.Body>
         <Modal.Footer>
           <Button
             variant="secondary"
@@ -229,7 +242,13 @@ const handleProfileUpdate = async (e) => {
             Cancel
           </Button>
 
-          <Button variant="primary">Update Password</Button>
+          <Button
+           variant="primary"
+           type="submit"
+           disabled={!isPasswordFormValid || passwordLoading}
+           >
+            {passwordLoading ? "Updating..." : "Update Password"}
+           </Button>
         </Modal.Footer>
         </Form>
       </Modal>
