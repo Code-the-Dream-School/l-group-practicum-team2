@@ -212,7 +212,12 @@ const handleProfileUpdate = async (e) => {
             <Form.Group className="mb-3">
               <Form.Label>New Password</Form.Label>
 
-              <Form.Control type="password" placeholder="Enter new password" />
+              <Form.Control
+               type="password"
+                placeholder="Enter new password"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                 />
             </Form.Group>
         </Modal.Body>
 
@@ -230,6 +235,17 @@ const handleProfileUpdate = async (e) => {
       </Modal>
     </main>
   );
+<Form.Group className="mb-3">
+  <Form.Label>Confirm New Password</Form.Label>
+
+  <Form.Control
+    type="password"
+    placeholder="Confirm new password"
+    value={confirmPassword}
+    onChange={(e) => setConfirmPassword(e.target.value)}
+  />
+</Form.Group>
+
 }
 
 export default Profile;
