@@ -53,6 +53,13 @@ function App() {
 =======
 >>>>>>> 8222494c (move login/signup modal logic into AuthModal component)
           <Route path="*" element={<NotFound />} />
+          
+          <Route path="/profile" element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          } />
+          
         </Routes>
       </div>
     </>
