@@ -6,6 +6,7 @@ const {
   login,
   updateProfile,
   getCurrentUser,
+  deleteAccount,
 } = require('../controllers/auth.controller');
 
 const authenticateUser = require('../middleware/authentication');
@@ -29,5 +30,7 @@ router.post('/login', authLimiter, validateLoginInput, login);
 
 router.get('/me', authenticateUser, getCurrentUser);
 router.patch('/', authenticateUser, updateProfile);
+
+router.delete('/', authenticateUser, deleteAccount);
 
 module.exports = router;
