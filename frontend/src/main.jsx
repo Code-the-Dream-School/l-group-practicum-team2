@@ -6,13 +6,16 @@ import App from "./App.jsx";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { AuthProvider } from "./contexts/AuthContext.jsx";
 import { AnimalProvider } from "./contexts/AnimalContext.jsx";
+import { NotificationProvider } from "./contexts/NotificationContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
       <AuthProvider>
         <AnimalProvider>
-          <App />
+          <NotificationProvider>
+            <App />
+          </NotificationProvider>
         </AnimalProvider>
       </AuthProvider>
     </BrowserRouter>
