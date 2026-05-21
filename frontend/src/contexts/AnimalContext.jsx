@@ -30,6 +30,10 @@ export const AnimalProvider = ({ children }) => {
     }
   };
 
+  const getAnimalById = (id) => {
+    return animals.find((animal) => String(animal.id) === String(id)) || null;
+  };
+
   const filters = useMemo(
     () => ({
       species: searchParams.get("species") || "",
@@ -83,6 +87,7 @@ export const AnimalProvider = ({ children }) => {
     <AnimalContext.Provider
       value={{
         animals,
+        getAnimalById,
         filteredAnimals,
         specialNeedsAnimals,
         loading,
