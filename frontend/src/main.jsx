@@ -6,6 +6,7 @@ import App from "./App.jsx";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { AuthProvider } from "./contexts/AuthContext.jsx";
 import { AnimalProvider } from "./contexts/AnimalContext.jsx";
+import { NotificationProvider } from "./contexts/NotificationContext.jsx";
 import { FavoriteProvider } from "./contexts/FavoriteContext.jsx";
 
 createRoot(document.getElementById("root")).render(
@@ -14,7 +15,9 @@ createRoot(document.getElementById("root")).render(
       <AuthProvider>
         <AnimalProvider>
           <FavoriteProvider>
-            <App />
+            <NotificationProvider>
+              <App />
+            </NotificationProvider>
           </FavoriteProvider>
         </AnimalProvider>
       </AuthProvider>
