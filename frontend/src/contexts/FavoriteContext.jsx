@@ -13,9 +13,12 @@ export const FavoriteProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [favoriteIds, setFavoriteIds] = useState([]);
   const [error, setError] = useState(null);
-  const [favoriteAnimals, setFavoriteAnimals] = useState([]);
   const { user } = useAuth();
   const { animals } = useAnimal();
+
+  const favoriteAnimals = animals.filter((animal) =>
+    favoriteIds.includes(animal.id)
+  );
 
   const isFavorite = (animalId) => favoriteIds.includes(animalId);
 
@@ -26,7 +29,6 @@ export const FavoriteProvider = ({ children }) => {
       const data = await fetchFavorites();
       const ids = data.map((f) => f.id) || [];
       setFavoriteIds(ids);
-      setFavoriteAnimals(animals.filter((animal) => ids.includes(animal.id)));
     } catch (error) {
       setError(
         error.message || "Something went wrong while fetching favorites"
@@ -66,7 +68,7 @@ export const FavoriteProvider = ({ children }) => {
     if (user) {
       getFavorites();
     }
-  }, [user, favoriteAnimals]);
+  }, [user, favoriteIds]);
 
   return (
     <FavoriteContext.Provider
