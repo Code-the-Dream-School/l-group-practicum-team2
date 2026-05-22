@@ -66,7 +66,7 @@ export const FavoriteProvider = ({ children }) => {
     if (user) {
       getFavorites();
     }
-  }, [user]);
+  }, [user, favoriteAnimals]);
 
   return (
     <FavoriteContext.Provider
