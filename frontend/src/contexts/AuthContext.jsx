@@ -47,6 +47,28 @@ export const AuthProvider = ({ children }) => {
       setLoading(false);
     }
   };
+  const handleUpdate = async (userData) => {
+    setLoading(true);
+
+    try {
+      const token = localStorage.getItem("token");
+
+      const data = await updateUserCredentials(userData, token);
+
+      setUser(data.user);
+
+      setError(null);
+
+      return true;
+    } catch (error) {
+      console.error(error);
+      setError(error.message);
+
+      return false;
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const getCurrentUser = async () => {
     setLoading(true);
@@ -98,6 +120,7 @@ export const AuthProvider = ({ children }) => {
         handleRegister,
         getCurrentUser,
         logoutUser,
+        handleUpdate,
       }}
     >
       {children}
