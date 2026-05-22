@@ -47,9 +47,9 @@ function Filters({
         aria-label="Filter by age"
       >
         <option value="">Any age</option>
-        <option value="young">Young</option>
-        <option value="adult">Adult</option>
-        <option value="senior">Senior</option>
+        <option value="YOUNG">Young</option>
+        <option value="ADULT">Adult</option>
+        <option value="SENIOR">Senior</option>
       </select>
 
       <label

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
-import { addFavorite, removeFavorite } from "../../services/favorites";
+import { addFavorite, removeFavorite } from "../../services/favoriteService";
 
 function Heart({ animalId, initialFavorite = false }) {
   const [favorite, setFavorite] = useState(initialFavorite);

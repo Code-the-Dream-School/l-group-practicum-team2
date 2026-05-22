@@ -1,0 +1,104 @@
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useMemo,
+  useCallback,
+} from "react";
+import {
+  fetchFavorites,
+  addFavorite,
+  removeFavorite,
+} from "../services/favoriteService";
+import { useAuth } from "./AuthContext";
+import { useAnimal } from "./AnimalContext";
+
+const FavoriteContext = createContext();
+
+export const FavoriteProvider = ({ children }) => {
+  const [loading, setLoading] = useState(false);
+  const [favoriteIds, setFavoriteIds] = useState([]);
+  const [error, setError] = useState(null);
+  const { user } = useAuth();
+  const { animals } = useAnimal();
+
+  const isFavorite = useCallback(
+    (animalId) => favoriteIds.includes(animalId),
+    [favoriteIds]
+  );
+
+  const getFavorites = useCallback(async () => {
+    setError(null);
+    setLoading(true);
+    try {
+      const data = await fetchFavorites();
+      const ids = data.map((f) => f.id) || [];
+      setFavoriteIds(ids);
+    } catch (error) {
+      setError(
+        error.message || "Something went wrong while fetching favorites"
+      );
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+  const handleAddFavorite = async (animalId) => {
+    setLoading(true);
+
+    try {
+      await addFavorite(animalId);
+      setFavoriteIds((prev) => [...prev, animalId]);
+    } catch (error) {
+      setError(error.message || "Something went wrong while adding favorites");
+    } finally {
+      setLoading(false);
+    }
+  };
+  const handleRemoveFavorite = async (animalId) => {
+    setLoading(true);
+
+    try {
+      await removeFavorite(animalId);
+      setFavoriteIds((prev) => prev.filter((a) => a !== animalId));
+    } catch (error) {
+      setError(
+        error.message || "Something went wrong while removing favorites"
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const favoriteAnimals = useMemo(
+    () =>
+      animals.length === 0
+        ? []
+        : animals.filter((animal) => favoriteIds.includes(animal.id)),
+    [animals, favoriteIds]
+  );
+
+  useEffect(() => {
+    if (user) {
+      getFavorites();
+    }
+  }, [user, getFavorites]);
+
+  return (
+    <FavoriteContext.Provider
+      value={{
+        favoriteAnimals,
+        favoriteIds,
+        handleAddFavorite,
+        handleRemoveFavorite,
+        isFavorite,
+        loading,
+        error,
+      }}
+    >
+      {children}
+    </FavoriteContext.Provider>
+  );
+};
+
+export const useFavorite = () => useContext(FavoriteContext);
