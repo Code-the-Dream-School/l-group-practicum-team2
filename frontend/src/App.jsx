@@ -9,12 +9,9 @@ import InquiriesPage from "./pages/InquiriesPage";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 import Profile from "./pages/Profile";
-<<<<<<< HEAD
 import NotificationContainer from "./components/notifications/NotificationContainer";
-=======
 import ProtectedRoute from "./components/routes/ProtectedRoute";
 import AuthModal from "./components/auth/AuthModal";
->>>>>>> 8222494c (move login/signup modal logic into AuthModal component)
 
 function App() {
 
@@ -41,11 +38,28 @@ function App() {
           />
           <Route path="*" element={<NotFound />} />
           
+          <Route path="/animals/:id" element={<AnimalDetail />} />
+          
+          <Route path="/favorites" element={
+            <ProtectedRoute>
+              <FavoritesPage />
+            </ProtectedRoute>
+          } />
+
           <Route path="/profile" element={
             <ProtectedRoute>
               <Profile />
             </ProtectedRoute>
           } />
+          
+          {/* uncomment when Inquiry page is ready */}
+          {/* <Route path="/inquiry" element={
+            <ProtectedRoute>
+              <Inquiry />
+            </ProtectedRoute>
+          } /> */}
+
+          <Route path="*" element={<NotFound />} />
           
         </Routes>
       </div>
