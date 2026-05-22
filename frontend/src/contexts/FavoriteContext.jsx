@@ -29,8 +29,8 @@ export const FavoriteProvider = ({ children }) => {
   );
 
   const getFavorites = useCallback(async () => {
+    setError(null);
     setLoading(true);
-
     try {
       const data = await fetchFavorites();
       const ids = data.map((f) => f.id) || [];
