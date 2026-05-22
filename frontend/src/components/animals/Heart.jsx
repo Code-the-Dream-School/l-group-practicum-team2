@@ -1,10 +1,9 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
-import { addFavorite, removeFavorite } from "../../services/favoriteService";
+import { useFavorite } from "../../contexts/FavoriteContext";
 
-function Heart({ animalId, initialFavorite = false }) {
-  const [favorite, setFavorite] = useState(initialFavorite);
+function Heart({ animalId }) {
+  const { isFavorite, handleAddFavorite, handleRemoveFavorite } = useFavorite();
   const navigate = useNavigate();
 
   function handleClick(event) {
@@ -18,21 +17,21 @@ function Heart({ animalId, initialFavorite = false }) {
       return;
     }
 
-    if (favorite) {
-      removeFavorite(animalId);
-      setFavorite(false);
+    if (isFavorite(animalId)) {
+      handleRemoveFavorite(animalId);
     } else {
-      addFavorite(animalId);
-      setFavorite(true);
+      handleAddFavorite(animalId);
     }
   }
 
   return (
     <button
       type="button"
-      className={`favorite-button ${favorite ? "favorited" : ""}`}
+      className={`favorite-button ${isFavorite(animalId) ? "favorited" : ""}`}
       onClick={handleClick}
-      aria-label={favorite ? "Remove from favorites" : "Add to favorites"}
+      aria-label={
+        isFavorite(animalId) ? "Remove from favorites" : "Add to favorites"
+      }
     >
       <span>♥</span>
     </button>
