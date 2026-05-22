@@ -1,4 +1,11 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useMemo,
+  useCallback,
+} from "react";
 import {
   fetchFavorites,
   addFavorite,
@@ -16,12 +23,18 @@ export const FavoriteProvider = ({ children }) => {
   const { user } = useAuth();
   const { animals } = useAnimal();
 
-  const getFavorites = async () => {
-    setLoading(true);
+  const isFavorite = useCallback(
+    (animalId) => favoriteIds.includes(animalId),
+    [favoriteIds]
+  );
 
+  const getFavorites = useCallback(async () => {
+    setError(null);
+    setLoading(true);
     try {
       const data = await fetchFavorites();
-      setFavoriteIds(data.map((f) => f.id) || []);
+      const ids = data.map((f) => f.id) || [];
+      setFavoriteIds(ids);
     } catch (error) {
       setError(
         error.message || "Something went wrong while fetching favorites"
@@ -29,7 +42,7 @@ export const FavoriteProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
   const handleAddFavorite = async (animalId) => {
     setLoading(true);
 
@@ -57,17 +70,25 @@ export const FavoriteProvider = ({ children }) => {
     }
   };
 
-  const isFavorite = (animalId) => favoriteIds.includes(animalId);
-  const favoriteAnimals = animals.filter((animal) => isFavorite(animal.id));
+  const favoriteAnimals = useMemo(
+    () =>
+      animals.length === 0
+        ? []
+        : animals.filter((animal) => favoriteIds.includes(animal.id)),
+    [animals, favoriteIds]
+  );
 
   useEffect(() => {
-    if (user) getFavorites();
-  }, [user]);
+    if (user) {
+      getFavorites();
+    }
+  }, [user, getFavorites]);
 
   return (
     <FavoriteContext.Provider
       value={{
         favoriteAnimals,
+        favoriteIds,
         handleAddFavorite,
         handleRemoveFavorite,
         isFavorite,
