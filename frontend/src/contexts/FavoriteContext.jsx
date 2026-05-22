@@ -71,7 +71,10 @@ export const FavoriteProvider = ({ children }) => {
   };
 
   const favoriteAnimals = useMemo(
-    () => animals.filter((animal) => favoriteIds.includes(animal.id)),
+    () =>
+      animals.length === 0
+        ? []
+        : animals.filter((animal) => favoriteIds.includes(animal.id)),
     [animals, favoriteIds]
   );
 
