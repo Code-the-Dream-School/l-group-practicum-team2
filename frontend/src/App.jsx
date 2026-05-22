@@ -8,11 +8,13 @@ import NotFound from "./pages/NotFound";
 import Register from "./pages/Register";
 import NavigationBar from "./components/navbar/NavigationBar";
 import Profile from "./pages/Profile";
+import NotificationContainer from "./components/notifications/NotificationContainer";
 
 function App() {
   return (
     <>
       <NavigationBar />
+      <NotificationContainer />
       <div style={{ maxWidth: "1320px", margin: "0 auto", padding: "1rem" }}>
         <Routes>
           <Route path="/" element={<Home />} />
