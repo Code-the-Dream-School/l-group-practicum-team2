@@ -12,6 +12,8 @@ function NotificationContainer() {
         right: "1rem",
         zIndex: 9999,
         width: "320px",
+        maxHeight: "80vh",
+        overflowY: "auto",
       }}
     >
       {notifications.map((notification) => (
