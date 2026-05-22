@@ -20,9 +20,9 @@ function Login() {
     e.preventDefault();
     const success = await handleLogin({ email, password });
 
-     if (success) {
-  window.location.href = from;
-}
+    if (success) {
+      window.location.href = from;
+    }
   };
 
   return (
