@@ -92,10 +92,8 @@ export const AuthProvider = ({ children }) => {
 
     try {
       setUser(null);
-      // uncomment when FavoriteContext and InquiryCOntext is ready
-      // setFavoriteAnimals([]);
-      // setInquiries([]);
       localStorage.removeItem("token");
+      navigate('/');
     } catch (error) {
       console.error(error);
     } finally {
