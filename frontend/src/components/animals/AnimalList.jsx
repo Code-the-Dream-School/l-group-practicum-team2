@@ -14,7 +14,7 @@ function AnimalList() {
   } = useAnimal();
 
   return (
-    <main className="app">
+    <div>
       <h1>Animals List</h1>
       <Filters
         species={filters.species}
@@ -49,7 +49,7 @@ function AnimalList() {
           ))}
         </div>
       )}
-    </main>
+    </div>
   );
 }
 

@@ -1,6 +1,6 @@
 import {Row, Col, Placeholder, Card} from 'react-bootstrap';
 
-const AnimalListPlaceHolder = () => {
+const AnimalListPlaceholder = () => {
     const createItemArr = (count) => Array.from({ length: count }, (_, i) => i + 1);
     const itemArr = createItemArr(12);
 
@@ -30,4 +30,4 @@ const AnimalListPlaceHolder = () => {
     )
     
 }
-export default AnimalListPlaceHolder
+export default AnimalListPlaceholder

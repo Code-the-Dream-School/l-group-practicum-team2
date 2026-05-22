@@ -1,6 +1,6 @@
 import {Placeholder, Row, Col, Button} from 'react-bootstrap';
 
-const ProfileSketleton = () => {
+const ProfilePlaceholder = () => {
 
     return (
         <main style={{ maxWidth: "800px", margin: "0 auto", padding: "2rem" }}>
@@ -37,4 +37,4 @@ const ProfileSketleton = () => {
 
     )
 }
-export default ProfileSketleton
+export default ProfilePlaceholder
