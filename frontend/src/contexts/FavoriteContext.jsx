@@ -1,4 +1,11 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useMemo,
+  useCallback,
+} from "react";
 import {
   fetchFavorites,
   addFavorite,
@@ -16,13 +23,12 @@ export const FavoriteProvider = ({ children }) => {
   const { user } = useAuth();
   const { animals } = useAnimal();
 
-  const favoriteAnimals = animals.filter((animal) =>
-    favoriteIds.includes(animal.id)
+  const isFavorite = useCallback(
+    (animalId) => favoriteIds.includes(animalId),
+    [favoriteIds]
   );
 
-  const isFavorite = (animalId) => favoriteIds.includes(animalId);
-
-  const getFavorites = async () => {
+  const getFavorites = useCallback(async () => {
     setLoading(true);
 
     try {
@@ -36,7 +42,7 @@ export const FavoriteProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
   const handleAddFavorite = async (animalId) => {
     setLoading(true);
 
@@ -64,11 +70,16 @@ export const FavoriteProvider = ({ children }) => {
     }
   };
 
+  const favoriteAnimals = useMemo(
+    () => animals.filter((animal) => favoriteIds.includes(animal.id)),
+    [animals, favoriteIds]
+  );
+
   useEffect(() => {
     if (user) {
       getFavorites();
     }
-  }, [user, favoriteIds]);
+  }, [user, getFavorites]);
 
   return (
     <FavoriteContext.Provider
