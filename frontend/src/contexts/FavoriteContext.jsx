@@ -85,6 +85,7 @@ export const FavoriteProvider = ({ children }) => {
     <FavoriteContext.Provider
       value={{
         favoriteAnimals,
+        favoriteIds,
         handleAddFavorite,
         handleRemoveFavorite,
         isFavorite,
