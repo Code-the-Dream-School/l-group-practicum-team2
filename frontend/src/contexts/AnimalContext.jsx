@@ -10,7 +10,6 @@ import { useSearchParams } from "react-router-dom";
 import { equalsCI } from "../utils/equalsCI";
 
 const AnimalContext = createContext();
-const BACKEND_API = import.meta.env.VITE_API_BASE_URL;
 export const AnimalProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [animals, setAnimals] = useState([]);
@@ -19,6 +18,7 @@ export const AnimalProvider = ({ children }) => {
 
   const getAnimals = async () => {
     setLoading(true);
+    setError(null);
 
     try {
       const data = await fetchAnimals();
