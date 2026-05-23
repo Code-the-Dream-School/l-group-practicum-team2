@@ -61,9 +61,7 @@ function InquiriesPage() {
           <p className="text-muted">
             When you send an adoption inquiry, it will appear here.
           </p>
-        <Button onClick={() => navigate("/")}>
-  Browse Animals
-</Button>
+          <Button onClick={() => navigate("/")}>Browse Animals</Button>
         </Card>
       ) : (
         <div className="row g-4">

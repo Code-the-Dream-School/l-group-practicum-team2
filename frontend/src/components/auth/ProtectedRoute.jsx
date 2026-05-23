@@ -7,9 +7,9 @@ function ProtectedRoute({ children }) {
   const { user, loading } = useAuth();
   const location = useLocation();
 
- if (loading) {
-  return <LoadingSpinner message="Loading..." />;
-}
+  if (loading) {
+    return <LoadingSpinner message="Loading..." />;
+  }
 
   if (!user) {
     return <Navigate to="/login" state={{ from: location }} replace />;
