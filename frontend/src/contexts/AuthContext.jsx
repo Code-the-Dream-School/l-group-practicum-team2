@@ -14,6 +14,7 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [authModal, setAuthModal] = useState(null);
+  const [logoutClicked, setLogoutClicked] = useState(false);
   const navigate = useNavigate();
 
   const handleRegister = async (userData) => {
@@ -91,9 +92,12 @@ export const AuthProvider = ({ children }) => {
     if (withLoading) setLoading(true);
 
     try {
+      
       setUser(null);
       localStorage.removeItem("token");
-      navigate('/');
+      setLogoutClicked(true);
+      // await new Promise((resolve) => setTimeout(resolve, 5000));
+      // navigate('/');
     } catch (error) {
       console.error(error);
     } finally {
@@ -129,7 +133,9 @@ export const AuthProvider = ({ children }) => {
 
         openLogin,
         openSignup,
-        closeAuthModal
+        closeAuthModal,
+
+        logoutClicked 
       }}
     >
       {children}
