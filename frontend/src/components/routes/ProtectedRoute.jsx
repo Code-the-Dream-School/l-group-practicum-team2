@@ -4,6 +4,7 @@ import { Navigate, useLocation } from "react-router-dom";
 import ProfilePlaceholder from "../placeholders/ProfilePlaceholder";
 import InquiryPlaceholder from "../placeholders/InquiryPlaceholder";
 import FavoritePlaceholder from "../placeholders/AnimalListPlaceholder";
+import PropTypes from "prop-types";
 
 const ProtectedRoute = ({ children }) => {
   const {
