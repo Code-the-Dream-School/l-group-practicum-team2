@@ -6,6 +6,7 @@ import {
   fetchCurrentUser,
   updateUserCredentials,
 } from "../services/authService";
+import PropTypes from "prop-types";
 
 const AuthContext = createContext();
 
@@ -15,7 +16,7 @@ export const AuthProvider = ({ children }) => {
   const [error, setError] = useState(null);
   const [authModal, setAuthModal] = useState(null);
   const [logoutClicked, setLogoutClicked] = useState(false);
-  const navigate = useNavigate();
+
 
   const handleRegister = async (userData) => {
     setLoading(true);
@@ -93,7 +94,7 @@ export const AuthProvider = ({ children }) => {
       localStorage.removeItem("token");
       setLogoutClicked(true);
     } catch (error) {
-      console.error(error);
+      setError(error);
     } finally {
       if (withLoading) setLoading(false);
     }
@@ -106,6 +107,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     getCurrentUser();
   }, []);
+
 
   return (
     <AuthContext.Provider
@@ -127,11 +129,14 @@ export const AuthProvider = ({ children }) => {
         closeAuthModal,
 
         logoutClicked,
+        setLogoutClicked
       }}
     >
       {children}
     </AuthContext.Provider>
   );
 };
-
+ProtectedRoute.propTypes = {
+  children: PropTypes.node.isRequired,
+};
 export const useAuth = () => useContext(AuthContext);

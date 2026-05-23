@@ -1,36 +1,45 @@
 import React, { useEffect, useRef } from "react";
 import { useAuth } from "../../contexts/AuthContext";
-import { Navigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import ProfilePlaceholder from "../placeholders/ProfilePlaceholder";
 import InquiryPlaceholder from "../placeholders/InquiryPlaceholder";
 import FavoritePlaceholder from "../placeholders/AnimalListPlaceholder";
 import PropTypes from "prop-types";
 
 const ProtectedRoute = ({ children }) => {
-  const {
-    user,
-    loading: authLoading,
-    openLogin,
-    authModal,
-    logoutClicked,
-  } = useAuth();
-  const location = useLocation();
+    const {
+        user,
+        logoutClicked,
+        setLogoutClicked,
+    } = useAuth();
+    const location = useLocation();
+    const navigate = useNavigate();
 
-  if (!user) {
-    if (logoutClicked) {
-      return <Navigate to="/" replace />;
+
+  useEffect(()=>{
+   
+    if(logoutClicked){
+        navigate("/", { replace: true });
     }
+    setTimeout(() => {
+        setLogoutClicked(false);
+    }, 1000);
+    
+  }, [logoutClicked])
+
+  if (!user && !logoutClicked) {
+    
     switch (location.pathname) {
-      case "/profile":
-        return <ProfilePlaceholder />;
-      case "/favorites":
-        return <FavoritePlaceholder />;
+        case "/profile":
+            return <ProfilePlaceholder />;
+        case "/favorites":
+            return <FavoritePlaceholder />;
 
-      case "/inquiry":
-        return <InquiryPlaceholder />;
+        case "/profile/inquiries":
+            return <InquiryPlaceholder />;
 
-      default:
-        return null;
+        default:
+            return null;
     }
   }
 
