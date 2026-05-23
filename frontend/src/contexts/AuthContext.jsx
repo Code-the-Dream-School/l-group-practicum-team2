@@ -136,7 +136,7 @@ export const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
-ProtectedRoute.propTypes = {
+AuthProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
 export const useAuth = () => useContext(AuthContext);
