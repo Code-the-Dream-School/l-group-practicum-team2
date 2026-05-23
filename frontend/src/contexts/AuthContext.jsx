@@ -4,6 +4,7 @@ import {
   loginUser,
   registerUser,
   fetchCurrentUser,
+  updateUserCredentials,
 } from "../services/authService";
 
 const AuthContext = createContext();
@@ -41,6 +42,28 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       console.error(error);
       setError(error.message);
+      return false;
+    } finally {
+      setLoading(false);
+    }
+  };
+  const handleUpdate = async (userData) => {
+    setLoading(true);
+
+    try {
+      const token = localStorage.getItem("token");
+
+      const data = await updateUserCredentials(userData, token);
+
+      setUser(data.user);
+
+      setError(null);
+
+      return true;
+    } catch (error) {
+      console.error(error);
+      setError(error.message);
+
       return false;
     } finally {
       setLoading(false);
@@ -97,6 +120,7 @@ export const AuthProvider = ({ children }) => {
         handleRegister,
         getCurrentUser,
         logoutUser,
+        handleUpdate,
       }}
     >
       {children}
