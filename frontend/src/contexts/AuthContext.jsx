@@ -118,13 +118,10 @@ export const AuthProvider = ({ children }) => {
         handleRegister,
         getCurrentUser,
         logoutUser,
-<<<<<<< HEAD
         handleUpdate,
-=======
         
         authModal, 
         setAuthModal,
->>>>>>> 6c77f0ef (set auth loading true while fetching current user on app load)
 
         openLogin,
         openSignup,
