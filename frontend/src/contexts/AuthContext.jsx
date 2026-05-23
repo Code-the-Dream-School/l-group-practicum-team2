@@ -17,7 +17,6 @@ export const AuthProvider = ({ children }) => {
   const [authModal, setAuthModal] = useState(null);
   const [logoutClicked, setLogoutClicked] = useState(false);
 
-
   const handleRegister = async (userData) => {
     setLoading(true);
     try {
@@ -108,7 +107,6 @@ export const AuthProvider = ({ children }) => {
     getCurrentUser();
   }, []);
 
-
   return (
     <AuthContext.Provider
       value={{
@@ -129,7 +127,7 @@ export const AuthProvider = ({ children }) => {
         closeAuthModal,
 
         logoutClicked,
-        setLogoutClicked
+        setLogoutClicked,
       }}
     >
       {children}

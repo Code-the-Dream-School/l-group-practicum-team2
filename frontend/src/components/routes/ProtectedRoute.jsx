@@ -7,39 +7,31 @@ import FavoritePlaceholder from "../placeholders/AnimalListPlaceholder";
 import PropTypes from "prop-types";
 
 const ProtectedRoute = ({ children }) => {
-    const {
-        user,
-        logoutClicked,
-        setLogoutClicked,
-    } = useAuth();
-    const location = useLocation();
-    const navigate = useNavigate();
+  const { user, logoutClicked, setLogoutClicked } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
 
-
-  useEffect(()=>{
-   
-    if(logoutClicked){
-        navigate("/", { replace: true });
+  useEffect(() => {
+    if (logoutClicked) {
+      navigate("/", { replace: true });
     }
     setTimeout(() => {
-        setLogoutClicked(false);
+      setLogoutClicked(false);
     }, 1000);
-    
-  }, [logoutClicked])
+  }, [logoutClicked]);
 
   if (!user && !logoutClicked) {
-    
     switch (location.pathname) {
-        case "/profile":
-            return <ProfilePlaceholder />;
-        case "/favorites":
-            return <FavoritePlaceholder />;
+      case "/profile":
+        return <ProfilePlaceholder />;
+      case "/favorites":
+        return <FavoritePlaceholder />;
 
-        case "/profile/inquiries":
-            return <InquiryPlaceholder />;
+      case "/profile/inquiries":
+        return <InquiryPlaceholder />;
 
-        default:
-            return null;
+      default:
+        return null;
     }
   }
 
