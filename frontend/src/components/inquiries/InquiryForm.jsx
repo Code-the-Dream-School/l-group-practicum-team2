@@ -42,7 +42,7 @@ function InquiryForm({ animalId, onSuccess, onCancel }) {
 
     try {
       const result = await addInquiry({
-        animal_id: animalId,
+        animalId,
         message: message.trim(),
       });
       onSuccess(result.data);
