@@ -25,7 +25,6 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem("token", data.token);
       return true;
     } catch (error) {
-      console.error(error);
       setError(error.message);
       return false;
     } finally {
@@ -41,7 +40,6 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem("token", data.token);
       return true;
     } catch (error) {
-      console.error(error);
       setError(error.message);
       return false;
     } finally {
@@ -62,7 +60,6 @@ export const AuthProvider = ({ children }) => {
 
       return true;
     } catch (error) {
-      console.error(error);
       setError(error.message);
 
       return false;
@@ -96,8 +93,6 @@ export const AuthProvider = ({ children }) => {
       setUser(null);
       localStorage.removeItem("token");
       setLogoutClicked(true);
-      // await new Promise((resolve) => setTimeout(resolve, 5000));
-      // navigate('/');
     } catch (error) {
       console.error(error);
     } finally {
