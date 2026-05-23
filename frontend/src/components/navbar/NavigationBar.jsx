@@ -1,5 +1,5 @@
 import { Button, Container, Image, Nav, Navbar } from "react-bootstrap";
-import { HeartFill, PersonFill } from "react-bootstrap-icons";
+import { HeartFill } from "react-bootstrap-icons";
 import { Link } from "react-router-dom";
 import logo from "../../assets/PawMatch.png";
 import { useAuth } from "../../contexts/AuthContext";

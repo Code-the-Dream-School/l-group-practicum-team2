@@ -1,12 +1,15 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import ErrorMessage from "../components/ErrorMessage";
 import LoadingSpinner from "../components/LoadingSpinner";
+import { useAuth } from "../contexts/AuthContext";
 
 function Login() {
-  const { handleLogin, error } = useAuth();
+  const { handleLogin, error, loading } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const from = location.state?.from?.pathname || "/";
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -17,7 +20,9 @@ function Login() {
     e.preventDefault();
     const success = await handleLogin({ email, password });
 
-    if (success) navigate("/");
+    if (success) {
+      window.location.href = from;
+    }
   };
 
   return (
@@ -44,14 +49,16 @@ function Login() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
+
         <button type="submit">Login</button>
       </form>
 
       <p>
         Don’t have an account? <Link to="/register">Register</Link>
       </p>
+
       {loading && <LoadingSpinner message="Submitting details..." />}
-      {error && <ErrorMessage message={error} error={error} />}
+      {error && <ErrorMessage message={error} />}
     </main>
   );
 }
