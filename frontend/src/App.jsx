@@ -50,12 +50,6 @@ function App() {
             }
           />
 
-          {/* uncomment when Inquiry page is ready */}
-          {/* <Route path="/inquiry" element={
-            <ProtectedRoute>
-              <Inquiry />
-            </ProtectedRoute>
-          } /> */}
 
           <Route path="*" element={<NotFound />} />
         </Routes>
