@@ -35,4 +35,14 @@ describe('Auth routes', () => {
     expect(response.body.user).toBeDefined();
     expect(response.body.user.email).toBe(testUser.email);
   });
+
+   it('rejects duplicate email registration', async () => {
+  await request(app).post('/api/auth/register').send(testUser);
+
+  const response = await request(app)
+    .post('/api/auth/register')
+    .send(testUser);
+
+  expect(response.statusCode).toBe(400);
+});
 });
