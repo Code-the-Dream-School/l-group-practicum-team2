@@ -21,10 +21,7 @@ function App() {
       <div style={{ maxWidth: "1320px", margin: "0 auto", padding: "1rem" }}>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/favorites" element={<FavoritesPage />} />
           <Route path="/animals/:id" element={<AnimalDetail />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/login" element={<Login />} />
 
           <Route
             path="/profile/inquiries"
@@ -34,9 +31,6 @@ function App() {
               </ProtectedRoute>
             }
           />
-          <Route path="*" element={<NotFound />} />
-
-          <Route path="/animals/:id" element={<AnimalDetail />} />
 
           <Route
             path="/favorites"
