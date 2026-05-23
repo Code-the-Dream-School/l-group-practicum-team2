@@ -1,6 +1,5 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import ProtectedRoute from "./components/auth/ProtectedRoute";
 import NavigationBar from "./components/navbar/NavigationBar";
 import AnimalDetail from "./pages/AnimalDetail";
 import FavoritesPage from "./pages/favorites/FavoritesPage";
