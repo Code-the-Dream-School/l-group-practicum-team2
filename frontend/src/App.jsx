@@ -13,7 +13,6 @@ import ProtectedRoute from "./components/routes/ProtectedRoute";
 import AuthModal from "./components/auth/AuthModal";
 
 function App() {
-
   return (
     <>
       <AuthModal />
@@ -36,21 +35,27 @@ function App() {
             }
           />
           <Route path="*" element={<NotFound />} />
-          
-          <Route path="/animals/:id" element={<AnimalDetail />} />
-          
-          <Route path="/favorites" element={
-            <ProtectedRoute>
-              <FavoritesPage />
-            </ProtectedRoute>
-          } />
 
-          <Route path="/profile" element={
-            <ProtectedRoute>
-              <Profile />
-            </ProtectedRoute>
-          } />
-          
+          <Route path="/animals/:id" element={<AnimalDetail />} />
+
+          <Route
+            path="/favorites"
+            element={
+              <ProtectedRoute>
+                <FavoritesPage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
+
           {/* uncomment when Inquiry page is ready */}
           {/* <Route path="/inquiry" element={
             <ProtectedRoute>
@@ -59,7 +64,6 @@ function App() {
           } /> */}
 
           <Route path="*" element={<NotFound />} />
-          
         </Routes>
       </div>
     </>

@@ -1,40 +1,38 @@
-import {Placeholder, Row, Col, Button} from 'react-bootstrap';
+import { Placeholder, Row, Col, Button } from "react-bootstrap";
 
 const ProfilePlaceholder = () => {
+  return (
+    <main style={{ maxWidth: "800px", margin: "0 auto", padding: "2rem" }}>
+      <Row className="mb-5">
+        <Col>
+          <Placeholder as="h2" animation="wave" className="mb-2">
+            <Placeholder xs={2} />
+          </Placeholder>
 
-    return (
-        <main style={{ maxWidth: "800px", margin: "0 auto", padding: "2rem" }}>
-            <Row className="mb-5">
-                <Col>
-                    <Placeholder as="h2" animation="wave" className="mb-2">
-                        <Placeholder xs={2} />
-                    </Placeholder>
-                    
-                    <Placeholder xs={6} />
-                </Col>
-            </Row>
-            
-            {[1, 2, 3].map((item) => (
-                <div key={item} className="mb-3">
-                    <Row>
-                        <Col xs={8}>
-                            <Placeholder as="h5" animation="wave" className="mb-2">
-                                <Placeholder xs={2} />
-                            </Placeholder>
+          <Placeholder xs={6} />
+        </Col>
+      </Row>
 
-                            <Placeholder as="p" animation="wave">
-                                <Placeholder xs={6} />
-                            </Placeholder>
-                        </Col>
+      {[1, 2, 3].map((item) => (
+        <div key={item} className="mb-3">
+          <Row>
+            <Col xs={8}>
+              <Placeholder as="h5" animation="wave" className="mb-2">
+                <Placeholder xs={2} />
+              </Placeholder>
 
-                        <Col xs={4} className="text-end">
-                            <Placeholder.Button variant="primary" xs={4} />
-                        </Col>
-                    </Row>
-                </div>
-            ))}
-        </main>
+              <Placeholder as="p" animation="wave">
+                <Placeholder xs={6} />
+              </Placeholder>
+            </Col>
 
-    )
-}
-export default ProfilePlaceholder
+            <Col xs={4} className="text-end">
+              <Placeholder.Button variant="primary" xs={4} />
+            </Col>
+          </Row>
+        </div>
+      ))}
+    </main>
+  );
+};
+export default ProfilePlaceholder;

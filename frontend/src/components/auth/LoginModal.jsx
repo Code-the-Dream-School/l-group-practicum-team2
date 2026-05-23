@@ -20,7 +20,7 @@ const LoginModal = ({ setShow }) => {
     const success = await handleLogin({ email, password });
 
     if (success) {
-      closeAuthModal()
+      closeAuthModal();
     }
     // Notification bar (coming soon) will display the error
   };
@@ -57,11 +57,7 @@ const LoginModal = ({ setShow }) => {
       <Modal.Footer className="d-flex justify-content-between align-items-center">
         <div>
           Don’t have an account?
-          <Button
-            variant="link"
-            className="ms-1"
-            onClick={() => openSignup()}
-          >
+          <Button variant="link" className="ms-1" onClick={() => openSignup()}>
             Register
           </Button>
         </div>

@@ -89,7 +89,6 @@ export const AuthProvider = ({ children }) => {
     if (withLoading) setLoading(true);
 
     try {
-      
       setUser(null);
       localStorage.removeItem("token");
       setLogoutClicked(true);
@@ -100,8 +99,8 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const openLogin = () =>setAuthModal("login");
-  const openSignup = () => setAuthModal('signup');
+  const openLogin = () => setAuthModal("login");
+  const openSignup = () => setAuthModal("signup");
   const closeAuthModal = () => setAuthModal(null);
 
   useEffect(() => {
@@ -119,15 +118,15 @@ export const AuthProvider = ({ children }) => {
         getCurrentUser,
         logoutUser,
         handleUpdate,
-        
-        authModal, 
+
+        authModal,
         setAuthModal,
 
         openLogin,
         openSignup,
         closeAuthModal,
 
-        logoutClicked 
+        logoutClicked,
       }}
     >
       {children}

@@ -79,8 +79,7 @@ export const FavoriteProvider = ({ children }) => {
   );
 
   useEffect(() => {
-   
-    if(!user){
+    if (!user) {
       setFavoriteIds([]);
       return;
     }

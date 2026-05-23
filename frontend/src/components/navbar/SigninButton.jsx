@@ -1,6 +1,6 @@
 import { Modal, Button } from "react-bootstrap";
 import { PersonFill } from "react-bootstrap-icons";
-import { useAuth } from '../../contexts/AuthContext';
+import { useAuth } from "../../contexts/AuthContext";
 
 export const SigninButton = () => {
   const { openLogin } = useAuth();
