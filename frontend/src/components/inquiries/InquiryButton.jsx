@@ -9,38 +9,33 @@ const InquiryButton = ({animalId, animalName}) => {
     const { user } = useAuth();
 
     const handleInquire = () => {
-        if (!user) {
-        //   navigate("/login");
-          return;
-        }
-    
         setShowInquiryModal(true);
-      };
-    
-      const handleInquirySuccess = () => {
+    };
+
+    const handleInquirySuccess = () => {
         setShowInquiryModal(false);
         setInquirySent(true);
         setSuccessMessage(
-          "Your inquiry has been sent! The shelter will contact you soon."
+            "Your inquiry has been sent! The shelter will contact you soon."
         );
-    
+
         // Auto-hide toast after 5s
         setTimeout(() => setSuccessMessage(null), 5000);
-      };
+    };
 
 
 
     return(
         <>
-        {successMessage && (
-            <div
-            className="inquiry-toast inquiry-toast-success"
-            role="status"
-            aria-live="polite"
-            >
-            {successMessage}
-            </div>
-        )}
+            {successMessage && (
+                <div
+                className="inquiry-toast inquiry-toast-success"
+                role="status"
+                aria-live="polite"
+                >
+                {successMessage}
+                </div>
+            )}
             <InquiryModal
                 show={showInquiryModal}
                 onHide={() => setShowInquiryModal(false)}
@@ -48,15 +43,15 @@ const InquiryButton = ({animalId, animalName}) => {
                 animalName={animalName}
                 onSuccess={handleInquirySuccess}
             />
-        
-    <button
-            type="button"
-            className="btn btn-primary"
-            onClick={handleInquire}
-            disabled={inquirySent}
-        >
-            {inquirySent ? "Inquiry sent ✓" : "I'm Interested"}
-        </button>
+            
+            <button
+                type="button"
+                className="btn btn-primary"
+                onClick={handleInquire}
+                disabled={inquirySent}
+            >
+                {inquirySent ? "Inquiry sent ✓" : "I'm Interested"}
+            </button>
         </>
         
     )
