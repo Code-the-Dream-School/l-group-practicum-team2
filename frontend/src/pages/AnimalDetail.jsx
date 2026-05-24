@@ -6,6 +6,7 @@ import ShelterInfo from "../components/shelters/ShelterInfo";
 import { useAnimal } from "../contexts/AnimalContext";
 import { formatLabel } from "../utils/formatLabel";
 import NotFound from "./NotFound";
+import InquiryButton from "../components/inquiries/InquiryButton";
 
 function normalizeAnimal(data) {
   if (!data) return null;
@@ -44,10 +45,7 @@ export default function AnimalDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  // Inquiry state
-  const [showInquiryModal, setShowInquiryModal] = useState(false);
-  const [inquirySent, setInquirySent] = useState(false);
-  const [successMessage, setSuccessMessage] = useState(null);
+
 
   const animal = normalizeAnimal(getAnimalById(id));
 
@@ -60,25 +58,7 @@ export default function AnimalDetail() {
     alert("Save action will be connected later.");
   };
 
-  const handleInquire = () => {
-    if (!isUserLoggedIn()) {
-      navigate("/login");
-      return;
-    }
-
-    setShowInquiryModal(true);
-  };
-
-  const handleInquirySuccess = () => {
-    setShowInquiryModal(false);
-    setInquirySent(true);
-    setSuccessMessage(
-      "Your inquiry has been sent! The shelter will contact you soon."
-    );
-
-    // Auto-hide toast after 5s
-    setTimeout(() => setSuccessMessage(null), 5000);
-  };
+  
 
   if (loading) {
     return (
@@ -88,7 +68,7 @@ export default function AnimalDetail() {
     );
   }
 
-  if (!animal) {
+  if (!loading && !animal) {
     return <NotFound />;
   }
 
@@ -97,15 +77,7 @@ export default function AnimalDetail() {
 
   return (
     <main className="detail-page">
-      {successMessage && (
-        <div
-          className="inquiry-toast inquiry-toast-success"
-          role="status"
-          aria-live="polite"
-        >
-          {successMessage}
-        </div>
-      )}
+      
 
       <div className="detail-back-link">
         <Link to="/">← Back to animals list</Link>
@@ -200,26 +172,13 @@ export default function AnimalDetail() {
             >
               Save
             </button>
-
-            <button
-              type="button"
-              className="btn btn-primary"
-              onClick={handleInquire}
-              disabled={inquirySent || isAdopted}
-            >
-              {inquirySent ? "Inquiry sent ✓" : "I'm Interested"}
-            </button>
+              <InquiryButton animalName={animal.name} animalId={animal.id} />
+            
           </div>
         </div>
       </section>
 
-      <InquiryModal
-        show={showInquiryModal}
-        onHide={() => setShowInquiryModal(false)}
-        animalId={animal.id}
-        animalName={animal.name}
-        onSuccess={handleInquirySuccess}
-      />
+      
     </main>
   );
 }
