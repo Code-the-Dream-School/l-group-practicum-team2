@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
+import Footer from "./components/footer/Footer";
 import NavigationBar from "./components/navbar/NavigationBar";
 import AnimalDetail from "./pages/AnimalDetail";
 import FavoritesPage from "./pages/favorites/FavoritesPage";
@@ -45,6 +46,7 @@ function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
+      <Footer />
     </>
   );
 }
