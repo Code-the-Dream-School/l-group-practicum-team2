@@ -40,6 +40,7 @@ const getAnimals = async (req, res, next) => {
     const query = `
       SELECT
         a.id,
+        a.shelter_id,
         a.name,
         a.species,
         a.breed,
