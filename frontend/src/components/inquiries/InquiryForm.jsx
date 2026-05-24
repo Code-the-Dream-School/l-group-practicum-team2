@@ -40,11 +40,11 @@ function InquiryForm({ animalId, onSuccess, onCancel }) {
     setError(null);
 
     try {
-      const result = await requestAddInquiry({
+      await requestAddInquiry({
         animalId,
         message: message.trim(),
       });
-      onSuccess(result.data);
+      onSuccess();
     } catch (err) {
       setError(err.message || "Something went wrong. Please try again.");
     } finally {
