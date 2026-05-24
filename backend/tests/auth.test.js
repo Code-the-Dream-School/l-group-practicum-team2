@@ -44,5 +44,29 @@ describe('Auth routes', () => {
     .send(testUser);
 
   expect(response.statusCode).toBe(400);
+   });
+
+  it('logs in successfully with valid credentials', async () => {
+    await request(app).post('/api/auth/register').send(testUser);
+
+    const response = await request(app).post('/api/auth/login').send({
+        email: testUser.email,
+        password: testUser.password,
+    });
+
+    expect(response.statusCode).toBe(200);
+  expect(response.body.token).toBeDefined();
+  expect(response.body.user.email).toBe(testUser.email);
 });
+
+it('rejects login with wrong password', async () => {
+  await request(app).post('/api/auth/register').send(testUser);
+
+  const response = await request(app).post('/api/auth/login').send({
+    email: testUser.email,
+    password: 'WrongPassword123',
+  });
+
+  expect(response.statusCode).toBe(401);
+    });  
 });
