@@ -1,7 +1,6 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { addInquiry } from "../../services/inquiryService";
-
+import { requestAddInquiry } from '../../contexts/InquiryContext'
 const MIN_MESSAGE_LENGTH = 10;
 
 function InquiryForm({ animalId, onSuccess, onCancel }) {
@@ -41,13 +40,12 @@ function InquiryForm({ animalId, onSuccess, onCancel }) {
     setError(null);
 
     try {
-      const result = await addInquiry({
+      const result = await requestAddInquiry({
         animalId,
         message: message.trim(),
       });
       onSuccess(result.data);
     } catch (err) {
-      console.error("Failed to send inquiry:", err);
       setError(err.message || "Something went wrong. Please try again.");
     } finally {
       setSubmitting(false);
