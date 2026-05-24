@@ -5,7 +5,6 @@ import AnimalDetail from "./pages/AnimalDetail";
 import FavoritesPage from "./pages/favorites/FavoritesPage";
 import Home from "./pages/Home";
 import InquiriesPage from "./pages/InquiriesPage";
-import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 import Profile from "./pages/Profile";
 import NotificationContainer from "./components/notifications/NotificationContainer";
