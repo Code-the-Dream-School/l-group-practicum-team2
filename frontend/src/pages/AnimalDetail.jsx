@@ -147,7 +147,7 @@ export default function AnimalDetail() {
           <div className="detail-meta-grid">
             <div className="detail-meta-card">
               <span className="detail-label">Age</span>
-              <strong>{animal.age_years} yrs</strong>
+              <strong>{Math.floor(animal.age_years)} yrs</strong>
             </div>
 
             <div className="detail-meta-card">
