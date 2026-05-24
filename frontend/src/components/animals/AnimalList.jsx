@@ -1,6 +1,5 @@
 import AnimalCard from "./AnimalCard";
 import Filters from "./Filters";
-import { mockAnimals } from "../../constants/animals";
 import ErrorMessage from "../ErrorMessage";
 import { useAnimal } from "../../contexts/AnimalContext";
 

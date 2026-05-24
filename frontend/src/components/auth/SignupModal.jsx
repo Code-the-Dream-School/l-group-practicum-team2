@@ -1,13 +1,11 @@
 import { Modal, Button, Form } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import { useState } from "react";
 import NameInputBox from "./NameInputBox";
 import EmailInputBox from "./EmailInputBox";
 import PasswordInputBox from "./PasswordInputBox";
 import { useAuth } from "../../contexts/AuthContext";
-import PropTypes from "prop-types";
 
-const SignupModal = ({ setShow }) => {
+const SignupModal = () => {
   const { handleRegister, openLogin, closeAuthModal } = useAuth();
   const [name, setName] = useState("");
   const [nameError, setNameError] = useState("");
@@ -92,8 +90,6 @@ const SignupModal = ({ setShow }) => {
     </Form>
   );
 };
-SignupModal.propTypes = {
-  setShow: PropTypes.func.isRequired,
-};
+
 
 export default SignupModal;

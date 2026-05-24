@@ -120,7 +120,6 @@ export const AuthProvider = ({ children }) => {
         handleUpdate,
 
         authModal,
-        setAuthModal,
 
         openLogin,
         openSignup,

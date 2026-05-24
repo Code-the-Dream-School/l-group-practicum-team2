@@ -1,12 +1,10 @@
 import { Modal, Button, Form } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import { useState } from "react";
 import EmailInputBox from "./EmailInputBox";
 import PasswordInputBox from "./PasswordInputBox";
 import { useAuth } from "../../contexts/AuthContext";
-import PropTypes from "prop-types";
 
-const LoginModal = ({ setShow }) => {
+const LoginModal = () => {
   const { handleLogin, openSignup, closeAuthModal } = useAuth();
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
@@ -76,8 +74,6 @@ const LoginModal = ({ setShow }) => {
     </Form>
   );
 };
-LoginModal.propTypes = {
-  setShow: PropTypes.func.isRequired,
-};
+
 
 export default LoginModal;
