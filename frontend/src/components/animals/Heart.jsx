@@ -5,6 +5,7 @@ import { useFavorite } from "../../contexts/FavoriteContext";
 function Heart({ animalId }) {
   const { isFavorite, handleAddFavorite, handleRemoveFavorite } = useFavorite();
   const navigate = useNavigate();
+  const favorite = isFavorite(animalId);
 
   function handleClick(event) {
     event.preventDefault();
@@ -17,7 +18,7 @@ function Heart({ animalId }) {
       return;
     }
 
-    if (isFavorite(animalId)) {
+    if (favorite) {
       handleRemoveFavorite(animalId);
     } else {
       handleAddFavorite(animalId);
@@ -27,11 +28,9 @@ function Heart({ animalId }) {
   return (
     <button
       type="button"
-      className={`favorite-button ${isFavorite(animalId) ? "favorited" : ""}`}
+      className={`favorite-button ${favorite ? "favorited" : ""}`}
       onClick={handleClick}
-      aria-label={
-        isFavorite(animalId) ? "Remove from favorites" : "Add to favorites"
-      }
+      aria-label={favorite ? "Remove from favorites" : "Add to favorites"}
     >
       <span>♥</span>
     </button>
