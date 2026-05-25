@@ -7,7 +7,7 @@ function NotificationBar({ notifications, removeNotification }) {
       {notifications.map((notification) => (
         <Alert
           key={notification.id}
-          variant={notification.type === "error" ? "danger" : notification.type}
+          variant={notification.type}
           dismissible
           onClose={() => removeNotification(notification.id)}
         >
