@@ -79,10 +79,12 @@ export const FavoriteProvider = ({ children }) => {
   );
 
   useEffect(() => {
-    if (user) {
-      getFavorites();
+    if (!user) {
+      setFavoriteIds([]);
+      return;
     }
-  }, [user, getFavorites]);
+    getFavorites();
+  }, [user]);
 
   return (
     <FavoriteContext.Provider
@@ -92,6 +94,7 @@ export const FavoriteProvider = ({ children }) => {
         handleAddFavorite,
         handleRemoveFavorite,
         isFavorite,
+        setFavoriteIds,
         loading,
         error,
       }}
