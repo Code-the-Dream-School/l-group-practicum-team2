@@ -5,10 +5,13 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer style={{ backgroundColor: "#f8f9fa", borderTop: "1px solid #dee2e6" }}>
+    <footer
+      style={{ backgroundColor: "#f8f9fa", borderTop: "1px solid #dee2e6" }}
+    >
       <Container className="px-3 py-4 d-flex flex-column flex-sm-row justify-content-between align-items-center gap-2">
         <span className="text-muted">
-          &copy; {currentYear} <strong>PawMatch</strong> &mdash; Helping every pet find a home
+          &copy; {currentYear} <strong>PawMatch</strong> &mdash; Helping every
+          pet find a home
         </span>
 
         <span className="text-muted">Made with love by I-Group-Team2</span>
