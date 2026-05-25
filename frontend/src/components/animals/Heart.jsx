@@ -40,7 +40,6 @@ function Heart({ animalId }) {
 Heart.propTypes = {
   animalId: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
     .isRequired,
-  initialFavorite: PropTypes.bool,
 };
 
 export default Heart;
