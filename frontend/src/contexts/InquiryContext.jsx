@@ -18,7 +18,7 @@ export const InquiryProvider = ({ children }) => {
 
   const { user, openLogin } = useAuth();
 
-  const getInquiries = async () => {
+  const getInquiries = useCallback(async () => {
     setError(null);
     setLoading(true);
     try {
@@ -32,7 +32,7 @@ export const InquiryProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   const handleAddInquiry = async ({ animalId, message }) => {
     setLoading(true);
