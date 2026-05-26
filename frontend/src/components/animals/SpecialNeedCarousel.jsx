@@ -12,7 +12,6 @@ const SpecialNeedCarousel = () => {
   const { animals, loading, error } = useAnimal();
 
   const specialNeedsAnimals = animals.filter((a) => a.special_needs);
-  const [show, setShow] = useState(false);
 
   
   if (loading)
