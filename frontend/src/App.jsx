@@ -14,10 +14,24 @@ import NotificationContainer from "./components/notifications/NotificationContai
 
 function App() {
   return (
-    <>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        minHeight: "100vh",
+      }}
+    >
       <NavigationBar />
       <NotificationContainer />
-      <div style={{ maxWidth: "1320px", margin: "0 auto", padding: "1rem" }}>
+      <div
+        style={{
+          maxWidth: "1320px",
+          width: "100%",
+          margin: "0 auto",
+          padding: "1rem",
+          flexGrow: 1,
+        }}
+      >
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/favorites" element={<FavoritesPage />} />
@@ -47,7 +61,7 @@ function App() {
         </Routes>
       </div>
       <Footer />
-    </>
+    </div>
   );
 }
 
