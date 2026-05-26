@@ -3,11 +3,11 @@ import { useAuth } from "../../contexts/AuthContext";
 import { Modal } from "react-bootstrap";
 import SignupModal from "./SignupModal";
 import LoginModal from "./LoginModal";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const AuthModal = () => {
   const location = useLocation();
-  const navigate = useNavigate();
+
   const {
     user,
     authModal,
