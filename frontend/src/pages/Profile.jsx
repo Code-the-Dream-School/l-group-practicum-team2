@@ -1,23 +1,18 @@
+import { Card, Button, Modal, Form } from "react-bootstrap";
 import { useState } from "react";
 import { Button, Card, Form, Modal } from "react-bootstrap";
 import { useAuth } from "../contexts/AuthContext";
 import { updateUserCredentials } from "../services/authService";
 
 function Profile() {
-  const { handleDelete } = useAuth();
-
   const [showNameModal, setShowNameModal] = useState(false);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-
   const [name, setName] = useState("");
   const [profilePassword, setProfilePassword] = useState("");
 
   const [passwordCurrentPassword, setPasswordCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
-  const [deletePassword, setDeletePassword] = useState("");
 
   const [profileLoading, setProfileLoading] = useState(false);
   const [passwordLoading, setPasswordLoading] = useState(false);
@@ -59,6 +54,29 @@ function Profile() {
     setDeleteError("");
   };
 
+  const isProfileFormValid = name.trim() && profilePassword.trim();
+
+  const isPasswordFormValid =
+    passwordCurrentPassword.trim() &&
+    newPassword.trim() &&
+    confirmPassword.trim() &&
+    newPassword === confirmPassword;
+
+  const handleCloseNameModal = () => {
+    setShowNameModal(false);
+    setName("");
+    setProfilePassword("");
+    setProfileError("");
+  };
+
+  const handleClosePasswordModal = () => {
+    setShowPasswordModal(false);
+    setPasswordCurrentPassword("");
+    setNewPassword("");
+    setConfirmPassword("");
+    setPasswordError("");
+  };
+
   const handleProfileUpdate = async (e) => {
     e.preventDefault();
 
@@ -95,7 +113,6 @@ function Profile() {
       setProfileLoading(false);
     }
   };
-
   const handlePasswordUpdate = async (e) => {
     e.preventDefault();
 
@@ -167,10 +184,8 @@ function Profile() {
       <p className="text-muted mb-4">
         Manage your account information and security settings.
       </p>
-
       {profileSuccess && <p className="text-success">{profileSuccess}</p>}
       {passwordSuccess && <p className="text-success">{passwordSuccess}</p>}
-
       <Card className="p-4 mb-4 shadow-sm">
         <div className="d-flex justify-content-between align-items-center mb-3">
           <div>
@@ -225,11 +240,8 @@ function Profile() {
           Permanently delete your account and all associated data.
         </p>
 
-        <Button variant="danger" onClick={() => setShowDeleteModal(true)}>
-          Delete Account
-        </Button>
+        <Button variant="danger">Delete Account</Button>
       </Card>
-
       <Modal show={showNameModal} onHide={handleCloseNameModal}>
         <Modal.Header closeButton>
           <Modal.Title>Edit Name</Modal.Title>
@@ -258,12 +270,11 @@ function Profile() {
                 onChange={(e) => setProfilePassword(e.target.value)}
               />
             </Form.Group>
-
             {profileError && <p className="text-danger mt-3">{profileError}</p>}
           </Modal.Body>
 
           <Modal.Footer>
-            <Button variant="secondary" onClick={handleCloseNameModal}>
+            <Button variant="secondary" onClick={() => setShowNameModal(false)}>
               Cancel
             </Button>
 
@@ -277,12 +288,13 @@ function Profile() {
           </Modal.Footer>
         </Form>
       </Modal>
-
-      <Modal show={showPasswordModal} onHide={handleClosePasswordModal}>
+      <Modal
+        show={showPasswordModal}
+        onHide={() => setShowPasswordModal(false)}
+      >
         <Modal.Header closeButton>
           <Modal.Title>Update Password</Modal.Title>
         </Modal.Header>
-
         <Form onSubmit={handlePasswordUpdate}>
           <Modal.Body>
             <Form.Group className="mb-3">
@@ -322,9 +334,11 @@ function Profile() {
               <p className="text-danger mt-3">{passwordError}</p>
             )}
           </Modal.Body>
-
           <Modal.Footer>
-            <Button variant="secondary" onClick={handleClosePasswordModal}>
+            <Button
+              variant="secondary"
+              onClick={() => setShowPasswordModal(false)}
+            >
               Cancel
             </Button>
 
@@ -334,48 +348,6 @@ function Profile() {
               disabled={!isPasswordFormValid || passwordLoading}
             >
               {passwordLoading ? "Updating..." : "Update Password"}
-            </Button>
-          </Modal.Footer>
-        </Form>
-      </Modal>
-
-      <Modal show={showDeleteModal} onHide={handleCloseDeleteModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>Delete Account</Modal.Title>
-        </Modal.Header>
-
-        <Form onSubmit={handleDeleteAccount}>
-          <Modal.Body>
-            <p className="text-muted">
-              Please enter your current password to permanently delete your
-              account.
-            </p>
-
-            <Form.Group className="mb-3">
-              <Form.Label>Current Password</Form.Label>
-
-              <Form.Control
-                type="password"
-                placeholder="Enter current password"
-                value={deletePassword}
-                onChange={(e) => setDeletePassword(e.target.value)}
-              />
-            </Form.Group>
-
-            {deleteError && <p className="text-danger mt-3">{deleteError}</p>}
-          </Modal.Body>
-
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleCloseDeleteModal}>
-              Cancel
-            </Button>
-
-            <Button
-              variant="danger"
-              type="submit"
-              disabled={!deletePassword.trim() || deleteLoading}
-            >
-              {deleteLoading ? "Deleting..." : "Delete Account"}
             </Button>
           </Modal.Footer>
         </Form>

@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import ErrorMessage from "../components/ErrorMessage";
 import InquiryModal from "../components/inquiries/InquiryModal";
 import LoadingSpinner from "../components/LoadingSpinner";
 import ShelterInfo from "../components/shelters/ShelterInfo";
@@ -40,33 +39,16 @@ function isUserLoggedIn() {
 }
 
 export default function AnimalDetail() {
-  const { animals, loading } = useAnimal();
+  const { getAnimalById, loading } = useAnimal();
   const { id } = useParams();
   const navigate = useNavigate();
-
-  const [animal, setAnimal] = useState(null);
-  const [notFound, setNotFound] = useState(false);
-  const [error, setError] = useState(false);
 
   // Inquiry state
   const [showInquiryModal, setShowInquiryModal] = useState(false);
   const [inquirySent, setInquirySent] = useState(false);
   const [successMessage, setSuccessMessage] = useState(null);
 
-  useEffect(() => {
-    const fallbackAnimal = animals.find(
-      (item) => String(item.id) === String(id)
-    );
-
-    if (!fallbackAnimal) {
-      setNotFound(true);
-      setAnimal(null);
-      setError(true);
-      return;
-    }
-
-    setAnimal(normalizeAnimal(fallbackAnimal));
-  }, [animals, id]);
+  const animal = normalizeAnimal(getAnimalById(id));
 
   const handleSave = () => {
     if (!isUserLoggedIn()) {
@@ -97,12 +79,6 @@ export default function AnimalDetail() {
     setTimeout(() => setSuccessMessage(null), 5000);
   };
 
-  const handleRetry = () => {
-    setError(false);
-    setNotFound(false);
-    setAnimal(null);
-  };
-
   if (loading) {
     return (
       <main className="detail-page">
@@ -111,7 +87,7 @@ export default function AnimalDetail() {
     );
   }
 
-  if (notFound || !animal) {
+  if (!animal) {
     return <NotFound />;
   }
 
@@ -230,13 +206,6 @@ export default function AnimalDetail() {
           </div>
         </div>
       </section>
-
-      {error && (
-        <ErrorMessage
-          message="Failed to load animal details."
-          handleRetry={handleRetry}
-        />
-      )}
 
       <InquiryModal
         show={showInquiryModal}

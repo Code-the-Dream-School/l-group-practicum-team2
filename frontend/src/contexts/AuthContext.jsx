@@ -1,21 +1,23 @@
 import PropTypes from "prop-types";
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import {
   deleteAccount,
   fetchCurrentUser,
   loginUser,
   registerUser,
+  fetchCurrentUser,
+  updateUserCredentials,
 } from "../services/authService";
+import PropTypes from "prop-types";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  const navigate = useNavigate();
+  const [authModal, setAuthModal] = useState(null);
+  const [logoutClicked, setLogoutClicked] = useState(false);
 
   const handleRegister = async (userData) => {
     setLoading(true);
@@ -25,7 +27,6 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem("token", data.token);
       return true;
     } catch (error) {
-      console.error(error);
       setError(error.message);
       return false;
     } finally {
@@ -41,8 +42,28 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem("token", data.token);
       return true;
     } catch (error) {
-      console.error(error);
       setError(error.message);
+      return false;
+    } finally {
+      setLoading(false);
+    }
+  };
+  const handleUpdate = async (userData) => {
+    setLoading(true);
+
+    try {
+      const token = localStorage.getItem("token");
+
+      const data = await updateUserCredentials(userData, token);
+
+      setUser(data.user);
+
+      setError(null);
+
+      return true;
+    } catch (error) {
+      setError(error.message);
+
       return false;
     } finally {
       setLoading(false);
@@ -51,15 +72,12 @@ export const AuthProvider = ({ children }) => {
 
   const getCurrentUser = async () => {
     setLoading(true);
-
     try {
       const data = await fetchCurrentUser();
       setUser(data && data.user ? data.user : null);
       setError(null);
-
       return true;
     } catch (error) {
-      console.error(error);
       setError(error.message);
       setUser(null);
       localStorage.removeItem("token");
@@ -111,16 +129,18 @@ const logoutUser = async (withLoading = true) => {
 
     try {
       setUser(null);
-      // uncomment when FavoriteContext and InquiryCOntext is ready
-      // setFavorites([]);
-      // setInquiries([]);
       localStorage.removeItem("token");
+      setLogoutClicked(true);
     } catch (error) {
-      console.error(error);
+      setError(error);
     } finally {
       if (withLoading) setLoading(false);
     }
   };
+
+  const openLogin = () => setAuthModal("login");
+  const openSignup = () => setAuthModal("signup");
+  const closeAuthModal = () => setAuthModal(null);
 
   useEffect(() => {
     let ignore = false;
@@ -156,16 +176,23 @@ const logoutUser = async (withLoading = true) => {
         handleRegister,
         getCurrentUser,
         logoutUser,
-        handleDelete,
+        handleUpdate,
+
+        authModal,
+
+        openLogin,
+        openSignup,
+        closeAuthModal,
+
+        logoutClicked,
+        setLogoutClicked,
       }}
     >
       {children}
     </AuthContext.Provider>
   );
 };
-
 AuthProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
-
 export const useAuth = () => useContext(AuthContext);

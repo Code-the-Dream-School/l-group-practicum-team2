@@ -1,28 +1,74 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
+import AuthModal from "./components/auth/AuthModal";
+import Footer from "./components/footer/Footer";
+import NavigationBar from "./components/navbar/NavigationBar";
+import NotificationContainer from "./components/notifications/NotificationContainer";
+import ProtectedRoute from "./components/routes/ProtectedRoute";
 import AnimalDetail from "./pages/AnimalDetail";
 import FavoritesPage from "./pages/favorites/FavoritesPage";
 import Home from "./pages/Home";
-import Login from "./pages/Login";
+import InquiriesPage from "./pages/InquiriesPage";
 import NotFound from "./pages/NotFound";
-import Register from "./pages/Register";
-import NavigationBar from "./components/navbar/NavigationBar";
 import Profile from "./pages/Profile";
 
 function App() {
   return (
-    <>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        minHeight: "100vh",
+      }}
+    >
+      <AuthModal />
       <NavigationBar />
-      <div style={{ maxWidth: "1320px", margin: "0 auto", padding: "1rem" }}>
+      <NotificationContainer />
+      <div
+        style={{
+          maxWidth: "1320px",
+          width: "100%",
+          margin: "0 auto",
+          padding: "1rem",
+          flexGrow: 1,
+        }}
+      >
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/favorites" element={<FavoritesPage />} />
           <Route path="/animals/:id" element={<AnimalDetail />} />
+
+          <Route
+            path="/profile/inquiries"
+            element={
+              <ProtectedRoute>
+                <InquiriesPage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/favorites"
+            element={
+              <ProtectedRoute>
+                <FavoritesPage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
+
           <Route path="*" element={<NotFound />} />
-          <Route path="/profile" element={<Profile />} />
         </Routes>
       </div>
-    </>
+      <Footer />
+    </div>
   );
 }
 
