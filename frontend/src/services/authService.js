@@ -92,7 +92,6 @@ export const fetchCurrentUser = async () => {
     throw new Error(error.message || "Unable to connect to the server");
   }
 };
-
 export async function deleteAccount(currentPassword) {
   const token = localStorage.getItem("token");
 
@@ -106,10 +105,13 @@ export async function deleteAccount(currentPassword) {
     body: JSON.stringify({ currentPassword }),
   });
 
-  const data = await response.json();
+  const text = await response.text();
+  const data = text ? JSON.parse(text) : {};
 
   if (!response.ok) {
-    throw new Error(data.message || "Failed to delete account");
+    throw new Error(
+      data.message || data.error || data.msg || "Failed to delete account"
+    );
   }
 
   return data;

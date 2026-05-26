@@ -6,13 +6,17 @@ const Home = () => {
   const [accountDeletedMessage, setAccountDeletedMessage] = useState("");
 
   useEffect(() => {
+  const timeoutId = setTimeout(() => {
     const message = localStorage.getItem("accountDeletedMessage");
 
     if (message) {
       setAccountDeletedMessage(message);
       localStorage.removeItem("accountDeletedMessage");
     }
-  }, []);
+  }, 0);
+
+  return () => clearTimeout(timeoutId);
+}, []);
 
   return (
     <div
