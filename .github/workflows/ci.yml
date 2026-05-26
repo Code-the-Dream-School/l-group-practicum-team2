@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-   backend-build:
+  backend-build:
     name: Backend - build
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -62,6 +62,8 @@ jobs:
           JWT_SECRET: testsecret
           FRONTEND_URL: http://localhost:5173
           PORT: 8080
+
+
   frontend-lint:
     name: Frontend formatting check
     runs-on: ubuntu-latest
