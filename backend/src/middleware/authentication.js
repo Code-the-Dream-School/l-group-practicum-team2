@@ -12,10 +12,9 @@ const auth = async (req, res, next) => {
   }
 
   const authHeader = req.headers.authorization;
-
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    throw new UnauthenticatedError('Authentication invalid');
-  }
+if (!authHeader || !authHeader.startsWith('Bearer ')) {
+  return next(new UnauthenticatedError('Authentication invalid'));
+}
 
   const token = authHeader.split(' ')[1];
 
@@ -33,10 +32,9 @@ const auth = async (req, res, next) => {
     }
     req.user = user;
     next();
-
-  } catch (error) {
-      return next(error);
-  }
+} catch (error) {
+  return next(new UnauthenticatedError('Authentication invalid'));
+}
   
 };
 
