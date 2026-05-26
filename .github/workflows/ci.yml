@@ -11,6 +11,12 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
+     env:
+      DATABASE_URL: postgres://test:test@localhost:5432/pawmatch_test
+      JWT_SECRET: testsecret
+      FRONTEND_URL: http://localhost:5173
+      PORT: 8080
+
     services:
       postgres:
         image: postgres:16
@@ -49,20 +55,11 @@ jobs:
 
       - name: Run database schema
         run: npm run db:schema
-        env:
-          DATABASE_URL: postgres://test:test@localhost:5432/pawmatch_test
-          JWT_SECRET: testsecret
-          FRONTEND_URL: http://localhost:5173
-          PORT: 8080
+        
 
       - name: Run tests
         run: npm test
-        env:
-          DATABASE_URL: postgres://test:test@localhost:5432/pawmatch_test
-          JWT_SECRET: testsecret
-          FRONTEND_URL: http://localhost:5173
-          PORT: 8080
-
+       
 
   frontend-lint:
     name: Frontend formatting check
