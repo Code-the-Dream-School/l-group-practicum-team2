@@ -1,19 +1,23 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
+
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import Footer from "./components/footer/Footer";
+
 import NavigationBar from "./components/navbar/NavigationBar";
 import AnimalDetail from "./pages/AnimalDetail";
 import FavoritesPage from "./pages/favorites/FavoritesPage";
 import Home from "./pages/Home";
 import InquiriesPage from "./pages/InquiriesPage";
-import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 import Profile from "./pages/Profile";
 import NotificationContainer from "./components/notifications/NotificationContainer";
+import ProtectedRoute from "./components/routes/ProtectedRoute";
+import AuthModal from "./components/auth/AuthModal";
 
 function App() {
   return (
+
     <div
       style={{
         display: "flex",
@@ -21,6 +25,10 @@ function App() {
         minHeight: "100vh",
       }}
     >
+
+    <>
+      <AuthModal />
+
       <NavigationBar />
       <NotificationContainer />
       <div
@@ -34,10 +42,7 @@ function App() {
       >
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/favorites" element={<FavoritesPage />} />
           <Route path="/animals/:id" element={<AnimalDetail />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/login" element={<Login />} />
 
           <Route
             path="/profile/inquiries"
@@ -49,10 +54,19 @@ function App() {
           />
 
           <Route
-            path="/inquiries"
+            path="/favorites"
             element={
               <ProtectedRoute>
-                <InquiriesPage />
+                <FavoritesPage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <Profile />
               </ProtectedRoute>
             }
           />

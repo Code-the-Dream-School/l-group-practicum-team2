@@ -1,13 +1,11 @@
 import { Modal, Button, Form } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import { useState } from "react";
 import EmailInputBox from "./EmailInputBox";
 import PasswordInputBox from "./PasswordInputBox";
 import { useAuth } from "../../contexts/AuthContext";
-import PropTypes from "prop-types";
 
-const LoginModal = ({ setShow }) => {
-  const { handleLogin } = useAuth();
+const LoginModal = () => {
+  const { handleLogin, openSignup, closeAuthModal } = useAuth();
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
 
@@ -20,7 +18,7 @@ const LoginModal = ({ setShow }) => {
     const success = await handleLogin({ email, password });
 
     if (success) {
-      setShow(null);
+      closeAuthModal();
     }
     // Notification bar (coming soon) will display the error
   };
@@ -57,11 +55,7 @@ const LoginModal = ({ setShow }) => {
       <Modal.Footer className="d-flex justify-content-between align-items-center">
         <div>
           Don’t have an account?
-          <Button
-            variant="link"
-            className="ms-1"
-            onClick={() => setShow("signup")}
-          >
+          <Button variant="link" className="ms-1" onClick={() => openSignup()}>
             Register
           </Button>
         </div>
@@ -79,9 +73,6 @@ const LoginModal = ({ setShow }) => {
       </Modal.Footer>
     </Form>
   );
-};
-LoginModal.propTypes = {
-  setShow: PropTypes.func.isRequired,
 };
 
 export default LoginModal;

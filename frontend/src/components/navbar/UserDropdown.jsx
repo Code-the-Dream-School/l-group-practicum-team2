@@ -22,7 +22,7 @@ const UserDropdown = ({ user, onLogout }) => {
       <Dropdown.Item as={Link} to="/favorites">
         Favorites
       </Dropdown.Item>
-      <Dropdown.Item as={Link} to="/inquiries">
+      <Dropdown.Item as={Link} to="/profile/inquiries">
         Inquiries
       </Dropdown.Item>
       <Dropdown.Divider />
