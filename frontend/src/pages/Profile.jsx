@@ -255,9 +255,7 @@ function Profile() {
                 type="password"
                 placeholder="Enter current password"
                 value={passwordCurrentPassword}
-                onChange={(e) =>
-                  setPasswordCurrentPassword(e.target.value)
-                }
+                onChange={(e) => setPasswordCurrentPassword(e.target.value)}
               />
             </Form.Group>
 
