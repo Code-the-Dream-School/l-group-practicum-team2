@@ -59,7 +59,7 @@ export const AnimalProvider = ({ children }) => {
 
   const clearFilters = () => setSearchParams({});
 
-  const filteredAnimals = useMemo(()=> {
+  const filteredAnimals = useMemo(() => {
     return animals.filter((animal) => {
       if (filters.species && !equalsCI(animal.species, filters.species))
         return false;
@@ -74,9 +74,9 @@ export const AnimalProvider = ({ children }) => {
     });
   }, [animals, filters]);
 
-  const specialNeedsAnimals =useMemo(()=>{
+  const specialNeedsAnimals = useMemo(() => {
     return animals.filter((a) => a.special_needs);
-  }, [animals]) 
+  }, [animals]);
 
   const hasActiveFilters =
     filters.species !== "" ||
