@@ -1,6 +1,7 @@
 import Modal from "react-bootstrap/Modal";
 import { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
+import PropTypes from 'prop-types';
 
 export default function ErrorMessage({
   message,
@@ -42,3 +43,8 @@ export default function ErrorMessage({
     </div>
   );
 }
+ErrorMessage.propTypes = {
+  error: PropTypes.string,
+  message: PropTypes.string,
+  handleRetry: PropTypes.func,
+};
