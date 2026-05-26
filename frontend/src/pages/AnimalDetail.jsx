@@ -36,9 +36,6 @@ function normalizeAnimal(data) {
   };
 }
 
-function isUserLoggedIn() {
-  return Boolean(localStorage.getItem("token"));
-}
 
 export default function AnimalDetail() {
   const { getAnimalById, loading } = useAnimal();
@@ -172,7 +169,8 @@ export default function AnimalDetail() {
             >
               Save
             </button>
-              <InquiryButton animalName={animal.name} animalId={animal.id} />
+              
+            <InquiryButton animalName={animal.name} animalId={animal.id} />
             
           </div>
         </div>
