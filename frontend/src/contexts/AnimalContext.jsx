@@ -3,6 +3,7 @@ import React, {
   useContext,
   useEffect,
   useState,
+  useCallback,
   useMemo,
 } from "react";
 import { fetchAnimals } from "../services/animalService";
@@ -16,7 +17,7 @@ export const AnimalProvider = ({ children }) => {
   const [error, setError] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const getAnimals = async () => {
+  const getAnimals = useCallback(async () => {
     setLoading(true);
     setError(null);
 
@@ -28,7 +29,7 @@ export const AnimalProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   const getAnimalById = (id) => {
     return animals.find((animal) => String(animal.id) === String(id)) || null;
@@ -58,20 +59,24 @@ export const AnimalProvider = ({ children }) => {
 
   const clearFilters = () => setSearchParams({});
 
-  const filteredAnimals = animals.filter((animal) => {
-    if (filters.species && !equalsCI(animal.species, filters.species))
-      return false;
-    if (filters.size && !equalsCI(animal.size, filters.size)) return false;
-    if (
-      filters.ageCategory &&
-      !equalsCI(animal.age_category, filters.ageCategory)
-    )
-      return false;
-    if (filters.specialNeeds && !animal.special_needs) return false;
-    return true;
-  });
+  const filteredAnimals = useMemo(()=> {
+    return animals.filter((animal) => {
+      if (filters.species && !equalsCI(animal.species, filters.species))
+        return false;
+      if (filters.size && !equalsCI(animal.size, filters.size)) return false;
+      if (
+        filters.ageCategory &&
+        !equalsCI(animal.age_category, filters.ageCategory)
+      )
+        return false;
+      if (filters.specialNeeds && !animal.special_needs) return false;
+      return true;
+    });
+  }, [animals, filters]);
 
-  const specialNeedsAnimals = animals.filter((a) => a.special_needs);
+  const specialNeedsAnimals =useMemo(()=>{
+    return animals.filter((a) => a.special_needs);
+  }, [animals]) 
 
   const hasActiveFilters =
     filters.species !== "" ||
