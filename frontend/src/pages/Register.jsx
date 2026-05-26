@@ -5,7 +5,7 @@ import LoadingSpinner from "../components/LoadingSpinner";
 import ErrorMessage from "../components/ErrorMessage";
 
 function Register() {
-  const { handleRegister, error } = useAuth();
+  const { handleRegister, error, loading } = useAuth();
   const navigate = useNavigate();
 
   const [name, setName] = useState("");
