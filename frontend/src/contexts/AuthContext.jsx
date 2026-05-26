@@ -1,14 +1,13 @@
 import PropTypes from "prop-types";
 import React, { createContext, useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   deleteAccount,
   fetchCurrentUser,
   loginUser,
   registerUser,
-  fetchCurrentUser,
   updateUserCredentials,
 } from "../services/authService";
-import PropTypes from "prop-types";
 
 const AuthContext = createContext();
 
@@ -19,8 +18,11 @@ export const AuthProvider = ({ children }) => {
   const [authModal, setAuthModal] = useState(null);
   const [logoutClicked, setLogoutClicked] = useState(false);
 
+  const navigate = useNavigate();
+
   const handleRegister = async (userData) => {
     setLoading(true);
+
     try {
       const data = await registerUser(userData);
       setUser(data.user);
@@ -36,6 +38,7 @@ export const AuthProvider = ({ children }) => {
 
   const handleLogin = async (userData) => {
     setLoading(true);
+
     try {
       const data = await loginUser(userData);
       setUser(data.user);
@@ -48,22 +51,20 @@ export const AuthProvider = ({ children }) => {
       setLoading(false);
     }
   };
+
   const handleUpdate = async (userData) => {
     setLoading(true);
 
     try {
       const token = localStorage.getItem("token");
-
       const data = await updateUserCredentials(userData, token);
 
       setUser(data.user);
-
       setError(null);
 
       return true;
     } catch (error) {
       setError(error.message);
-
       return false;
     } finally {
       setLoading(false);
@@ -72,20 +73,25 @@ export const AuthProvider = ({ children }) => {
 
   const getCurrentUser = async () => {
     setLoading(true);
+
     try {
       const data = await fetchCurrentUser();
+
       setUser(data && data.user ? data.user : null);
       setError(null);
+
       return true;
     } catch (error) {
       setError(error.message);
       setUser(null);
       localStorage.removeItem("token");
+
       return false;
     } finally {
       setLoading(false);
     }
   };
+
   const handleDelete = async (currentPassword) => {
     setLoading(true);
     setError(null);
@@ -159,6 +165,11 @@ export const AuthProvider = ({ children }) => {
           setUser(null);
           localStorage.removeItem("token");
         }
+      })
+      .finally(() => {
+        if (!ignore) {
+          setLoading(false);
+        }
       });
 
     return () => {
@@ -177,13 +188,11 @@ export const AuthProvider = ({ children }) => {
         getCurrentUser,
         logoutUser,
         handleUpdate,
-
+        handleDelete,
         authModal,
-
         openLogin,
         openSignup,
         closeAuthModal,
-
         logoutClicked,
         setLogoutClicked,
       }}
@@ -192,7 +201,9 @@ export const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
+
 AuthProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
+
 export const useAuth = () => useContext(AuthContext);
