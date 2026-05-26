@@ -19,7 +19,7 @@ const FavoriteContext = createContext();
 export const FavoriteProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [favoriteIds, setFavoriteIds] = useState([]);
-  const [pendingFavoriteId, setPendingFavoriteId] = useState(null)
+  const [pendingFavoriteId, setPendingFavoriteId] = useState(null);
   const [error, setError] = useState(null);
   const { user, openLogin } = useAuth();
   const { animals } = useAnimal();
@@ -72,21 +72,18 @@ export const FavoriteProvider = ({ children }) => {
   };
 
   const toggleFavorite = async (animalId) => {
-    if(isFavorite(animalId))
-      await handleRemoveFavorite(animalId);
-    else
-      await handleAddFavorite(animalId);
-  }
+    if (isFavorite(animalId)) await handleRemoveFavorite(animalId);
+    else await handleAddFavorite(animalId);
+  };
 
   const requestToggleFavorite = async (animalId) => {
-    if(!user){
-      setPendingFavoriteId(animalId)
+    if (!user) {
+      setPendingFavoriteId(animalId);
       openLogin();
       return;
     }
     await toggleFavorite(animalId);
   };
-  
 
   const favoriteAnimals = useMemo(
     () =>
@@ -96,7 +93,6 @@ export const FavoriteProvider = ({ children }) => {
     [animals, favoriteIds]
   );
 
-
   useEffect(() => {
     if (!user) {
       setFavoriteIds([]);
@@ -105,9 +101,8 @@ export const FavoriteProvider = ({ children }) => {
     getFavorites();
   }, [user]);
 
-  useEffect(()=>{
-    if(!user || !pendingFavoriteId)
-      return;
+  useEffect(() => {
+    if (!user || !pendingFavoriteId) return;
 
     const run = async () => {
       await toggleFavorite(pendingFavoriteId);
@@ -115,8 +110,8 @@ export const FavoriteProvider = ({ children }) => {
     };
 
     run();
-  }, [user, pendingFavoriteId, toggleFavorite])
-  
+  }, [user, pendingFavoriteId, toggleFavorite]);
+
   return (
     <FavoriteContext.Provider
       value={{
