@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState, useCallback } from "react";
 import {
   loginUser,
   registerUser,
@@ -67,7 +67,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const getCurrentUser = async () => {
+  const getCurrentUser = useCallback(async () => {
     setLoading(true);
     try {
       const data = await fetchCurrentUser();
@@ -82,7 +82,7 @@ export const AuthProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   const logoutUser = async (withLoading = true) => {
     if (withLoading) setLoading(true);
@@ -104,7 +104,7 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     getCurrentUser();
-  }, []);
+  }, [getCurrentUser]);
 
   return (
     <AuthContext.Provider
