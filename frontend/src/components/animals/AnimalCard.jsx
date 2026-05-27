@@ -4,15 +4,28 @@ import { formatLabel } from "../../utils/formatLabel";
 import Heart from "./Heart";
 
 function AnimalCard({ animal, isFavorite = false }) {
+  const isAdopted = animal.status === "ADOPTED";
   return (
-    <Link to={`/animals/${animal.id}`} className="animal-card-link">
-      <article className="animal-card">
+    <Link
+      to={!isAdopted && `/animals/${animal.id}`}
+      className="animal-card-link"
+    >
+      <article
+        className="animal-card"
+        style={{
+          ...(isAdopted && { backgroundColor: "lightgrey" }),
+        }}
+      >
         <div className="animal-image-wrap">
-          {animal.special_needs && (
-            <span className="special-needs-badge">Special Needs</span>
+          <div className="badges">
+            {animal.special_needs && (
+              <span className="special-needs-badge">Special Needs</span>
+            )}
+            {isAdopted && <span className="adopted-badge">Adopted</span>}
+          </div>
+          {isAdopted && (
+            <Heart animalId={animal.id} initialFavorite={isFavorite} />
           )}
-
-          <Heart animalId={animal.id} initialFavorite={isFavorite} />
 
           <img
             src={animal.photo_url}
@@ -58,6 +71,7 @@ AnimalCard.propTypes = {
     size: PropTypes.string,
     age_category: PropTypes.string,
     species: PropTypes.string,
+    status: PropTypes.string,
   }).isRequired,
   isFavorite: PropTypes.bool,
 };
