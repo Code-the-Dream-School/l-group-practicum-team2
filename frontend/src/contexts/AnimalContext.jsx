@@ -27,7 +27,10 @@ export const AnimalProvider = ({ children }) => {
       setAnimals(data.animals || []);
     } catch (error) {
       setError(error.message || "Something went wrong while fetching animals");
-      addNotification("danger", error.message);
+      addNotification(
+        "danger",
+        error.message || "Something went wrong while fetching animals"
+      );
     } finally {
       setLoading(false);
     }

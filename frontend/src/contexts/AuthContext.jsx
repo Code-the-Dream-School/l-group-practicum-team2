@@ -24,7 +24,7 @@ export const AuthProvider = ({ children }) => {
       const data = await registerUser(userData);
       setUser(data.user);
       localStorage.setItem("token", data.token);
-      addNotification("success", "User registered succesfully");
+      addNotification("success", "User registered successfully");
       return true;
     } catch (error) {
       setError(error.message);
@@ -41,7 +41,7 @@ export const AuthProvider = ({ children }) => {
       const data = await loginUser(userData);
       setUser(data.user);
       localStorage.setItem("token", data.token);
-      addNotification("success", "User logged in succesfully");
+      addNotification("success", "User logged in successfully");
       return true;
     } catch (error) {
       setError(error.message);
@@ -62,11 +62,9 @@ export const AuthProvider = ({ children }) => {
       setUser(data.user);
 
       setError(null);
-      addNotification("success", "User updated succesfully");
       return true;
     } catch (error) {
       setError(error.message);
-      addNotification("danger", error.message);
       return false;
     } finally {
       setLoading(false);
@@ -79,7 +77,7 @@ export const AuthProvider = ({ children }) => {
       const data = await fetchCurrentUser();
       setUser(data && data.user ? data.user : null);
       setError(null);
-      addNotification("success", "User fetched succesfully");
+      addNotification("success", "User fetched successfully");
       return true;
     } catch (error) {
       setError(error.message);
@@ -99,7 +97,7 @@ export const AuthProvider = ({ children }) => {
       setUser(null);
       localStorage.removeItem("token");
       setLogoutClicked(true);
-      addNotification("success", "User logged out succesfully");
+      addNotification("success", "User logged out successfully");
     } catch (error) {
       setError(error);
       addNotification("danger", error.message);

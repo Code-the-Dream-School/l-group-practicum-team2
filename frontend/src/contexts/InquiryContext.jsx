@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import { getUserInquiries, addInquiry } from "../services/inquiryService";
 import { useAuth } from "./AuthContext";
+import { useNotification } from "./NotificationContext";
 
 const InquiryContext = createContext();
 
@@ -15,6 +16,7 @@ export const InquiryProvider = ({ children }) => {
   const [error, setError] = useState(null);
   const [inquiries, setInquiries] = useState([]);
   const [pendingMessageObj, setPendingMessageObj] = useState(null);
+  const { addNotification } = useNotification();
 
   const { user, openLogin } = useAuth();
 
@@ -40,8 +42,13 @@ export const InquiryProvider = ({ children }) => {
     try {
       await addInquiry({ animalId, message });
       await getInquiries();
+      addNotification("success", "Inquiry sent successfully");
     } catch (error) {
       setError(error.message || "Something went wrong while adding inquiries");
+      addNotification(
+        "danger",
+        error.message || "Something went wrong while adding inquiries"
+      );
     } finally {
       setLoading(false);
     }

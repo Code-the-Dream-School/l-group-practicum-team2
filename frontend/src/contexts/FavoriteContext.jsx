@@ -51,10 +51,13 @@ export const FavoriteProvider = ({ children }) => {
     try {
       await addFavorite(animalId);
       setFavoriteIds((prev) => [...prev, animalId]);
-      addNotification("success", "Favorite added succesfully");
+      addNotification("success", "Favorite added successfully");
     } catch (error) {
       setError(error.message || "Something went wrong while adding favorites");
-      addNotification("danger", error.message);
+      addNotification(
+        "danger",
+        error.message || "Something went wrong while adding favorites"
+      );
     } finally {
       setLoading(false);
     }
@@ -65,12 +68,15 @@ export const FavoriteProvider = ({ children }) => {
     try {
       await removeFavorite(animalId);
       setFavoriteIds((prev) => prev.filter((a) => a !== animalId));
-      addNotification("success", "Favorite removed succesfully");
+      addNotification("success", "Favorite removed successfully");
     } catch (error) {
       setError(
         error.message || "Something went wrong while removing favorites"
       );
-      addNotification("danger", error.message);
+      addNotification(
+        "danger",
+        error.message || "Something went wrong while removing favorites"
+      );
     } finally {
       setLoading(false);
     }
