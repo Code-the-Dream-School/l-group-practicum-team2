@@ -18,7 +18,7 @@ const ProtectedRoute = ({ children }) => {
     setTimeout(() => {
       setLogoutClicked(false);
     }, 1000);
-  }, [logoutClicked]);
+  }, [logoutClicked, navigate, setLogoutClicked]);
 
   if (!user && !logoutClicked) {
     switch (location.pathname) {
