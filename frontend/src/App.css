@@ -244,6 +244,11 @@
   color: #4338ca;
 }
 
+.detail-badge.adopted {
+  background: rgb(235, 235, 235);
+  color: rgb(95, 95, 95);
+}
+
 .detail-meta-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(160px, 1fr));

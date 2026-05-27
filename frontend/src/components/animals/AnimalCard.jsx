@@ -4,7 +4,8 @@ import { formatLabel } from "../../utils/formatLabel";
 import Heart from "./Heart";
 
 function AnimalCard({ animal, isFavorite = false }) {
-  const isAdopted = animal.status === "ADOPTED";
+  const isAdopted = animal.status?.toUpperCase() === "ADOPTED";
+
   return (
     <Link
       to={!isAdopted && `/animals/${animal.id}`}
