@@ -5,7 +5,7 @@ import LoadingSpinner from "../components/LoadingSpinner";
 import ErrorMessage from "../components/ErrorMessage";
 
 function Register() {
-  const { handleRegister, error } = useAuth();
+  const { handleRegister, error, loading } = useAuth();
   const navigate = useNavigate();
 
   const [name, setName] = useState("");
@@ -26,9 +26,10 @@ function Register() {
 
       <form onSubmit={handleSubmit}>
         <div>
-          <label>Name</label>
+          <label htmlFor="register-name">Name</label>
           <br />
           <input
+            id="register-name"
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -36,9 +37,10 @@ function Register() {
         </div>
 
         <div>
-          <label>Email</label>
+          <label htmlFor="register-email">Email</label>
           <br />
           <input
+            id="register-email"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -46,9 +48,10 @@ function Register() {
         </div>
 
         <div>
-          <label>Password</label>
+          <label htmlFor="register-password">Password</label>
           <br />
           <input
+            id="register-password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}

@@ -1,12 +1,11 @@
 import { useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import ErrorMessage from "../components/ErrorMessage";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { useAuth } from "../contexts/AuthContext";
 
 function Login() {
   const { handleLogin, error, loading } = useAuth();
-  const navigate = useNavigate();
   const location = useLocation();
 
   const from = location.state?.from?.pathname || "/";
@@ -31,9 +30,10 @@ function Login() {
 
       <form onSubmit={handleSubmit}>
         <div>
-          <label>Email</label>
+          <label htmlFor="login-email">Email</label>
           <br />
           <input
+            id="login-email"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -41,9 +41,10 @@ function Login() {
         </div>
 
         <div>
-          <label>Password</label>
+          <label htmlFor="login-password">Password</label>
           <br />
           <input
+            id="login-password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
