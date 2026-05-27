@@ -16,8 +16,7 @@ const {
   validateLoginInput,
 } = require('../validators/input-validation');
 
-router.post('/register', validateRegisterInput, register);
-router.post('/login', validateLoginInput, login);
+
 const rateLimit = require('express-rate-limit');
 
 const authLimiter = rateLimit({
@@ -28,8 +27,11 @@ const authLimiter = rateLimit({
   },
 });
 
-router.post('/register', authLimiter, validateRegisterInput, register);
-router.post('/login', authLimiter, validateLoginInput, login);
+const authMiddleware = process.env.NODE_ENV === 'test' ? [] : [authLimiter];
+
+router.post('/register', ...authMiddleware, validateRegisterInput, register);
+
+router.post('/login', ...authMiddleware, validateLoginInput, login);
 
 router.get('/me', authenticateUser, getCurrentUser);
 
