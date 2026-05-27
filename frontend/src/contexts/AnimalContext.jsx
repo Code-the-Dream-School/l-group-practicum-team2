@@ -80,7 +80,7 @@ export const AnimalProvider = ({ children }) => {
       if (filters.specialNeeds && !animal.special_needs) return false;
       return true;
     });
-  }, [animals, filter]);
+  }, [animals, filters.ageCategory, filters.size, filters.specialNeeds, filters.species]);
 
   const specialNeedsAnimals = animals.filter((a) => a.special_needs);
 
