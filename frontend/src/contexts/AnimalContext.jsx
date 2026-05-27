@@ -18,7 +18,7 @@ export const AnimalProvider = ({ children }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { addNotification } = useNotification();
 
-  const getAnimals = async () => {
+  const getAnimals = useCallback(async () => {
     setLoading(true);
     setError(null);
 
@@ -36,7 +36,7 @@ export const AnimalProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  };
+  },[]);
 
   const getAnimalById = (id) => {
     return animals.find((animal) => String(animal.id) === String(id)) || null;
@@ -89,7 +89,7 @@ export const AnimalProvider = ({ children }) => {
 
   useEffect(() => {
     getAnimals();
-  }, []);
+  }, [getAnimals]);
 
   return (
     <AnimalContext.Provider
@@ -111,4 +111,7 @@ export const AnimalProvider = ({ children }) => {
   );
 };
 
+AnimalProvider.propTypes = {
+  children: PropTypes.node.isRequired
+};
 export const useAnimal = () => useContext(AnimalContext);
