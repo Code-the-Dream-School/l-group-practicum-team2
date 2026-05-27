@@ -1,6 +1,4 @@
 import Carousel from "react-bootstrap/Carousel";
-import Toast from "react-bootstrap/Toast";
-import { useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import AnimalCard from "./AnimalCard";
 import { HeartFill } from "react-bootstrap-icons";
