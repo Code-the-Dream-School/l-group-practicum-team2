@@ -66,18 +66,20 @@ export const AnimalProvider = ({ children }) => {
 
   const clearFilters = () => setSearchParams({});
 
-  const filteredAnimals = animals.filter((animal) => {
-    if (filters.species && !equalsCI(animal.species, filters.species))
-      return false;
-    if (filters.size && !equalsCI(animal.size, filters.size)) return false;
-    if (
-      filters.ageCategory &&
-      !equalsCI(animal.age_category, filters.ageCategory)
-    )
-      return false;
-    if (filters.specialNeeds && !animal.special_needs) return false;
-    return true;
-  });
+  const filteredAnimals = useMemo(() => {
+    animals.filter((animal) => {
+      if (filters.species && !equalsCI(animal.species, filters.species))
+        return false;
+      if (filters.size && !equalsCI(animal.size, filters.size)) return false;
+      if (
+        filters.ageCategory &&
+        !equalsCI(animal.age_category, filters.ageCategory)
+      )
+        return false;
+      if (filters.specialNeeds && !animal.special_needs) return false;
+      return true;
+    });
+  }, [animals, filter]);
 
   const specialNeedsAnimals = animals.filter((a) => a.special_needs);
 
