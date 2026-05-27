@@ -73,6 +73,7 @@ if (!success) {
 }
 
       setProfileSuccess("Profile updated successfully");
+      addNotification("success", "Profile updated successfully");
       handleCloseNameModal();
     } catch (err) {
       if (err instanceof Error) {
@@ -120,6 +121,7 @@ if (!success) {
 }
 
       setPasswordSuccess("Password updated successfully");
+      addNotification("success", "Password updated successfully");
       handleClosePasswordModal();
     } catch (err) {
       if (err instanceof Error) {
