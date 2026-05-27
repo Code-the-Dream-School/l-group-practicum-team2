@@ -117,8 +117,10 @@ export const FavoriteProvider = ({ children }) => {
   );
 
   useEffect(() => {
-
-    getFavorites();
+    const loadFavorites = async () => {
+      getFavorites();
+    }
+    loadFavorites();
   }, [getFavorites]);
 
   useEffect(() => {

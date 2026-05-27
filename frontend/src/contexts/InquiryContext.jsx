@@ -73,8 +73,10 @@ export const InquiryProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    
-    getInquiries();
+    const loadInquiries = async () => {
+      getInquiries();
+    }
+    loadInquiries();
   }, [getInquiries]);
 
   useEffect(() => {

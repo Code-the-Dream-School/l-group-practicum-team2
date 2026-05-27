@@ -175,7 +175,10 @@ export const AuthProvider = ({ children }) => {
   const closeAuthModal = () => setAuthModal(null);
 
   useEffect(() => {
-    getCurrentUser();
+    const loadCurrentUser = async () => {
+      getCurrentUser();
+    }
+    loadCurrentUser();
   }, [getCurrentUser]);
 
   return (
