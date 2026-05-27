@@ -198,6 +198,15 @@ Build APIs assuming:
 - clients can be malicious
 - future developers will read your code
 
+## Running Tests
+
+Set `TEST_DATABASE_URL` in your `.env` file before running backend tests.
+
+From the backend directory:
+
+```bash
+npm test
+
 ## 📋 Quick Checklist (Before MVP Review)
 
 - [ ] Routes and controllers are separated

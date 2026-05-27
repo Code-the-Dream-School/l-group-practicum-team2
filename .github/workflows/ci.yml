@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
-     env:
+    env:
       DATABASE_URL: postgres://test:test@localhost:5432/pawmatch_test
       JWT_SECRET: testsecret
       FRONTEND_URL: http://localhost:5173
