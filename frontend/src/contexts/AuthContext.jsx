@@ -86,7 +86,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const getCurrentUser = async () => {
+  const getCurrentUser = useCallback(async () => {
     setLoading(true);
 
     try {
@@ -105,7 +105,7 @@ export const AuthProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   const handleDelete = async (currentPassword) => {
     setLoading(true);
@@ -171,6 +171,7 @@ export const AuthProvider = ({ children }) => {
   const closeAuthModal = () => setAuthModal(null);
 
   useEffect(() => {
+<<<<<<< HEAD
     let ignore = false;
 
     fetchCurrentUser()
@@ -198,6 +199,10 @@ export const AuthProvider = ({ children }) => {
       ignore = true;
     };
   }, []);
+=======
+    getCurrentUser();
+  }, [getCurrentUser]);
+>>>>>>> 395203de (Add useCallback to getCurrentUser and fix missing useEffect dependency)
 
   return (
     <AuthContext.Provider
