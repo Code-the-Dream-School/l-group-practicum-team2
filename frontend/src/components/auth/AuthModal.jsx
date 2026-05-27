@@ -36,7 +36,7 @@ const AuthModal = () => {
     ) {
       openLogin();
     }
-  }, [location.pathname, user, loading, logoutClicked, authModal, openLogin, privatePathnames]);
+  }, [location.pathname, user, loading, logoutClicked, authModal, openLogin]);
 
   return (
     <Modal show={authModal !== null} onHide={handleHide} size="md">
