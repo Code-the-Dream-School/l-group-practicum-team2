@@ -28,8 +28,11 @@ export const InquiryProvider = ({ children }) => {
 
       setInquiries(data);
     } catch (error) {
-      setError(
-        error.message || "Something went wrong while fetching inquiries"
+      addNotification(
+        "danger",
+        error.message
+          ? `An error has occurred while fetching inquiries: ${error.message}`
+          : "Something went wrong while fetching inquiries"
       );
     } finally {
       setLoading(false);
@@ -47,7 +50,9 @@ export const InquiryProvider = ({ children }) => {
       setError(error.message || "Something went wrong while adding inquiries");
       addNotification(
         "danger",
-        error.message || "Something went wrong while adding inquiries"
+        error.message
+          ? `An error has occurred while sending an inquiry: ${error.message}`
+          : "Something went wrong while sending an inquiry"
       );
     } finally {
       setLoading(false);

@@ -38,8 +38,11 @@ export const FavoriteProvider = ({ children }) => {
       const ids = data.map((f) => f.id) || [];
       setFavoriteIds(ids);
     } catch (error) {
-      setError(
-        error.message || "Something went wrong while fetching favorites"
+      addNotification(
+        "danger",
+        error.message
+          ? `An error has occurred while fetching favorites: ${error.message}`
+          : "Something went wrong while fetching favorites"
       );
     } finally {
       setLoading(false);
@@ -56,7 +59,9 @@ export const FavoriteProvider = ({ children }) => {
       setError(error.message || "Something went wrong while adding favorites");
       addNotification(
         "danger",
-        error.message || "Something went wrong while adding favorites"
+        error.message
+          ? `An error has occurred while adding a favorite: ${error.message}`
+          : "Something went wrong while adding a favorite"
       );
     } finally {
       setLoading(false);
@@ -75,7 +80,9 @@ export const FavoriteProvider = ({ children }) => {
       );
       addNotification(
         "danger",
-        error.message || "Something went wrong while removing favorites"
+        error.message
+          ? `An error has occurred while removing a favorite: ${error.message}`
+          : "Something went wrong while removing a favorite"
       );
     } finally {
       setLoading(false);
