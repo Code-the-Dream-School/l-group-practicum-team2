@@ -52,7 +52,7 @@ export const FavoriteProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [user]);
   const handleAddFavorite = async (animalId) => {
     setLoading(true);
 
