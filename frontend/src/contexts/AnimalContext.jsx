@@ -3,6 +3,7 @@ import React, {
   useContext,
   useEffect,
   useState,
+  useCallback,
   useMemo,
 } from "react";
 import { fetchAnimals } from "../services/animalService";
