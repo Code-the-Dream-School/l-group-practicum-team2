@@ -15,6 +15,7 @@ export const AuthProvider = ({ children }) => {
   const [error, setError] = useState(null);
   const [authModal, setAuthModal] = useState(null);
   const [logoutClicked, setLogoutClicked] = useState(false);
+  const { addNotification } = useNotification();
 
   const handleRegister = async (userData) => {
     setLoading(true);
@@ -22,9 +23,11 @@ export const AuthProvider = ({ children }) => {
       const data = await registerUser(userData);
       setUser(data.user);
       localStorage.setItem("token", data.token);
+      addNotification("success", "User registered succesfully");
       return true;
     } catch (error) {
       setError(error.message);
+      addNotification("danger", error.message);
       return false;
     } finally {
       setLoading(false);
@@ -37,9 +40,11 @@ export const AuthProvider = ({ children }) => {
       const data = await loginUser(userData);
       setUser(data.user);
       localStorage.setItem("token", data.token);
+      addNotification("success", "User logged in succesfully");
       return true;
     } catch (error) {
       setError(error.message);
+      addNotification("danger", error.message);
       return false;
     } finally {
       setLoading(false);
@@ -56,11 +61,11 @@ export const AuthProvider = ({ children }) => {
       setUser(data.user);
 
       setError(null);
-
+      addNotification("success", "User updated succesfully");
       return true;
     } catch (error) {
       setError(error.message);
-
+      addNotification("danger", error.message);
       return false;
     } finally {
       setLoading(false);
@@ -73,11 +78,13 @@ export const AuthProvider = ({ children }) => {
       const data = await fetchCurrentUser();
       setUser(data && data.user ? data.user : null);
       setError(null);
+      addNotification("success", "User fetched succesfully");
       return true;
     } catch (error) {
       setError(error.message);
       setUser(null);
       localStorage.removeItem("token");
+      addNotification("danger", error.message);
       return false;
     } finally {
       setLoading(false);
@@ -91,8 +98,10 @@ export const AuthProvider = ({ children }) => {
       setUser(null);
       localStorage.removeItem("token");
       setLogoutClicked(true);
+      addNotification("success", "User logged out succesfully");
     } catch (error) {
       setError(error);
+      addNotification("danger", error.message);
     } finally {
       if (withLoading) setLoading(false);
     }
