@@ -44,7 +44,7 @@ export const InquiryProvider = ({ children }) => {
     }
   }, [user]);
 
-  const handleAddInquiry = async ({ animalId, message }) => {
+  const handleAddInquiry = useCallback(async ({ animalId, message }) => {
     setLoading(true);
 
     try {
@@ -62,7 +62,7 @@ export const InquiryProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [getInquiries]);
   const requestAddInquiry = async (messageObj) => {
     if (!user) {
       setPendingMessageObj(messageObj);
@@ -86,7 +86,7 @@ export const InquiryProvider = ({ children }) => {
     };
 
     addPendingMessage();
-  }, [pendingMessageObj, user]);
+  }, [pendingMessageObj, user, handleAddInquiry]);
 
   return (
     <InquiryContext.Provider
