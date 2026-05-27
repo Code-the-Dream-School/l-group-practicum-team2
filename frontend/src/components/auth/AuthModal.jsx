@@ -5,6 +5,7 @@ import SignupModal from "./SignupModal";
 import LoginModal from "./LoginModal";
 import { useLocation } from "react-router-dom";
 
+
 const AuthModal = () => {
   const location = useLocation();
 
@@ -17,7 +18,7 @@ const AuthModal = () => {
     logoutClicked,
     setLogoutClicked,
   } = useAuth();
-  const privatePathnames = ["/favorites", "/profile", "/profile/inquiries"];
+  
 
   const handleHide = () => {
     closeAuthModal();
@@ -25,6 +26,7 @@ const AuthModal = () => {
   };
 
   useEffect(() => {
+    const privatePathnames = ["/favorites", "/profile", "/profile/inquiries"];
     if (
       !user &&
       !logoutClicked &&
