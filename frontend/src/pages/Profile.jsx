@@ -1,8 +1,11 @@
 import { Card, Button, Modal, Form } from "react-bootstrap";
 import { useState } from "react";
-import { updateUserCredentials } from "../services/authService";
+import { useAuth } from "../contexts/AuthContext";
+import { useNotification } from "../contexts/NotificationContext";
 
 function Profile() {
+  const { user, handleUpdate } = useAuth();
+  const { addNotification } = useNotification();
   const [showNameModal, setShowNameModal] = useState(false);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [name, setName] = useState("");
