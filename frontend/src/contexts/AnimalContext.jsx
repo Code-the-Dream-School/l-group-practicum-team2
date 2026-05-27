@@ -68,7 +68,7 @@ export const AnimalProvider = ({ children }) => {
   const clearFilters = () => setSearchParams({});
 
   const filteredAnimals = useMemo(() => {
-    animals.filter((animal) => {
+    return animals.filter((animal) => {
       if (filters.species && !equalsCI(animal.species, filters.species))
         return false;
       if (filters.size && !equalsCI(animal.size, filters.size)) return false;
