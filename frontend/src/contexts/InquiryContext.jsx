@@ -22,6 +22,10 @@ export const InquiryProvider = ({ children }) => {
   const { user, openLogin } = useAuth();
 
   const getInquiries = useCallback(async () => {
+    if (!user) {
+      setInquiries([]);
+      return;
+    }
     setError(null);
     setLoading(true);
     try {
@@ -38,7 +42,7 @@ export const InquiryProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [user]);
 
   const handleAddInquiry = async ({ animalId, message }) => {
     setLoading(true);
@@ -69,12 +73,9 @@ export const InquiryProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    if (!user) {
-      setInquiries([]);
-      return;
-    }
+    
     getInquiries();
-  }, [user, getInquiries]);
+  }, [getInquiries]);
 
   useEffect(() => {
     if (!user || !pendingMessageObj) return;
