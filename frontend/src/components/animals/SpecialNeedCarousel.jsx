@@ -11,7 +11,6 @@ const SpecialNeedCarousel = () => {
 
   const specialNeedsAnimals = animals.filter((a) => a.special_needs);
 
-  
   if (loading)
     return <LoadingSpinner message="Loading special needs companions..." />;
 
@@ -46,7 +45,6 @@ const SpecialNeedCarousel = () => {
           Senior and special needs companions waiting for a home
         </Col>
       </Row>
-
 
       {error && (
         <ErrorMessage

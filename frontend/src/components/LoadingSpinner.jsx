@@ -20,5 +20,3 @@ export default function LoadingSpinner({ message }) {
 LoadingSpinner.propTypes = {
   message: PropTypes.string,
 };
-
-

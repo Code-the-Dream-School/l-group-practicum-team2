@@ -44,9 +44,11 @@ export const InquiryProvider = ({ children }) => {
     }
   }, [user]);
 
-  const handleAddInquiry = useCallback(async ({ animalId, message }) => {
-    setLoading(true);
+  const handleAddInquiry = useCallback(
+    async ({ animalId, message }) => {
+      setLoading(true);
 
+<<<<<<< HEAD
     try {
       await addInquiry({ animalId, message });
       await getInquiries();
@@ -63,6 +65,21 @@ export const InquiryProvider = ({ children }) => {
       setLoading(false);
     }
   }, [getInquiries]);
+=======
+      try {
+        await addInquiry({ animalId, message });
+        await getInquiries();
+      } catch (error) {
+        setError(
+          error.message || "Something went wrong while adding inquiries"
+        );
+      } finally {
+        setLoading(false);
+      }
+    },
+    [getInquiries]
+  );
+>>>>>>> 4780e680 (run prettier format)
   const requestAddInquiry = async (messageObj) => {
     if (!user) {
       setPendingMessageObj(messageObj);
@@ -75,7 +92,7 @@ export const InquiryProvider = ({ children }) => {
   useEffect(() => {
     const loadInquiries = async () => {
       getInquiries();
-    }
+    };
     loadInquiries();
   }, [getInquiries]);
 

@@ -5,7 +5,6 @@ import SignupModal from "./SignupModal";
 import LoginModal from "./LoginModal";
 import { useLocation } from "react-router-dom";
 
-
 const AuthModal = () => {
   const location = useLocation();
 
@@ -18,7 +17,6 @@ const AuthModal = () => {
     logoutClicked,
     setLogoutClicked,
   } = useAuth();
-  
 
   const handleHide = () => {
     closeAuthModal();

@@ -75,7 +75,6 @@ Filters.propTypes = {
   onSizeChange: PropTypes.func.isRequired,
   onAgeChange: PropTypes.func.isRequired,
   onSpecialNeedsChange: PropTypes.func.isRequired,
-
 };
 
 export default Filters;
