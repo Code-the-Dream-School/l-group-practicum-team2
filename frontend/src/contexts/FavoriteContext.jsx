@@ -32,6 +32,10 @@ export const FavoriteProvider = ({ children }) => {
   );
 
   const getFavorites = useCallback(async () => {
+        if (!user) {
+          setFavoriteIds([]);
+          return;
+        }
     setError(null);
     setLoading(true);
     try {
@@ -113,12 +117,9 @@ export const FavoriteProvider = ({ children }) => {
   );
 
   useEffect(() => {
-    if (!user) {
-      setFavoriteIds([]);
-      return;
-    }
+
     getFavorites();
-  }, [user]);
+  }, [getFavorites]);
 
   useEffect(() => {
     if (!user || !pendingFavoriteId) return;
@@ -148,6 +149,9 @@ export const FavoriteProvider = ({ children }) => {
       {children}
     </FavoriteContext.Provider>
   );
+};
+FavoriteProvider.propTypes = {
+  children: PropTypes.node.isRequired,
 };
 
 export const useFavorite = () => useContext(FavoriteContext);

@@ -171,38 +171,8 @@ export const AuthProvider = ({ children }) => {
   const closeAuthModal = () => setAuthModal(null);
 
   useEffect(() => {
-<<<<<<< HEAD
-    let ignore = false;
-
-    fetchCurrentUser()
-      .then((data) => {
-        if (!ignore) {
-          setUser(data && data.user ? data.user : null);
-          setError(null);
-        }
-      })
-      .catch((error) => {
-        if (!ignore) {
-          console.error(error);
-          setError(error.message);
-          setUser(null);
-          localStorage.removeItem("token");
-        }
-      })
-      .finally(() => {
-        if (!ignore) {
-          setLoading(false);
-        }
-      });
-
-    return () => {
-      ignore = true;
-    };
-  }, []);
-=======
     getCurrentUser();
   }, [getCurrentUser]);
->>>>>>> 395203de (Add useCallback to getCurrentUser and fix missing useEffect dependency)
 
   return (
     <AuthContext.Provider
