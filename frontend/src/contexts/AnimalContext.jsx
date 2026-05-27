@@ -25,7 +25,6 @@ export const AnimalProvider = ({ children }) => {
     try {
       const data = await fetchAnimals();
       setAnimals(data.animals || []);
-      addNotification("success", "Animals fetched succesfully");
     } catch (error) {
       setError(error.message || "Something went wrong while fetching animals");
       addNotification("danger", error.message);

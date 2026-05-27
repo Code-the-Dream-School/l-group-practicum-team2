@@ -13,6 +13,7 @@ import {
 } from "../services/favoriteService";
 import { useAuth } from "./AuthContext";
 import { useAnimal } from "./AnimalContext";
+import { useNotification } from "./NotificationContext";
 
 const FavoriteContext = createContext();
 
@@ -22,6 +23,7 @@ export const FavoriteProvider = ({ children }) => {
   const [error, setError] = useState(null);
   const { user } = useAuth();
   const { animals } = useAnimal();
+  const { addNotification } = useNotification();
 
   const isFavorite = useCallback(
     (animalId) => favoriteIds.includes(animalId),
@@ -49,8 +51,10 @@ export const FavoriteProvider = ({ children }) => {
     try {
       await addFavorite(animalId);
       setFavoriteIds((prev) => [...prev, animalId]);
+      addNotification("success", "Favorite added succesfully");
     } catch (error) {
       setError(error.message || "Something went wrong while adding favorites");
+      addNotification("danger", error.message);
     } finally {
       setLoading(false);
     }
@@ -61,10 +65,12 @@ export const FavoriteProvider = ({ children }) => {
     try {
       await removeFavorite(animalId);
       setFavoriteIds((prev) => prev.filter((a) => a !== animalId));
+      addNotification("success", "Favorite removed succesfully");
     } catch (error) {
       setError(
         error.message || "Something went wrong while removing favorites"
       );
+      addNotification("danger", error.message);
     } finally {
       setLoading(false);
     }
