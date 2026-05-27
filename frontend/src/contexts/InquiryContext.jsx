@@ -8,6 +8,7 @@ import React, {
 import { getUserInquiries, addInquiry } from "../services/inquiryService";
 import { useAuth } from "./AuthContext";
 import { useNotification } from "./NotificationContext";
+import PropTypes from "prop-types";
 
 const InquiryContext = createContext();
 
@@ -99,5 +100,7 @@ export const InquiryProvider = ({ children }) => {
     </InquiryContext.Provider>
   );
 };
-
+InquiryProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+};
 export const useInquiry = () => useContext(InquiryContext);
