@@ -1,5 +1,5 @@
 import Modal from "react-bootstrap/Modal";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import PropTypes from 'prop-types';
 
@@ -8,10 +8,10 @@ export default function ErrorMessage({
   handleRetry = null,
   error = false,
 }) {
-  const [show, setShow] = useState(error ? true : false);
+  const [show, setShow] = useState(error);
 
   useEffect(() => {
-    setShow(error ? true : false);
+    setShow(error);
   }, [error]);
 
   const handleClose = () => setShow(false);
@@ -44,7 +44,7 @@ export default function ErrorMessage({
   );
 }
 ErrorMessage.propTypes = {
-  error: PropTypes.string,
+  error: PropTypes.bool,
   message: PropTypes.string,
   handleRetry: PropTypes.func,
 };
