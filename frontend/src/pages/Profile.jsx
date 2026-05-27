@@ -61,15 +61,16 @@ function Profile() {
     }
 
     try {
-      const token = localStorage.getItem("token");
+      const success = await handleUpdate({
+  name,
+  currentPassword: profilePassword,
+});
 
-      await updateUserCredentials(
-        {
-          name,
-          currentPassword: profilePassword,
-        },
-        token
-      );
+if (!success) {
+  setProfileError("Profile update failed.");
+  addNotification("error", "Profile update failed.");
+  return;
+}
 
       setProfileSuccess("Profile updated successfully");
       handleCloseNameModal();
@@ -107,15 +108,16 @@ function Profile() {
     }
 
     try {
-      const token = localStorage.getItem("token");
+     const success = await handleUpdate({
+  newPassword,
+  currentPassword: passwordCurrentPassword,
+});
 
-      await updateUserCredentials(
-        {
-          newPassword,
-          currentPassword: passwordCurrentPassword,
-        },
-        token
-      );
+if (!success) {
+  setPasswordError("Password update failed.");
+  addNotification("error", "Password update failed.");
+  return;
+}
 
       setPasswordSuccess("Password updated successfully");
       handleClosePasswordModal();
@@ -143,7 +145,7 @@ function Profile() {
         <div className="d-flex justify-content-between align-items-center mb-3">
           <div>
             <h5 className="mb-1">Email</h5>
-            <p className="text-muted mb-0">user@example.com</p>
+            <p className="text-muted mb-0">{user?.email}</p>
           </div>
 
           <Button variant="outline-primary" size="sm">
@@ -156,7 +158,7 @@ function Profile() {
         <div className="d-flex justify-content-between align-items-center mb-3">
           <div>
             <h5 className="mb-1">Name</h5>
-            <p className="text-muted mb-0">John Doe</p>
+            <p className="text-muted mb-0">{user?.name}</p>
           </div>
 
           <Button
