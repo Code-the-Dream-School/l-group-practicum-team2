@@ -62,15 +62,15 @@ function Profile() {
 
     try {
       const success = await handleUpdate({
-  name,
-  currentPassword: profilePassword,
-});
+        name,
+        currentPassword: profilePassword,
+      });
 
-if (!success) {
-  setProfileError("Profile update failed.");
-  addNotification("error", "Profile update failed.");
-  return;
-}
+      if (!success) {
+        setProfileError("Profile update failed.");
+        addNotification("error", "Profile update failed.");
+        return;
+      }
 
       setProfileSuccess("Profile updated successfully");
       addNotification("success", "Profile updated successfully");
@@ -109,16 +109,16 @@ if (!success) {
     }
 
     try {
-     const success = await handleUpdate({
-  newPassword,
-  currentPassword: passwordCurrentPassword,
-});
+      const success = await handleUpdate({
+        newPassword,
+        currentPassword: passwordCurrentPassword,
+      });
 
-if (!success) {
-  setPasswordError("Password update failed.");
-  addNotification("error", "Password update failed.");
-  return;
-}
+      if (!success) {
+        setPasswordError("Password update failed.");
+        addNotification("error", "Password update failed.");
+        return;
+      }
 
       setPasswordSuccess("Password updated successfully");
       addNotification("success", "Password updated successfully");
