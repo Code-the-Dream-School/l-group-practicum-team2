@@ -6,6 +6,7 @@ import {
   updateUserCredentials,
 } from "../services/authService";
 import PropTypes from "prop-types";
+import { useNotification } from "./NotificationContext";
 
 const AuthContext = createContext();
 
