@@ -10,10 +10,6 @@ export default function ErrorMessage({
 }) {
   const [show, setShow] = useState(error);
 
-  useEffect(() => {
-    setShow(error);
-  }, [error]);
-
   const handleClose = () => setShow(false);
 
   return (
