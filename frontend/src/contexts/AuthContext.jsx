@@ -1,5 +1,8 @@
 import PropTypes from "prop-types";
+<<<<<<< HEAD
 import { useNavigate } from "react-router-dom";
+=======
+>>>>>>> 6b9c1f44 (run prettier format)
 import React, {
   createContext,
   useContext,
@@ -26,7 +29,6 @@ export const AuthProvider = ({ children }) => {
   const [authModal, setAuthModal] = useState(null);
   const [logoutClicked, setLogoutClicked] = useState(false);
   const { addNotification } = useNotification();
-
 
   const handleRegister = async (userData) => {
     setLoading(true);
@@ -124,7 +126,7 @@ export const AuthProvider = ({ children }) => {
       localStorage.removeItem("token");
       setError(null);
 
-      addNotification('success', "Your account has been successfully deleted.")
+      addNotification("success", "Your account has been successfully deleted.");
       setLogoutClicked(true);
 
       return {
@@ -135,7 +137,7 @@ export const AuthProvider = ({ children }) => {
           "User account deleted successfully",
       };
     } catch (error) {
-      addNotification('danger', "Your account has been successfully deleted.")
+      addNotification("danger", "Your account has been successfully deleted.");
 
       return {
         success: false,
@@ -173,8 +175,14 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const loadCurrentUser = async () => {
+<<<<<<< HEAD
       getCurrentUser();
     };
+=======
+      await getCurrentUser();
+    };
+
+>>>>>>> 6b9c1f44 (run prettier format)
     loadCurrentUser();
   }, [getCurrentUser]);
 
