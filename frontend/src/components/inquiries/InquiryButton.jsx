@@ -1,56 +1,38 @@
 import {useState} from 'react';
 import  {useAuth} from '../../contexts/AuthContext'
+import { useInquiry } from '../../contexts/InquiryContext';
 import InquiryModal from './InquiryModal';
+import { Spinner } from 'react-bootstrap';
 
 const InquiryButton = ({animalId, animalName}) => {
     const [showInquiryModal, setShowInquiryModal] = useState(false);
-    const [inquirySent, setInquirySent] = useState(false);
-    const [successMessage, setSuccessMessage] = useState(null);
-    const { user } = useAuth();
-
+    const { user, loading:authLoading } = useAuth();
+    const { requestAddInquiry, loading:inquiryLoading } = useInquiry();
+   
     const handleInquire = () => {
         setShowInquiryModal(true);
     };
 
-    const handleInquirySuccess = () => {
-        setShowInquiryModal(false);
-        setInquirySent(true);
-        setSuccessMessage(
-            "Your inquiry has been sent! The shelter will contact you soon."
-        );
-
-        // Auto-hide toast after 5s
-        setTimeout(() => setSuccessMessage(null), 5000);
-    };
-
-
-
     return(
         <>
-            {successMessage && (
-                <div
-                className="inquiry-toast inquiry-toast-success"
-                role="status"
-                aria-live="polite"
-                >
-                {successMessage}
-                </div>
-            )}
             <InquiryModal
                 show={showInquiryModal}
                 onHide={() => setShowInquiryModal(false)}
                 animalId={animalId}
                 animalName={animalName}
-                onSuccess={handleInquirySuccess}
+                isSubmitting={authLoading || inquiryLoading}
+                requestAddInquiry={requestAddInquiry}
             />
             
             <button
                 type="button"
                 className="btn btn-primary"
                 onClick={handleInquire}
-                disabled={inquirySent}
+                disabled={authLoading || inquiryLoading }
+                style={{ width: "8rem" }}
+
             >
-                {inquirySent ? "Inquiry sent ✓" : "I'm Interested"}
+                {authLoading || inquiryLoading ? <Spinner animation="border" size="sm" /> : "I'm interested"}
             </button>
         </>
         
