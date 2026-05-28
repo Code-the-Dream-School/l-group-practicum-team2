@@ -1,6 +1,5 @@
 import AnimalCard from "./AnimalCard";
 import Filters from "./Filters";
-import { mockAnimals } from "../../constants/animals";
 import ErrorMessage from "../ErrorMessage";
 import { useAnimal } from "../../contexts/AnimalContext";
 
@@ -14,7 +13,7 @@ function AnimalList() {
   } = useAnimal();
 
   return (
-    <main className="app">
+    <div>
       <h1>Animals List</h1>
       <Filters
         species={filters.species}
@@ -49,7 +48,7 @@ function AnimalList() {
           ))}
         </div>
       )}
-    </main>
+    </div>
   );
 }
 

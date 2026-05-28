@@ -8,19 +8,21 @@ import { AuthProvider } from "./contexts/AuthContext.jsx";
 import { AnimalProvider } from "./contexts/AnimalContext.jsx";
 import { NotificationProvider } from "./contexts/NotificationContext.jsx";
 import { FavoriteProvider } from "./contexts/FavoriteContext.jsx";
-
+import { InquiryProvider } from "./contexts/InquiryContext.jsx";
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
-      <AuthProvider>
-        <AnimalProvider>
-          <FavoriteProvider>
-            <NotificationProvider>
-              <App />
-            </NotificationProvider>
-          </FavoriteProvider>
-        </AnimalProvider>
-      </AuthProvider>
+      <NotificationProvider>
+        <AuthProvider>
+          <AnimalProvider>
+            <FavoriteProvider>
+              <InquiryProvider>
+                <App />
+              </InquiryProvider>
+            </FavoriteProvider>
+          </AnimalProvider>
+        </AuthProvider>
+      </NotificationProvider>
     </BrowserRouter>
   </StrictMode>
 );

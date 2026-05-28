@@ -1,4 +1,4 @@
-import Alert from "react-bootstrap/Alert";
+import NotificationBar from "./NotificationBar";
 import { useNotification } from "../../contexts/NotificationContext";
 
 function NotificationContainer() {
@@ -16,16 +16,10 @@ function NotificationContainer() {
         overflowY: "auto",
       }}
     >
-      {notifications.map((notification) => (
-        <Alert
-          key={notification.id}
-          variant={notification.type === "error" ? "danger" : notification.type}
-          dismissible
-          onClose={() => removeNotification(notification.id)}
-        >
-          {notification.message}
-        </Alert>
-      ))}
+      <NotificationBar
+        notifications={notifications}
+        removeNotification={removeNotification}
+      />
     </div>
   );
 }

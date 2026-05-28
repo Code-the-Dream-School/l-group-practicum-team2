@@ -1,14 +1,12 @@
 import { Modal, Button, Form } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import { useState } from "react";
 import NameInputBox from "./NameInputBox";
 import EmailInputBox from "./EmailInputBox";
 import PasswordInputBox from "./PasswordInputBox";
 import { useAuth } from "../../contexts/AuthContext";
-import PropTypes from "prop-types";
 
-const SignupModal = ({ setShow }) => {
-  const { handleRegister } = useAuth();
+const SignupModal = () => {
+  const { handleRegister, openLogin, closeAuthModal } = useAuth();
   const [name, setName] = useState("");
   const [nameError, setNameError] = useState("");
   const [email, setEmail] = useState("");
@@ -22,7 +20,7 @@ const SignupModal = ({ setShow }) => {
     const success = await handleRegister({ email, name, password });
 
     if (success) {
-      setShow(null);
+      closeAuthModal();
     }
     // Notification bar (coming soon) will display the error
   };
@@ -70,11 +68,7 @@ const SignupModal = ({ setShow }) => {
       <Modal.Footer className="d-flex justify-content-between align-items-center">
         <div>
           Already have an account?
-          <Button
-            variant="link"
-            className="ms-1"
-            onClick={() => setShow("login")}
-          >
+          <Button variant="link" className="ms-1" onClick={() => openLogin()}>
             login
           </Button>
         </div>
@@ -95,9 +89,6 @@ const SignupModal = ({ setShow }) => {
       </Modal.Footer>
     </Form>
   );
-};
-SignupModal.propTypes = {
-  setShow: PropTypes.func.isRequired,
 };
 
 export default SignupModal;
