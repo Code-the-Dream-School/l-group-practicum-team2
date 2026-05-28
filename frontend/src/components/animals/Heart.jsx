@@ -1,11 +1,11 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
-import { addFavorite, removeFavorite } from "../../services/favoriteService";
+import { useFavorite } from "../../contexts/FavoriteContext";
 
-function Heart({ animalId, initialFavorite = false }) {
-  const [favorite, setFavorite] = useState(initialFavorite);
+function Heart({ animalId }) {
+  const { isFavorite, handleAddFavorite, handleRemoveFavorite } = useFavorite();
   const navigate = useNavigate();
+  const favorite = isFavorite(animalId);
 
   function handleClick(event) {
     event.preventDefault();
@@ -19,11 +19,9 @@ function Heart({ animalId, initialFavorite = false }) {
     }
 
     if (favorite) {
-      removeFavorite(animalId);
-      setFavorite(false);
+      handleRemoveFavorite(animalId);
     } else {
-      addFavorite(animalId);
-      setFavorite(true);
+      handleAddFavorite(animalId);
     }
   }
 
@@ -42,7 +40,6 @@ function Heart({ animalId, initialFavorite = false }) {
 Heart.propTypes = {
   animalId: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
     .isRequired,
-  initialFavorite: PropTypes.bool,
 };
 
 export default Heart;

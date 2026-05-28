@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import { getUserInquiries, addInquiry } from "../services/inquiryService";
 import { useAuth } from "./AuthContext";
+import { useNotification } from "./NotificationContext";
 
 const InquiryContext = createContext();
 
@@ -15,6 +16,7 @@ export const InquiryProvider = ({ children }) => {
   const [error, setError] = useState(null);
   const [inquiries, setInquiries] = useState([]);
   const [pendingMessageObj, setPendingMessageObj] = useState(null);
+  const { addNotification } = useNotification();
 
   const { user, openLogin } = useAuth();
 
@@ -26,8 +28,11 @@ export const InquiryProvider = ({ children }) => {
 
       setInquiries(data);
     } catch (error) {
-      setError(
-        error.message || "Something went wrong while fetching inquiries"
+      addNotification(
+        "danger",
+        error.message
+          ? `An error has occurred while fetching inquiries: ${error.message}`
+          : "Something went wrong while fetching inquiries"
       );
     } finally {
       setLoading(false);
@@ -40,8 +45,15 @@ export const InquiryProvider = ({ children }) => {
     try {
       await addInquiry({ animalId, message });
       await getInquiries();
+      addNotification("success", "Inquiry sent successfully");
     } catch (error) {
       setError(error.message || "Something went wrong while adding inquiries");
+      addNotification(
+        "danger",
+        error.message
+          ? `An error has occurred while sending an inquiry: ${error.message}`
+          : "Something went wrong while sending an inquiry"
+      );
     } finally {
       setLoading(false);
     }
