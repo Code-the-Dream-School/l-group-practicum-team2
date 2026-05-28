@@ -12,17 +12,17 @@ import { InquiryProvider } from "./contexts/InquiryContext.jsx";
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
-      <AuthProvider>
-        <AnimalProvider>
-          <FavoriteProvider>
-            <InquiryProvider>
-              <NotificationProvider>
+      <NotificationProvider>
+        <AuthProvider>
+          <AnimalProvider>
+            <FavoriteProvider>
+              <InquiryProvider>
                 <App />
-              </NotificationProvider>
-            </InquiryProvider>
-          </FavoriteProvider>
-        </AnimalProvider>
-      </AuthProvider>
+              </InquiryProvider>
+            </FavoriteProvider>
+          </AnimalProvider>
+        </AuthProvider>
+      </NotificationProvider>
     </BrowserRouter>
   </StrictMode>
 );

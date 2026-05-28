@@ -3,6 +3,7 @@ import React, { createContext, useContext, useEffect, useMemo, useState } from "
 import { useSearchParams } from "react-router-dom";
 import { fetchAnimals } from "../services/animalService";
 import { equalsCI } from "../utils/equalsCI";
+import { useNotification } from "./NotificationContext";
 
 const AnimalContext = createContext();
 
@@ -11,6 +12,7 @@ export const AnimalProvider = ({ children }) => {
   const [animals, setAnimals] = useState([]);
   const [error, setError] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
+  const { addNotification } = useNotification();
 
   const getAnimals = async () => {
     setLoading(true);
@@ -21,6 +23,12 @@ export const AnimalProvider = ({ children }) => {
       setAnimals(data.animals || []);
     } catch (error) {
       setError(error.message || "Something went wrong while fetching animals");
+      addNotification(
+        "danger",
+        error.message
+          ? `An error has occurred while fetching animals: ${error.message}`
+          : "Something went wrong while fetching animals"
+      );
     } finally {
       setLoading(false);
     }

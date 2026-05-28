@@ -16,8 +16,7 @@ const {
   validateLoginInput,
 } = require('../validators/input-validation');
 
-router.post('/register', validateRegisterInput, register);
-router.post('/login', validateLoginInput, login);
+
 const rateLimit = require('express-rate-limit');
 
 const authLimiter = rateLimit({
