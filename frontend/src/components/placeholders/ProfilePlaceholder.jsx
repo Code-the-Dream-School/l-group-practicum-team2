@@ -1,5 +1,4 @@
-import { Placeholder, Row, Col, Button } from "react-bootstrap";
-
+import { Col, Placeholder, Row } from "react-bootstrap";
 const ProfilePlaceholder = () => {
   return (
     <main style={{ maxWidth: "800px", margin: "0 auto", padding: "2rem" }}>

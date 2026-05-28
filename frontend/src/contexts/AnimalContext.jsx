@@ -1,15 +1,11 @@
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-  useMemo,
-} from "react";
-import { fetchAnimals } from "../services/animalService";
+import PropTypes from "prop-types";
+import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { fetchAnimals } from "../services/animalService";
 import { equalsCI } from "../utils/equalsCI";
 
 const AnimalContext = createContext();
+
 export const AnimalProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [animals, setAnimals] = useState([]);
@@ -30,9 +26,8 @@ export const AnimalProvider = ({ children }) => {
     }
   };
 
-  const getAnimalById = (id) => {
-    return animals.find((animal) => String(animal.id) === String(id)) || null;
-  };
+  const getAnimalById = (id) =>
+    animals.find((animal) => String(animal.id) === String(id)) || null;
 
   const filters = useMemo(
     () => ({
@@ -59,14 +54,9 @@ export const AnimalProvider = ({ children }) => {
   const clearFilters = () => setSearchParams({});
 
   const filteredAnimals = animals.filter((animal) => {
-    if (filters.species && !equalsCI(animal.species, filters.species))
-      return false;
+    if (filters.species && !equalsCI(animal.species, filters.species)) return false;
     if (filters.size && !equalsCI(animal.size, filters.size)) return false;
-    if (
-      filters.ageCategory &&
-      !equalsCI(animal.age_category, filters.ageCategory)
-    )
-      return false;
+    if (filters.ageCategory && !equalsCI(animal.age_category, filters.ageCategory)) return false;
     if (filters.specialNeeds && !animal.special_needs) return false;
     return true;
   });
@@ -80,7 +70,11 @@ export const AnimalProvider = ({ children }) => {
     filters.specialNeeds;
 
   useEffect(() => {
-    getAnimals();
+    const timeoutId = setTimeout(() => {
+      getAnimals();
+    }, 0);
+
+    return () => clearTimeout(timeoutId);
   }, []);
 
   return (
@@ -101,6 +95,10 @@ export const AnimalProvider = ({ children }) => {
       {children}
     </AnimalContext.Provider>
   );
+};
+
+AnimalProvider.propTypes = {
+  children: PropTypes.node.isRequired,
 };
 
 export const useAnimal = () => useContext(AnimalContext);

@@ -1,28 +1,22 @@
-import Carousel from "react-bootstrap/Carousel";
-import Toast from "react-bootstrap/Toast";
 import { useState } from "react";
 import { Col, Row } from "react-bootstrap";
-import AnimalCard from "./AnimalCard";
+import Carousel from "react-bootstrap/Carousel";
+import Toast from "react-bootstrap/Toast";
 import { HeartFill } from "react-bootstrap-icons";
+import { useAnimal } from "../../contexts/AnimalContext";
+import AnimalCard from "./AnimalCard";
 import ErrorMessage from "../ErrorMessage";
 import LoadingSpinner from "../LoadingSpinner";
-import { useAnimal } from "../../contexts/AnimalContext";
 
 const SpecialNeedCarousel = () => {
   const { animals, loading, error } = useAnimal();
-
-  const specialNeedsAnimals = animals.filter((a) => a.special_needs);
   const [show, setShow] = useState(false);
 
-  // uncomment when detail page integrated with AnimalContext is merged
-  // const navigate = useNavigate();
-  const handleClick = () => {
-    setShow(true);
-    // uncomment when detail page integrated with AnimalContext is merged
-    // navigate(`/animals/${id}`);
-  };
-  if (loading)
+  const specialNeedsAnimals = animals.filter((a) => a.special_needs);
+
+  if (loading) {
     return <LoadingSpinner message="Loading special needs companions..." />;
+  }
 
   return (
     <>
@@ -42,11 +36,12 @@ const SpecialNeedCarousel = () => {
             <HeartFill size={40} color="white" />
           </div>
         </Col>
+
         <Col
           className="flex-grow-1"
           style={{
             display: "flex",
-            alignItems: "flexStart",
+            alignItems: "flex-start",
             flexDirection: "column",
             justifyContent: "center",
           }}
@@ -66,6 +61,7 @@ const SpecialNeedCarousel = () => {
           error={error}
         />
       )}
+
       <div
         style={{
           width: "992px",
@@ -79,24 +75,22 @@ const SpecialNeedCarousel = () => {
           indicators={false}
           data-bs-theme="dark"
         >
-          {specialNeedsAnimals.map((specialNeedsAnimal) => {
-            return (
-              <Carousel.Item key={specialNeedsAnimal.id}>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    width: "100%",
-                  }}
-                >
-                  <div style={{ width: "540px" }}>
-                    <AnimalCard animal={specialNeedsAnimal} />
-                  </div>
+          {specialNeedsAnimals.map((specialNeedsAnimal) => (
+            <Carousel.Item key={specialNeedsAnimal.id}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  width: "100%",
+                }}
+              >
+                <div style={{ width: "540px" }}>
+                  <AnimalCard animal={specialNeedsAnimal} />
                 </div>
-              </Carousel.Item>
-            );
-          })}
+              </div>
+            </Carousel.Item>
+          ))}
         </Carousel>
       </div>
     </>

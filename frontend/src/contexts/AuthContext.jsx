@@ -1,11 +1,11 @@
+import PropTypes from "prop-types";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import {
+  fetchCurrentUser,
   loginUser,
   registerUser,
-  fetchCurrentUser,
   updateUserCredentials,
 } from "../services/authService";
-import PropTypes from "prop-types";
 
 const AuthContext = createContext();
 
@@ -18,6 +18,7 @@ export const AuthProvider = ({ children }) => {
 
   const handleRegister = async (userData) => {
     setLoading(true);
+
     try {
       const data = await registerUser(userData);
       setUser(data.user);
@@ -33,6 +34,7 @@ export const AuthProvider = ({ children }) => {
 
   const handleLogin = async (userData) => {
     setLoading(true);
+
     try {
       const data = await loginUser(userData);
       setUser(data.user);
@@ -45,22 +47,20 @@ export const AuthProvider = ({ children }) => {
       setLoading(false);
     }
   };
+
   const handleUpdate = async (userData) => {
     setLoading(true);
 
     try {
       const token = localStorage.getItem("token");
-
       const data = await updateUserCredentials(userData, token);
 
       setUser(data.user);
-
       setError(null);
 
       return true;
     } catch (error) {
       setError(error.message);
-
       return false;
     } finally {
       setLoading(false);
@@ -69,6 +69,7 @@ export const AuthProvider = ({ children }) => {
 
   const getCurrentUser = async () => {
     setLoading(true);
+
     try {
       const data = await fetchCurrentUser();
       setUser(data && data.user ? data.user : null);
@@ -103,7 +104,11 @@ export const AuthProvider = ({ children }) => {
   const closeAuthModal = () => setAuthModal(null);
 
   useEffect(() => {
-    getCurrentUser();
+    const timeoutId = setTimeout(() => {
+      getCurrentUser();
+    }, 0);
+
+    return () => clearTimeout(timeoutId);
   }, []);
 
   return (
@@ -117,13 +122,10 @@ export const AuthProvider = ({ children }) => {
         getCurrentUser,
         logoutUser,
         handleUpdate,
-
         authModal,
-
         openLogin,
         openSignup,
         closeAuthModal,
-
         logoutClicked,
         setLogoutClicked,
       }}
@@ -132,7 +134,9 @@ export const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
+
 AuthProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
+
 export const useAuth = () => useContext(AuthContext);

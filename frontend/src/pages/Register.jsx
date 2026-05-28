@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext";
-import LoadingSpinner from "../components/LoadingSpinner";
 import ErrorMessage from "../components/ErrorMessage";
+import LoadingSpinner from "../components/LoadingSpinner";
+import { useAuth } from "../contexts/AuthContext";
 
 function Register() {
-  const { handleRegister, error } = useAuth();
+  const { handleRegister, loading, error } = useAuth();
   const navigate = useNavigate();
 
   const [name, setName] = useState("");
@@ -16,8 +16,10 @@ function Register() {
     e.preventDefault();
 
     const success = await handleRegister({ name, email, password });
-    // redirect after success
-    if (success) navigate("/");
+
+    if (success) {
+      navigate("/");
+    }
   };
 
   return (
@@ -57,6 +59,7 @@ function Register() {
 
         <button type="submit">Register</button>
       </form>
+
       <p>
         Already have an account? <Link to="/login">Log in</Link>
       </p>
