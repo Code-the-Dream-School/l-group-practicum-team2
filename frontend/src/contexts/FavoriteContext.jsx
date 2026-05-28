@@ -39,7 +39,9 @@ export const FavoriteProvider = ({ children }) => {
       const ids = data.map((f) => f.id) || [];
       setFavoriteIds(ids);
     } catch (error) {
-      setError(error.message || "Something went wrong while fetching favorites");
+      setError(
+        error.message || "Something went wrong while fetching favorites"
+      );
     } finally {
       setLoading(false);
     }
@@ -73,7 +75,9 @@ export const FavoriteProvider = ({ children }) => {
       setFavoriteIds((prev) => prev.filter((a) => a !== animalId));
       addNotification("success", "Favorite removed successfully");
     } catch (error) {
-      setError(error.message || "Something went wrong while removing favorites");
+      setError(
+        error.message || "Something went wrong while removing favorites"
+      );
     } finally {
       setLoading(false);
     }
