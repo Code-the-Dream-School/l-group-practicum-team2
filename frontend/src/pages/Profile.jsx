@@ -141,10 +141,6 @@ function Profile() {
             <h5 className="mb-1">Email</h5>
             <p className="text-muted mb-0">{user?.email}</p>
           </div>
-
-          <Button variant="outline-primary" size="sm">
-            Edit
-          </Button>
         </div>
 
         <hr />
