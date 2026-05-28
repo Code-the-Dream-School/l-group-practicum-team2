@@ -29,9 +29,9 @@ export const InquiryProvider = ({ children }) => {
     setError(null);
     setLoading(true);
     try {
-      const data = await getUserInquiries();
+      const res = await getUserInquiries();
 
-      setInquiries(data);
+      setInquiries(res.data);
     } catch (error) {
       addNotification(
         "danger",
