@@ -8,6 +8,7 @@ import {
   registerUser,
   updateUserCredentials,
 } from "../services/authService";
+import { useNotification } from "./NotificationContext";
 
 const AuthContext = createContext();
 
