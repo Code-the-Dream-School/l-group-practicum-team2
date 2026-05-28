@@ -1,4 +1,4 @@
-import { Form, InputGroup } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import { useState } from "react";
 import { Eye, EyeSlash } from "react-bootstrap-icons";
 import PropTypes from "prop-types";
@@ -26,7 +26,11 @@ const PasswordInputBox = ({
   };
   return (
     <>
-      <div style={{ position: "relative" }}>
+      <div
+        style={{
+          position: "relative",
+        }}
+      >
         <Form.Control
           type={showPassword ? "text" : "password"}
           placeholder="Password"
@@ -35,8 +39,12 @@ const PasswordInputBox = ({
           onChange={handleChange}
           onBlur={(e) => validatePassword(e.target.value)}
         />
-        <InputGroup.Text
+        <button
+          type="button"
+          aria-label={showPassword ? "Hide password" : "Show password"}
           style={{
+            background: "transparent",
+            border: "none",
             cursor: "pointer",
             position: "absolute",
             right: 0,
@@ -50,7 +58,7 @@ const PasswordInputBox = ({
           onClick={() => toggleShowPassword(!showPassword)}
         >
           {showPassword ? <EyeSlash /> : <Eye />}
-        </InputGroup.Text>
+        </button>
       </div>
 
       {passwordError && <p className="text-danger">{passwordError}.</p>}
