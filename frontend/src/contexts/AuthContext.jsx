@@ -125,11 +125,7 @@ export const AuthProvider = ({ children }) => {
       localStorage.removeItem("token");
       setError(null);
 
-      localStorage.setItem(
-        "accountDeletedMessage",
-        "Your account has been successfully deleted."
-      );
-
+      addNotification('success', "Your account has been successfully deleted.")
       setLogoutClicked(true);
 
       return {
@@ -140,8 +136,7 @@ export const AuthProvider = ({ children }) => {
           "User account deleted successfully",
       };
     } catch (error) {
-      console.error(error);
-      setError(error.message);
+      addNotification('danger', "Your account has been successfully deleted.")
 
       return {
         success: false,
