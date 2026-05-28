@@ -154,7 +154,7 @@ function Profile() {
           <div>
             <h5 className="mb-1">Name</h5>
             <p className="text-muted mb-0">{user?.name}</p>
-          </div>         
+          </div>
 
           <Button
             variant="outline-primary"
