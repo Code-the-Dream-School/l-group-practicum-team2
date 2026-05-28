@@ -17,6 +17,7 @@ function Profile() {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  const [deleteConfirmText, setDeleteConfirmText] = useState("");
   const [deletePassword, setDeletePassword] = useState("");
 
   const [profileLoading, setProfileLoading] = useState(false);
@@ -35,6 +36,9 @@ function Profile() {
     confirmPassword.trim() &&
     newPassword === confirmPassword;
 
+  const isDeleteFormValid =
+    deleteConfirmText === "DELETE" && deletePassword.trim();
+
   const handleCloseNameModal = () => {
     setShowNameModal(false);
     setName("");
@@ -52,6 +56,7 @@ function Profile() {
 
   const handleCloseDeleteModal = () => {
     setShowDeleteModal(false);
+    setDeleteConfirmText("");
     setDeletePassword("");
     setDeleteError("");
   };
@@ -119,6 +124,16 @@ function Profile() {
   const handleDeleteAccount = async (e) => {
     e.preventDefault();
 
+    if (!deleteConfirmText.trim() || !deletePassword.trim()) {
+      setDeleteError("Both fields are required.");
+      return;
+    }
+
+    if (deleteConfirmText !== "DELETE") {
+      setDeleteError('Please type "DELETE" to confirm.');
+      return;
+    }
+
     setDeleteError("");
     setDeleteLoading(true);
 
@@ -134,7 +149,13 @@ function Profile() {
   };
 
   return (
-    <main style={{ maxWidth: "800px", margin: "0 auto", padding: "2rem" }}>
+    <main
+      style={{
+        maxWidth: "800px",
+        margin: "0 auto",
+        padding: "2rem",
+      }}
+    >
       <h1 className="mb-2">Account Settings</h1>
 
       <p className="text-muted mb-4">
@@ -148,8 +169,23 @@ function Profile() {
           </div>
         </div>
 
-        <hr />
+      {profileSuccess && <p className="text-success">{profileSuccess}</p>}
 
+      {passwordSuccess && <p className="text-success">{passwordSuccess}</p>}
+
+        <div className="d-flex justify-content-between align-items-center mb-3">
+          <div>
+            <h5 className="mb-1">Email</h5>
+            <p className="text-muted mb-0">user@example.com</p>
+          </div>
+
+          <Button variant="outline-primary" size="sm">
+            Edit
+          </Button>
+        </div>
+      </Card>
+
+      <Card className="p-4 mb-4 shadow-sm">
         <div className="d-flex justify-content-between align-items-center mb-3">
           <div>
             <h5 className="mb-1">Name</h5>
@@ -184,7 +220,7 @@ function Profile() {
       </Card>
 
       <Card className="p-4 shadow-sm border-danger">
-        <h4 className="text-danger mb-3">Danger Zone</h4>
+        <h4 className="text-danger mb-3">Account Management</h4>
 
         <p className="text-muted">
           Permanently delete your account and all associated data.
@@ -224,7 +260,7 @@ function Profile() {
               />
             </Form.Group>
 
-            {profileError && <p className="text-danger">{profileError}</p>}
+            {profileError && <p className="text-danger mt-3">{profileError}</p>}
           </Modal.Body>
 
           <Modal.Footer>
@@ -309,10 +345,27 @@ function Profile() {
 
         <Form onSubmit={handleDeleteAccount}>
           <Modal.Body>
-            <p className="text-muted">
-              Please enter your current password to permanently delete your
-              account.
+            <p className="text-danger fw-semibold">
+              This action is permanent and cannot be undone.
             </p>
+
+            <p className="text-muted">
+              To confirm, please type DELETE and enter your current password.
+            </p>
+
+            <Form.Group className="mb-3">
+              <Form.Label>Type DELETE to confirm</Form.Label>
+
+              <Form.Control
+                type="text"
+                placeholder="DELETE"
+                value={deleteConfirmText}
+                onChange={(e) => {
+                  setDeleteConfirmText(e.target.value);
+                  setDeleteError("");
+                }}
+              />
+            </Form.Group>
 
             <Form.Group className="mb-3">
               <Form.Label>Current Password</Form.Label>
@@ -321,11 +374,14 @@ function Profile() {
                 type="password"
                 placeholder="Enter current password"
                 value={deletePassword}
-                onChange={(e) => setDeletePassword(e.target.value)}
+                onChange={(e) => {
+                  setDeletePassword(e.target.value);
+                  setDeleteError("");
+                }}
               />
             </Form.Group>
 
-            {deleteError && <p className="text-danger">{deleteError}</p>}
+            {deleteError && <p className="text-danger mt-3">{deleteError}</p>}
           </Modal.Body>
 
           <Modal.Footer>
@@ -336,7 +392,7 @@ function Profile() {
             <Button
               variant="danger"
               type="submit"
-              disabled={!deletePassword.trim() || deleteLoading}
+              disabled={!isDeleteFormValid || deleteLoading}
             >
               {deleteLoading ? "Deleting..." : "Delete Account"}
             </Button>
