@@ -26,7 +26,6 @@ function Profile() {
 
   const [profileError, setProfileError] = useState("");
   const [passwordError, setPasswordError] = useState("");
-  const [deleteError, setDeleteError] = useState("");
 
   const isProfileFormValid = name.trim() && profilePassword.trim();
 
@@ -58,7 +57,6 @@ function Profile() {
     setShowDeleteModal(false);
     setDeleteConfirmText("");
     setDeletePassword("");
-    setDeleteError("");
   };
 
   const handleProfileUpdate = async (e) => {
@@ -140,7 +138,6 @@ function Profile() {
     const result = await handleDelete(deletePassword);
 
     if (!result.success) {
-      setDeleteError(result.message);
       setDeleteLoading(false);
       return;
     }
