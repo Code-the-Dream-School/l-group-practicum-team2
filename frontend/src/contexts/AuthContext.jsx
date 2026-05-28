@@ -1,8 +1,4 @@
 import PropTypes from "prop-types";
-<<<<<<< HEAD
-import { useNavigate } from "react-router-dom";
-=======
->>>>>>> 6b9c1f44 (run prettier format)
 import React, {
   createContext,
   useContext,
@@ -175,14 +171,9 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const loadCurrentUser = async () => {
-<<<<<<< HEAD
-      getCurrentUser();
-    };
-=======
       await getCurrentUser();
     };
 
->>>>>>> 6b9c1f44 (run prettier format)
     loadCurrentUser();
   }, [getCurrentUser]);
 
