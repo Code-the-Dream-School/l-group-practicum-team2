@@ -1,10 +1,15 @@
-import { Card, Button, Modal, Form } from "react-bootstrap";
 import { useState } from "react";
+import { Button, Card, Form, Modal } from "react-bootstrap";
+import { useAuth } from "../contexts/AuthContext";
 import { updateUserCredentials } from "../services/authService";
 
 function Profile() {
+  const { handleDelete } = useAuth();
+
   const [showNameModal, setShowNameModal] = useState(false);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
   const [name, setName] = useState("");
   const [profilePassword, setProfilePassword] = useState("");
 
@@ -12,14 +17,18 @@ function Profile() {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  const [deletePassword, setDeletePassword] = useState("");
+
   const [profileLoading, setProfileLoading] = useState(false);
   const [passwordLoading, setPasswordLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   const [profileSuccess, setProfileSuccess] = useState("");
   const [passwordSuccess, setPasswordSuccess] = useState("");
 
   const [profileError, setProfileError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [deleteError, setDeleteError] = useState("");
 
   const isProfileFormValid = name.trim() && profilePassword.trim();
 
@@ -44,18 +53,18 @@ function Profile() {
     setPasswordError("");
   };
 
+  const handleCloseDeleteModal = () => {
+    setShowDeleteModal(false);
+    setDeletePassword("");
+    setDeleteError("");
+  };
+
   const handleProfileUpdate = async (e) => {
     e.preventDefault();
 
     setProfileError("");
     setProfileSuccess("");
     setProfileLoading(true);
-
-    if (!name.trim() || !profilePassword.trim()) {
-      setProfileError("Name and current password are required.");
-      setProfileLoading(false);
-      return;
-    }
 
     try {
       const token = localStorage.getItem("token");
@@ -71,15 +80,12 @@ function Profile() {
       setProfileSuccess("Profile updated successfully");
       handleCloseNameModal();
     } catch (err) {
-      if (err instanceof Error) {
-        setProfileError(err.message);
-      } else {
-        setProfileError("Something went wrong");
-      }
+      setProfileError(err.message || "Something went wrong");
     } finally {
       setProfileLoading(false);
     }
   };
+
   const handlePasswordUpdate = async (e) => {
     e.preventDefault();
 
@@ -87,18 +93,8 @@ function Profile() {
     setPasswordSuccess("");
     setPasswordLoading(true);
 
-    if (
-      !passwordCurrentPassword.trim() ||
-      !newPassword.trim() ||
-      !confirmPassword.trim()
-    ) {
-      setPasswordError("All password fields are required.");
-      setPasswordLoading(false);
-      return;
-    }
-
     if (newPassword !== confirmPassword) {
-      setPasswordError("New password and confirmation password must match.");
+      setPasswordError("Passwords do not match");
       setPasswordLoading(false);
       return;
     }
@@ -117,14 +113,27 @@ function Profile() {
       setPasswordSuccess("Password updated successfully");
       handleClosePasswordModal();
     } catch (err) {
-      if (err instanceof Error) {
-        setPasswordError(err.message);
-      } else {
-        setPasswordError("Something went wrong");
-      }
+      setPasswordError(err.message || "Something went wrong");
     } finally {
       setPasswordLoading(false);
     }
+  };
+
+  const handleDeleteAccount = async (e) => {
+    e.preventDefault();
+
+    setDeleteError("");
+    setDeleteLoading(true);
+
+    const result = await handleDelete(deletePassword);
+
+    if (!result.success) {
+      setDeleteError(result.message);
+      setDeleteLoading(false);
+      return;
+    }
+
+    setDeleteLoading(false);
   };
 
   return (
@@ -134,26 +143,15 @@ function Profile() {
       <p className="text-muted mb-4">
         Manage your account information and security settings.
       </p>
+
       {profileSuccess && <p className="text-success">{profileSuccess}</p>}
       {passwordSuccess && <p className="text-success">{passwordSuccess}</p>}
+
       <Card className="p-4 mb-4 shadow-sm">
         <div className="d-flex justify-content-between align-items-center mb-3">
           <div>
-            <h5 className="mb-1">Email</h5>
-            <p className="text-muted mb-0">user@example.com</p>
-          </div>
-
-          <Button variant="outline-primary" size="sm">
-            Edit
-          </Button>
-        </div>
-
-        <hr />
-
-        <div className="d-flex justify-content-between align-items-center mb-3">
-          <div>
             <h5 className="mb-1">Name</h5>
-            <p className="text-muted mb-0">John Doe</p>
+            <p className="text-muted mb-0">Update your profile name</p>
           </div>
 
           <Button
@@ -190,8 +188,11 @@ function Profile() {
           Permanently delete your account and all associated data.
         </p>
 
-        <Button variant="danger">Delete Account</Button>
+        <Button variant="danger" onClick={() => setShowDeleteModal(true)}>
+          Delete Account
+        </Button>
       </Card>
+
       <Modal show={showNameModal} onHide={handleCloseNameModal}>
         <Modal.Header closeButton>
           <Modal.Title>Edit Name</Modal.Title>
@@ -220,11 +221,12 @@ function Profile() {
                 onChange={(e) => setProfilePassword(e.target.value)}
               />
             </Form.Group>
-            {profileError && <p className="text-danger mt-3">{profileError}</p>}
+
+            {profileError && <p className="text-danger">{profileError}</p>}
           </Modal.Body>
 
           <Modal.Footer>
-            <Button variant="secondary" onClick={() => setShowNameModal(false)}>
+            <Button variant="secondary" onClick={handleCloseNameModal}>
               Cancel
             </Button>
 
@@ -238,13 +240,12 @@ function Profile() {
           </Modal.Footer>
         </Form>
       </Modal>
-      <Modal
-        show={showPasswordModal}
-        onHide={() => setShowPasswordModal(false)}
-      >
+
+      <Modal show={showPasswordModal} onHide={handleClosePasswordModal}>
         <Modal.Header closeButton>
           <Modal.Title>Update Password</Modal.Title>
         </Modal.Header>
+
         <Form onSubmit={handlePasswordUpdate}>
           <Modal.Body>
             <Form.Group className="mb-3">
@@ -270,7 +271,7 @@ function Profile() {
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Label>Confirm New Password</Form.Label>
+              <Form.Label>Confirm Password</Form.Label>
 
               <Form.Control
                 type="password"
@@ -280,15 +281,11 @@ function Profile() {
               />
             </Form.Group>
 
-            {passwordError && (
-              <p className="text-danger mt-3">{passwordError}</p>
-            )}
+            {passwordError && <p className="text-danger">{passwordError}</p>}
           </Modal.Body>
+
           <Modal.Footer>
-            <Button
-              variant="secondary"
-              onClick={() => setShowPasswordModal(false)}
-            >
+            <Button variant="secondary" onClick={handleClosePasswordModal}>
               Cancel
             </Button>
 
@@ -298,6 +295,48 @@ function Profile() {
               disabled={!isPasswordFormValid || passwordLoading}
             >
               {passwordLoading ? "Updating..." : "Update Password"}
+            </Button>
+          </Modal.Footer>
+        </Form>
+      </Modal>
+
+      <Modal show={showDeleteModal} onHide={handleCloseDeleteModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Delete Account</Modal.Title>
+        </Modal.Header>
+
+        <Form onSubmit={handleDeleteAccount}>
+          <Modal.Body>
+            <p className="text-muted">
+              Please enter your current password to permanently delete your
+              account.
+            </p>
+
+            <Form.Group className="mb-3">
+              <Form.Label>Current Password</Form.Label>
+
+              <Form.Control
+                type="password"
+                placeholder="Enter current password"
+                value={deletePassword}
+                onChange={(e) => setDeletePassword(e.target.value)}
+              />
+            </Form.Group>
+
+            {deleteError && <p className="text-danger">{deleteError}</p>}
+          </Modal.Body>
+
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleCloseDeleteModal}>
+              Cancel
+            </Button>
+
+            <Button
+              variant="danger"
+              type="submit"
+              disabled={!deletePassword.trim() || deleteLoading}
+            >
+              {deleteLoading ? "Deleting..." : "Delete Account"}
             </Button>
           </Modal.Footer>
         </Form>

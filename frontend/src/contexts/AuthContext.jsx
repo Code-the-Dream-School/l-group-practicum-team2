@@ -1,12 +1,13 @@
+import PropTypes from "prop-types";
 import React, { createContext, useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
+  deleteAccount,
+  fetchCurrentUser,
   loginUser,
   registerUser,
-  fetchCurrentUser,
   updateUserCredentials,
 } from "../services/authService";
-import PropTypes from "prop-types";
-import { useNotification } from "./NotificationContext";
 
 const AuthContext = createContext();
 
@@ -18,8 +19,11 @@ export const AuthProvider = ({ children }) => {
   const [logoutClicked, setLogoutClicked] = useState(false);
   const { addNotification } = useNotification();
 
+  const navigate = useNavigate();
+
   const handleRegister = async (userData) => {
     setLoading(true);
+
     try {
       const data = await registerUser(userData);
       setUser(data.user);
@@ -42,6 +46,7 @@ export const AuthProvider = ({ children }) => {
 
   const handleLogin = async (userData) => {
     setLoading(true);
+
     try {
       const data = await loginUser(userData);
       setUser(data.user);
@@ -61,16 +66,15 @@ export const AuthProvider = ({ children }) => {
       setLoading(false);
     }
   };
+
   const handleUpdate = async (userData) => {
     setLoading(true);
 
     try {
       const token = localStorage.getItem("token");
-
       const data = await updateUserCredentials(userData, token);
 
       setUser(data.user);
-
       setError(null);
       return true;
     } catch (error) {
@@ -83,23 +87,58 @@ export const AuthProvider = ({ children }) => {
 
   const getCurrentUser = async () => {
     setLoading(true);
+
     try {
       const data = await fetchCurrentUser();
+
       setUser(data && data.user ? data.user : null);
       setError(null);
-      addNotification("success", "User fetched successfully");
+
       return true;
     } catch (error) {
       setError(error.message);
       setUser(null);
       localStorage.removeItem("token");
-      addNotification(
-        "danger",
-        error.message
-          ? `An error has occurred while fetching the user: ${error.message}`
-          : "Something went wrong while fetching the user"
-      );
+
       return false;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDelete = async (currentPassword) => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const data = await deleteAccount(currentPassword);
+
+      setUser(null);
+      localStorage.removeItem("token");
+      setError(null);
+
+      localStorage.setItem(
+        "accountDeletedMessage",
+        "Your account has been successfully deleted."
+      );
+
+      navigate("/", { replace: true });
+
+      return {
+        success: true,
+        message:
+          data.data?.message ||
+          data.message ||
+          "User account deleted successfully",
+      };
+    } catch (error) {
+      console.error(error);
+      setError(error.message);
+
+      return {
+        success: false,
+        message: error.message || "Failed to delete account",
+      };
     } finally {
       setLoading(false);
     }
@@ -131,7 +170,32 @@ export const AuthProvider = ({ children }) => {
   const closeAuthModal = () => setAuthModal(null);
 
   useEffect(() => {
-    getCurrentUser();
+    let ignore = false;
+
+    fetchCurrentUser()
+      .then((data) => {
+        if (!ignore) {
+          setUser(data && data.user ? data.user : null);
+          setError(null);
+        }
+      })
+      .catch((error) => {
+        if (!ignore) {
+          console.error(error);
+          setError(error.message);
+          setUser(null);
+          localStorage.removeItem("token");
+        }
+      })
+      .finally(() => {
+        if (!ignore) {
+          setLoading(false);
+        }
+      });
+
+    return () => {
+      ignore = true;
+    };
   }, []);
 
   return (
@@ -145,13 +209,11 @@ export const AuthProvider = ({ children }) => {
         getCurrentUser,
         logoutUser,
         handleUpdate,
-
+        handleDelete,
         authModal,
-
         openLogin,
         openSignup,
         closeAuthModal,
-
         logoutClicked,
         setLogoutClicked,
       }}
@@ -160,7 +222,9 @@ export const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
+
 AuthProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
+
 export const useAuth = () => useContext(AuthContext);
