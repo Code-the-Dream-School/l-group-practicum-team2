@@ -13,12 +13,12 @@ function Profile() {
   const [profilePassword, setProfilePassword] = useState("");
 
   const [passwordCurrentPassword, setPasswordCurrentPassword] = useState("");
+  const [deleteError, setDeleteError] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const [deleteConfirmText, setDeleteConfirmText] = useState("");
   const [deletePassword, setDeletePassword] = useState("");
-  const [deleteError, setDeleteError] = useState("");
 
   const [profileLoading, setProfileLoading] = useState(false);
   const [passwordLoading, setPasswordLoading] = useState(false);
