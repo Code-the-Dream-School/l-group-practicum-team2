@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { Button, Card, Form, Modal } from "react-bootstrap";
 import { useAuth } from "../contexts/AuthContext";
-import { updateUserCredentials } from "../services/authService";
+import { useNotification } from "../contexts/NotificationContext";
 
 function Profile() {
-  const { handleDelete } = useAuth();
-
+  const { user, handleUpdate, handleDelete } = useAuth();
+  const { addNotification } = useNotification();
   const [showNameModal, setShowNameModal] = useState(false);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -22,9 +22,6 @@ function Profile() {
   const [profileLoading, setProfileLoading] = useState(false);
   const [passwordLoading, setPasswordLoading] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
-
-  const [profileSuccess, setProfileSuccess] = useState("");
-  const [passwordSuccess, setPasswordSuccess] = useState("");
 
   const [profileError, setProfileError] = useState("");
   const [passwordError, setPasswordError] = useState("");
@@ -63,21 +60,21 @@ function Profile() {
     e.preventDefault();
 
     setProfileError("");
-    setProfileSuccess("");
     setProfileLoading(true);
 
     try {
-      const token = localStorage.getItem("token");
+      const success = await handleUpdate({
+        name,
+        currentPassword: profilePassword,
+      });
 
-      await updateUserCredentials(
-        {
-          name,
-          currentPassword: profilePassword,
-        },
-        token
-      );
+      if (!success) {
+        setProfileError("Profile update failed.");
+        addNotification("danger", "Profile update failed.");
+        return;
+      }
 
-      setProfileSuccess("Profile updated successfully");
+      addNotification("success", "Profile updated successfully");
       handleCloseNameModal();
     } catch (err) {
       setProfileError(err.message || "Something went wrong");
@@ -90,7 +87,6 @@ function Profile() {
     e.preventDefault();
 
     setPasswordError("");
-    setPasswordSuccess("");
     setPasswordLoading(true);
 
     if (newPassword !== confirmPassword) {
@@ -100,17 +96,18 @@ function Profile() {
     }
 
     try {
-      const token = localStorage.getItem("token");
+      const success = await handleUpdate({
+        newPassword,
+        currentPassword: passwordCurrentPassword,
+      });
 
-      await updateUserCredentials(
-        {
-          newPassword,
-          currentPassword: passwordCurrentPassword,
-        },
-        token
-      );
+      if (!success) {
+        setPasswordError("Password update failed.");
+        addNotification("danger", "Password update failed.");
+        return;
+      }
 
-      setPasswordSuccess("Password updated successfully");
+      addNotification("success", "Password updated successfully");
       handleClosePasswordModal();
     } catch (err) {
       setPasswordError(err.message || "Something went wrong");
@@ -143,15 +140,20 @@ function Profile() {
       <p className="text-muted mb-4">
         Manage your account information and security settings.
       </p>
-
-      {profileSuccess && <p className="text-success">{profileSuccess}</p>}
-      {passwordSuccess && <p className="text-success">{passwordSuccess}</p>}
-
       <Card className="p-4 mb-4 shadow-sm">
         <div className="d-flex justify-content-between align-items-center mb-3">
           <div>
+            <h5 className="mb-1">Email</h5>
+            <p className="text-muted mb-0">{user?.email}</p>
+          </div>
+        </div>
+
+        <hr />
+
+        <div className="d-flex justify-content-between align-items-center mb-3">
+          <div>
             <h5 className="mb-1">Name</h5>
-            <p className="text-muted mb-0">Update your profile name</p>
+            <p className="text-muted mb-0">{user?.name}</p>
           </div>
 
           <Button
