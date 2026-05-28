@@ -130,7 +130,7 @@ export const AuthProvider = ({ children }) => {
         "Your account has been successfully deleted."
       );
 
-      navigate("/", { replace: true });
+      setLogoutClicked(true);
 
       return {
         success: true,
