@@ -24,7 +24,6 @@ function Profile() {
   const [passwordLoading, setPasswordLoading] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
 
-  const [profileError, setProfileError] = useState("");
   const [passwordError, setPasswordError] = useState("");
 
   const isProfileFormValid = name.trim() && profilePassword.trim();
@@ -42,7 +41,6 @@ function Profile() {
     setShowNameModal(false);
     setName("");
     setProfilePassword("");
-    setProfileError("");
   };
 
   const handleClosePasswordModal = () => {
@@ -62,7 +60,6 @@ function Profile() {
   const handleProfileUpdate = async (e) => {
     e.preventDefault();
 
-    setProfileError("");
     setProfileLoading(true);
 
     try {
@@ -72,7 +69,6 @@ function Profile() {
       });
 
       if (!success) {
-        setProfileError("Profile update failed.");
         addNotification("danger", "Profile update failed.");
         return;
       }
@@ -80,7 +76,7 @@ function Profile() {
       addNotification("success", "Profile updated successfully");
       handleCloseNameModal();
     } catch (err) {
-      setProfileError(err.message || "Something went wrong");
+      addNotification("danger", err.message || "Something went wrong");
     } finally {
       setProfileLoading(false);
     }
@@ -252,8 +248,6 @@ function Profile() {
                 onChange={(e) => setProfilePassword(e.target.value)}
               />
             </Form.Group>
-
-            {profileError && <p className="text-danger mt-3">{profileError}</p>}
           </Modal.Body>
 
           <Modal.Footer>
