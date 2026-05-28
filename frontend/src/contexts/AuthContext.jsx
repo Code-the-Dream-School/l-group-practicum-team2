@@ -27,7 +27,6 @@ export const AuthProvider = ({ children }) => {
   const [logoutClicked, setLogoutClicked] = useState(false);
   const { addNotification } = useNotification();
 
-  const navigate = useNavigate();
 
   const handleRegister = async (userData) => {
     setLoading(true);
