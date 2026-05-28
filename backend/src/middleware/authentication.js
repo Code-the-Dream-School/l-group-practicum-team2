@@ -32,8 +32,8 @@ const auth = async (req, res, next) => {
     }
     req.user = user;
     next();
-  } catch (error) {
-    return next(error);
+    } catch (error) {
+    return next(new UnauthenticatedError("Authentication invalid"));
   }
 };
 
