@@ -20,6 +20,7 @@ export const InquiryProvider = ({ children }) => {
   const { addNotification } = useNotification();
 
   const { user, openLogin } = useAuth();
+  const { addNotification } = useNotification();
 
   const getInquiries = useCallback(async () => {
     if (!user) {
@@ -48,26 +49,17 @@ export const InquiryProvider = ({ children }) => {
     async ({ animalId, message }) => {
       setLoading(true);
 
-      try {
-        await addInquiry({ animalId, message });
-        await getInquiries();
-        addNotification("success", "Inquiry sent successfully");
-      } catch (error) {
-        setError(
-          error.message || "Something went wrong while adding inquiries"
-        );
-        addNotification(
-          "danger",
-          error.message
-            ? `An error has occurred while sending an inquiry: ${error.message}`
-            : "Something went wrong while sending an inquiry"
-        );
-      } finally {
-        setLoading(false);
-      }
-    },
-    [getInquiries]
-  );
+    try {
+      await addInquiry({ animalId, message });
+      await getInquiries();
+      addNotification("success",  "Your inquiry has been sent! The shelter will contact you soon.");
+    } catch (error) {
+      addNotification("danger",  error.message || "Something went wrong. Please try again.");
+      
+    } finally {
+      setLoading(false);
+    }
+  };
   const requestAddInquiry = async (messageObj) => {
     if (!user) {
       setPendingMessageObj(messageObj);
