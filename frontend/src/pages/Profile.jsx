@@ -101,7 +101,6 @@ function Profile() {
       });
 
       if (!success) {
-        setPasswordError("Password update failed.");
         addNotification("danger", "Password update failed.");
         return;
       }
@@ -109,7 +108,7 @@ function Profile() {
       addNotification("success", "Password updated successfully");
       handleClosePasswordModal();
     } catch (err) {
-      setPasswordError(err.message || "Something went wrong");
+      addNotification("danger", err.message || "Something went wrong");
     } finally {
       setPasswordLoading(false);
     }
