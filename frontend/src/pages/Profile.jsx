@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Button, Card, Form, Modal } from "react-bootstrap";
+import { useAuth } from "../contexts/AuthContext";
 import { updateUserCredentials } from "../services/authService";
 
 function Profile() {
@@ -13,7 +14,6 @@ function Profile() {
   const [profilePassword, setProfilePassword] = useState("");
 
   const [passwordCurrentPassword, setPasswordCurrentPassword] = useState("");
-  const [deleteError, setDeleteError] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
@@ -123,7 +123,8 @@ function Profile() {
       setPasswordLoading(false);
     }
   };
-  const handleDeleteSubmit = (e) => {
+
+  const handleDeleteAccount = async (e) => {
     e.preventDefault();
 
     if (!deleteConfirmText.trim() || !deletePassword.trim()) {
@@ -135,13 +136,6 @@ function Profile() {
       setDeleteError('Please type "DELETE" to confirm.');
       return;
     }
-
-    setDeleteError("");
-    handleCloseDeleteModal();
-  };
-
-  const handleDeleteAccount = async (e) => {
-    e.preventDefault();
 
     setDeleteError("");
     setDeleteLoading(true);
@@ -158,7 +152,13 @@ function Profile() {
   };
 
   return (
-    <main style={{ maxWidth: "800px", margin: "0 auto", padding: "2rem" }}>
+    <main
+      style={{
+        maxWidth: "800px",
+        margin: "0 auto",
+        padding: "2rem",
+      }}
+    >
       <h1 className="mb-2">Account Settings</h1>
 
       <p className="text-muted mb-4">
@@ -166,6 +166,7 @@ function Profile() {
       </p>
 
       {profileSuccess && <p className="text-success">{profileSuccess}</p>}
+
       {passwordSuccess && <p className="text-success">{passwordSuccess}</p>}
 
       <Card className="p-4 mb-4 shadow-sm">
@@ -179,8 +180,7 @@ function Profile() {
             Edit
           </Button>
         </div>
-
-        <hr />
+      </Card>
 
       <Card className="p-4 mb-4 shadow-sm">
         <div className="d-flex justify-content-between align-items-center mb-3">
@@ -217,7 +217,7 @@ function Profile() {
       </Card>
 
       <Card className="p-4 shadow-sm border-danger">
-        <h4 className="text-danger mb-3"> Account Management </h4>
+        <h4 className="text-danger mb-3">Account Management</h4>
 
         <p className="text-muted">
           Permanently delete your account and all associated data.
@@ -340,7 +340,7 @@ function Profile() {
           <Modal.Title>Delete Account</Modal.Title>
         </Modal.Header>
 
-        <Form onSubmit={handleDeleteSubmit}>
+        <Form onSubmit={handleDeleteAccount}>
           <Modal.Body>
             <p className="text-danger fw-semibold">
               This action is permanent and cannot be undone.
@@ -389,9 +389,9 @@ function Profile() {
             <Button
               variant="danger"
               type="submit"
-              disabled={!isDeleteFormValid}
+              disabled={!isDeleteFormValid || deleteLoading}
             >
-              Delete Account
+              {deleteLoading ? "Deleting..." : "Delete Account"}
             </Button>
           </Modal.Footer>
         </Form>
