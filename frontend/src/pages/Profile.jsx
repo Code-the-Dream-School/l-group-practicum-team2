@@ -133,12 +133,6 @@ function Profile() {
 
     const result = await handleDelete(deletePassword);
 
-    if (!result.success) {
-      addNotification('danger', result.message);
-      setDeleteLoading(false);
-      return;
-    }
-
     setDeleteLoading(false);
   };
 

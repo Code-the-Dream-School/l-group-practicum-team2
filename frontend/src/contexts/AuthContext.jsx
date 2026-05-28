@@ -127,13 +127,9 @@ export const AuthProvider = ({ children }) => {
 
       return {
         success: true,
-        message:
-          data.data?.message ||
-          data.message ||
-          "User account deleted successfully",
       };
     } catch (error) {
-      addNotification("danger", "Your account has been successfully deleted.");
+      addNotification("danger", data.message || "Account deletion failed. Please verify your password and try again.");
 
       return {
         success: false,
