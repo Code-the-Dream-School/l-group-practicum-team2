@@ -25,7 +25,8 @@ function Profile() {
   const [deleteLoading, setDeleteLoading] = useState(false);
 
   const [passwordError, setPasswordError] = useState("");
-
+  const [deleteError, setDeleteError] = useState("");
+  
   const isProfileFormValid = name.trim() && profilePassword.trim();
 
   const isPasswordFormValid =
@@ -133,6 +134,7 @@ function Profile() {
     const result = await handleDelete(deletePassword);
 
     if (!result.success) {
+      addNotification('danger', result.message);
       setDeleteLoading(false);
       return;
     }
