@@ -1,6 +1,17 @@
 import PropTypes from "prop-types";
-import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
-import { addFavorite, fetchFavorites, removeFavorite } from "../services/favoriteService";
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+import {
+  addFavorite,
+  fetchFavorites,
+  removeFavorite,
+} from "../services/favoriteService";
 import { useAnimal } from "./AnimalContext";
 import { useNotification } from "./NotificationContext";
 
@@ -28,12 +39,7 @@ export const FavoriteProvider = ({ children }) => {
       const ids = data.map((f) => f.id) || [];
       setFavoriteIds(ids);
     } catch (error) {
-      addNotification(
-        "danger",
-        error.message
-          ? `An error has occurred while fetching favorites: ${error.message}`
-          : "Something went wrong while fetching favorites"
-      );
+      setError(error.message || "Something went wrong while fetching favorites");
     } finally {
       setLoading(false);
     }
@@ -67,15 +73,7 @@ export const FavoriteProvider = ({ children }) => {
       setFavoriteIds((prev) => prev.filter((a) => a !== animalId));
       addNotification("success", "Favorite removed successfully");
     } catch (error) {
-      setError(
-        error.message || "Something went wrong while removing favorites"
-      );
-      addNotification(
-        "danger",
-        error.message
-          ? `An error has occurred while removing a favorite: ${error.message}`
-          : "Something went wrong while removing a favorite"
-      );
+      setError(error.message || "Something went wrong while removing favorites");
     } finally {
       setLoading(false);
     }

@@ -1,5 +1,11 @@
 import PropTypes from "prop-types";
-import { createContext, useCallback, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { addInquiry, getUserInquiries } from "../services/inquiryService";
 import { useAuth } from "./AuthContext";
 import { useNotification } from "./NotificationContext";
@@ -42,7 +48,9 @@ export const InquiryProvider = ({ children }) => {
         await addInquiry({ animalId, message });
         await getInquiries();
       } catch (error) {
-        setError(error.message || "Something went wrong while adding inquiries");
+        setError(
+          error.message || "Something went wrong while adding inquiries"
+        );
       } finally {
         setLoading(false);
       }

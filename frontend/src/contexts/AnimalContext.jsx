@@ -1,5 +1,11 @@
 import PropTypes from "prop-types";
-import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { useSearchParams } from "react-router-dom";
 import { fetchAnimals } from "../services/animalService";
 import { equalsCI } from "../utils/equalsCI";
@@ -62,9 +68,14 @@ export const AnimalProvider = ({ children }) => {
   const clearFilters = () => setSearchParams({});
 
   const filteredAnimals = animals.filter((animal) => {
-    if (filters.species && !equalsCI(animal.species, filters.species)) return false;
+    if (filters.species && !equalsCI(animal.species, filters.species))
+      return false;
     if (filters.size && !equalsCI(animal.size, filters.size)) return false;
-    if (filters.ageCategory && !equalsCI(animal.age_category, filters.ageCategory)) return false;
+    if (
+      filters.ageCategory &&
+      !equalsCI(animal.age_category, filters.ageCategory)
+    )
+      return false;
     if (filters.specialNeeds && !animal.special_needs) return false;
     return true;
   });
