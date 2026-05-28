@@ -156,17 +156,6 @@ function Profile() {
             <p className="text-muted mb-0">{user?.email}</p>
           </div>
         </div>
-
-        <div className="d-flex justify-content-between align-items-center mb-3">
-          <div>
-            <h5 className="mb-1">Email</h5>
-            <p className="text-muted mb-0">user@example.com</p>
-          </div>
-
-          <Button variant="outline-primary" size="sm">
-            Edit
-          </Button>
-        </div>
       </Card>
 
       <Card className="p-4 mb-4 shadow-sm">
