@@ -26,7 +26,7 @@ function Profile() {
 
   const [passwordError, setPasswordError] = useState("");
   const [deleteError, setDeleteError] = useState("");
-  
+
   const isProfileFormValid = name.trim() && profilePassword.trim();
 
   const isPasswordFormValid =

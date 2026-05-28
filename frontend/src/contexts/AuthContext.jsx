@@ -129,7 +129,11 @@ export const AuthProvider = ({ children }) => {
         success: true,
       };
     } catch (error) {
-      addNotification("danger", data.message || "Account deletion failed. Please verify your password and try again.");
+      addNotification(
+        "danger",
+        data.message ||
+          "Account deletion failed. Please verify your password and try again."
+      );
 
       return {
         success: false,
