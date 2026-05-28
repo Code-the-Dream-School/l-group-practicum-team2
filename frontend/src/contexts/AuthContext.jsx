@@ -17,6 +17,7 @@ export const AuthProvider = ({ children }) => {
   const [error, setError] = useState(null);
   const [authModal, setAuthModal] = useState(null);
   const [logoutClicked, setLogoutClicked] = useState(false);
+  const { addNotification } = useNotification();
 
   const navigate = useNavigate();
 
@@ -27,9 +28,16 @@ export const AuthProvider = ({ children }) => {
       const data = await registerUser(userData);
       setUser(data.user);
       localStorage.setItem("token", data.token);
+      addNotification("success", "User registered successfully");
       return true;
     } catch (error) {
       setError(error.message);
+      addNotification(
+        "danger",
+        error.message
+          ? `An error has occurred while registering user: ${error.message}`
+          : "Something went wrong while registering user"
+      );
       return false;
     } finally {
       setLoading(false);
@@ -43,9 +51,16 @@ export const AuthProvider = ({ children }) => {
       const data = await loginUser(userData);
       setUser(data.user);
       localStorage.setItem("token", data.token);
+      addNotification("success", "User logged in successfully");
       return true;
     } catch (error) {
       setError(error.message);
+      addNotification(
+        "danger",
+        error.message
+          ? `An error has occurred while logging in the user: ${error.message}`
+          : "Something went wrong while logging in the user"
+      );
       return false;
     } finally {
       setLoading(false);
@@ -61,7 +76,6 @@ export const AuthProvider = ({ children }) => {
 
       setUser(data.user);
       setError(null);
-
       return true;
     } catch (error) {
       setError(error.message);
@@ -137,8 +151,15 @@ export const AuthProvider = ({ children }) => {
       setUser(null);
       localStorage.removeItem("token");
       setLogoutClicked(true);
+      addNotification("success", "User logged out successfully");
     } catch (error) {
       setError(error);
+      addNotification(
+        "danger",
+        error.message
+          ? `An error has occurred while logging out the user: ${error.message}`
+          : "Something went wrong while logging out the user"
+      );
     } finally {
       if (withLoading) setLoading(false);
     }

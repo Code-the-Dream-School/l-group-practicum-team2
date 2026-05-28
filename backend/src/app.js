@@ -49,7 +49,7 @@ app.use('/api/favorites', favoritesRoutes);
 app.use('/api/animals', animalsRoutes);
 app.use('/api/shelters', shelterInfoRoutes);
 app.use('/api/inquiries', inquiryRoutes);
-app.use('/api/inquiries', animalsRoutes);
+
 
 // Root route
 app.get('/', (req, res) => {
