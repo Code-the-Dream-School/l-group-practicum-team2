@@ -1,11 +1,13 @@
 import { Spinner } from "react-bootstrap"
-import useGlobalLoading from "./useGlobalLoading";
-
+// import useGlobalLoading from "./useGlobalLoading";
+import {useAuth} from '../../contexts/AuthContext'
 const AppLoadingOverlay = () => {
+    const { loading: authLoading, user } = useAuth();
+
+    const isAuthLoading = authLoading && !user;
+    // const isLoading = useGlobalLoading();
     
-    const isLoading = useGlobalLoading();
-    
-    if(isLoading){
+    if(isAuthLoading){
         return (
             <div style={{
                 position: 'fixed',
