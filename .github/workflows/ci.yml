@@ -10,9 +10,32 @@ jobs:
     name: Backend - build
     runs-on: ubuntu-latest
     timeout-minutes: 10
+
+    env:
+      DATABASE_URL: postgres://test:test@localhost:5432/pawmatch_test
+      JWT_SECRET: testsecret
+      FRONTEND_URL: http://localhost:5173
+      PORT: 8080
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: test
+          POSTGRES_PASSWORD: test
+          POSTGRES_DB: pawmatch_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     defaults:
       run:
         working-directory: backend
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
@@ -29,7 +52,15 @@ jobs:
 
       - name: Lint
         run: npm run lint
+
+      - name: Run database schema
+        run: npm run db:schema
         
+
+      - name: Run tests
+        run: npm test
+       
+
   frontend-lint:
     name: Frontend formatting check
     runs-on: ubuntu-latest
