@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { formatLabel } from "../../utils/formatLabel";
 import Heart from "./Heart";
 
-function AnimalCard({ animal, isFavorite = false }) {
+function AnimalCard({ animal }) {
   const isAdopted = animal.status?.toUpperCase() === "ADOPTED";
 
   return (
@@ -24,9 +24,8 @@ function AnimalCard({ animal, isFavorite = false }) {
             )}
             {isAdopted && <span className="adopted-badge">Adopted</span>}
           </div>
-          {isAdopted && (
-            <Heart animalId={animal.id} initialFavorite={isFavorite} />
-          )}
+
+          {!isAdopted && <Heart animalId={animal.id} />}
 
           <img
             src={animal.photo_url}
@@ -78,7 +77,6 @@ AnimalCard.propTypes = {
     species: PropTypes.string,
     status: PropTypes.string,
   }).isRequired,
-  isFavorite: PropTypes.bool,
 };
 
 export default AnimalCard;

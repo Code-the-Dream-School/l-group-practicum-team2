@@ -1,28 +1,15 @@
-import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import { useFavorite } from "../../contexts/FavoriteContext";
 
 function Heart({ animalId }) {
-  const { isFavorite, handleAddFavorite, handleRemoveFavorite } = useFavorite();
-  const navigate = useNavigate();
+  const { isFavorite, requestToggleFavorite } = useFavorite();
   const favorite = isFavorite(animalId);
 
   function handleClick(event) {
     event.preventDefault();
     event.stopPropagation();
 
-    const token = localStorage.getItem("token");
-
-    if (!token) {
-      navigate("/login");
-      return;
-    }
-
-    if (favorite) {
-      handleRemoveFavorite(animalId);
-    } else {
-      handleAddFavorite(animalId);
-    }
+    requestToggleFavorite(animalId);
   }
 
   return (
