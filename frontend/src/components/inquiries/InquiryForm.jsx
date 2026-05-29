@@ -1,13 +1,10 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { addInquiry } from "../../services/inquiryService";
 
 const MIN_MESSAGE_LENGTH = 10;
 
-function InquiryForm({ animalId, onSuccess, onCancel }) {
+function InquiryForm({ animalId, requestAddInquiry, onHide, isSubmitting }) {
   const [message, setMessage] = useState("");
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState(null);
   const [validationError, setValidationError] = useState(null);
 
   const validate = (value) => {
@@ -37,21 +34,11 @@ function InquiryForm({ animalId, onSuccess, onCancel }) {
       return;
     }
 
-    setSubmitting(true);
-    setError(null);
-
-    try {
-      const result = await addInquiry({
-        animalId,
-        message: message.trim(),
-      });
-      onSuccess(result.data);
-    } catch (err) {
-      console.error("Failed to send inquiry:", err);
-      setError(err.message || "Something went wrong. Please try again.");
-    } finally {
-      setSubmitting(false);
-    }
+    await requestAddInquiry({
+      animalId,
+      message: message.trim(),
+    });
+    onHide();
   };
 
   return (
@@ -69,7 +56,7 @@ function InquiryForm({ animalId, onSuccess, onCancel }) {
         rows={5}
         minLength={MIN_MESSAGE_LENGTH}
         required
-        disabled={submitting}
+        disabled={isSubmitting}
         aria-invalid={Boolean(validationError)}
         aria-describedby="inquiry-help"
       />
@@ -85,26 +72,22 @@ function InquiryForm({ animalId, onSuccess, onCancel }) {
         </p>
       )}
 
-      {error && (
-        <p className="inquiry-form-error" role="alert">
-          {error}
-        </p>
-      )}
-
       <div className="inquiry-form-actions">
-        {onCancel && (
-          <button
-            type="button"
-            className="btn btn-secondary"
-            onClick={onCancel}
-            disabled={submitting}
-          >
-            Cancel
-          </button>
-        )}
+        <button
+          type="button"
+          className="btn btn-secondary"
+          onClick={onHide}
+          disabled={isSubmitting}
+        >
+          Cancel
+        </button>
 
-        <button type="submit" className="btn btn-primary" disabled={submitting}>
-          {submitting ? "Sending..." : "Send Inquiry"}
+        <button
+          type="submit"
+          className="btn btn-primary"
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? "Sending..." : "Send Inquiry"}
         </button>
       </div>
     </form>
