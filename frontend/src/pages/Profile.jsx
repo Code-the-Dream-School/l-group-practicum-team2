@@ -24,7 +24,6 @@ function Profile() {
   const [passwordLoading, setPasswordLoading] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
 
-  const [profileError, setProfileError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [deleteError, setDeleteError] = useState("");
 
@@ -43,7 +42,6 @@ function Profile() {
     setShowNameModal(false);
     setName("");
     setProfilePassword("");
-    setProfileError("");
   };
 
   const handleClosePasswordModal = () => {
@@ -58,13 +56,11 @@ function Profile() {
     setShowDeleteModal(false);
     setDeleteConfirmText("");
     setDeletePassword("");
-    setDeleteError("");
   };
 
   const handleProfileUpdate = async (e) => {
     e.preventDefault();
 
-    setProfileError("");
     setProfileLoading(true);
 
     try {
@@ -74,7 +70,6 @@ function Profile() {
       });
 
       if (!success) {
-        setProfileError("Profile update failed.");
         addNotification("danger", "Profile update failed.");
         return;
       }
@@ -82,7 +77,7 @@ function Profile() {
       addNotification("success", "Profile updated successfully");
       handleCloseNameModal();
     } catch (err) {
-      setProfileError(err.message || "Something went wrong");
+      addNotification("danger", err.message || "Something went wrong");
     } finally {
       setProfileLoading(false);
     }
@@ -107,7 +102,6 @@ function Profile() {
       });
 
       if (!success) {
-        setPasswordError("Password update failed.");
         addNotification("danger", "Password update failed.");
         return;
       }
@@ -115,7 +109,7 @@ function Profile() {
       addNotification("success", "Password updated successfully");
       handleClosePasswordModal();
     } catch (err) {
-      setPasswordError(err.message || "Something went wrong");
+      addNotification("danger", err.message || "Something went wrong");
     } finally {
       setPasswordLoading(false);
     }
@@ -139,12 +133,6 @@ function Profile() {
 
     const result = await handleDelete(deletePassword);
 
-    if (!result.success) {
-      setDeleteError(result.message);
-      setDeleteLoading(false);
-      return;
-    }
-
     setDeleteLoading(false);
   };
 
@@ -167,17 +155,6 @@ function Profile() {
             <h5 className="mb-1">Email</h5>
             <p className="text-muted mb-0">{user?.email}</p>
           </div>
-        </div>
-
-        <div className="d-flex justify-content-between align-items-center mb-3">
-          <div>
-            <h5 className="mb-1">Email</h5>
-            <p className="text-muted mb-0">user@example.com</p>
-          </div>
-
-          <Button variant="outline-primary" size="sm">
-            Edit
-          </Button>
         </div>
       </Card>
 
@@ -255,8 +232,6 @@ function Profile() {
                 onChange={(e) => setProfilePassword(e.target.value)}
               />
             </Form.Group>
-
-            {profileError && <p className="text-danger mt-3">{profileError}</p>}
           </Modal.Body>
 
           <Modal.Footer>
