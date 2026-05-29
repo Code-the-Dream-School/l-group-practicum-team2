@@ -14,6 +14,7 @@ import {
 import { useAuth } from "./AuthContext";
 import { useAnimal } from "./AnimalContext";
 import { useNotification } from "./NotificationContext";
+import PropTypes from "prop-types";
 
 const FavoriteContext = createContext();
 
@@ -32,6 +33,10 @@ export const FavoriteProvider = ({ children }) => {
   );
 
   const getFavorites = useCallback(async () => {
+    if (!user) {
+      setFavoriteIds([]);
+      return;
+    }
     setError(null);
     setLoading(true);
     try {
@@ -48,7 +53,7 @@ export const FavoriteProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [user]);
   const handleAddFavorite = async (animalId) => {
     setLoading(true);
 
@@ -113,12 +118,11 @@ export const FavoriteProvider = ({ children }) => {
   );
 
   useEffect(() => {
-    if (!user) {
-      setFavoriteIds([]);
-      return;
-    }
-    getFavorites();
-  }, [user]);
+    const loadFavorites = async () => {
+      getFavorites();
+    };
+    loadFavorites();
+  }, [getFavorites]);
 
   useEffect(() => {
     if (!user || !pendingFavoriteId) return;
@@ -148,6 +152,9 @@ export const FavoriteProvider = ({ children }) => {
       {children}
     </FavoriteContext.Provider>
   );
+};
+FavoriteProvider.propTypes = {
+  children: PropTypes.node.isRequired,
 };
 
 export const useFavorite = () => useContext(FavoriteContext);

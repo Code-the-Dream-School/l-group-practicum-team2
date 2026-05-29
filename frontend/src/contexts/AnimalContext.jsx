@@ -3,12 +3,14 @@ import React, {
   useContext,
   useEffect,
   useState,
+  useCallback,
   useMemo,
 } from "react";
 import { fetchAnimals } from "../services/animalService";
 import { useSearchParams } from "react-router-dom";
 import { equalsCI } from "../utils/equalsCI";
 import { useNotification } from "./NotificationContext";
+import PropTypes from "prop-types";
 
 const AnimalContext = createContext();
 export const AnimalProvider = ({ children }) => {
@@ -18,7 +20,7 @@ export const AnimalProvider = ({ children }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { addNotification } = useNotification();
 
-  const getAnimals = async () => {
+  const getAnimals = useCallback(async () => {
     setLoading(true);
     setError(null);
 
@@ -36,7 +38,7 @@ export const AnimalProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   const getAnimalById = (id) => {
     return animals.find((animal) => String(animal.id) === String(id)) || null;
@@ -66,18 +68,26 @@ export const AnimalProvider = ({ children }) => {
 
   const clearFilters = () => setSearchParams({});
 
-  const filteredAnimals = animals.filter((animal) => {
-    if (filters.species && !equalsCI(animal.species, filters.species))
-      return false;
-    if (filters.size && !equalsCI(animal.size, filters.size)) return false;
-    if (
-      filters.ageCategory &&
-      !equalsCI(animal.age_category, filters.ageCategory)
-    )
-      return false;
-    if (filters.specialNeeds && !animal.special_needs) return false;
-    return true;
-  });
+  const filteredAnimals = useMemo(() => {
+    return animals.filter((animal) => {
+      if (filters.species && !equalsCI(animal.species, filters.species))
+        return false;
+      if (filters.size && !equalsCI(animal.size, filters.size)) return false;
+      if (
+        filters.ageCategory &&
+        !equalsCI(animal.age_category, filters.ageCategory)
+      )
+        return false;
+      if (filters.specialNeeds && !animal.special_needs) return false;
+      return true;
+    });
+  }, [
+    animals,
+    filters.ageCategory,
+    filters.size,
+    filters.specialNeeds,
+    filters.species,
+  ]);
 
   const specialNeedsAnimals = animals.filter((a) => a.special_needs);
 
@@ -88,8 +98,11 @@ export const AnimalProvider = ({ children }) => {
     filters.specialNeeds;
 
   useEffect(() => {
-    getAnimals();
-  }, []);
+    const loadAnimals = async () => {
+      getAnimals();
+    };
+    loadAnimals();
+  }, [getAnimals]);
 
   return (
     <AnimalContext.Provider
@@ -111,4 +124,7 @@ export const AnimalProvider = ({ children }) => {
   );
 };
 
+AnimalProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+};
 export const useAnimal = () => useContext(AnimalContext);

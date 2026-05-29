@@ -1,4 +1,5 @@
 import Spinner from "react-bootstrap/Spinner";
+import PropTypes from "prop-types";
 
 export default function LoadingSpinner({ message }) {
   return (
@@ -16,3 +17,6 @@ export default function LoadingSpinner({ message }) {
     </div>
   );
 }
+LoadingSpinner.propTypes = {
+  message: PropTypes.string,
+};

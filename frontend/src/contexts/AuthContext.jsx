@@ -1,6 +1,13 @@
 import PropTypes from "prop-types";
-import React, { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+} from "react";
+
 import {
   deleteAccount,
   fetchCurrentUser,
@@ -86,7 +93,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const getCurrentUser = async () => {
+  const getCurrentUser = useCallback(async () => {
     setLoading(true);
 
     try {
@@ -105,7 +112,7 @@ export const AuthProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   const handleDelete = async (currentPassword) => {
     setLoading(true);
@@ -171,33 +178,11 @@ export const AuthProvider = ({ children }) => {
   const closeAuthModal = () => setAuthModal(null);
 
   useEffect(() => {
-    let ignore = false;
-
-    fetchCurrentUser()
-      .then((data) => {
-        if (!ignore) {
-          setUser(data && data.user ? data.user : null);
-          setError(null);
-        }
-      })
-      .catch((error) => {
-        if (!ignore) {
-          console.error(error);
-          setError(error.message);
-          setUser(null);
-          localStorage.removeItem("token");
-        }
-      })
-      .finally(() => {
-        if (!ignore) {
-          setLoading(false);
-        }
-      });
-
-    return () => {
-      ignore = true;
+    const loadCurrentUser = async () => {
+      getCurrentUser();
     };
-  }, []);
+    loadCurrentUser();
+  }, [getCurrentUser]);
 
   return (
     <AuthContext.Provider

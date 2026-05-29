@@ -3,11 +3,11 @@ import { useAuth } from "../../contexts/AuthContext";
 import { Modal } from "react-bootstrap";
 import SignupModal from "./SignupModal";
 import LoginModal from "./LoginModal";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const AuthModal = () => {
   const location = useLocation();
-  const navigate = useNavigate();
+
   const {
     user,
     authModal,
@@ -17,7 +17,6 @@ const AuthModal = () => {
     logoutClicked,
     setLogoutClicked,
   } = useAuth();
-  const privatePathnames = ["/favorites", "/profile", "/profile/inquiries"];
 
   const handleHide = () => {
     closeAuthModal();
@@ -25,6 +24,7 @@ const AuthModal = () => {
   };
 
   useEffect(() => {
+    const privatePathnames = ["/favorites", "/profile", "/profile/inquiries"];
     if (
       !user &&
       !logoutClicked &&
@@ -34,7 +34,7 @@ const AuthModal = () => {
     ) {
       openLogin();
     }
-  }, [location.pathname, user, loading, logoutClicked, authModal]);
+  }, [location.pathname, user, loading, logoutClicked, authModal, openLogin]);
 
   return (
     <Modal show={authModal !== null} onHide={handleHide} size="md">

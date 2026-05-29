@@ -8,6 +8,7 @@ import React, {
 import { getUserInquiries, addInquiry } from "../services/inquiryService";
 import { useAuth } from "./AuthContext";
 import { useNotification } from "./NotificationContext";
+import PropTypes from "prop-types";
 
 const InquiryContext = createContext();
 
@@ -21,6 +22,10 @@ export const InquiryProvider = ({ children }) => {
   const { user, openLogin } = useAuth();
 
   const getInquiries = useCallback(async () => {
+    if (!user) {
+      setInquiries([]);
+      return;
+    }
     setError(null);
     setLoading(true);
     try {
@@ -37,27 +42,32 @@ export const InquiryProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [user]);
 
-  const handleAddInquiry = async ({ animalId, message }) => {
-    setLoading(true);
+  const handleAddInquiry = useCallback(
+    async ({ animalId, message }) => {
+      setLoading(true);
 
-    try {
-      await addInquiry({ animalId, message });
-      await getInquiries();
-      addNotification("success", "Inquiry sent successfully");
-    } catch (error) {
-      setError(error.message || "Something went wrong while adding inquiries");
-      addNotification(
-        "danger",
-        error.message
-          ? `An error has occurred while sending an inquiry: ${error.message}`
-          : "Something went wrong while sending an inquiry"
-      );
-    } finally {
-      setLoading(false);
-    }
-  };
+      try {
+        await addInquiry({ animalId, message });
+        await getInquiries();
+        addNotification("success", "Inquiry sent successfully");
+      } catch (error) {
+        setError(
+          error.message || "Something went wrong while adding inquiries"
+        );
+        addNotification(
+          "danger",
+          error.message
+            ? `An error has occurred while sending an inquiry: ${error.message}`
+            : "Something went wrong while sending an inquiry"
+        );
+      } finally {
+        setLoading(false);
+      }
+    },
+    [getInquiries]
+  );
   const requestAddInquiry = async (messageObj) => {
     if (!user) {
       setPendingMessageObj(messageObj);
@@ -68,12 +78,11 @@ export const InquiryProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    if (!user) {
-      setInquiries([]);
-      return;
-    }
-    getInquiries();
-  }, [user, getInquiries]);
+    const loadInquiries = async () => {
+      getInquiries();
+    };
+    loadInquiries();
+  }, [getInquiries]);
 
   useEffect(() => {
     if (!user || !pendingMessageObj) return;
@@ -84,7 +93,7 @@ export const InquiryProvider = ({ children }) => {
     };
 
     addPendingMessage();
-  }, [pendingMessageObj, user]);
+  }, [pendingMessageObj, user, handleAddInquiry]);
 
   return (
     <InquiryContext.Provider
@@ -99,5 +108,7 @@ export const InquiryProvider = ({ children }) => {
     </InquiryContext.Provider>
   );
 };
-
+InquiryProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+};
 export const useInquiry = () => useContext(InquiryContext);
