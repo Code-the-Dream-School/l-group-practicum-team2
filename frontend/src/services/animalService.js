@@ -23,7 +23,7 @@ export const fetchAnimals = async () => {
 };
 
 export async function fetchAnimalById(id) {
-  const response = await fetch(`/api/animals/${id}`);
+  const response = await fetch(`${BACKEND_API}/api/animals/${id}`);
 
   if (response.status === 404) {
     return null;
@@ -34,5 +34,5 @@ export async function fetchAnimalById(id) {
   }
 
   const data = await response.json();
-  return data;
+  return data.animal;
 }

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import InquiryModal from "../components/inquiries/InquiryModal";
 import LoadingSpinner from "../components/LoadingSpinner";
@@ -48,8 +48,20 @@ export default function AnimalDetail() {
   const [showInquiryModal, setShowInquiryModal] = useState(false);
   const [inquirySent, setInquirySent] = useState(false);
   const [successMessage, setSuccessMessage] = useState(null);
+  const [animal, setAnimal] = useState(undefined);
 
-  const animal = normalizeAnimal(getAnimalById(id));
+  useEffect(() => {
+    const loadAnimal = async () => {
+      try {
+        const data = await getAnimalById(id);
+        setAnimal(normalizeAnimal(data));
+      } catch (error) {
+        console.error("Error loading animal details:", error);
+        setAnimal(null);
+      }
+    };
+    loadAnimal();
+  }, [getAnimalById, id]);
 
   const handleSave = () => {
     if (!isUserLoggedIn()) {
@@ -80,7 +92,7 @@ export default function AnimalDetail() {
     setTimeout(() => setSuccessMessage(null), 5000);
   };
 
-  if (loading) {
+  if (loading || animal === undefined) {
     return (
       <main className="detail-page">
         <LoadingSpinner message="Loading animal details..." />
@@ -88,7 +100,7 @@ export default function AnimalDetail() {
     );
   }
 
-  if (!animal) {
+  if (animal === null) {
     return <NotFound />;
   }
 
