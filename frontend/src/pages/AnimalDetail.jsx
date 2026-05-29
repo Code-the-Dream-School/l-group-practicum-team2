@@ -31,6 +31,7 @@ function normalizeAnimal(data) {
     shelter_city: data.shelter_city || data.shelter?.city || null,
     shelter_email: data.shelter_email || data.shelter?.contact_email || null,
     shelter_phone: data.shelter_phone || data.shelter?.phone || null,
+    status: data.status || null,
   };
 }
 
@@ -92,6 +93,7 @@ export default function AnimalDetail() {
   }
 
   const isSenior = animal.age_category?.toUpperCase() === "SENIOR";
+  const isAdopted = animal.status?.toUpperCase() === "ADOPTED";
 
   return (
     <main className="detail-page">
@@ -134,6 +136,10 @@ export default function AnimalDetail() {
 
               {isSenior && (
                 <span className="detail-badge secondary">Senior</span>
+              )}
+
+              {isAdopted && (
+                <span className="detail-badge adopted">Adopted</span>
               )}
             </div>
           </div>
@@ -199,7 +205,7 @@ export default function AnimalDetail() {
               type="button"
               className="btn btn-primary"
               onClick={handleInquire}
-              disabled={inquirySent}
+              disabled={inquirySent || isAdopted}
             >
               {inquirySent ? "Inquiry sent ✓" : "I'm Interested"}
             </button>
