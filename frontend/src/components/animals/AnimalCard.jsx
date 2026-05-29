@@ -30,7 +30,11 @@ function AnimalCard({ animal, isFavorite = false }) {
 
           <img
             src={animal.photo_url}
-            alt={animal.name || "Animal photo"}
+            alt={
+              animal.name
+                ? `${animal.name}, ${animal.species || "animal"}`
+                : "Adoptable animal"
+            }
             className="animal-card-image"
           />
         </div>

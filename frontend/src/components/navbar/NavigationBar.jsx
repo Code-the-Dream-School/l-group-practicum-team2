@@ -13,7 +13,7 @@ const NavigationBar = () => {
     <Navbar bg="light" variant="light">
       <Container className="px-3 py-5">
         <Navbar.Brand as={Link} to="/">
-          <Image src={logo} alt="Logo" width={300} />
+          <Image src={logo} alt="PawMatch logo" width={300} />
           <div className="mt-3">Find your perfect companion</div>
         </Navbar.Brand>
 
