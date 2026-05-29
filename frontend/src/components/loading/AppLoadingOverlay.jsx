@@ -6,11 +6,17 @@ import { useInquiry } from "../../contexts/InquiryContext"
 
 const AppLoadingOverlay = () => {
     const { loading: authLoading } = useAuth();
-    const { loading: favoritesLoading } = useFavorite();
+    const { loading: favoriteLoading } = useFavorite();
     const { loading: animalLoading } = useAnimal();
     const { loading: inquiryLoading } = useInquiry();
 
-    if(authLoading || favoritesLoading || animalLoading || inquiryLoading){
+    const isLoading =
+        animalLoading ||
+        authLoading ||
+        inquiryLoading || 
+        favoriteLoading;
+
+    if(isLoading){
         return (
             <div style={{
                 position: 'fixed',
