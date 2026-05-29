@@ -36,13 +36,10 @@ function normalizeAnimal(data) {
   };
 }
 
-
 export default function AnimalDetail() {
   const { getAnimalById, loading } = useAnimal();
   const { id } = useParams();
   const navigate = useNavigate();
-
-
 
   const animal = normalizeAnimal(getAnimalById(id));
 
@@ -54,8 +51,6 @@ export default function AnimalDetail() {
 
     alert("Save action will be connected later.");
   };
-
-  
 
   if (loading) {
     return (
@@ -74,8 +69,6 @@ export default function AnimalDetail() {
 
   return (
     <main className="detail-page">
-      
-
       <div className="detail-back-link">
         <Link to="/">← Back to animals list</Link>
       </div>
@@ -169,14 +162,11 @@ export default function AnimalDetail() {
             >
               Save
             </button>
-              
+
             <InquiryButton animalName={animal.name} animalId={animal.id} />
-            
           </div>
         </div>
       </section>
-
-      
     </main>
   );
 }

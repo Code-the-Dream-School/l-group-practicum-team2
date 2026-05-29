@@ -48,17 +48,24 @@ export const InquiryProvider = ({ children }) => {
     async ({ animalId, message }) => {
       setLoading(true);
 
-    try {
-      await addInquiry({ animalId, message });
-      await getInquiries();
-      addNotification("success",  "Your inquiry has been sent! The shelter will contact you soon.");
-    } catch (error) {
-      addNotification("danger",  error.message || "Something went wrong. Please try again.");
-      
-    } finally {
-      setLoading(false);
-    }
-  },[getInquiries]);
+      try {
+        await addInquiry({ animalId, message });
+        await getInquiries();
+        addNotification(
+          "success",
+          "Your inquiry has been sent! The shelter will contact you soon."
+        );
+      } catch (error) {
+        addNotification(
+          "danger",
+          error.message || "Something went wrong. Please try again."
+        );
+      } finally {
+        setLoading(false);
+      }
+    },
+    [getInquiries]
+  );
 
   const requestAddInquiry = async (messageObj) => {
     if (!user) {

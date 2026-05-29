@@ -2,7 +2,14 @@ import { Modal } from "react-bootstrap";
 import PropTypes from "prop-types";
 import InquiryForm from "./InquiryForm";
 
-function InquiryModal({ show, onHide, animalId, animalName, isSubmitting, requestAddInquiry }) {
+function InquiryModal({
+  show,
+  onHide,
+  animalId,
+  animalName,
+  isSubmitting,
+  requestAddInquiry,
+}) {
   return (
     <Modal show={show} onHide={onHide} centered backdrop="static">
       <Modal.Header closeButton>

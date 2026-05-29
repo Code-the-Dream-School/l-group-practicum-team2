@@ -34,13 +34,11 @@ function InquiryForm({ animalId, requestAddInquiry, onHide, isSubmitting }) {
       return;
     }
 
-
-      await requestAddInquiry({
-        animalId,
-        message: message.trim(),
-      });
-      onHide();
-    
+    await requestAddInquiry({
+      animalId,
+      message: message.trim(),
+    });
+    onHide();
   };
 
   return (
@@ -75,18 +73,20 @@ function InquiryForm({ animalId, requestAddInquiry, onHide, isSubmitting }) {
       )}
 
       <div className="inquiry-form-actions">
-       
-          <button
-            type="button"
-            className="btn btn-secondary"
-            onClick={onHide}
-            disabled={isSubmitting}
-          >
-            Cancel
-          </button>
-       
+        <button
+          type="button"
+          className="btn btn-secondary"
+          onClick={onHide}
+          disabled={isSubmitting}
+        >
+          Cancel
+        </button>
 
-        <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
+        <button
+          type="submit"
+          className="btn btn-primary"
+          disabled={isSubmitting}
+        >
           {isSubmitting ? "Sending..." : "Send Inquiry"}
         </button>
       </div>
