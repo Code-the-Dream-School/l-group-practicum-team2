@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import LoadingSpinner from "../components/LoadingSpinner";
 import ShelterInfo from "../components/shelters/ShelterInfo";
 import { useAnimal } from "../contexts/AnimalContext";
 import { useFavorite } from "../contexts/FavoriteContext";
@@ -61,14 +60,6 @@ export default function AnimalDetail() {
     requestToggleFavorite(animal.id);
   };
 
-  if (loading || animal === undefined) {
-    return (
-      <main className="detail-page">
-        <title>Animal Details - PawMatch</title>
-        <LoadingSpinner message="Loading animal details..." />
-      </main>
-    );
-  }
 
   if (!loading && animal === null) {
     return <NotFound />;
@@ -165,6 +156,7 @@ export default function AnimalDetail() {
             shelter_phone={animal.shelter_phone}
           />
 
+              
           <div className="detail-actions">
             <button
               type="button"
