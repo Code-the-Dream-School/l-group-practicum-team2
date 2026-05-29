@@ -6,6 +6,7 @@ import ShelterInfo from "../components/shelters/ShelterInfo";
 import { useAnimal } from "../contexts/AnimalContext";
 import { formatLabel } from "../utils/formatLabel";
 import NotFound from "./NotFound";
+import InquiryButton from "../components/inquiries/InquiryButton";
 
 function normalizeAnimal(data) {
   if (!data) return null;
@@ -33,10 +34,6 @@ function normalizeAnimal(data) {
     shelter_phone: data.shelter_phone || data.shelter?.phone || null,
     status: data.status || null,
   };
-}
-
-function isUserLoggedIn() {
-  return Boolean(localStorage.getItem("token"));
 }
 
 export default function AnimalDetail() {
@@ -100,7 +97,7 @@ export default function AnimalDetail() {
     );
   }
 
-  if (animal === null) {
+  if (!loading && animal === null) {
     return <NotFound />;
   }
 
@@ -109,16 +106,6 @@ export default function AnimalDetail() {
 
   return (
     <main className="detail-page">
-      {successMessage && (
-        <div
-          className="inquiry-toast inquiry-toast-success"
-          role="status"
-          aria-live="polite"
-        >
-          {successMessage}
-        </div>
-      )}
-
       <div className="detail-back-link">
         <Link to="/">← Back to animals list</Link>
       </div>
@@ -159,7 +146,7 @@ export default function AnimalDetail() {
           <div className="detail-meta-grid">
             <div className="detail-meta-card">
               <span className="detail-label">Age</span>
-              <strong>{animal.age_years} yrs</strong>
+              <strong>{Math.floor(animal.age_years)} yrs</strong>
             </div>
 
             <div className="detail-meta-card">
@@ -213,25 +200,10 @@ export default function AnimalDetail() {
               Save
             </button>
 
-            <button
-              type="button"
-              className="btn btn-primary"
-              onClick={handleInquire}
-              disabled={inquirySent || isAdopted}
-            >
-              {inquirySent ? "Inquiry sent ✓" : "I'm Interested"}
-            </button>
+            <InquiryButton animalName={animal.name} animalId={animal.id} />
           </div>
         </div>
       </section>
-
-      <InquiryModal
-        show={showInquiryModal}
-        onHide={() => setShowInquiryModal(false)}
-        animalId={animal.id}
-        animalName={animal.name}
-        onSuccess={handleInquirySuccess}
-      />
     </main>
   );
 }

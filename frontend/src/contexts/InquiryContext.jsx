@@ -29,9 +29,9 @@ export const InquiryProvider = ({ children }) => {
     setError(null);
     setLoading(true);
     try {
-      const data = await getUserInquiries();
+      const res = await getUserInquiries();
 
-      setInquiries(data);
+      setInquiries(res.data);
     } catch (error) {
       addNotification(
         "danger",
@@ -51,16 +51,14 @@ export const InquiryProvider = ({ children }) => {
       try {
         await addInquiry({ animalId, message });
         await getInquiries();
-        addNotification("success", "Inquiry sent successfully");
-      } catch (error) {
-        setError(
-          error.message || "Something went wrong while adding inquiries"
+        addNotification(
+          "success",
+          "Your inquiry has been sent! The shelter will contact you soon."
         );
+      } catch (error) {
         addNotification(
           "danger",
-          error.message
-            ? `An error has occurred while sending an inquiry: ${error.message}`
-            : "Something went wrong while sending an inquiry"
+          error.message || "Something went wrong. Please try again."
         );
       } finally {
         setLoading(false);
@@ -68,6 +66,7 @@ export const InquiryProvider = ({ children }) => {
     },
     [getInquiries]
   );
+
   const requestAddInquiry = async (messageObj) => {
     if (!user) {
       setPendingMessageObj(messageObj);
