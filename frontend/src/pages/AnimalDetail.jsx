@@ -37,7 +37,7 @@ function normalizeAnimal(data) {
 }
 
 export default function AnimalDetail() {
-  const { getAnimalById, loading } = useAnimal();
+  const { getAnimalById, loading: singleAnimaLoading } = useAnimal();
   const { id } = useParams();
   const { requestToggleFavorite, isFavorite } = useFavorite();
 
@@ -60,12 +60,12 @@ export default function AnimalDetail() {
     requestToggleFavorite(animal.id);
   };
 
-  if(loading || !animal){
-    return <AnimalListPlaceholder />
+  if(singleAnimaLoading || !animal){
+    return <AnimalPlaceholder />
 
   }
 
-  if (!loading && animal === null) {
+  if (!singleAnimaLoading && animal === null) {
     return <NotFound />;
   }
 
