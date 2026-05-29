@@ -1,6 +1,4 @@
 import Carousel from "react-bootstrap/Carousel";
-import Toast from "react-bootstrap/Toast";
-import { useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import AnimalCard from "./AnimalCard";
 import { HeartFill } from "react-bootstrap-icons";
@@ -12,15 +10,7 @@ const SpecialNeedCarousel = () => {
   const { animals, loading, error } = useAnimal();
 
   const specialNeedsAnimals = animals.filter((a) => a.special_needs);
-  const [show, setShow] = useState(false);
 
-  // uncomment when detail page integrated with AnimalContext is merged
-  // const navigate = useNavigate();
-  const handleClick = () => {
-    setShow(true);
-    // uncomment when detail page integrated with AnimalContext is merged
-    // navigate(`/animals/${id}`);
-  };
   if (loading)
     return <LoadingSpinner message="Loading special needs companions..." />;
 
@@ -55,10 +45,6 @@ const SpecialNeedCarousel = () => {
           Senior and special needs companions waiting for a home
         </Col>
       </Row>
-
-      <Toast onClose={() => setShow(false)} show={show} delay={2000} autohide>
-        <Toast.Body>Coming soon</Toast.Body>
-      </Toast>
 
       {error && (
         <ErrorMessage

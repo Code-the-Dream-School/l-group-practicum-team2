@@ -1,5 +1,4 @@
 import { Form } from "react-bootstrap";
-import { useState } from "react";
 import PropTypes from "prop-types";
 
 const NameInputBox = ({ name, setName, nameError, setNameError }) => {

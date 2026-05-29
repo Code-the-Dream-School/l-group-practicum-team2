@@ -9,7 +9,6 @@ const {
 } = require('../errors');
 
 const register = async (req, res, next) => {
-
   try {
     const { name, email, password } = req.body;
 
@@ -49,7 +48,7 @@ const register = async (req, res, next) => {
 
     return res.status(StatusCodes.CREATED).json({
       token,
-      user
+      user,
     });
   } catch (error) {
     next(error);
@@ -96,7 +95,7 @@ const login = async (req, res, next) => {
       user: {
         id: user.id,
         name: user.name,
-        email
+        email,
       },
     });
   } catch (error) {
@@ -115,7 +114,7 @@ const updateProfile = async (req, res, next) => {
     if (!name && !newPassword) {
       throw new BadRequestError('Please provide a name or new password');
     }
-    if(name !== undefined && name.trim() === ''){
+    if (name !== undefined && name.trim() === '') {
       throw new BadRequestError('Name cannot be empty');
     }
     if (newPassword !== undefined && newPassword.trim() === '') {
@@ -140,7 +139,9 @@ const updateProfile = async (req, res, next) => {
 
     if (newPassword) {
       if (newPassword.length < 6) {
-        throw new BadRequestError('Password must be at least 6 characters long');
+        throw new BadRequestError(
+          'Password must be at least 6 characters long'
+        );
       }
 
       const passwordRegex = /^[a-zA-Z0-9]+$/;
@@ -156,75 +157,61 @@ const updateProfile = async (req, res, next) => {
       updatedPasswordHash = await bcrypt.hash(newPassword, 10);
     }
 
-   
-const updatedUser = await pool.query(
-    `UPDATE users
+    const updatedUser = await pool.query(
+      `UPDATE users
     SET name = COALESCE($1, name),
         password_hash = $2
     WHERE id = $3
     RETURNING id, name, email`,
-    [name, updatedPasswordHash, req.user.id]
-);
+      [name, updatedPasswordHash, req.user.id]
+    );
 
     return res.status(StatusCodes.OK).json({
-        user: updatedUser.rows[0],
-        message: 
-          newPassword ? "Password updated successfully" : "Profile updated successfully"
-    })
+      user: updatedUser.rows[0],
+      message: newPassword
+        ? 'Password updated successfully'
+        : 'Profile updated successfully',
+    });
   } catch (error) {
     next(error);
   }
 };
 
 const deleteAccount = async (req, res, next) => {
-    try {
-        const { currentPassword } = req.body;
+  try {
+    const { currentPassword } = req.body;
 
-        if (!currentPassword) {
-            return next(
-                new BadRequestError(
-                    'Current password is required'
-                )
-            );
-        }
+    if (!currentPassword) {
+      return next(new BadRequestError('Current password is required'));
+    }
 
-       const result = await pool.query(
-    'SELECT id, password_hash FROM users WHERE id = $1',
-    [req.user.id]
-);
-
-const user = result.rows[0];
-
-if (!user) {
-   throw new UnauthenticatedError('Invalid credentials');
-}
-
-const isMatch = await bcrypt.compare(
-    currentPassword,
-    user.password_hash
-);
-
-if (!isMatch) {
-    return next(
-        new UnauthenticatedError('Invalid credentials')
+    const result = await pool.query(
+      'SELECT id, password_hash FROM users WHERE id = $1',
+      [req.user.id]
     );
-}
 
+    const user = result.rows[0];
 
-
-await pool.query(
-    'DELETE FROM users WHERE id = $1',
-    [req.user.id]
-);
-
-return res.status(StatusCodes.OK).json({
-    data: {
-        message: 'User account deleted successfully'
+    if (!user) {
+      throw new UnauthenticatedError('Invalid credentials');
     }
-});
-    } catch (error) {
-       next(error); 
+
+    const isMatch = await bcrypt.compare(currentPassword, user.password_hash);
+
+    if (!isMatch) {
+      return next(new UnauthenticatedError('Invalid credentials'));
     }
+
+    await pool.query('DELETE FROM users WHERE id = $1', [req.user.id]);
+
+    return res.status(StatusCodes.OK).json({
+      data: {
+        message: 'User account deleted successfully',
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
 const getCurrentUser = (req, res) => {
@@ -235,4 +222,10 @@ const getCurrentUser = (req, res) => {
   });
 };
 
-module.exports = { register, login, updateProfile, getCurrentUser, deleteAccount };
+module.exports = {
+  register,
+  login,
+  updateProfile,
+  getCurrentUser,
+  deleteAccount,
+};
