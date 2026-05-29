@@ -59,7 +59,8 @@ export const InquiryProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  };
+  },[getInquiries]);
+  
   const requestAddInquiry = async (messageObj) => {
     if (!user) {
       setPendingMessageObj(messageObj);
