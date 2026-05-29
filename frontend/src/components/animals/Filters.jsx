@@ -70,9 +70,11 @@ Filters.propTypes = {
   species: PropTypes.string.isRequired,
   size: PropTypes.string.isRequired,
   age: PropTypes.string.isRequired,
+  specialNeeds: PropTypes.bool.isRequired,
   onSpeciesChange: PropTypes.func.isRequired,
   onSizeChange: PropTypes.func.isRequired,
   onAgeChange: PropTypes.func.isRequired,
+  onSpecialNeedsChange: PropTypes.func.isRequired,
 };
 
 export default Filters;

@@ -2,15 +2,12 @@ const BACKEND_API = import.meta.env.VITE_API_BASE_URL;
 
 export const fetchAnimals = async () => {
   try {
-    const response = await fetch(
-      `${BACKEND_API}/api/animals?status=available`,
-      {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-        },
-      }
-    );
+    const response = await fetch(`${BACKEND_API}/api/animals`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+      },
+    });
 
     const data = await response.json();
 
@@ -26,7 +23,7 @@ export const fetchAnimals = async () => {
 };
 
 export async function fetchAnimalById(id) {
-  const response = await fetch(`/api/animals/${id}`);
+  const response = await fetch(`${BACKEND_API}/api/animals/${id}`);
 
   if (response.status === 404) {
     return null;
@@ -37,5 +34,5 @@ export async function fetchAnimalById(id) {
   }
 
   const data = await response.json();
-  return data;
+  return data.animal;
 }

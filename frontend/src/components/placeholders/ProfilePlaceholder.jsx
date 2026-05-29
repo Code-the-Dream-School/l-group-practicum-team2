@@ -1,4 +1,4 @@
-import { Placeholder, Row, Col, Button } from "react-bootstrap";
+import { Placeholder, Row, Col } from "react-bootstrap";
 
 const ProfilePlaceholder = () => {
   return (

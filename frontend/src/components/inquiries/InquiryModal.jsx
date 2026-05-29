@@ -2,7 +2,14 @@ import { Modal } from "react-bootstrap";
 import PropTypes from "prop-types";
 import InquiryForm from "./InquiryForm";
 
-function InquiryModal({ show, onHide, animalId, animalName, onSuccess }) {
+function InquiryModal({
+  show,
+  onHide,
+  animalId,
+  animalName,
+  isSubmitting,
+  requestAddInquiry,
+}) {
   return (
     <Modal show={show} onHide={onHide} centered backdrop="static">
       <Modal.Header closeButton>
@@ -14,8 +21,9 @@ function InquiryModal({ show, onHide, animalId, animalName, onSuccess }) {
       <Modal.Body>
         <InquiryForm
           animalId={animalId}
-          onSuccess={onSuccess}
-          onCancel={onHide}
+          requestAddInquiry={requestAddInquiry}
+          onHide={onHide}
+          isSubmitting={isSubmitting}
         />
       </Modal.Body>
     </Modal>
@@ -28,7 +36,8 @@ InquiryModal.propTypes = {
   animalId: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
     .isRequired,
   animalName: PropTypes.string,
-  onSuccess: PropTypes.func.isRequired,
+  isSubmitting: PropTypes.bool.isRequired,
+  requestAddInquiry: PropTypes.func.isRequired,
 };
 
 export default InquiryModal;
