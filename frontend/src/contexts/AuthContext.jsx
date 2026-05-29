@@ -1,12 +1,5 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 import PropTypes from "prop-types";
-import React, { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-=======
-import React, { createContext, useContext, useEffect, useState, useCallback } from "react";
->>>>>>> 00a02f03 (import useCallback)
-=======
 import React, {
   createContext,
   useContext,
@@ -14,7 +7,7 @@ import React, {
   useState,
   useCallback,
 } from "react";
->>>>>>> 4780e680 (run prettier format)
+
 import {
   deleteAccount,
   fetchCurrentUser,
