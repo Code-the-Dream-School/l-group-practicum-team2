@@ -6,7 +6,7 @@ import React, {
   useCallback,
   useMemo,
 } from "react";
-import { fetchAnimals } from "../services/animalService";
+import { fetchAnimals, fetchAnimalById } from "../services/animalService";
 import { useSearchParams } from "react-router-dom";
 import { equalsCI } from "../utils/equalsCI";
 import { useNotification } from "./NotificationContext";
@@ -40,9 +40,28 @@ export const AnimalProvider = ({ children }) => {
     }
   }, []);
 
-  const getAnimalById = (id) => {
-    return animals.find((animal) => String(animal.id) === String(id)) || null;
-  };
+  const getAnimalById = useCallback(async (id) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const animal = await fetchAnimalById(id);
+      if (!animal) {
+        throw new Error("Animal not found");
+      }
+      return animal;
+    } catch (error) {
+      setError(error.message || "Something went wrong while fetching animal");
+      addNotification(
+        "danger",
+        error.message
+          ? `An error has occurred while fetching animal: ${error.message}`
+          : "Something went wrong while fetching animal"
+      );
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   const filters = useMemo(
     () => ({

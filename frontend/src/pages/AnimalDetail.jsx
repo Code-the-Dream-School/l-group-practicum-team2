@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import InquiryModal from "../components/inquiries/InquiryModal";
 import LoadingSpinner from "../components/LoadingSpinner";
@@ -41,7 +41,24 @@ export default function AnimalDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const animal = normalizeAnimal(getAnimalById(id));
+  // Inquiry state
+  const [showInquiryModal, setShowInquiryModal] = useState(false);
+  const [inquirySent, setInquirySent] = useState(false);
+  const [successMessage, setSuccessMessage] = useState(null);
+  const [animal, setAnimal] = useState(undefined);
+
+  useEffect(() => {
+    const loadAnimal = async () => {
+      try {
+        const data = await getAnimalById(id);
+        setAnimal(normalizeAnimal(data));
+      } catch (error) {
+        console.error("Error loading animal details:", error);
+        setAnimal(null);
+      }
+    };
+    loadAnimal();
+  }, [getAnimalById, id]);
 
   const handleSave = () => {
     if (!isUserLoggedIn()) {
@@ -52,7 +69,27 @@ export default function AnimalDetail() {
     alert("Save action will be connected later.");
   };
 
-  if (loading) {
+  const handleInquire = () => {
+    if (!isUserLoggedIn()) {
+      navigate("/login");
+      return;
+    }
+
+    setShowInquiryModal(true);
+  };
+
+  const handleInquirySuccess = () => {
+    setShowInquiryModal(false);
+    setInquirySent(true);
+    setSuccessMessage(
+      "Your inquiry has been sent! The shelter will contact you soon."
+    );
+
+    // Auto-hide toast after 5s
+    setTimeout(() => setSuccessMessage(null), 5000);
+  };
+
+  if (loading || animal === undefined) {
     return (
       <main className="detail-page">
         <LoadingSpinner message="Loading animal details..." />
@@ -60,7 +97,7 @@ export default function AnimalDetail() {
     );
   }
 
-  if (!loading && !animal) {
+  if (!loading && animal === null) {
     return <NotFound />;
   }
 
