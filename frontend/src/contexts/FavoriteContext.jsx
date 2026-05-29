@@ -14,6 +14,7 @@ import {
 import { useAuth } from "./AuthContext";
 import { useAnimal } from "./AnimalContext";
 import { useNotification } from "./NotificationContext";
+import PropTypes from "prop-types";
 
 const FavoriteContext = createContext();
 
