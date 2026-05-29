@@ -20,7 +20,6 @@ export const InquiryProvider = ({ children }) => {
   const { addNotification } = useNotification();
 
   const { user, openLogin } = useAuth();
-  const { addNotification } = useNotification();
 
   const getInquiries = useCallback(async () => {
     if (!user) {
@@ -60,7 +59,7 @@ export const InquiryProvider = ({ children }) => {
       setLoading(false);
     }
   },[getInquiries]);
-  
+
   const requestAddInquiry = async (messageObj) => {
     if (!user) {
       setPendingMessageObj(messageObj);
