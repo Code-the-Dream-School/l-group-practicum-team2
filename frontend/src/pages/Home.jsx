@@ -1,7 +1,12 @@
 import AnimalList from "../components/animals/AnimalList";
 import SpecialNeedCarousel from "../components/animals/SpecialNeedCarousel";
+import AnimalListPlaceholder from "../components/placeholders/AnimalListPlaceholder";
+import useGlobalLoading from "../components/loading/useGlobalLoading";
 
 const Home = () => {
+  const isLoading = useGlobalLoading();
+  if(isLoading)
+    return <AnimalListPlaceholder />;
   return (
     <div
       style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
