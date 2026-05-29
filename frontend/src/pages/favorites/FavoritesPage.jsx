@@ -8,6 +8,7 @@ function FavoritesPage() {
   return (
     <main className="app">
       <h1>Favorites</h1>
+      <title>My Favorites - PawMatch</title>
 
       {favoriteAnimals.length === 0 ? (
         <ErrorMessage message="You haven't saved any animals yet." />

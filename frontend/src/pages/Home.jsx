@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import AnimalList from "../components/animals/AnimalList";
 import SpecialNeedCarousel from "../components/animals/SpecialNeedCarousel";
 
@@ -7,6 +6,7 @@ const Home = () => {
     <div
       style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
     >
+      <title>Browse Animals - PawMatch</title>
       <SpecialNeedCarousel />
       <AnimalList />
     </div>
