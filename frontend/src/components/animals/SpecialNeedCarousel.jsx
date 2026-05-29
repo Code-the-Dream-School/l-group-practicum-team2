@@ -3,16 +3,12 @@ import { Col, Row } from "react-bootstrap";
 import AnimalCard from "./AnimalCard";
 import { HeartFill } from "react-bootstrap-icons";
 import ErrorMessage from "../ErrorMessage";
-import LoadingSpinner from "../LoadingSpinner";
 import { useAnimal } from "../../contexts/AnimalContext";
 
 const SpecialNeedCarousel = () => {
   const { animals, loading, error } = useAnimal();
 
   const specialNeedsAnimals = animals.filter((a) => a.special_needs);
-
-  if (loading)
-    return <LoadingSpinner message="Loading special needs companions..." />;
 
   return (
     <>
