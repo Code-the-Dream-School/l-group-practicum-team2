@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { Alert, Button, Card, Spinner } from "react-bootstrap";
+import { Button, Card } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useInquiry } from "../contexts/InquiryContext";
 
