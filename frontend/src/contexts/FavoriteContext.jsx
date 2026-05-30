@@ -19,7 +19,7 @@ import { useNotification } from "./NotificationContext";
 const FavoriteContext = createContext();
 
 export const FavoriteProvider = ({ children }) => {
-  const [loading, setLoading] = useState(false); // handle heart toggle loading
+  const [toggleHeartLoading, seToggletHeartLoading] = useState(false); // handle heart toggle loading
   const [favoritesLoading, setFavoritesLoading] = useState(false); // handle getFavorites loading
   const [favoriteIds, setFavoriteIds] = useState([]);
   const [pendingFavoriteId, setPendingFavoriteId] = useState(null);
@@ -41,8 +41,8 @@ export const FavoriteProvider = ({ children }) => {
     }
 
     setError(null);
-    setLoading(true);
-
+    setFavoritesLoading(true);
+    await new Promise((resolve)=>setTimeout(resolve, 3000))
     try {
       const data = await fetchFavorites();
       const ids = data.map((favorite) => favorite.id) || [];
@@ -60,72 +60,53 @@ export const FavoriteProvider = ({ children }) => {
           : "Something went wrong while fetching favorites"
       );
     } finally {
-      setLoading(false);
+      setFavoritesLoading(false);
     }
-  }, [user, addNotification]);
+  }, [user]);
+  const handleAddFavorite = async (animalId) => {
+    seToggletHeartLoading(true);
 
-  const handleAddFavorite = useCallback(
-    async (animalId) => {
-      if (favoriteIds.includes(animalId)) {
-        setPendingFavoriteId(null);
-        return;
-      }
+    try {
+      await addFavorite(animalId);
+      setFavoriteIds((prev) => [...prev, animalId]);
+      addNotification("success", "Favorite added successfully");
+    } catch (error) {
+      setError(error.message || "Something went wrong while adding favorites");
+      addNotification(
+        "danger",
+        error.message
+          ? `An error has occurred while adding a favorite: ${error.message}`
+          : "Something went wrong while adding a favorite"
+      );
+    } finally {
+      seToggletHeartLoading(false);
+    }
+  };
+  const handleRemoveFavorite = async (animalId) => {
+    seToggletHeartLoading(true);
 
-      setLoading(true);
+    try {
+      await removeFavorite(animalId);
+      setFavoriteIds((prev) => prev.filter((a) => a !== animalId));
+      addNotification("success", "Favorite removed successfully");
+    } catch (error) {
+      setError(
+        error.message || "Something went wrong while removing favorites"
+      );
+      addNotification(
+        "danger",
+        error.message
+          ? `An error has occurred while removing a favorite: ${error.message}`
+          : "Something went wrong while removing a favorite"
+      );
+    } finally {
+      seToggletHeartLoading(false);
+    }
+  };
 
-      try {
-        await addFavorite(animalId);
+   
 
-        setFavoriteIds((prev) =>
-          prev.includes(animalId) ? prev : [...prev, animalId]
-        );
-
-        addNotification("success", "Favorite added successfully");
-      } catch (error) {
-        setError(
-          error.message || "Something went wrong while adding favorites"
-        );
-
-        addNotification(
-          "danger",
-          error.message
-            ? `An error has occurred while adding a favorite: ${error.message}`
-            : "Something went wrong while adding a favorite"
-        );
-      } finally {
-        setLoading(false);
-      }
-    },
-    [addNotification, favoriteIds]
-  );
-
-  const handleRemoveFavorite = useCallback(
-    async (animalId) => {
-      setLoading(true);
-
-      try {
-        await removeFavorite(animalId);
-
-        setFavoriteIds((prev) => prev.filter((id) => id !== animalId));
-
-        addNotification("success", "Favorite removed successfully");
-      } catch (error) {
-        setError(
-          error.message || "Something went wrong while removing favorites"
-        );
-
-        addNotification(
-          "danger",
-          error.message
-            ? `An error has occurred while removing a favorite: ${error.message}`
-            : "Something went wrong while removing a favorite"
-        );
-      } finally {
-        setLoading(false);
-      }
-    },
-    [addNotification]
-  );
+  
 
   const toggleFavorite = useCallback(
     async (animalId) => {
@@ -186,13 +167,10 @@ export const FavoriteProvider = ({ children }) => {
     <FavoriteContext.Provider
       value={{
         favoriteAnimals,
-        favoriteIds,
-        handleAddFavorite,
-        handleRemoveFavorite,
         isFavorite,
-        setFavoriteIds,
         requestToggleFavorite,
-        loading,
+        toggletHeartLoading,
+        favoritesLoading,
         error,
       }}
     >
