@@ -15,14 +15,14 @@ function Heart({ animalId }) {
   if(heartLoadingIds.includes(animalId)){
     return (
       <button
-      type="button"
-      className={`favorite-button`}
-      disabled={true}
-      style={{cursor: 'not-allowed'}}
+        type="button"
+        className={`favorite-button`}
+        disabled={true}
+        style={{cursor: 'not-allowed'}}
 
-    >
-      <Spinner animation="border" size="sm" />
-    </button>
+      >
+        <Spinner animation="border" size="sm" />
+      </button>
     )
   }
   return (
