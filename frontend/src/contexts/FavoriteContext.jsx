@@ -19,7 +19,7 @@ import { useNotification } from "./NotificationContext";
 const FavoriteContext = createContext();
 
 export const FavoriteProvider = ({ children }) => {
-  const [toggleHeartLoading, seToggletHeartLoading] = useState(false); // handle heart toggle loading
+  const [toggleHeartLoading, setToggleHeartLoading] = useState(false); // handle heart toggle loading
   const [favoritesLoading, setFavoritesLoading] = useState(false); // handle getFavorites loading
   const [favoriteIds, setFavoriteIds] = useState([]);
   const [pendingFavoriteId, setPendingFavoriteId] = useState(null);
@@ -64,7 +64,7 @@ export const FavoriteProvider = ({ children }) => {
     }
   }, [user]);
   const handleAddFavorite = async (animalId) => {
-    seToggletHeartLoading(true);
+    setToggleHeartLoading(true);
 
     try {
       await addFavorite(animalId);
@@ -79,11 +79,11 @@ export const FavoriteProvider = ({ children }) => {
           : "Something went wrong while adding a favorite"
       );
     } finally {
-      seToggletHeartLoading(false);
+      setToggleHeartLoading(false);
     }
   };
   const handleRemoveFavorite = async (animalId) => {
-    seToggletHeartLoading(true);
+    setToggleHeartLoading(true);
 
     try {
       await removeFavorite(animalId);
@@ -100,7 +100,7 @@ export const FavoriteProvider = ({ children }) => {
           : "Something went wrong while removing a favorite"
       );
     } finally {
-      seToggletHeartLoading(false);
+      setToggleHeartLoading(false);
     }
   };
 
@@ -169,7 +169,7 @@ export const FavoriteProvider = ({ children }) => {
         favoriteAnimals,
         isFavorite,
         requestToggleFavorite,
-        toggletHeartLoading,
+        toggleHeartLoading,
         favoritesLoading,
         error,
       }}
