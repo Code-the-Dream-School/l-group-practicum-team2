@@ -1,55 +1,11 @@
 import { useEffect, useState } from "react";
 import { Alert, Button, Card, Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { getUserInquiries } from "../services/inquiryService";
+import { useInquiry } from "../contexts/InquiryContext";
 
 function InquiriesPage() {
+  const { inquiries } = useInquiry();
   const navigate = useNavigate();
-
-  const [inquiries, setInquiries] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    const loadInquiries = async () => {
-      setLoading(true);
-      setError("");
-
-      try {
-        const result = await getUserInquiries();
-        const sortedInquiries = [...result.data].sort(
-          (a, b) =>
-            new Date(b.created_at || b.createdAt) -
-            new Date(a.created_at || a.createdAt)
-        );
-
-        setInquiries(sortedInquiries);
-      } catch (err) {
-        setError(err.message || "Failed to load inquiries.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadInquiries();
-  }, []);
-
-  if (loading) {
-    return (
-      <main className="py-4">
-        <Spinner animation="border" />
-        <p className="mt-3">Loading your inquiries...</p>
-      </main>
-    );
-  }
-
-  if (error) {
-    return (
-      <main className="py-4">
-        <Alert variant="danger">{error}</Alert>
-      </main>
-    );
-  }
 
   return (
     <main className="py-4">
@@ -66,16 +22,12 @@ function InquiriesPage() {
       ) : (
         <div className="row g-4">
           {inquiries.map((inquiry) => {
-            const animalId = inquiry.animal_id || inquiry.animalId;
-            const animalName =
-              inquiry.animal_name || inquiry.animalName || "Animal";
-            const animalPhoto =
-              inquiry.animal_photo ||
-              inquiry.animalPhoto ||
-              inquiry.photo_url ||
-              inquiry.photoUrl;
+            const animalId = inquiry.animal_id;
+            const animalName = inquiry.animal_name;
+            const animalPhoto = inquiry.photo_url
+         
 
-            const submittedDate = inquiry.created_at || inquiry.createdAt;
+            const submittedDate = inquiry.created_at;
             const status = inquiry.status || "sent";
 
             return (
