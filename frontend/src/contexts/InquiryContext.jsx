@@ -13,7 +13,8 @@ import PropTypes from "prop-types";
 const InquiryContext = createContext();
 
 export const InquiryProvider = ({ children }) => {
-  const [loading, setLoading] = useState(false);
+  const [inquiriesLoading, setInquiriesLoading] = useState(false);
+  const [addInquiryloading, setAddInquiryloading] = useState(false);
   const [error, setError] = useState(null);
   const [inquiries, setInquiries] = useState([]);
   const [pendingMessageObj, setPendingMessageObj] = useState(null);
@@ -27,7 +28,7 @@ export const InquiryProvider = ({ children }) => {
       return;
     }
     setError(null);
-    setLoading(true);
+    setInquiriesLoading(true);
     try {
       const res = await getUserInquiries();
 
@@ -40,13 +41,13 @@ export const InquiryProvider = ({ children }) => {
           : "Something went wrong while fetching inquiries"
       );
     } finally {
-      setLoading(false);
+      setInquiriesLoading(false);
     }
   }, [user]);
 
   const handleAddInquiry = useCallback(
     async ({ animalId, message }) => {
-      setLoading(true);
+      setAddInquiryloading(true);
 
       try {
         await addInquiry({ animalId, message });
@@ -63,7 +64,7 @@ export const InquiryProvider = ({ children }) => {
         );
         return false;
       } finally {
-        setLoading(false);
+        setAddInquiryloading(false);
       }
     },
     [getInquiries]
@@ -101,7 +102,8 @@ export const InquiryProvider = ({ children }) => {
       value={{
         inquiries,
         requestAddInquiry,
-        loading,
+        inquiriesLoading,
+        addInquiryloading,
         error,
       }}
     >
