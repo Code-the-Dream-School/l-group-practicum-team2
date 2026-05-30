@@ -168,7 +168,7 @@ export const FavoriteProvider = ({ children }) => {
       setPendingFavoriteId(null);
 
       if(!favoriteIdsArray.includes(id))
-        await handleAddFavorite(targetId);
+        await handleAddFavorite(id);
     }
   }
   run();
