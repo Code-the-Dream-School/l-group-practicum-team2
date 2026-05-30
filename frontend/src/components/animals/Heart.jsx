@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import { useFavorite } from "../../contexts/FavoriteContext";
 import { Spinner } from "react-bootstrap";
 function Heart({ animalId }) {
-  const { isFavorite, requestToggleFavorite, heartLoadingIds } = useFavorite();
+  const { isFavorite, requestToggleFavorite, heartLoadingIds, favoritesLoading } = useFavorite();
   const favorite = isFavorite(animalId);
 
   function handleClick(event) {
@@ -12,7 +12,9 @@ function Heart({ animalId }) {
     requestToggleFavorite(animalId);
   }
 
-  if(heartLoadingIds.includes(animalId)){
+  if(heartLoadingIds.includes(animalId) || favoritesLoading){
+    // console.log("eartLoadingIds.includes(animalId)",heartLoadingIds.includes(animalId))
+    // console.log("favoritesLoading", favoritesLoading)
     return (
       <button
         type="button"
