@@ -48,6 +48,7 @@ export const FavoriteProvider = ({ children }) => {
       const ids = data.map((favorite) => favorite.id) || [];
 
       setFavoriteIds(ids);
+      return ids;
     } catch (error) {
       setError(
         error.message || "Something went wrong while fetching favorites"
@@ -62,9 +63,9 @@ export const FavoriteProvider = ({ children }) => {
     } finally {
       setFavoritesLoading(false);
     }
-  }, [user]);
+  }, [user, addNotification]);
 
-  const handleAddFavorite = async (animalId) => {
+  const handleAddFavorite = useCallback(async (animalId) => {
     setHeartLoadingIds(prev => [...prev, animalId]);
 
     try {
@@ -81,8 +82,9 @@ export const FavoriteProvider = ({ children }) => {
     } finally {
       setHeartLoadingIds(prev => prev.filter(id => id !== animalId));
     }
-  };
-  const handleRemoveFavorite = async (animalId) => {
+  }, [addNotification]);
+
+  const handleRemoveFavorite = useCallback(async (animalId) => {
     setHeartLoadingIds(prev => [...prev, animalId]);
 
     try {
@@ -99,22 +101,13 @@ export const FavoriteProvider = ({ children }) => {
     } finally {
       setHeartLoadingIds(prev => prev.filter(id => id !== animalId));
     }
-  };
+  },[addNotification]);
 
-   
-
+  const toggleFavorite = useCallback(async (animalId) => {
   
-
-  const toggleFavorite = useCallback(
-    async (animalId) => {
-      if (favoriteIds.includes(animalId)) {
-        await handleRemoveFavorite(animalId);
-      } else {
-        await handleAddFavorite(animalId);
-      }
-    },
-    [favoriteIds, handleAddFavorite, handleRemoveFavorite]
-  );
+    if (isFavorite(animalId)) await handleRemoveFavorite(animalId);
+    else await handleAddFavorite(animalId);
+  }, [isFavorite, handleAddFavorite, handleRemoveFavorite]);
 
   const requestToggleFavorite = async (animalId) => {
     if (!user) {
@@ -126,6 +119,8 @@ export const FavoriteProvider = ({ children }) => {
     await toggleFavorite(animalId);
   };
 
+
+
   const favoriteAnimals = useMemo(
     () =>
       animals.length === 0
@@ -135,16 +130,24 @@ export const FavoriteProvider = ({ children }) => {
   );
 
   useEffect(() => {
+<<<<<<< HEAD
     const loadFavorites = async () => {
       await getFavorites();
     };
 
     loadFavorites();
   }, [getFavorites]);
+=======
+>>>>>>> a3f46c87 (combine useEffects to eliminate post-login race condition)
 
-  useEffect(() => {
-    if (!user || !pendingFavoriteId) return;
+  if (!user) {
+    setFavoriteIds([]);
+    return;
+  }
+  const run = async () => {
+    const favoriteIdsArray = await getFavorites();
 
+<<<<<<< HEAD
     const runPendingFavorite = async () => {
       const animalId = pendingFavoriteId;
 
@@ -159,7 +162,20 @@ export const FavoriteProvider = ({ children }) => {
 
     runPendingFavorite();
   }, [user, pendingFavoriteId, favoriteIds, handleAddFavorite]);
+=======
+    if(pendingFavoriteId){
+      const id = pendingFavoriteId;
+      setPendingFavoriteId(null);
 
+      if(!favoriteIdsArray.includes(id))
+        await handleAddFavorite(targetId);
+    }
+  }
+  run();
+}, [getFavorites, user, pendingFavoriteId, handleAddFavorite]);
+>>>>>>> a3f46c87 (combine useEffects to eliminate post-login race condition)
+
+  
   return (
     <FavoriteContext.Provider
       value={{
