@@ -1,13 +1,11 @@
 import { useState } from "react";
-import { useAuth } from "../../contexts/AuthContext";
 import { useInquiry } from "../../contexts/InquiryContext";
 import InquiryModal from "./InquiryModal";
 import { Spinner } from "react-bootstrap";
 
 const InquiryButton = ({ animalId, animalName }) => {
   const [showInquiryModal, setShowInquiryModal] = useState(false);
-  const { user, loading: authLoading } = useAuth();
-  const { requestAddInquiry, loading: inquiryLoading } = useInquiry();
+  const { requestAddInquiry, addInquiryLoading } = useInquiry();
 
   const handleInquire = () => {
     setShowInquiryModal(true);
@@ -20,7 +18,7 @@ const InquiryButton = ({ animalId, animalName }) => {
         onHide={() => setShowInquiryModal(false)}
         animalId={animalId}
         animalName={animalName}
-        isSubmitting={authLoading || inquiryLoading}
+        isSubmitting={addInquiryLoading}
         requestAddInquiry={requestAddInquiry}
       />
 
@@ -28,10 +26,10 @@ const InquiryButton = ({ animalId, animalName }) => {
         type="button"
         className="btn btn-primary"
         onClick={handleInquire}
-        disabled={authLoading || inquiryLoading}
+        disabled={addInquiryLoading}
         style={{ width: "8rem" }}
       >
-        {authLoading || inquiryLoading ? (
+        {addInquiryLoading ? (
           <Spinner animation="border" size="sm" />
         ) : (
           "I'm interested"
