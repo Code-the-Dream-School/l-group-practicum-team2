@@ -7,8 +7,7 @@ function InquiriesPage() {
   const navigate = useNavigate();
 
   const sortedInquiries = inquiries.sort(
-    (a, b) =>
-      new Date(b.created_at) - new Date(a.created_at)
+    (a, b) => new Date(b.created_at) - new Date(a.created_at)
   );
   return (
     <main className="py-4">
