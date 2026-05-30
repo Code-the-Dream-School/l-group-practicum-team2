@@ -19,7 +19,8 @@ import { useNotification } from "./NotificationContext";
 const FavoriteContext = createContext();
 
 export const FavoriteProvider = ({ children }) => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false); // handle heart toggle loading
+  const [favoritesLoading, setFavoritesLoading] = useState(false); // handle getFavorites loading
   const [favoriteIds, setFavoriteIds] = useState([]);
   const [pendingFavoriteId, setPendingFavoriteId] = useState(null);
   const [error, setError] = useState(null);
