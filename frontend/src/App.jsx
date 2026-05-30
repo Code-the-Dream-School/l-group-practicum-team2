@@ -12,6 +12,7 @@ import InquiriesPage from "./pages/InquiriesPage";
 import NotFound from "./pages/NotFound";
 import Profile from "./pages/Profile";
 import AppLoadingOverlay from "./components/loading/AppLoadingOverlay";
+
 function App() {
   return (
     <>
