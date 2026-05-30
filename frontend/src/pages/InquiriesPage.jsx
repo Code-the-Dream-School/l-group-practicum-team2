@@ -23,8 +23,7 @@ function InquiriesPage() {
           {inquiries.map((inquiry) => {
             const animalId = inquiry.animal_id;
             const animalName = inquiry.animal_name;
-            const animalPhoto = inquiry.photo_url
-         
+            const animalPhoto = inquiry.photo_url;
 
             const submittedDate = inquiry.created_at;
             const status = inquiry.status || "sent";
