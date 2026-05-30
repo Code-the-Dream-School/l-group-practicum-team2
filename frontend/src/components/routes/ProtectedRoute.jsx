@@ -15,9 +15,10 @@ const ProtectedRoute = ({ children }) => {
     if (logoutClicked) {
       navigate("/", { replace: true });
     }
-    setTimeout(() => {
+    const timeoutId = setTimeout(() => {
       setLogoutClicked(false);
     }, 1000);
+    return () => clearTimeout(timeoutId);
   }, [logoutClicked, navigate, setLogoutClicked]);
 
   if (!user && !logoutClicked) {
