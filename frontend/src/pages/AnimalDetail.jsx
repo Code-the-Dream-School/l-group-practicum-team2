@@ -7,7 +7,8 @@ import { formatLabel } from "../utils/formatLabel";
 import NotFound from "./NotFound";
 import InquiryButton from "../components/inquiries/InquiryButton";
 import { formatAnimalAge } from "../utils/formatAnimalAge";
-import AnimalListPlaceholder from '../components/placeholders/AnimalListPlaceholder'
+import AnimalPlaceholder from "../components/placeholders/AnimalPlaceholder"
+
 function normalizeAnimal(data) {
   if (!data) return null;
 
@@ -37,7 +38,7 @@ function normalizeAnimal(data) {
 }
 
 export default function AnimalDetail() {
-  const { getAnimalById, loading } = useAnimal();
+  const { getAnimalById, loading:animalLoading } = useAnimal();
   const { id } = useParams();
   const { requestToggleFavorite, isFavorite } = useFavorite();
 
@@ -60,9 +61,8 @@ export default function AnimalDetail() {
     requestToggleFavorite(animal.id);
   };
 
-  if(singleAnimaLoading || !animal){
-    return <AnimalPlaceholder />
-
+  if(animalLoading || !animal){
+    return <AnimalPlaceholder />;
   }
 
   if (!loading && !animal) {
