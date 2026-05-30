@@ -6,11 +6,15 @@ function InquiriesPage() {
   const { inquiries } = useInquiry();
   const navigate = useNavigate();
 
+  const sortedInquiries = inquiries.sort(
+    (a, b) =>
+      new Date(b.created_at) - new Date(a.created_at)
+  );
   return (
     <main className="py-4">
       <h1 className="mb-3">My Inquiries</h1>
 
-      {inquiries.length === 0 ? (
+      {sortedInquiries.length === 0 ? (
         <Card className="p-4 text-center">
           <h3>No inquiries yet</h3>
           <p className="text-muted">
@@ -20,7 +24,7 @@ function InquiriesPage() {
         </Card>
       ) : (
         <div className="row g-4">
-          {inquiries.map((inquiry) => {
+          {sortedInquiries.map((inquiry) => {
             const animalId = inquiry.animal_id;
             const animalName = inquiry.animal_name;
             const animalPhoto = inquiry.photo_url;
