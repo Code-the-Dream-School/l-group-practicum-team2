@@ -129,53 +129,35 @@ export const FavoriteProvider = ({ children }) => {
     [animals, favoriteIds]
   );
 
+
+
   useEffect(() => {
-<<<<<<< HEAD
-    const loadFavorites = async () => {
-      await getFavorites();
-    };
+    if (!user) {
+      setFavoriteIds([]);
+      return;
+    }
+    getFavorites();
 
-    loadFavorites();
-  }, [getFavorites]);
-=======
->>>>>>> a3f46c87 (combine useEffects to eliminate post-login race condition)
+  }, [user, getFavorites]);
 
-  if (!user) {
-    setFavoriteIds([]);
-    return;
-  }
-  const run = async () => {
-    const favoriteIdsArray = await getFavorites();
-
-<<<<<<< HEAD
+  useEffect(()=>{
+    if (!user || !pendingFavoriteId) return;
+    
     const runPendingFavorite = async () => {
       const animalId = pendingFavoriteId;
 
       setPendingFavoriteId(null);
 
-      if (favoriteIds.includes(animalId)) {
-        return;
-      }
-
+      if (favoriteIds.includes(animalId)) return;
+      
       await handleAddFavorite(animalId);
     };
 
     runPendingFavorite();
   }, [user, pendingFavoriteId, favoriteIds, handleAddFavorite]);
-=======
-    if(pendingFavoriteId){
-      const id = pendingFavoriteId;
-      setPendingFavoriteId(null);
 
-      if(!favoriteIdsArray.includes(id))
-        await handleAddFavorite(id);
-    }
-  }
-  run();
-}, [getFavorites, user, pendingFavoriteId, handleAddFavorite]);
->>>>>>> a3f46c87 (combine useEffects to eliminate post-login race condition)
 
-  
+
   return (
     <FavoriteContext.Provider
       value={{
