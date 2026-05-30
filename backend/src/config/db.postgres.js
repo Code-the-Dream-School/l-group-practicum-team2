@@ -10,7 +10,7 @@ const pool = new Pool({
 });
 
 
-pool.on('error', (err, client) => {
+pool.on('error', (err) => {
   console.error('Unexpected error on idle database client:', err.message);
 });
 
