@@ -1,14 +1,16 @@
 import { Button, Card } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useInquiry } from "../contexts/InquiryContext";
-
+import InquiryPlaceholder from '../components/placeholders/InquiryPlaceholder';
 function InquiriesPage() {
-  const { inquiries } = useInquiry();
+  const { inquiries, inquiriesLoading } = useInquiry();
   const navigate = useNavigate();
 
   const sortedInquiries = inquiries.sort(
     (a, b) => new Date(b.created_at) - new Date(a.created_at)
   );
+  if(inquiriesLoading)
+    return <InquiryPlaceholder />
   return (
     <main className="py-4">
       <h1 className="mb-3">My Inquiries</h1>
