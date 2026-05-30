@@ -1,8 +1,8 @@
 import PropTypes from "prop-types";
 import { useFavorite } from "../../contexts/FavoriteContext";
-
+import { Spinner } from "react-bootstrap";
 function Heart({ animalId }) {
-  const { isFavorite, requestToggleFavorite } = useFavorite();
+  const { isFavorite, requestToggleFavorite, heartLoadingIds } = useFavorite();
   const favorite = isFavorite(animalId);
 
   function handleClick(event) {
@@ -12,6 +12,19 @@ function Heart({ animalId }) {
     requestToggleFavorite(animalId);
   }
 
+  if(heartLoadingIds.includes(animalId)){
+    return (
+      <button
+      type="button"
+      className={`favorite-button`}
+      disabled={true}
+      style={{cursor: 'not-allowed'}}
+
+    >
+      <Spinner animation="border" size="sm" />
+    </button>
+    )
+  }
   return (
     <button
       type="button"

@@ -19,7 +19,7 @@ import { useNotification } from "./NotificationContext";
 const FavoriteContext = createContext();
 
 export const FavoriteProvider = ({ children }) => {
-  const [toggleHeartLoading, setToggleHeartLoading] = useState(false); // handle heart toggle loading
+  const [heartLoadingIds, setHeartLoadingIds] = useState([]); // handle heart toggle loading
   const [favoritesLoading, setFavoritesLoading] = useState(false); // handle getFavorites loading
   const [favoriteIds, setFavoriteIds] = useState([]);
   const [pendingFavoriteId, setPendingFavoriteId] = useState(null);
@@ -63,15 +63,15 @@ export const FavoriteProvider = ({ children }) => {
       setFavoritesLoading(false);
     }
   }, [user]);
+
   const handleAddFavorite = async (animalId) => {
-    setToggleHeartLoading(true);
+    setHeartLoadingIds(prev => [...prev, animalId]);
 
     try {
       await addFavorite(animalId);
       setFavoriteIds((prev) => [...prev, animalId]);
       addNotification("success", "Favorite added successfully");
     } catch (error) {
-      setError(error.message || "Something went wrong while adding favorites");
       addNotification(
         "danger",
         error.message
@@ -79,20 +79,17 @@ export const FavoriteProvider = ({ children }) => {
           : "Something went wrong while adding a favorite"
       );
     } finally {
-      setToggleHeartLoading(false);
+      setHeartLoadingIds(prev => prev.filter(id => id !== animalId));
     }
   };
   const handleRemoveFavorite = async (animalId) => {
-    setToggleHeartLoading(true);
+    setHeartLoadingIds(prev => [...prev, animalId]);
 
     try {
       await removeFavorite(animalId);
       setFavoriteIds((prev) => prev.filter((a) => a !== animalId));
       addNotification("success", "Favorite removed successfully");
     } catch (error) {
-      setError(
-        error.message || "Something went wrong while removing favorites"
-      );
       addNotification(
         "danger",
         error.message
@@ -100,7 +97,7 @@ export const FavoriteProvider = ({ children }) => {
           : "Something went wrong while removing a favorite"
       );
     } finally {
-      setToggleHeartLoading(false);
+      setHeartLoadingIds(prev => prev.filter(id => id !== animalId));
     }
   };
 
@@ -169,7 +166,7 @@ export const FavoriteProvider = ({ children }) => {
         favoriteAnimals,
         isFavorite,
         requestToggleFavorite,
-        toggleHeartLoading,
+        heartLoadingIds,
         favoritesLoading,
         error,
       }}
