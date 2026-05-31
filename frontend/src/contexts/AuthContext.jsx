@@ -81,9 +81,15 @@ export const AuthProvider = ({ children }) => {
 
       setUser(data.user);
       setError(null);
+      addNotification("success", "Profile updated successfully");
       return true;
     } catch (error) {
       setError(error.message);
+      addNotification("danger", 
+        error.message
+          ? `An error has occurred while updating user profile: ${error.message}`
+          : "A network error occurred. Please try again."
+      );
       return false;
     } finally {
       setLoading(false);
