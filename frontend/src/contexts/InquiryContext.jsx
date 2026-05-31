@@ -55,11 +55,13 @@ export const InquiryProvider = ({ children }) => {
           "success",
           "Your inquiry has been sent! The shelter will contact you soon."
         );
+        return true;
       } catch (error) {
         addNotification(
           "danger",
           error.message || "Something went wrong. Please try again."
         );
+        return false;
       } finally {
         setLoading(false);
       }
@@ -73,7 +75,7 @@ export const InquiryProvider = ({ children }) => {
       openLogin();
       return;
     }
-    await handleAddInquiry(messageObj);
+    return handleAddInquiry(messageObj);
   };
 
   useEffect(() => {

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
+import { Spinner } from "react-bootstrap";
 
 const MIN_MESSAGE_LENGTH = 10;
 
@@ -34,11 +35,12 @@ function InquiryForm({ animalId, requestAddInquiry, onHide, isSubmitting }) {
       return;
     }
 
-    await requestAddInquiry({
+    const success = await requestAddInquiry({
       animalId,
       message: message.trim(),
     });
-    onHide();
+    console.log('success', success)
+    if(success) onHide();
   };
 
   return (
@@ -87,7 +89,7 @@ function InquiryForm({ animalId, requestAddInquiry, onHide, isSubmitting }) {
           className="btn btn-primary"
           disabled={isSubmitting}
         >
-          {isSubmitting ? "Sending..." : "Send Inquiry"}
+          {isSubmitting ?  <Spinner animation="border" size="sm" /> : "Send Inquiry"}
         </button>
       </div>
     </form>
