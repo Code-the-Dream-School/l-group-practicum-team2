@@ -4,60 +4,11 @@ import { useAuth } from "../contexts/AuthContext";
 import { useNotification } from "../contexts/NotificationContext";
 import EditNameButton from "../components/profile/EditNameButton";
 import EditPasswordButton from "../components/profile/EditPasswordButton";
+import DeleteAccountButton from "../components/profile/DeleteAccountButton";
 
 function Profile() {
-  const { user, handleDelete } = useAuth();
-  const { addNotification } = useNotification();
-
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-
-
-  const [deleteConfirmText, setDeleteConfirmText] = useState("");
-  const [deletePassword, setDeletePassword] = useState("");
-
-
-  const [deleteLoading, setDeleteLoading] = useState(false);
-
-
-  const [deleteError, setDeleteError] = useState("");
-
-
-
-  const isDeleteFormValid =
-    deleteConfirmText === "DELETE" && deletePassword.trim();
-
-
-
-  const handleCloseDeleteModal = () => {
-    setShowDeleteModal(false);
-    setDeleteConfirmText("");
-    setDeletePassword("");
-  };
-
+  const { user } = useAuth();
   
-
-  
-
-  const handleDeleteAccount = async (e) => {
-    e.preventDefault();
-
-    if (!deleteConfirmText.trim() || !deletePassword.trim()) {
-      setDeleteError("Both fields are required.");
-      return;
-    }
-
-    if (deleteConfirmText !== "DELETE") {
-      setDeleteError('Please type "DELETE" to confirm.');
-      return;
-    }
-
-    setDeleteError("");
-    setDeleteLoading(true);
-
-    const result = await handleDelete(deletePassword);
-
-    setDeleteLoading(false);
-  };
 
   return (
     <main
@@ -104,82 +55,14 @@ function Profile() {
       </Card>
 
       <Card className="p-4 shadow-sm border-danger">
-        <h4 className="text-danger mb-3">Account Management</h4>
+        <h4 className="text-danger mb-3">Danger Zone</h4>
 
         <p className="text-muted">
           Permanently delete your account and all associated data.
         </p>
 
-        <Button variant="danger" onClick={() => setShowDeleteModal(true)}>
-          Delete Account
-        </Button>
+        <DeleteAccountButton />
       </Card>
-
-      
-
-      
-
-      <Modal show={showDeleteModal} onHide={handleCloseDeleteModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>Delete Account</Modal.Title>
-        </Modal.Header>
-
-        <Form onSubmit={handleDeleteAccount}>
-          <Modal.Body>
-            <p className="text-danger fw-semibold">
-              This action is permanent and cannot be undone.
-            </p>
-
-            <p className="text-muted">
-              To confirm, please type DELETE and enter your current password.
-            </p>
-
-            <Form.Group className="mb-3">
-              <Form.Label>Type DELETE to confirm</Form.Label>
-
-              <Form.Control
-                type="text"
-                placeholder="DELETE"
-                value={deleteConfirmText}
-                onChange={(e) => {
-                  setDeleteConfirmText(e.target.value);
-                  setDeleteError("");
-                }}
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3">
-              <Form.Label>Current Password</Form.Label>
-
-              <Form.Control
-                type="password"
-                placeholder="Enter current password"
-                value={deletePassword}
-                onChange={(e) => {
-                  setDeletePassword(e.target.value);
-                  setDeleteError("");
-                }}
-              />
-            </Form.Group>
-
-            {deleteError && <p className="text-danger mt-3">{deleteError}</p>}
-          </Modal.Body>
-
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleCloseDeleteModal}>
-              Cancel
-            </Button>
-
-            <Button
-              variant="danger"
-              type="submit"
-              disabled={!isDeleteFormValid || deleteLoading}
-            >
-              {deleteLoading ? "Deleting..." : "Delete Account"}
-            </Button>
-          </Modal.Footer>
-        </Form>
-      </Modal>
     </main>
   );
 }
