@@ -116,9 +116,9 @@ export const AnimalProvider = ({ children }) => {
     filters.specialNeeds;
 
   useEffect(() => {
-     (async () => {
-        await getAnimals();
-      })();
+    (async () => {
+      await getAnimals();
+    })();
   }, []);
 
   return (

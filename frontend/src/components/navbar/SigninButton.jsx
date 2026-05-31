@@ -4,7 +4,7 @@ import { useAuth } from "../../contexts/AuthContext";
 
 export const SigninButton = () => {
   const { openLogin, loading } = useAuth();
-  if(loading) {
+  if (loading) {
     return (
       <Button
         variant="primary"
@@ -13,9 +13,9 @@ export const SigninButton = () => {
       >
         <Spinner animation="border" size="sm" />
       </Button>
-    )
+    );
   }
-    
+
   return (
     <>
       <Button

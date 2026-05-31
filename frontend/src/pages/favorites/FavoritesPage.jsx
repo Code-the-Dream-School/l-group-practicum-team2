@@ -10,7 +10,7 @@ function FavoritesPage() {
   if (favoritesLoading) {
     return <AnimalListPlaceholder />;
   }
-  if(favoriteAnimals.length === 0){
+  if (favoriteAnimals.length === 0) {
     return (
       <main className="app">
         <h1>Favorites</h1>
@@ -28,11 +28,11 @@ function FavoritesPage() {
   return (
     <main className="app">
       <h1>Favorites</h1>
-        <div className="animals-grid">
-          {favoriteAnimals.map((animal) => (
-            <AnimalCard key={animal.id} animal={animal} isFavorite={true} />
-          ))}
-        </div>
+      <div className="animals-grid">
+        {favoriteAnimals.map((animal) => (
+          <AnimalCard key={animal.id} animal={animal} isFavorite={true} />
+        ))}
+      </div>
     </main>
   );
 }

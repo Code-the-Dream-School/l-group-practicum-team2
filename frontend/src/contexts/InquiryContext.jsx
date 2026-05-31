@@ -80,9 +80,7 @@ export const InquiryProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    
-
-    if(!user){
+    if (!user) {
       setInquiries([]);
       return;
     }

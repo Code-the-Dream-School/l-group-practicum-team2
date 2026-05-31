@@ -31,9 +31,8 @@ function App() {
           minHeight: "100vh",
         }}
       >
-        
         <NavigationBar />
-        
+
         <div
           style={{
             maxWidth: "1320px",

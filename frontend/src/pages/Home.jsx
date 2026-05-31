@@ -4,11 +4,10 @@ import AnimalListPlaceholder from "../components/placeholders/AnimalListPlacehol
 // import useGlobalLoading from "../components/loading/useGlobalLoading";
 import { useAnimal } from "../contexts/AnimalContext";
 const Home = () => {
-  const {loading: animalLoading} = useAnimal();
-  
-  if(animalLoading)
-    return <AnimalListPlaceholder />;
-  
+  const { loading: animalLoading } = useAnimal();
+
+  if (animalLoading) return <AnimalListPlaceholder />;
+
   return (
     <div
       style={{ display: "flex", flexDirection: "column", alignItems: "center" }}

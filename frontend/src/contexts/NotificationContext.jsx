@@ -12,26 +12,27 @@ export const NotificationProvider = ({ children }) => {
     );
   }, []);
 
-  const addNotification = useCallback((type, message) => {
-    const id = crypto.randomUUID();
+  const addNotification = useCallback(
+    (type, message) => {
+      const id = crypto.randomUUID();
 
-    const newNotification = {
-      id,
-      type,
-      message,
-    };
+      const newNotification = {
+        id,
+        type,
+        message,
+      };
 
-    setNotifications((prevNotifications) => [
-      ...prevNotifications,
-      newNotification,
-    ]);
+      setNotifications((prevNotifications) => [
+        ...prevNotifications,
+        newNotification,
+      ]);
 
-    setTimeout(() => {
-      removeNotification(id);
-    }, 5000);
-  }, [removeNotification]);
-
-  
+      setTimeout(() => {
+        removeNotification(id);
+      }, 5000);
+    },
+    [removeNotification]
+  );
 
   return (
     <NotificationContext.Provider

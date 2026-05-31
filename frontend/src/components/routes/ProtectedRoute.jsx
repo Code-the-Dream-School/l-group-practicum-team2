@@ -12,9 +12,8 @@ const ProtectedRoute = ({ children }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-
     if (logoutClicked) {
-      console.log('logoutClicked', logoutClicked)
+      console.log("logoutClicked", logoutClicked);
       navigate("/", { replace: true });
     }
     return () => {

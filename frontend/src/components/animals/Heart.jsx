@@ -2,9 +2,14 @@ import PropTypes from "prop-types";
 import { useFavorite } from "../../contexts/FavoriteContext";
 
 import { Spinner } from "react-bootstrap";
-import { HeartFill } from "react-bootstrap-icons"
+import { HeartFill } from "react-bootstrap-icons";
 function Heart({ animalId }) {
-  const { isFavorite, requestToggleFavorite, heartLoadingIds, favoritesLoading } = useFavorite();
+  const {
+    isFavorite,
+    requestToggleFavorite,
+    heartLoadingIds,
+    favoritesLoading,
+  } = useFavorite();
   const favorite = isFavorite(animalId);
 
   function handleClick(event) {
@@ -14,7 +19,7 @@ function Heart({ animalId }) {
     requestToggleFavorite(animalId);
   }
 
-  if(heartLoadingIds.includes(animalId) || favoritesLoading){
+  if (heartLoadingIds.includes(animalId) || favoritesLoading) {
     // console.log("eartLoadingIds.includes(animalId)",heartLoadingIds.includes(animalId))
     // console.log("favoritesLoading", favoritesLoading)
     return (
@@ -22,12 +27,11 @@ function Heart({ animalId }) {
         type="button"
         className={`favorite-button`}
         disabled={true}
-        style={{cursor: 'not-allowed'}}
-
+        style={{ cursor: "not-allowed" }}
       >
         <Spinner animation="border" size="sm" variant="secondary" />
       </button>
-    )
+    );
   }
   return (
     <button
@@ -36,7 +40,11 @@ function Heart({ animalId }) {
       onClick={handleClick}
       aria-label={favorite ? "Remove from favorites" : "Add to favorites"}
     >
-      {favorite ? <HeartFill className="text-danger"/> : <HeartFill className="text-secondary" />}
+      {favorite ? (
+        <HeartFill className="text-danger" />
+      ) : (
+        <HeartFill className="text-secondary" />
+      )}
     </button>
   );
 }

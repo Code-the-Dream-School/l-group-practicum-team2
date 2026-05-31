@@ -637,7 +637,7 @@
 }
 
 .disabled-link {
-  pointer-events: none; 
-  cursor: not-allowed !important;  
+  pointer-events: none;
+  cursor: not-allowed !important;
   /* opacity: 0.6; */
 }
