@@ -131,20 +131,15 @@ export const AuthProvider = ({ children }) => {
       addNotification("success", "Your account has been successfully deleted.");
       setLogoutClicked(true);
 
-      return {
-        success: true,
-      };
+      return true;
     } catch (error) {
       addNotification(
         "danger",
-        data.message ||
-          "Account deletion failed. Please verify your password and try again."
+        data.message || "A network error occurred."
       );
 
-      return {
-        success: false,
-        message: error.message || "Failed to delete account",
-      };
+      return false;
+  
     } finally {
       setLoading(false);
     }
