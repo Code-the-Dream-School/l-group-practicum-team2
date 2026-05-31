@@ -14,7 +14,7 @@ const InquiryContext = createContext();
 
 export const InquiryProvider = ({ children }) => {
   const [inquiriesLoading, setInquiriesLoading] = useState(false);
-  const [addInquiryloading, setAddInquiryloading] = useState(false);
+  const [addInquiryLoading, setAddInquiryLoading] = useState(false);
   const [error, setError] = useState(null);
   const [inquiries, setInquiries] = useState([]);
   const [pendingMessageObj, setPendingMessageObj] = useState(null);
