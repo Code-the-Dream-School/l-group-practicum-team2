@@ -23,7 +23,7 @@ function Heart({ animalId }) {
         style={{cursor: 'not-allowed'}}
 
       >
-        <Spinner animation="border" size="sm" />
+        <Spinner animation="border" size="sm" variant="secondary" />
       </button>
     )
   }
