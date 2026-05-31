@@ -85,7 +85,8 @@ export const AuthProvider = ({ children }) => {
       return true;
     } catch (error) {
       setError(error.message);
-      addNotification("danger", 
+      addNotification(
+        "danger",
         error.message
           ? `An error has occurred while updating user profile: ${error.message}`
           : "A network error occurred. Please try again."
@@ -133,13 +134,9 @@ export const AuthProvider = ({ children }) => {
 
       return true;
     } catch (error) {
-      addNotification(
-        "danger",
-        data.message || "A network error occurred."
-      );
+      addNotification("danger", data.message || "A network error occurred.");
 
       return false;
-  
     } finally {
       setLoading(false);
     }

@@ -2,93 +2,97 @@ import PasswordInputBox from "../auth/PasswordInputBox";
 import DeleteInputBox from "../auth/DeleteInputBox";
 import { useAuth } from "../../contexts/AuthContext";
 import { useState, useEffect } from "react";
-import { Form, Modal, Button, Spinner} from "react-bootstrap";
+import { Form, Modal, Button, Spinner } from "react-bootstrap";
 
-const DeleteAccountModal = ({showDeleteModal, onHide}) => {
-    const { loading: authLoading, handleDelete} = useAuth();
-    
-    const [ confirmDelete, setConfirmDelete ] = useState("");
-    const [ confirmDeleteError, setConfirmDeleteError ] = useState("")
-    const [ currentPassword, setCurrentPassword ] = useState("");
-    const [ currentPasswordError, setCurrentPasswordError ] = useState("")
+const DeleteAccountModal = ({ showDeleteModal, onHide }) => {
+  const { loading: authLoading, handleDelete } = useAuth();
 
-    const handleDeleteAccount = async (e) => {
-        e.preventDefault();
+  const [confirmDelete, setConfirmDelete] = useState("");
+  const [confirmDeleteError, setConfirmDeleteError] = useState("");
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [currentPasswordError, setCurrentPasswordError] = useState("");
 
-        const success = await handleDelete(password);
+  const handleDeleteAccount = async (e) => {
+    e.preventDefault();
 
-        if(success) onHide();
-    };
-    
-     useEffect(()=>{
-        if(showDeleteModal){
-            setConfirmDelete("");
-            setConfirmDeleteError("")
-            setCurrentPassword("");
-            setCurrentPasswordError("");
-        
-        }
-    }, [showDeleteModal])
+    const success = await handleDelete(password);
 
-    return (      
-        <Modal show={showDeleteModal} onHide={onHide}>
-            <Modal.Header closeButton>
-                <Modal.Title>Delete Account</Modal.Title>
-            </Modal.Header>
+    if (success) onHide();
+  };
 
-            <Form onSubmit={handleDeleteAccount}>
-                <Modal.Body>
-                    <p className="text-danger fw-semibold">
-                        This action is permanent and cannot be undone.
-                    </p>
+  useEffect(() => {
+    if (showDeleteModal) {
+      setConfirmDelete("");
+      setConfirmDeleteError("");
+      setCurrentPassword("");
+      setCurrentPasswordError("");
+    }
+  }, [showDeleteModal]);
 
-                    <p className="text-muted">
-                        To confirm, please type DELETE and enter your current password.
-                    </p>
+  return (
+    <Modal show={showDeleteModal} onHide={onHide}>
+      <Modal.Header closeButton>
+        <Modal.Title>Delete Account</Modal.Title>
+      </Modal.Header>
 
-                    <Form.Group className="mb-3">
-                        <Form.Label>Type DELETE to confirm</Form.Label>
+      <Form onSubmit={handleDeleteAccount}>
+        <Modal.Body>
+          <p className="text-danger fw-semibold">
+            This action is permanent and cannot be undone.
+          </p>
 
-                        <DeleteInputBox 
-                            confirmDelete={confirmDelete} 
-                            setConfirmDelete={setConfirmDelete} 
-                            confirmDeleteError={confirmDeleteError} 
-                            setConfirmDeleteError={setConfirmDeleteError} 
-                        />
-                    </Form.Group>
+          <p className="text-muted">
+            To confirm, please type DELETE and enter your current password.
+          </p>
 
-                    <Form.Group className="mb-3">
-                        <Form.Label>Current Password</Form.Label>
+          <Form.Group className="mb-3">
+            <Form.Label>Type DELETE to confirm</Form.Label>
 
-                        <PasswordInputBox 
-                            password={currentPassword} 
-                            setPassword={setCurrentPassword} 
-                            passwordError={currentPasswordError} 
-                            setPasswordError={setCurrentPasswordError} 
-                        />
-                    </Form.Group>
-                </Modal.Body>
+            <DeleteInputBox
+              confirmDelete={confirmDelete}
+              setConfirmDelete={setConfirmDelete}
+              confirmDeleteError={confirmDeleteError}
+              setConfirmDeleteError={setConfirmDeleteError}
+            />
+          </Form.Group>
 
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={onHide}>
-                        Cancel
-                    </Button>
+          <Form.Group className="mb-3">
+            <Form.Label>Current Password</Form.Label>
 
-                    <Button
-                        variant="danger"
-                        type="submit"
-                        disabled={
-                            currentPasswordError || 
-                            confirmDeleteError ||
-                            currentPassword.trim() === "" ||
-                            confirmDelete.trim() === "" ||
-                            authLoading}
-                    >
-                        {authLoading ? <Spinner animation="border" size="sm" /> : "Delete Account"}
-                    </Button>
-                </Modal.Footer>
-            </Form>
-        </Modal>
-    )
-}
-export default DeleteAccountModal
+            <PasswordInputBox
+              password={currentPassword}
+              setPassword={setCurrentPassword}
+              passwordError={currentPasswordError}
+              setPasswordError={setCurrentPasswordError}
+            />
+          </Form.Group>
+        </Modal.Body>
+
+        <Modal.Footer>
+          <Button variant="secondary" onClick={onHide}>
+            Cancel
+          </Button>
+
+          <Button
+            variant="danger"
+            type="submit"
+            disabled={
+              currentPasswordError ||
+              confirmDeleteError ||
+              currentPassword.trim() === "" ||
+              confirmDelete.trim() === "" ||
+              authLoading
+            }
+          >
+            {authLoading ? (
+              <Spinner animation="border" size="sm" />
+            ) : (
+              "Delete Account"
+            )}
+          </Button>
+        </Modal.Footer>
+      </Form>
+    </Modal>
+  );
+};
+export default DeleteAccountModal;

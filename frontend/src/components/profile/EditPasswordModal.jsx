@@ -3,103 +3,107 @@ import { Spinner, Modal, Form, Button } from "react-bootstrap";
 import { useAuth } from "../../contexts/AuthContext";
 import PasswordInputBox from "../auth/PasswordInputBox";
 
-const EditPasswordModal = ({showPasswordModal, onHide}) => {
-    const { handleUpdate, loading: authLoading } = useAuth();
-    const [ newPassword, setNewPassword ] = useState("");
-    const [ newPasswordError, setNewPasswordError ] = useState("")
-    const [ currentPassword, setCurrentPassword ] = useState("");
-    const [ currentPasswordError, setCurrentPasswordError ] = useState("")
-    const [ confirmPassword, setConfirmPassword ] = useState("");
-    const [ confirmPasswordError, setConfirmPasswordError ] = useState("")
+const EditPasswordModal = ({ showPasswordModal, onHide }) => {
+  const { handleUpdate, loading: authLoading } = useAuth();
+  const [newPassword, setNewPassword] = useState("");
+  const [newPasswordError, setNewPasswordError] = useState("");
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [currentPasswordError, setCurrentPasswordError] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
 
-    const handlePasswordUpdate = async (e) => {
-        e.preventDefault();
-        const success = await handleUpdate({
-            newPassword,
-            currentPassword: currentPassword,
-        });
-        if(success) onHide();
-    
-    };
-    useEffect(()=>{
-        if(showPasswordModal){
-            setNewPassword("");
-            setNewPasswordError("")
-            setCurrentPassword("");
-            setCurrentPasswordError("");
-            setConfirmPassword("");
-            setConfirmPasswordError("");
-        
-        }
-    }, [showPasswordModal])
+  const handlePasswordUpdate = async (e) => {
+    e.preventDefault();
+    const success = await handleUpdate({
+      newPassword,
+      currentPassword: currentPassword,
+    });
+    if (success) onHide();
+  };
+  useEffect(() => {
+    if (showPasswordModal) {
+      setNewPassword("");
+      setNewPasswordError("");
+      setCurrentPassword("");
+      setCurrentPasswordError("");
+      setConfirmPassword("");
+      setConfirmPasswordError("");
+    }
+  }, [showPasswordModal]);
 
-    return(
-        <Modal show={showPasswordModal} onHide={onHide}>
-            <Modal.Header closeButton>
-                <Modal.Title>Edit Password</Modal.Title>
-            </Modal.Header>
+  return (
+    <Modal show={showPasswordModal} onHide={onHide}>
+      <Modal.Header closeButton>
+        <Modal.Title>Edit Password</Modal.Title>
+      </Modal.Header>
 
-            <Form onSubmit={handlePasswordUpdate}>
-                <Modal.Body>
-                    <Form.Group className="mb-3">
-                        <Form.Label>Current Password</Form.Label>
+      <Form onSubmit={handlePasswordUpdate}>
+        <Modal.Body>
+          <Form.Group className="mb-3">
+            <Form.Label>Current Password</Form.Label>
 
-                        <PasswordInputBox 
-                            password={currentPassword} 
-                            setPassword={setCurrentPassword} 
-                            passwordError={currentPasswordError} 
-                            setPasswordError={setCurrentPasswordError} 
-                        />
-                    </Form.Group>
+            <PasswordInputBox
+              password={currentPassword}
+              setPassword={setCurrentPassword}
+              passwordError={currentPasswordError}
+              setPasswordError={setCurrentPasswordError}
+            />
+          </Form.Group>
 
-                    <Form.Group className="mb-3">
-                        <Form.Label>New Password</Form.Label>
+          <Form.Group className="mb-3">
+            <Form.Label>New Password</Form.Label>
 
-                        <PasswordInputBox 
-                            password={newPassword} 
-                            setPassword={setNewPassword} 
-                            passwordError={newPasswordError} 
-                            setPasswordError={setNewPasswordError} 
-                        />
-                    </Form.Group>
-                    
-                    <Form.Group className="mb-3">
-                        <Form.Label>Confirm New Password</Form.Label>
+            <PasswordInputBox
+              password={newPassword}
+              setPassword={setNewPassword}
+              passwordError={newPasswordError}
+              setPasswordError={setNewPasswordError}
+            />
+          </Form.Group>
 
-                        <PasswordInputBox 
-                            password={confirmPassword} 
-                            setPassword={setConfirmPassword} 
-                            passwordError={confirmPasswordError} 
-                            setPasswordError={setConfirmPasswordError} 
-                        />
-                    </Form.Group>
-                    {newPassword !== confirmPassword && <p className="text-danger">New passwords do not match.</p>}
-                </Modal.Body>
+          <Form.Group className="mb-3">
+            <Form.Label>Confirm New Password</Form.Label>
 
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={onHide}>
-                        Cancel
-                    </Button>
+            <PasswordInputBox
+              password={confirmPassword}
+              setPassword={setConfirmPassword}
+              passwordError={confirmPasswordError}
+              setPasswordError={setConfirmPasswordError}
+            />
+          </Form.Group>
+          {newPassword !== confirmPassword && (
+            <p className="text-danger">New passwords do not match.</p>
+          )}
+        </Modal.Body>
 
-                    <Button
-                        variant="primary"
-                        type="submit"
-                        disabled={
-                            newPasswordError || 
-                            confirmPasswordError || 
-                            currentPasswordError || 
-                            newPassword.trim() === "" || 
-                            confirmPassword.trim() === "" || 
-                            currentPassword.trim() === "" || 
-                            newPassword!==confirmPassword || 
-                            authLoading
-                        }
-                    >
-                        {authLoading ? <Spinner animation="border" size="sm" /> : "Update Password"}
-                    </Button>
-                </Modal.Footer>
-            </Form>
-        </Modal>
-    )
-}
-export default EditPasswordModal
+        <Modal.Footer>
+          <Button variant="secondary" onClick={onHide}>
+            Cancel
+          </Button>
+
+          <Button
+            variant="primary"
+            type="submit"
+            disabled={
+              newPasswordError ||
+              confirmPasswordError ||
+              currentPasswordError ||
+              newPassword.trim() === "" ||
+              confirmPassword.trim() === "" ||
+              currentPassword.trim() === "" ||
+              newPassword !== confirmPassword ||
+              authLoading
+            }
+          >
+            {authLoading ? (
+              <Spinner animation="border" size="sm" />
+            ) : (
+              "Update Password"
+            )}
+          </Button>
+        </Modal.Footer>
+      </Form>
+    </Modal>
+  );
+};
+export default EditPasswordModal;

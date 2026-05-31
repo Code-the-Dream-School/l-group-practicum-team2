@@ -8,7 +8,6 @@ import DeleteAccountButton from "../components/profile/DeleteAccountButton";
 
 function Profile() {
   const { user } = useAuth();
-  
 
   return (
     <main
