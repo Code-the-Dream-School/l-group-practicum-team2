@@ -84,7 +84,16 @@ const EditPasswordModal = ({showPasswordModal, onHide}) => {
                     <Button
                         variant="primary"
                         type="submit"
-                        disabled={newPasswordError || confirmPasswordError || currentPasswordError || newPassword!==confirmPassword || authLoading}
+                        disabled={
+                            newPasswordError || 
+                            confirmPasswordError || 
+                            currentPasswordError || 
+                            newPassword.trim() === "" || 
+                            confirmPassword.trim() === "" || 
+                            currentPassword.trim() === "" || 
+                            newPassword!==confirmPassword || 
+                            authLoading
+                        }
                     >
                         {authLoading ? <Spinner animation="border" size="sm" /> : "Update Password"}
                     </Button>

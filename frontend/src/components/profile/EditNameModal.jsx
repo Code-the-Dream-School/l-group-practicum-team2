@@ -71,7 +71,12 @@ const EditNameModal = ({showNameModal, onHide}) => {
                     <Button
                         variant="primary"
                         type="submit"
-                        disabled={nameError || currentPasswordError || authLoading}
+                        disabled={nameError ||
+                            currentPasswordError || 
+                            name.trim()==='' || 
+                            currentPassword.trim()==="" || 
+                            authLoading
+                        }
                     >
                         {authLoading ? <Spinner animation="border" size="sm" /> : "Save Changes"}
                     </Button>
