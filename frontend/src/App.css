@@ -635,3 +635,9 @@
   align-items: center;
   justify-content: center;
 }
+
+.disabled-link {
+  pointer-events: none; 
+  cursor: not-allowed !important;  
+  /* opacity: 0.6; */
+}

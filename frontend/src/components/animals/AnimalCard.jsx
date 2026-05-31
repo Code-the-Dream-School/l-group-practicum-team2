@@ -9,8 +9,8 @@ function AnimalCard({ animal }) {
 
   return (
     <Link
-      to={!isAdopted && `/animals/${animal.id}`}
-      className="animal-card-link"
+      to={!isAdopted ? `/animals/${animal.id}` : undefined}
+      className={`animal-card-link ${isAdopted ? 'disabled-link' : ''}`}
     >
       <article
         className="animal-card"
