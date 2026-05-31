@@ -39,8 +39,8 @@ function InquiryForm({ animalId, requestAddInquiry, onHide, isSubmitting }) {
       animalId,
       message: message.trim(),
     });
-    console.log('success', success)
-    if(success) onHide();
+    console.log("success", success);
+    if (success) onHide();
   };
 
   return (
@@ -89,7 +89,11 @@ function InquiryForm({ animalId, requestAddInquiry, onHide, isSubmitting }) {
           className="btn btn-primary"
           disabled={isSubmitting}
         >
-          {isSubmitting ?  <Spinner animation="border" size="sm" /> : "Send Inquiry"}
+          {isSubmitting ? (
+            <Spinner animation="border" size="sm" />
+          ) : (
+            "Send Inquiry"
+          )}
         </button>
       </div>
     </form>
