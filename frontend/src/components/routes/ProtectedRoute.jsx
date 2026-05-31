@@ -12,13 +12,16 @@ const ProtectedRoute = ({ children }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
+
     if (logoutClicked) {
+      console.log('logoutClicked', logoutClicked)
       navigate("/", { replace: true });
     }
-    const timeoutId = setTimeout(() => {
-      setLogoutClicked(false);
-    }, 1000);
-    return () => clearTimeout(timeoutId);
+    return () => {
+      if (logoutClicked) {
+        setLogoutClicked(false);
+      }
+    };
   }, [logoutClicked, navigate, setLogoutClicked]);
 
   if (!user) {
