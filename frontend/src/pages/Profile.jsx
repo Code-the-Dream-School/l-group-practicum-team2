@@ -3,46 +3,30 @@ import { Button, Card, Form, Modal } from "react-bootstrap";
 import { useAuth } from "../contexts/AuthContext";
 import { useNotification } from "../contexts/NotificationContext";
 import EditNameButton from "../components/profile/EditNameButton";
+import EditPasswordButton from "../components/profile/EditPasswordButton";
 
 function Profile() {
-  const { user, handleUpdate, handleDelete } = useAuth();
+  const { user, handleDelete } = useAuth();
   const { addNotification } = useNotification();
-  
-  const [showPasswordModal, setShowPasswordModal] = useState(false);
+
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-
-  const [passwordCurrentPassword, setPasswordCurrentPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
 
   const [deleteConfirmText, setDeleteConfirmText] = useState("");
   const [deletePassword, setDeletePassword] = useState("");
 
-  const [passwordLoading, setPasswordLoading] = useState(false);
+
   const [deleteLoading, setDeleteLoading] = useState(false);
 
-  const [passwordError, setPasswordError] = useState("");
+
   const [deleteError, setDeleteError] = useState("");
 
 
-  const isPasswordFormValid =
-    passwordCurrentPassword.trim() &&
-    newPassword.trim() &&
-    confirmPassword.trim() &&
-    newPassword === confirmPassword;
 
   const isDeleteFormValid =
     deleteConfirmText === "DELETE" && deletePassword.trim();
 
 
-  const handleClosePasswordModal = () => {
-    setShowPasswordModal(false);
-    setPasswordCurrentPassword("");
-    setNewPassword("");
-    setConfirmPassword("");
-    setPasswordError("");
-  };
 
   const handleCloseDeleteModal = () => {
     setShowDeleteModal(false);
@@ -52,37 +36,7 @@ function Profile() {
 
   
 
-  const handlePasswordUpdate = async (e) => {
-    e.preventDefault();
-
-    setPasswordError("");
-    setPasswordLoading(true);
-
-    if (newPassword !== confirmPassword) {
-      setPasswordError("Passwords do not match");
-      setPasswordLoading(false);
-      return;
-    }
-
-    try {
-      const success = await handleUpdate({
-        newPassword,
-        currentPassword: passwordCurrentPassword,
-      });
-
-      if (!success) {
-        addNotification("danger", "Password update failed.");
-        return;
-      }
-
-      addNotification("success", "Password updated successfully");
-      handleClosePasswordModal();
-    } catch (err) {
-      addNotification("danger", err.message || "Something went wrong");
-    } finally {
-      setPasswordLoading(false);
-    }
-  };
+  
 
   const handleDeleteAccount = async (e) => {
     e.preventDefault();
@@ -145,13 +99,7 @@ function Profile() {
             <p className="text-muted mb-0">******</p>
           </div>
 
-          <Button
-            variant="outline-primary"
-            size="sm"
-            onClick={() => setShowPasswordModal(true)}
-          >
-            Edit
-          </Button>
+          <EditPasswordButton />
         </div>
       </Card>
 
@@ -169,64 +117,7 @@ function Profile() {
 
       
 
-      <Modal show={showPasswordModal} onHide={handleClosePasswordModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>Update Password</Modal.Title>
-        </Modal.Header>
-
-        <Form onSubmit={handlePasswordUpdate}>
-          <Modal.Body>
-            <Form.Group className="mb-3">
-              <Form.Label>Current Password</Form.Label>
-
-              <Form.Control
-                type="password"
-                placeholder="Enter current password"
-                value={passwordCurrentPassword}
-                onChange={(e) => setPasswordCurrentPassword(e.target.value)}
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3">
-              <Form.Label>New Password</Form.Label>
-
-              <Form.Control
-                type="password"
-                placeholder="Enter new password"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3">
-              <Form.Label>Confirm Password</Form.Label>
-
-              <Form.Control
-                type="password"
-                placeholder="Confirm new password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-              />
-            </Form.Group>
-
-            {passwordError && <p className="text-danger">{passwordError}</p>}
-          </Modal.Body>
-
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleClosePasswordModal}>
-              Cancel
-            </Button>
-
-            <Button
-              variant="primary"
-              type="submit"
-              disabled={!isPasswordFormValid || passwordLoading}
-            >
-              {passwordLoading ? "Updating..." : "Update Password"}
-            </Button>
-          </Modal.Footer>
-        </Form>
-      </Modal>
+      
 
       <Modal show={showDeleteModal} onHide={handleCloseDeleteModal}>
         <Modal.Header closeButton>
