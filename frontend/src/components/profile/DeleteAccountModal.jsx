@@ -3,7 +3,7 @@ import DeleteInputBox from "../auth/DeleteInputBox";
 import { useAuth } from "../../contexts/AuthContext";
 import { useState, useEffect } from "react";
 import { Form, Modal, Button, Spinner } from "react-bootstrap";
-
+import PropTypes from "prop-types";
 const DeleteAccountModal = ({ showDeleteModal, onHide }) => {
   const { loading: authLoading, handleDelete } = useAuth();
 
@@ -94,5 +94,9 @@ const DeleteAccountModal = ({ showDeleteModal, onHide }) => {
       </Form>
     </Modal>
   );
+};
+DeleteAccountModal.propTypes = {
+  showDeleteModal: PropTypes.bool.isRequired,
+  onHide: PropTypes.func.isRequired,
 };
 export default DeleteAccountModal;

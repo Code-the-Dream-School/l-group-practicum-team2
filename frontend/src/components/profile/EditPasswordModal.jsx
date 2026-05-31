@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Spinner, Modal, Form, Button } from "react-bootstrap";
 import { useAuth } from "../../contexts/AuthContext";
 import PasswordInputBox from "../auth/PasswordInputBox";
+import PropTypes from "prop-types";
 
 const EditPasswordModal = ({ showPasswordModal, onHide }) => {
   const { handleUpdate, loading: authLoading } = useAuth();
@@ -105,5 +106,9 @@ const EditPasswordModal = ({ showPasswordModal, onHide }) => {
       </Form>
     </Modal>
   );
+};
+EditPasswordModal.propTypes = {
+  showPasswordModal: PropTypes.bool.isRequired,
+  onHide: PropTypes.func.isRequired,
 };
 export default EditPasswordModal;

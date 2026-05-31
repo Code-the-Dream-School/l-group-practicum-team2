@@ -3,6 +3,7 @@ import { Spinner, Modal, Form, Button } from "react-bootstrap";
 import { useAuth } from "../../contexts/AuthContext";
 import NameInputBox from "../auth/NameInputBox";
 import PasswordInputBox from "../auth/PasswordInputBox";
+import PropTypes from "prop-types";
 
 const EditNameModal = ({ showNameModal, onHide }) => {
   const { handleUpdate, loading: authLoading } = useAuth();
@@ -85,5 +86,9 @@ const EditNameModal = ({ showNameModal, onHide }) => {
       </Form>
     </Modal>
   );
+};
+EditNameModal.propTypes = {
+  showNameModal: PropTypes.bool.isRequired,
+  onHide: PropTypes.func.isRequired,
 };
 export default EditNameModal;
