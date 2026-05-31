@@ -20,7 +20,7 @@ const PasswordInputBox = ({
     if (pa === "") setPasswordError("Password is required");
     else if (!re.test(pa)) {
       setPasswordError(
-        "Password must be at lease 6 characters long, include only alphanumeric."
+        "Password does not meet the required format. Minimum 6 characters, alphanumeric only"
       );
     } else setPasswordError("");
   };
