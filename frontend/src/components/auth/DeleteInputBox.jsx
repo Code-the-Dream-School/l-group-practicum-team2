@@ -1,4 +1,6 @@
 import { Form } from "react-bootstrap";
+import PropTypes from "prop-types";
+
 const DeleteInputBox = ({
   confirmDelete,
   setConfirmDelete,
@@ -20,5 +22,11 @@ const DeleteInputBox = ({
       onChange={handleChange}
     />
   );
+};
+DeleteInputBox.propTypes = {
+  confirmDelete: PropTypes.string.isRequired,
+  setConfirmDelete: PropTypes.func.isRequired,
+  confirmDeleteError: PropTypes.string,
+  setConfirmDeleteError: PropTypes.func.isRequired,
 };
 export default DeleteInputBox;
