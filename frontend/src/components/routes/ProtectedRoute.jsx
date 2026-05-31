@@ -21,7 +21,7 @@ const ProtectedRoute = ({ children }) => {
     return () => clearTimeout(timeoutId);
   }, [logoutClicked, navigate, setLogoutClicked]);
 
-  if (!user && !logoutClicked) {
+  if (!user) {
     switch (location.pathname) {
       case "/profile":
         return <ProfilePlaceholder />;
