@@ -2,16 +2,15 @@ import { useState } from "react";
 import { Button, Card, Form, Modal } from "react-bootstrap";
 import { useAuth } from "../contexts/AuthContext";
 import { useNotification } from "../contexts/NotificationContext";
+import EditNameButton from "../components/profile/EditNameButton";
 
 function Profile() {
   const { user, handleUpdate, handleDelete } = useAuth();
   const { addNotification } = useNotification();
-  const [showNameModal, setShowNameModal] = useState(false);
+  
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-  const [name, setName] = useState("");
-  const [profilePassword, setProfilePassword] = useState("");
 
   const [passwordCurrentPassword, setPasswordCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -20,14 +19,12 @@ function Profile() {
   const [deleteConfirmText, setDeleteConfirmText] = useState("");
   const [deletePassword, setDeletePassword] = useState("");
 
-  const [profileLoading, setProfileLoading] = useState(false);
   const [passwordLoading, setPasswordLoading] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
 
   const [passwordError, setPasswordError] = useState("");
   const [deleteError, setDeleteError] = useState("");
 
-  const isProfileFormValid = name.trim() && profilePassword.trim();
 
   const isPasswordFormValid =
     passwordCurrentPassword.trim() &&
@@ -38,11 +35,6 @@ function Profile() {
   const isDeleteFormValid =
     deleteConfirmText === "DELETE" && deletePassword.trim();
 
-  const handleCloseNameModal = () => {
-    setShowNameModal(false);
-    setName("");
-    setProfilePassword("");
-  };
 
   const handleClosePasswordModal = () => {
     setShowPasswordModal(false);
@@ -58,30 +50,7 @@ function Profile() {
     setDeletePassword("");
   };
 
-  const handleProfileUpdate = async (e) => {
-    e.preventDefault();
-
-    setProfileLoading(true);
-
-    try {
-      const success = await handleUpdate({
-        name,
-        currentPassword: profilePassword,
-      });
-
-      if (!success) {
-        addNotification("danger", "Profile update failed.");
-        return;
-      }
-
-      addNotification("success", "Profile updated successfully");
-      handleCloseNameModal();
-    } catch (err) {
-      addNotification("danger", err.message || "Something went wrong");
-    } finally {
-      setProfileLoading(false);
-    }
-  };
+  
 
   const handlePasswordUpdate = async (e) => {
     e.preventDefault();
@@ -165,13 +134,7 @@ function Profile() {
             <p className="text-muted mb-0">{user?.name}</p>
           </div>
 
-          <Button
-            variant="outline-primary"
-            size="sm"
-            onClick={() => setShowNameModal(true)}
-          >
-            Edit
-          </Button>
+          <EditNameButton />
         </div>
 
         <hr />
@@ -204,51 +167,7 @@ function Profile() {
         </Button>
       </Card>
 
-      <Modal show={showNameModal} onHide={handleCloseNameModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>Edit Name</Modal.Title>
-        </Modal.Header>
-
-        <Form onSubmit={handleProfileUpdate}>
-          <Modal.Body>
-            <Form.Group className="mb-3">
-              <Form.Label>New Name</Form.Label>
-
-              <Form.Control
-                type="text"
-                placeholder="Enter new name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3">
-              <Form.Label>Current Password</Form.Label>
-
-              <Form.Control
-                type="password"
-                placeholder="Enter current password"
-                value={profilePassword}
-                onChange={(e) => setProfilePassword(e.target.value)}
-              />
-            </Form.Group>
-          </Modal.Body>
-
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleCloseNameModal}>
-              Cancel
-            </Button>
-
-            <Button
-              variant="primary"
-              type="submit"
-              disabled={!isProfileFormValid || profileLoading}
-            >
-              {profileLoading ? "Saving..." : "Save Changes"}
-            </Button>
-          </Modal.Footer>
-        </Form>
-      </Modal>
+      
 
       <Modal show={showPasswordModal} onHide={handleClosePasswordModal}>
         <Modal.Header closeButton>
