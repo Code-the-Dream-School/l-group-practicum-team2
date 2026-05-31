@@ -167,7 +167,11 @@ export default function AnimalDetail() {
               type="button"
               className={`btn ${isFavorite(animal.id) ? "btn-primary" : "btn-secondary"}`}
               onClick={handleSave}
-              aria-label={isFavorite(animal.id) ? "Remove from favorites" : "Add to favorites"}
+              aria-label={
+                isFavorite(animal.id)
+                  ? "Remove from favorites"
+                  : "Add to favorites"
+              }
             >
               {isFavorite(animal.id) ? "Saved" : "Save"}
             </button>
