@@ -13,7 +13,6 @@ const ProtectedRoute = ({ children }) => {
 
   useEffect(() => {
     if (logoutClicked) {
-      console.log("logoutClicked", logoutClicked);
       navigate("/", { replace: true });
     }
     return () => {
