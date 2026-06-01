@@ -149,7 +149,6 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logoutUser = async (withLoading = true, currentPath) => {
-    
     if (withLoading) setLoading(true);
 
     try {

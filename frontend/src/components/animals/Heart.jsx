@@ -20,7 +20,6 @@ function Heart({ animalId }) {
   }
 
   if (heartLoadingIds.includes(animalId) || favoritesLoading) {
-
     return (
       <button
         type="button"
