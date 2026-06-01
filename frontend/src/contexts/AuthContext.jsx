@@ -148,14 +148,14 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const logoutUser = async (withLoading = true) => {
-    const location = useLocation();
+  const logoutUser = async (withLoading = true, path) => {
+    
     if (withLoading) setLoading(true);
 
     try {
       setUser(null);
       localStorage.removeItem("token");
-      if (isPrivateRoute(location.pathname)) setLogoutClicked(true);
+      setLogoutClicked(isPrivateRoute(path));
       addNotification("success", "User logged out successfully");
     } catch (error) {
       setError(error);

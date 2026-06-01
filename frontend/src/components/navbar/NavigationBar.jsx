@@ -5,10 +5,11 @@ import logo from "../../assets/PawMatch.png";
 import { useAuth } from "../../contexts/AuthContext";
 import UserDropdown from "./UserDropdown";
 import { SigninButton } from "./SigninButton";
+import { useLocation } from "react-router-dom";
 
 const NavigationBar = () => {
   const { user, logoutUser } = useAuth();
-
+  const location = useLocation();
   return (
     <Navbar bg="light" variant="light" expand="lg" fixed="top">
       <Container className="px-3 py-4">
@@ -27,25 +28,27 @@ const NavigationBar = () => {
             <Nav.Link as={Link} to="/">
               Home
             </Nav.Link>
-
+          </Nav>
+          <div>
             {user ? (
-              <>
+              <div style={{ display: "flex" }}>
                 <Button
                   as={Link}
                   to="/favorites"
                   variant="danger"
-                  className="px-4 py-2 fs-5"
+                  className="px-4 py-2 me-3 fs-5"
                 >
                   <HeartFill size={25} className="me-3" />
                   <span className="fs-5">Favorites</span>
                 </Button>
-                <UserDropdown user={user} onLogout={logoutUser} />
-              </>
+                <UserDropdown user={user} onLogout={()=>logoutUser(true, location.pathname)} />
+              </div>
             ) : (
               <SigninButton />
             )}
-          </Nav>
+          </div>
         </Navbar.Collapse>
+        
       </Container>
     </Navbar>
   );
