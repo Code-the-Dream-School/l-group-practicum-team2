@@ -15,7 +15,8 @@ import {
   updateUserCredentials,
 } from "../services/authService";
 import { useNotification } from "./NotificationContext";
-
+import { useLocation } from "react-router-dom";
+import { isPrivateRoute } from "../utils/privateRoutes";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -26,6 +27,7 @@ export const AuthProvider = ({ children }) => {
   const [logoutClicked, setLogoutClicked] = useState(false);
   const { addNotification } = useNotification();
 
+  
   const handleRegister = async (userData) => {
     setLoading(true);
 
@@ -148,12 +150,14 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logoutUser = async (withLoading = true) => {
+    const location = useLocation();
     if (withLoading) setLoading(true);
 
     try {
       setUser(null);
       localStorage.removeItem("token");
-      setLogoutClicked(true);
+      if(isPrivateRoute(location.pathname))
+        setLogoutClicked(true);
       addNotification("success", "User logged out successfully");
     } catch (error) {
       setError(error);
