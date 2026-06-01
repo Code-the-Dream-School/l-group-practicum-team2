@@ -27,7 +27,6 @@ export const AuthProvider = ({ children }) => {
   const [logoutClicked, setLogoutClicked] = useState(false);
   const { addNotification } = useNotification();
 
-  
   const handleRegister = async (userData) => {
     setLoading(true);
 
@@ -156,8 +155,7 @@ export const AuthProvider = ({ children }) => {
     try {
       setUser(null);
       localStorage.removeItem("token");
-      if(isPrivateRoute(location.pathname))
-        setLogoutClicked(true);
+      if (isPrivateRoute(location.pathname)) setLogoutClicked(true);
       addNotification("success", "User logged out successfully");
     } catch (error) {
       setError(error);

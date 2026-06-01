@@ -20,8 +20,7 @@ const AuthModal = () => {
 
   const handleHide = () => {
     closeAuthModal();
-    if(isPrivateRoute(location.pathname))
-      setLogoutClicked(true);
+    if (isPrivateRoute(location.pathname)) setLogoutClicked(true);
   };
 
   useEffect(() => {
