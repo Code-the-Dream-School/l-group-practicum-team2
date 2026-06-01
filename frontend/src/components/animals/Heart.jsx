@@ -20,8 +20,7 @@ function Heart({ animalId }) {
   }
 
   if (heartLoadingIds.includes(animalId) || favoritesLoading) {
-    // console.log("eartLoadingIds.includes(animalId)",heartLoadingIds.includes(animalId))
-    // console.log("favoritesLoading", favoritesLoading)
+
     return (
       <button
         type="button"
