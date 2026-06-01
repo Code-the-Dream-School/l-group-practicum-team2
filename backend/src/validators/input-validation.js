@@ -26,7 +26,7 @@ const validateLoginInput = (req, res, next) => {
   });
   const valid = schema.validate({ email, password });
   if (valid.error) {
-    throw new BadRequestError(valid.error);
+    throw new BadRequestError('Password does not meet the required format.');
   }
   next();
 };
