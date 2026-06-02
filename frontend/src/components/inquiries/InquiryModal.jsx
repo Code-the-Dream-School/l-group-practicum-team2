@@ -11,7 +11,7 @@ function InquiryModal({
   requestAddInquiry,
 }) {
   return (
-    <Modal show={show} onHide={onHide} centered backdrop="static">
+    <Modal show={show} onHide={onHide} backdrop="static">
       <Modal.Header closeButton>
         <Modal.Title>
           {animalName ? `Inquire about ${animalName}` : "Send an inquiry"}
