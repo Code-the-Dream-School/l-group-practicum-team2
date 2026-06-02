@@ -67,11 +67,20 @@ describe('Animals routes', () => {
 
     const areAllAnimalsValid = response.body.animals.every(
       (animal) =>
+        animal.id &&
+        animal.shelter_id &&
+        animal.name &&
         animal.species &&
+        animal.breed &&
+        Number.isFinite(animal.age_years) &&
         animal.size &&
         animal.age_category &&
         (animal.special_needs === true || animal.special_needs === false) &&
-        animal.status
+        animal.status &&
+        animal.temperament &&
+        animal.description &&
+        animal.photo_url &&
+        animal.created_at
     );
     expect(areAllAnimalsValid).toBe(true);
   });
