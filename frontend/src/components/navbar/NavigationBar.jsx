@@ -10,7 +10,7 @@ const NavigationBar = () => {
   const { user, logoutUser } = useAuth();
 
   return (
-    <Navbar bg="light" variant="light" expand="lg">
+    <Navbar bg="light" variant="light" expand="lg" fixed="top">
       <Container className="px-3 py-4">
         <Navbar.Brand as={Link} to="/" className="me-3">
           <Image

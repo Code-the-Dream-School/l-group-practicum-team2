@@ -10,6 +10,7 @@ function FavoritesPage() {
   return (
     <main className="app">
       <h1>Favorites</h1>
+      <title>My Favorites - PawMatch</title>
 
       {favoriteAnimals.length === 0 ? (
         <Card className="p-4 text-center">
