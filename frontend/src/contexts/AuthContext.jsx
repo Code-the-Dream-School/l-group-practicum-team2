@@ -134,7 +134,12 @@ export const AuthProvider = ({ children }) => {
 
       return true;
     } catch (error) {
-      addNotification("danger", data.message || "A network error occurred.");
+      addNotification(
+        "danger",
+        error.message
+          ? `An error occurred while deleting your account: ${error.message}`
+          : "A network error occurred."
+      );
 
       return false;
     } finally {

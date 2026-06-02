@@ -15,7 +15,7 @@ const DeleteAccountModal = ({ showDeleteModal, onHide }) => {
   const handleDeleteAccount = async (e) => {
     e.preventDefault();
 
-    const success = await handleDelete(password);
+    const success = await handleDelete(currentPassword);
 
     if (success) onHide();
   };
