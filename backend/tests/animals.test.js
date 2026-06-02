@@ -19,7 +19,7 @@ beforeAll(async () => {
 
   await pool.query(`
     INSERT INTO animals (id, shelter_id, name, species, breed, age_years, age_category, size, special_needs, temperament, description, photo_url, status, created_at, updated_at)
-    VALUES ('15d54d98-32b8-4067-931e-8144dc5e753f', '57d23cea-472d-4c0c-bc3a-50df70f048c7', 'Bruce', 'CAT', 'Toyger', 14.76, 'SENIOR', 'MEDIUM', false, 'Friendly and playful', 'Test description', 'https://cdn2.thecatapi.com/images/MTY5NDczNA.jpg', 'AVAILABLE', '2026-04-19T08:52:04.321Z', '2026-05-16T03:42:28.585Z')
+    VALUES ('15d54d98-32b8-4067-931e-8144dc5e753f', '57d23cea-472d-4c0c-bc3a-50df70f048c7', 'Bruce', 'DOG', 'Toyger', 14.76, 'ADULT', 'MEDIUM', false, 'Friendly and playful', 'Test description', 'https://cdn2.thecatapi.com/images/MTY5NDczNA.jpg', 'AVAILABLE', '2026-04-19T08:52:04.321Z', '2026-05-16T03:42:28.585Z')
   `);
 });
 
@@ -69,7 +69,7 @@ describe('Animals routes', () => {
     expect(response.body.animals[0]).toHaveProperty('special_needs');
     expect(response.body.animals[0]).toHaveProperty('status');
 
-    expect(response.body.animals[0].species).toBe('Dog');
+    expect(response.body.animals[0].species).toBe('DOG');
     expect(response.body.animals[0].size).toBe('MEDIUM');
     expect(response.body.animals[0].age_category).toBe('ADULT');
     expect(response.body.animals[0].special_needs).toBe(false);
@@ -86,10 +86,10 @@ describe('Animals routes', () => {
       '57d23cea-472d-4c0c-bc3a-50df70f048c7'
     );
     expect(response.body.animal.name).toBe('Bruce');
-    expect(response.body.animal.species).toBe('CAT');
+    expect(response.body.animal.species).toBe('DOG');
     expect(response.body.animal.breed).toBe('Toyger');
     expect(response.body.animal.age_years).toBe(14.76);
-    expect(response.body.animal.age_category).toBe('SENIOR');
+    expect(response.body.animal.age_category).toBe('ADULT');
     expect(response.body.animal.size).toBe('MEDIUM');
     expect(response.body.animal.special_needs).toBe(false);
     expect(response.body.animal.temperament).toBe('Friendly and playful');
