@@ -27,6 +27,7 @@ function Login() {
   return (
     <main style={{ padding: "2rem", fontFamily: "sans-serif" }}>
       <h1>Login</h1>
+      <title>Login - PawMatch</title>
 
       <form onSubmit={handleSubmit}>
         <div>

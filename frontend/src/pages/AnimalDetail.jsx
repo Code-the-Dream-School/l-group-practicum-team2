@@ -92,6 +92,7 @@ export default function AnimalDetail() {
   if (loading || animal === undefined) {
     return (
       <main className="detail-page">
+        <title>Animal Details - PawMatch</title>
         <LoadingSpinner message="Loading animal details..." />
       </main>
     );
@@ -106,6 +107,7 @@ export default function AnimalDetail() {
 
   return (
     <main className="detail-page">
+      <title>Animal Details - PawMatch</title>
       <div className="detail-back-link">
         <Link to="/">← Back to animals list</Link>
       </div>

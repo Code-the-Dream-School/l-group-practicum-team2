@@ -54,6 +54,7 @@ function InquiriesPage() {
   return (
     <main className="py-4">
       <h1 className="mb-3">My Inquiries</h1>
+      <title>My Inquiries - PawMatch</title>
 
       {inquiries.length === 0 ? (
         <Card className="p-4 text-center">

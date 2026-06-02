@@ -23,6 +23,7 @@ function Register() {
   return (
     <main style={{ padding: "2rem", fontFamily: "sans-serif" }}>
       <h1>Register</h1>
+      <title>Register - PawMatch</title>
 
       <form onSubmit={handleSubmit}>
         <div>

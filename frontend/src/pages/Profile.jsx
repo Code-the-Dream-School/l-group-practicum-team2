@@ -18,6 +18,7 @@ function Profile() {
       }}
     >
       <h1 className="mb-2">Account Settings</h1>
+      <title>Account Settings - PawMatch</title>
 
       <p className="text-muted mb-4">
         Manage your account information and security settings.

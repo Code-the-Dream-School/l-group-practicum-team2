@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 export default function NotFound() {
   return (
     <main className="not-found-page">
+      <title>Not Found - PawMatch</title>
       <div className="not-found-illustration" aria-hidden="true">
         <span className="not-found-paw">🐾</span>
       </div>
