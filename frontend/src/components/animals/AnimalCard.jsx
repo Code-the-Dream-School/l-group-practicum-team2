@@ -42,7 +42,7 @@ function AnimalCard({ animal }) {
           <div className="animal-title-row">
             <h3>{animal.name}</h3>
 
-            <span className="age-pill">{animal.age_years} yrs</span>
+            <span className="age-pill">{Math.floor(animal.age_years)} yrs</span>
           </div>
 
           <p className="breed">{animal.breed}</p>
