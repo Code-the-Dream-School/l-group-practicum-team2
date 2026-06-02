@@ -41,8 +41,8 @@
   border: none;
   background: white;
   border-radius: 50%;
-  width: 36px;
-  height: 36px;
+  width: 44px;
+  height: 44px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -598,4 +598,27 @@
 
 .shelter-info-contact-row dd {
   margin: 0;
+}
+
+.navbar-logo {
+  max-width: 100%;
+  height: auto;
+}
+
+@media (max-width: 640px) {
+  .navbar-brand {
+    max-width: 240px;
+  }
+
+  .navbar-logo {
+    width: 220px;
+  }
+
+  .navbar .container {
+    align-items: flex-start;
+  }
+
+  .navbar-collapse {
+    margin-top: 1rem;
+  }
 }

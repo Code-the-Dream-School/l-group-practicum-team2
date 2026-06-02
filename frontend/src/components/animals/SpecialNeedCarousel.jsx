@@ -36,7 +36,7 @@ const SpecialNeedCarousel = () => {
           className="flex-grow-1"
           style={{
             display: "flex",
-            alignItems: "flexStart",
+            alignItems: "flex-start",
             flexDirection: "column",
             justifyContent: "center",
           }}
@@ -54,7 +54,8 @@ const SpecialNeedCarousel = () => {
       )}
       <div
         style={{
-          width: "992px",
+          width: "100%",
+          maxWidth: "992px",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -76,7 +77,7 @@ const SpecialNeedCarousel = () => {
                     width: "100%",
                   }}
                 >
-                  <div style={{ width: "540px" }}>
+                  <div style={{ width: "100%", maxWidth: "540px" }}>
                     <AnimalCard animal={specialNeedsAnimal} />
                   </div>
                 </div>
