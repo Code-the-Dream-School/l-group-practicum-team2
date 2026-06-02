@@ -11,6 +11,12 @@ beforeAll(async () => {
   );
 
   // 2. Seed test data safely
+  await pool.query(
+    `INSERT INTO shelters (id, name, email, phone, address, city, state)
+        VALUES ('57d23cea-472d-4c0c-bc3a-50df70f048c7', 'Port Dustin Humane Society', 'roland.johnston@hotmail.com', '(675) 200-0768', '269 Franz Harbor', 'Port Dustin', 'DE')
+        ON CONFLICT (email) DO UPDATE SET name = EXCLUDED.name;`
+  );
+
   await pool.query(`
     INSERT INTO animals (id, shelter_id, name, species, breed, age_years, age_category, size, special_needs, temperament, description, photo_url, status, created_at, updated_at)
     VALUES ('15d54d98-32b8-4067-931e-8144dc5e753f', '57d23cea-472d-4c0c-bc3a-50df70f048c7', 'Bruce', 'CAT', 'Toyger', 14.76, 'SENIOR', 'MEDIUM', false, 'Friendly and playful', 'Test description', 'https://cdn2.thecatapi.com/images/MTY5NDczNA.jpg', 'AVAILABLE', '2026-04-19T08:52:04.321Z', '2026-05-16T03:42:28.585Z')
