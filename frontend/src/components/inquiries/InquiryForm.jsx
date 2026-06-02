@@ -39,7 +39,6 @@ function InquiryForm({ animalId, requestAddInquiry, onHide, isSubmitting }) {
       animalId,
       message: message.trim(),
     });
-    console.log("success", success);
     if (success) onHide();
   };
 
