@@ -41,14 +41,16 @@ const NavigationBar = () => {
                   <HeartFill size={25} className="me-3" />
                   <span className="fs-5">Favorites</span>
                 </Button>
-                <UserDropdown user={user} onLogout={()=>logoutUser(true, location.pathname)} />
+                <UserDropdown
+                  user={user}
+                  onLogout={() => logoutUser(true, location.pathname)}
+                />
               </div>
             ) : (
               <SigninButton />
             )}
           </div>
         </Navbar.Collapse>
-        
       </Container>
     </Navbar>
   );
