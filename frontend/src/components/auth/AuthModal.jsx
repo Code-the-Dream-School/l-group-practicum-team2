@@ -37,7 +37,7 @@ const AuthModal = () => {
   }, [location.pathname, user, loading, logoutClicked, authModal, openLogin]);
 
   return (
-    <Modal show={authModal !== null} onHide={handleHide} size="md" centered>
+    <Modal show={authModal !== null} onHide={handleHide} size="md">
       {authModal === "login" ? (
         <LoginModal />
       ) : authModal === "signup" ? (
