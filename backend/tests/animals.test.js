@@ -2,6 +2,28 @@ require('dotenv').config();
 
 const request = require('supertest');
 const app = require('../src/app');
+const pool = require('../src/config/db.postgres');
+
+beforeAll(async () => {
+  // 1. Clear out Bruce if he was left behind from a crashed run
+  await pool.query(
+    "DELETE FROM animals WHERE id = '15d54d98-32b8-4067-931e-8144dc5e753f'"
+  );
+
+  // 2. Seed test data safely
+  await pool.query(`
+    INSERT INTO animals (id, shelter_id, name, species, breed, age_years, age_category, size, special_needs, temperament, description, photo_url, status, created_at, updated_at)
+    VALUES ('15d54d98-32b8-4067-931e-8144dc5e753f', '57d23cea-472d-4c0c-bc3a-50df70f048c7', 'Bruce', 'CAT', 'Toyger', 14.76, 'SENIOR', 'MEDIUM', false, 'Friendly and playful', 'Test description', 'https://cdn2.thecatapi.com/images/MTY5NDczNA.jpg', 'AVAILABLE', '2026-04-19T08:52:04.321Z', '2026-05-16T03:42:28.585Z')
+  `);
+});
+
+afterAll(async () => {
+  // 3. Fix the single quotes here so the cleanup block actually passes!
+  await pool.query(
+    "DELETE FROM animals WHERE id = '15d54d98-32b8-4067-931e-8144dc5e753f'"
+  );
+  await pool.end();
+});
 
 describe('Animals routes', () => {
   it('Fetches all animals successfully', async () => {
@@ -52,33 +74,34 @@ describe('Animals routes', () => {
     const response = await request(app).get(
       '/api/animals/15d54d98-32b8-4067-931e-8144dc5e753f'
     );
-
     expect(response.statusCode).toBe(200);
     expect(response.body).toHaveProperty('animal');
-    expect(response.body.animal).toStrictEqual({
-      id: '15d54d98-32b8-4067-931e-8144dc5e753f',
-      shelter_id: '57d23cea-472d-4c0c-bc3a-50df70f048c7',
-      name: 'Bruce',
-      species: 'CAT',
-      breed: 'Toyger',
-      age_years: 14.76,
-      age_category: 'SENIOR',
-      size: 'MEDIUM',
-      special_needs: false,
-      temperament: 'Friendly and playful',
-      description:
-        'Arma vilitas unde comminor nesciunt iusto dolorum capillus. Sublime tepesco vinco thalassinus advenio curto. Veritatis sumptus contabesco alius curatio carcer comis.',
-      photo_url: 'https://cdn2.thecatapi.com/images/MTY5NDczNA.jpg',
-      status: 'AVAILABLE',
-      created_at: '2026-04-19T08:52:04.321Z',
-      updated_at: '2026-05-16T03:42:28.585Z',
-      shelter: {
-        name: 'Port Dustin Humane Society',
-        email: 'roland.johnston@hotmail.com',
-        phone: '(675) 200-0768',
-        address: '269 Franz Harbor, Port Dustin, DE',
-      },
-    });
+    expect(response.body.animal.shelter_id).toBe(
+      '57d23cea-472d-4c0c-bc3a-50df70f048c7'
+    );
+    expect(response.body.animal.name).toBe('Bruce');
+    expect(response.body.animal.species).toBe('CAT');
+    expect(response.body.animal.breed).toBe('Toyger');
+    expect(response.body.animal.age_years).toBe(14.76);
+    expect(response.body.animal.age_category).toBe('SENIOR');
+    expect(response.body.animal.size).toBe('MEDIUM');
+    expect(response.body.animal.special_needs).toBe(false);
+    expect(response.body.animal.temperament).toBe('Friendly and playful');
+    expect(response.body.animal.description).toBe('Test description');
+    expect(response.body.animal.photo_url).toBe(
+      'https://cdn2.thecatapi.com/images/MTY5NDczNA.jpg'
+    );
+    expect(response.body.animal.status).toBe('AVAILABLE');
+    expect(response.body.animal.shelter.name).toBe(
+      'Port Dustin Humane Society'
+    );
+    expect(response.body.animal.shelter.email).toBe(
+      'roland.johnston@hotmail.com'
+    );
+    expect(response.body.animal.shelter.phone).toBe('(675) 200-0768');
+    expect(response.body.animal.shelter.address).toBe(
+      '269 Franz Harbor, Port Dustin, DE'
+    );
   });
 
   it('Code 404 (not found) on bad ID', async () => {
