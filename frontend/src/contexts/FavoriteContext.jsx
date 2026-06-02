@@ -48,7 +48,9 @@ export const FavoriteProvider = ({ children }) => {
 
       setFavoriteIds(ids);
     } catch (error) {
-      setError(error.message || "Something went wrong while fetching favorites");
+      setError(
+        error.message || "Something went wrong while fetching favorites"
+      );
 
       addNotification(
         "danger",
@@ -79,7 +81,9 @@ export const FavoriteProvider = ({ children }) => {
 
         addNotification("success", "Favorite added successfully");
       } catch (error) {
-        setError(error.message || "Something went wrong while adding favorites");
+        setError(
+          error.message || "Something went wrong while adding favorites"
+        );
 
         addNotification(
           "danger",
