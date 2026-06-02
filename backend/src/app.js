@@ -1,3 +1,5 @@
+const crypto = require('crypto');
+const pool = require('./config/db.postgres');
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -54,6 +56,28 @@ app.use('/api/inquiries', inquiryRoutes);
 // Root route
 app.get('/', (req, res) => {
   res.send('Backend API is running');
+});
+app.use((req, res, next) => {
+  req.requestId = crypto.randomUUID();
+  next();
+});
+
+app.get("/healthz", async (req, res) => {
+  try {
+    await pool.query("SELECT 1");
+
+    return res.status(200).json({
+      success: true,
+      data: { db: true },
+      meta: { requestId: req.requestId },
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      error: { message: error.message },
+      meta: { requestId: req.requestId },
+    });
+  }
 });
 
 app.use(notFound);
