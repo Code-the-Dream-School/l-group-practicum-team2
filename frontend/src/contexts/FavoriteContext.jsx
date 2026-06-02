@@ -1,20 +1,20 @@
+import PropTypes from "prop-types";
 import React, {
   createContext,
+  useCallback,
   useContext,
   useEffect,
-  useState,
   useMemo,
-  useCallback,
+  useState,
 } from "react";
 import {
-  fetchFavorites,
   addFavorite,
+  fetchFavorites,
   removeFavorite,
 } from "../services/favoriteService";
-import { useAuth } from "./AuthContext";
 import { useAnimal } from "./AnimalContext";
+import { useAuth } from "./AuthContext";
 import { useNotification } from "./NotificationContext";
-import PropTypes from "prop-types";
 
 const FavoriteContext = createContext();
 
@@ -23,6 +23,7 @@ export const FavoriteProvider = ({ children }) => {
   const [favoriteIds, setFavoriteIds] = useState([]);
   const [pendingFavoriteId, setPendingFavoriteId] = useState(null);
   const [error, setError] = useState(null);
+
   const { user, openLogin } = useAuth();
   const { animals } = useAnimal();
   const { addNotification } = useNotification();
@@ -37,13 +38,18 @@ export const FavoriteProvider = ({ children }) => {
       setFavoriteIds([]);
       return;
     }
+
     setError(null);
     setLoading(true);
+
     try {
       const data = await fetchFavorites();
-      const ids = data.map((f) => f.id) || [];
+      const ids = data.map((favorite) => favorite.id) || [];
+
       setFavoriteIds(ids);
     } catch (error) {
+      setError(error.message || "Something went wrong while fetching favorites");
+
       addNotification(
         "danger",
         error.message
@@ -53,52 +59,79 @@ export const FavoriteProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  }, [user]);
-  const handleAddFavorite = async (animalId) => {
-    setLoading(true);
+  }, [user, addNotification]);
 
-    try {
-      await addFavorite(animalId);
-      setFavoriteIds((prev) => [...prev, animalId]);
-      addNotification("success", "Favorite added successfully");
-    } catch (error) {
-      setError(error.message || "Something went wrong while adding favorites");
-      addNotification(
-        "danger",
-        error.message
-          ? `An error has occurred while adding a favorite: ${error.message}`
-          : "Something went wrong while adding a favorite"
-      );
-    } finally {
-      setLoading(false);
-    }
-  };
-  const handleRemoveFavorite = async (animalId) => {
-    setLoading(true);
+  const handleAddFavorite = useCallback(
+    async (animalId) => {
+      if (favoriteIds.includes(animalId)) {
+        setPendingFavoriteId(null);
+        return;
+      }
 
-    try {
-      await removeFavorite(animalId);
-      setFavoriteIds((prev) => prev.filter((a) => a !== animalId));
-      addNotification("success", "Favorite removed successfully");
-    } catch (error) {
-      setError(
-        error.message || "Something went wrong while removing favorites"
-      );
-      addNotification(
-        "danger",
-        error.message
-          ? `An error has occurred while removing a favorite: ${error.message}`
-          : "Something went wrong while removing a favorite"
-      );
-    } finally {
-      setLoading(false);
-    }
-  };
+      setLoading(true);
 
-  const toggleFavorite = async (animalId) => {
-    if (isFavorite(animalId)) await handleRemoveFavorite(animalId);
-    else await handleAddFavorite(animalId);
-  };
+      try {
+        await addFavorite(animalId);
+
+        setFavoriteIds((prev) =>
+          prev.includes(animalId) ? prev : [...prev, animalId]
+        );
+
+        addNotification("success", "Favorite added successfully");
+      } catch (error) {
+        setError(error.message || "Something went wrong while adding favorites");
+
+        addNotification(
+          "danger",
+          error.message
+            ? `An error has occurred while adding a favorite: ${error.message}`
+            : "Something went wrong while adding a favorite"
+        );
+      } finally {
+        setLoading(false);
+      }
+    },
+    [addNotification, favoriteIds]
+  );
+
+  const handleRemoveFavorite = useCallback(
+    async (animalId) => {
+      setLoading(true);
+
+      try {
+        await removeFavorite(animalId);
+
+        setFavoriteIds((prev) => prev.filter((id) => id !== animalId));
+
+        addNotification("success", "Favorite removed successfully");
+      } catch (error) {
+        setError(
+          error.message || "Something went wrong while removing favorites"
+        );
+
+        addNotification(
+          "danger",
+          error.message
+            ? `An error has occurred while removing a favorite: ${error.message}`
+            : "Something went wrong while removing a favorite"
+        );
+      } finally {
+        setLoading(false);
+      }
+    },
+    [addNotification]
+  );
+
+  const toggleFavorite = useCallback(
+    async (animalId) => {
+      if (favoriteIds.includes(animalId)) {
+        await handleRemoveFavorite(animalId);
+      } else {
+        await handleAddFavorite(animalId);
+      }
+    },
+    [favoriteIds, handleAddFavorite, handleRemoveFavorite]
+  );
 
   const requestToggleFavorite = async (animalId) => {
     if (!user) {
@@ -106,6 +139,7 @@ export const FavoriteProvider = ({ children }) => {
       openLogin();
       return;
     }
+
     await toggleFavorite(animalId);
   };
 
@@ -119,21 +153,29 @@ export const FavoriteProvider = ({ children }) => {
 
   useEffect(() => {
     const loadFavorites = async () => {
-      getFavorites();
+      await getFavorites();
     };
+
     loadFavorites();
   }, [getFavorites]);
 
   useEffect(() => {
     if (!user || !pendingFavoriteId) return;
 
-    const run = async () => {
-      await toggleFavorite(pendingFavoriteId);
+    const runPendingFavorite = async () => {
+      const animalId = pendingFavoriteId;
+
       setPendingFavoriteId(null);
+
+      if (favoriteIds.includes(animalId)) {
+        return;
+      }
+
+      await handleAddFavorite(animalId);
     };
 
-    run();
-  }, [user, pendingFavoriteId, toggleFavorite]);
+    runPendingFavorite();
+  }, [user, pendingFavoriteId, favoriteIds, handleAddFavorite]);
 
   return (
     <FavoriteContext.Provider
@@ -153,6 +195,7 @@ export const FavoriteProvider = ({ children }) => {
     </FavoriteContext.Provider>
   );
 };
+
 FavoriteProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
