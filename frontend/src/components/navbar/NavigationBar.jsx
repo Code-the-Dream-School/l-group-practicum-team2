@@ -47,7 +47,7 @@ const NavigationBar = () => {
                     to="/favorites"
                     variant="danger"
                     className="px-4 py-2 fs-5"
-                    style={{borderRadius: '0.5rem', height: "3rem"}}
+                    style={{ borderRadius: "0.5rem", height: "3rem" }}
                   >
                     <HeartFill size={25} className="me-3" />
                     <span className="fs-5">Favorites</span>
