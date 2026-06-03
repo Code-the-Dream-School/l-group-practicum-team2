@@ -7,6 +7,7 @@ import { useAnimal } from "../contexts/AnimalContext";
 import { formatLabel } from "../utils/formatLabel";
 import NotFound from "./NotFound";
 import InquiryButton from "../components/inquiries/InquiryButton";
+import { formatAnimalAge } from "../utils/formatAnimalAge";
 
 function normalizeAnimal(data) {
   if (!data) return null;
@@ -148,7 +149,7 @@ export default function AnimalDetail() {
           <div className="detail-meta-grid">
             <div className="detail-meta-card">
               <span className="detail-label">Age</span>
-              <strong>{Math.floor(animal.age_years)} yrs</strong>
+              <strong>{formatAnimalAge(animal.age_years)}</strong>
             </div>
 
             <div className="detail-meta-card">

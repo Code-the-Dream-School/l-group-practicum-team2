@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { formatLabel } from "../../utils/formatLabel";
 import Heart from "./Heart";
+import { formatAnimalAge } from "../../utils/formatAnimalAge";
 
 function AnimalCard({ animal }) {
   const isAdopted = animal.status?.toUpperCase() === "ADOPTED";
@@ -42,7 +43,9 @@ function AnimalCard({ animal }) {
           <div className="animal-title-row">
             <h3>{animal.name}</h3>
 
-            <span className="age-pill">{Math.floor(animal.age_years)} yrs</span>
+            <span className="age-pill">
+              {formatAnimalAge(animal.age_years)}
+            </span>
           </div>
 
           <p className="breed">{animal.breed}</p>
