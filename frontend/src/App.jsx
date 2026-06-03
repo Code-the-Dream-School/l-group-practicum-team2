@@ -24,7 +24,7 @@ function App() {
           maxWidth: "1320px",
           width: "100%",
           margin: "0 auto",
-          padding: "12rem 1rem 1rem",
+          padding: "0 1rem 1rem",
           flexGrow: 1,
           display: "flex",
           flexDirection: "column",
