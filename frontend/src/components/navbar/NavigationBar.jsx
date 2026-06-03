@@ -13,10 +13,15 @@ const NavigationBar = () => {
   const { user, logoutUser, openLogin } = useAuth();
 
   return (
-    <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary" sticky="top">
+    <Navbar
+      collapseOnSelect
+      expand="lg"
+      className="bg-body-tertiary"
+      sticky="top"
+    >
       <Container className="px-3 py-4">
-         <Navbar.Brand as={Link} to="/" className="me-3">
-           <Image
+        <Navbar.Brand as={Link} to="/" className="me-3">
+          <Image
             src={logo}
             alt="PawMatch logo"
             className="navbar-logo"
@@ -24,11 +29,12 @@ const NavigationBar = () => {
           />
           <div className="mt-3">Find your perfect companion</div>
         </Navbar.Brand>
-
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="w-100 d-none d-lg-flex flex-row justify-content-between">
             <div className="fs-4 gap-2">
               <Nav.Link href="/">
-                <HouseFill size={25} className="me-2"/> Home
+                <HouseFill size={25} className="me-2" /> Home
               </Nav.Link>
             </div>
             <div className='d-flex flex-row gap-2'>
@@ -50,22 +56,25 @@ const NavigationBar = () => {
                   onLogout={() => logoutUser(true, location.pathname)}
                 />
                 </>
-                :
+               : 
                 <SigninButton />
+
               }
- 
-        <Navbar.Toggle aria-controls="main-navbar-nav" className="d-lg-none" />
-  
-        <Navbar.Collapse id="main-navbar-nav">
-          <div className="d-lg-none">
-            <CollapsibleMenu user={user} onLogout={logoutUser}  openLogin={openLogin}/>
-          </div>
-  
-        </Navbar.Collapse>
+              </div>
               </Nav>
+ 
+        
+          <CollapsibleMenu
+            user={user}
+            onLogout={logoutUser}
+            openLogin={openLogin}
+          />
+  
+
+        </Navbar.Collapse>
+      
       </Container>
     </Navbar>
-   
   );
 };
 
