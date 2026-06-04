@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import InquiryModal from "../components/inquiries/InquiryModal";
+import { Link, useParams } from "react-router-dom";
 import LoadingSpinner from "../components/LoadingSpinner";
 import ShelterInfo from "../components/shelters/ShelterInfo";
 import { useAnimal } from "../contexts/AnimalContext";
+import { useFavorite } from "../contexts/FavoriteContext";
 import { formatLabel } from "../utils/formatLabel";
 import NotFound from "./NotFound";
 import InquiryButton from "../components/inquiries/InquiryButton";
@@ -40,12 +40,8 @@ function normalizeAnimal(data) {
 export default function AnimalDetail() {
   const { getAnimalById, loading } = useAnimal();
   const { id } = useParams();
-  const navigate = useNavigate();
+  const { requestToggleFavorite, isFavorite } = useFavorite();
 
-  // Inquiry state
-  const [showInquiryModal, setShowInquiryModal] = useState(false);
-  const [inquirySent, setInquirySent] = useState(false);
-  const [successMessage, setSuccessMessage] = useState(null);
   const [animal, setAnimal] = useState(undefined);
 
   useEffect(() => {
@@ -62,32 +58,7 @@ export default function AnimalDetail() {
   }, [getAnimalById, id]);
 
   const handleSave = () => {
-    if (!isUserLoggedIn()) {
-      navigate("/login");
-      return;
-    }
-
-    alert("Save action will be connected later.");
-  };
-
-  const handleInquire = () => {
-    if (!isUserLoggedIn()) {
-      navigate("/login");
-      return;
-    }
-
-    setShowInquiryModal(true);
-  };
-
-  const handleInquirySuccess = () => {
-    setShowInquiryModal(false);
-    setInquirySent(true);
-    setSuccessMessage(
-      "Your inquiry has been sent! The shelter will contact you soon."
-    );
-
-    // Auto-hide toast after 5s
-    setTimeout(() => setSuccessMessage(null), 5000);
+    requestToggleFavorite(animal.id);
   };
 
   if (loading || animal === undefined) {
@@ -197,10 +168,15 @@ export default function AnimalDetail() {
           <div className="detail-actions">
             <button
               type="button"
-              className="btn btn-secondary"
+              className={`btn ${isFavorite(animal.id) ? "btn-primary" : "btn-secondary"}`}
               onClick={handleSave}
+              aria-label={
+                isFavorite(animal.id)
+                  ? "Remove from favorites"
+                  : "Add to favorites"
+              }
             >
-              Save
+              {isFavorite(animal.id) ? "Saved" : "Save"}
             </button>
 
             <InquiryButton animalName={animal.name} animalId={animal.id} />
