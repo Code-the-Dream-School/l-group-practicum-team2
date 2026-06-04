@@ -123,7 +123,7 @@ export const AuthProvider = ({ children }) => {
     setError(null);
 
     try {
-      const data = await deleteAccount(currentPassword);
+      await deleteAccount(currentPassword);
 
       setUser(null);
       localStorage.removeItem("token");
