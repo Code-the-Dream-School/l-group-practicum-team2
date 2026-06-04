@@ -60,7 +60,7 @@ export const AnimalProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [addNotification]);
 
   const filters = useMemo(
     () => ({
@@ -115,12 +115,15 @@ export const AnimalProvider = ({ children }) => {
     filters.ageCategory !== "" ||
     filters.specialNeeds;
 
-  useEffect(() => {
-    (async () => {
-      await getAnimals();
-    })();
-  }, []);
+  // useEffect(() => {
+  //   (async () => {
+  //     await getAnimals();
+  //   })();
+  // }, []);
 
+  useEffect(() => {
+    getAnimals();
+  }, []);
   return (
     <AnimalContext.Provider
       value={{

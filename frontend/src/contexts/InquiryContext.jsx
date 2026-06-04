@@ -43,7 +43,7 @@ export const InquiryProvider = ({ children }) => {
     } finally {
       setInquiriesLoading(false);
     }
-  }, [user]);
+  }, [user, addNotification]);
 
   const handleAddInquiry = useCallback(
     async ({ animalId, message }) => {
@@ -67,7 +67,7 @@ export const InquiryProvider = ({ children }) => {
         setAddInquiryLoading(false);
       }
     },
-    [addInquiry, getInquiries, addNotification]
+    [getInquiries, addNotification]
   );
 
   const requestAddInquiry = async (messageObj) => {
