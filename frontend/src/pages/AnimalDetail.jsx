@@ -39,13 +39,12 @@ function normalizeAnimal(data) {
 }
 
 export default function AnimalDetail() {
-  const { getAnimalById, loading:animalLoading } = useAnimal();
+  const { getAnimalById, loading: animalLoading } = useAnimal();
   const { id } = useParams();
   const { requestToggleFavorite, isFavorite, heartLoadingIds } = useFavorite();
 
   const [animal, setAnimal] = useState(undefined);
 
-  
   useEffect(() => {
     const loadAnimal = async () => {
       try {
@@ -63,7 +62,7 @@ export default function AnimalDetail() {
     requestToggleFavorite(animal.id);
   };
 
-  if(animalLoading || !animal){
+  if (animalLoading || !animal) {
     return <AnimalPlaceholder />;
   }
 
@@ -161,29 +160,31 @@ export default function AnimalDetail() {
             shelter_email={animal.shelter_email}
             shelter_phone={animal.shelter_phone}
           />
-              
-          <div className="detail-actions">
-            {
-              heartLoadingIds.includes(id) ? 
-                <Button variant="primary" disabled style={{ width: '75px', cursor: "not-allowed"}}>
-                  <Spinner animation="border" size="sm" />
-                </Button>
-                :
-                <button
-                  type="button"
-                  className={`btn ${isFavorite(animal.id) ? "btn-primary" : "btn-secondary"}`}
-                  style={{ width: '75px'}}
-                  onClick={handleSave}
-                  aria-label={
-                    isFavorite(animal.id)
-                      ? "Remove from favorites"
-                      : "Add to favorites"
-                  }
-                >
-                  {isFavorite(animal.id) ? "Saved" : "Save"}
-                </button>
-              }
 
+          <div className="detail-actions">
+            {heartLoadingIds.includes(id) ? (
+              <Button
+                variant="primary"
+                disabled
+                style={{ width: "75px", cursor: "not-allowed" }}
+              >
+                <Spinner animation="border" size="sm" />
+              </Button>
+            ) : (
+              <button
+                type="button"
+                className={`btn ${isFavorite(animal.id) ? "btn-primary" : "btn-secondary"}`}
+                style={{ width: "75px" }}
+                onClick={handleSave}
+                aria-label={
+                  isFavorite(animal.id)
+                    ? "Remove from favorites"
+                    : "Add to favorites"
+                }
+              >
+                {isFavorite(animal.id) ? "Saved" : "Save"}
+              </button>
+            )}
 
             <InquiryButton animalName={animal.name} animalId={animal.id} />
           </div>
