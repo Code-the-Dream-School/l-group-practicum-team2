@@ -100,10 +100,10 @@ function InquiryForm({ animalId, requestAddInquiry, onHide, isSubmitting }) {
 }
 
 InquiryForm.propTypes = {
-  animalId: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-    .isRequired,
-  onSuccess: PropTypes.func.isRequired,
-  onCancel: PropTypes.func,
+  animalId: PropTypes.string.isRequired,
+  requestAddInquiry: PropTypes.func.isRequired,
+  onHide: PropTypes.func.isRequired,
+  isSubmitting: PropTypes.bool.isRequired,
 };
 
 export default InquiryForm;
