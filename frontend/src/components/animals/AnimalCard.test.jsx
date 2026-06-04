@@ -1,11 +1,8 @@
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { MemoryRouter } from "react-router-dom";
 import AnimalCard from "./AnimalCard";
 import "@testing-library/jest-dom";
-import { cleanup, render, screen, within } from "@testing-library/react";
-
-afterEach(() => cleanup());
-
+import { render, screen, within } from "@testing-library/react";
 // Mock the favorite context so `Heart` can render without the provider
 vi.mock("../../contexts/FavoriteContext", () => ({
   useFavorite: () => ({
@@ -29,17 +26,7 @@ const animal = {
   status: "ADOPTED",
 };
 const availableAnimal = {
-  id: 1,
-  special_needs: true,
-  photo_url:
-    "https://firebasestorage.googleapis.com/v0/b/rabbitdb-9370d.appspot.com/o/rabbits%2Fdfc04bca?alt=media&token=2f85e3f8-bbc5-4e7c-bb77-6c637b663369",
-  name: "Fluffy",
-  age_years: 3,
-  breed: "Lop",
-  description: "A friendly rabbit looking for a loving home.",
-  size: "medium",
-  age_category: "adult",
-  species: "rabbit",
+  ...animal,
   status: "AVAILABLE",
 };
 
