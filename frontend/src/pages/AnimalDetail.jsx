@@ -8,6 +8,7 @@ import NotFound from "./NotFound";
 import InquiryButton from "../components/inquiries/InquiryButton";
 import { formatAnimalAge } from "../utils/formatAnimalAge";
 import AnimalPlaceholder from "../components/placeholders/AnimalPlaceholder";
+import { Spinner, Button } from "react-bootstrap";
 
 function normalizeAnimal(data) {
   if (!data) return null;
@@ -40,11 +41,10 @@ function normalizeAnimal(data) {
 export default function AnimalDetail() {
   const { getAnimalById, loading:animalLoading } = useAnimal();
   const { id } = useParams();
-  const { requestToggleFavorite, isFavorite } = useFavorite();
+  const { requestToggleFavorite, isFavorite, heartLoadingIds } = useFavorite();
 
   const [animal, setAnimal] = useState(undefined);
 
-  const { requestToggleFavorite, heartLoadingIds } = useFavorite();
   
   useEffect(() => {
     const loadAnimal = async () => {
@@ -67,7 +67,7 @@ export default function AnimalDetail() {
     return <AnimalPlaceholder />;
   }
 
-  if (!loading && !animal) {
+  if (!animalLoading && !animal) {
     return <NotFound />;
   }
 
@@ -164,19 +164,15 @@ export default function AnimalDetail() {
               
           <div className="detail-actions">
             {
-              heartLoadingIds.include(id) ? 
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  disabled={true}
-                  style={{ cursor: "not-allowed" }}
-                >
-                  <Spinner animation="border" size="sm" variant="secondary" />
-                </button>
+              heartLoadingIds.includes(id) ? 
+                <Button variant="primary" disabled style={{ width: '75px', cursor: "not-allowed"}}>
+                  <Spinner animation="border" size="sm" />
+                </Button>
                 :
                 <button
                   type="button"
                   className={`btn ${isFavorite(animal.id) ? "btn-primary" : "btn-secondary"}`}
+                  style={{ width: '75px'}}
                   onClick={handleSave}
                   aria-label={
                     isFavorite(animal.id)
