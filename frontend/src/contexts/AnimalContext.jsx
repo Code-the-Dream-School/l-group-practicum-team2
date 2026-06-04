@@ -122,8 +122,12 @@ export const AnimalProvider = ({ children }) => {
   // }, []);
 
   useEffect(() => {
-    getAnimals();
-  }, []);
+    const loadAnimals = async() => {
+      await getAnimals();
+    }
+    loadAnimals();
+    
+  }, [getAnimals]);
   return (
     <AnimalContext.Provider
       value={{
