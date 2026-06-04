@@ -61,9 +61,9 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get("/healthz", async (req, res) => {
+app.get('/healthz', async (req, res) => {
   try {
-    await pool.query("SELECT 1");
+    await pool.query('SELECT 1');
 
     return res.status(200).json({
       success: true,
