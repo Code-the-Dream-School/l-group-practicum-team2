@@ -6,7 +6,7 @@ import ErrorMessage from "../ErrorMessage";
 import { useAnimal } from "../../contexts/AnimalContext";
 
 const SpecialNeedCarousel = () => {
-  const { animals, loading, error } = useAnimal();
+  const { animals, error } = useAnimal();
 
   const specialNeedsAnimals = animals.filter((a) => a.special_needs);
 

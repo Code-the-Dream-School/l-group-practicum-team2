@@ -2,7 +2,7 @@ import { Spinner } from "react-bootstrap";
 import { useAuth } from "../../contexts/AuthContext";
 
 const AppLoadingOverlay = () => {
-  const { loading: authLoading, user } = useAuth();
+  const { loading: authLoading } = useAuth();
 
   if (authLoading) {
     return (

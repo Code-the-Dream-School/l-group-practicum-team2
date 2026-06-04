@@ -7,7 +7,6 @@ import UserDropdown from "./UserDropdown";
 import { SigninButton } from "./SigninButton";
 import { useLocation } from "react-router-dom";
 import CollapsibleMenu from "./CollapsibleMenu";
-import { useState } from "react";
 
 const NavigationBar = () => {
   const { user, logoutUser, openLogin } = useAuth();

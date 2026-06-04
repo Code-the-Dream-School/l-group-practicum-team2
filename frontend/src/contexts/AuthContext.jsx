@@ -15,7 +15,6 @@ import {
   updateUserCredentials,
 } from "../services/authService";
 import { useNotification } from "./NotificationContext";
-import { useLocation } from "react-router-dom";
 import { isPrivateRoute } from "../utils/privateRoutes";
 const AuthContext = createContext();
 
