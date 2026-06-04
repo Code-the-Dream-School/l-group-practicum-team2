@@ -44,6 +44,8 @@ export default function AnimalDetail() {
 
   const [animal, setAnimal] = useState(undefined);
 
+  const { requestToggleFavorite, heartLoadingIds } = useFavorite();
+  
   useEffect(() => {
     const loadAnimal = async () => {
       try {
@@ -159,21 +161,33 @@ export default function AnimalDetail() {
             shelter_email={animal.shelter_email}
             shelter_phone={animal.shelter_phone}
           />
-
               
           <div className="detail-actions">
-            <button
-              type="button"
-              className={`btn ${isFavorite(animal.id) ? "btn-primary" : "btn-secondary"}`}
-              onClick={handleSave}
-              aria-label={
-                isFavorite(animal.id)
-                  ? "Remove from favorites"
-                  : "Add to favorites"
+            {
+              heartLoadingIds.include(id) ? 
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  disabled={true}
+                  style={{ cursor: "not-allowed" }}
+                >
+                  <Spinner animation="border" size="sm" variant="secondary" />
+                </button>
+                :
+                <button
+                  type="button"
+                  className={`btn ${isFavorite(animal.id) ? "btn-primary" : "btn-secondary"}`}
+                  onClick={handleSave}
+                  aria-label={
+                    isFavorite(animal.id)
+                      ? "Remove from favorites"
+                      : "Add to favorites"
+                  }
+                >
+                  {isFavorite(animal.id) ? "Saved" : "Save"}
+                </button>
               }
-            >
-              {isFavorite(animal.id) ? "Saved" : "Save"}
-            </button>
+
 
             <InquiryButton animalName={animal.name} animalId={animal.id} />
           </div>
