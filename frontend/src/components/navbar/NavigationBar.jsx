@@ -33,7 +33,7 @@ const NavigationBar = () => {
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="w-100 d-none d-lg-flex flex-row justify-content-between">
             <div className="fs-4 gap-2">
-              <Nav.Link href="/">
+              <Nav.Link as={Link} to="/">
                 <HouseFill size={25} className="me-2" /> Home
               </Nav.Link>
             </div>
