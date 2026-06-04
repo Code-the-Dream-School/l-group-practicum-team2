@@ -2,12 +2,12 @@ import { Button, Card } from "react-bootstrap";
 import AnimalCard from "../../components/animals/AnimalCard";
 import AnimalListPlaceholder from "../../components/placeholders/AnimalListPlaceholder";
 import { useFavorite } from "../../contexts/FavoriteContext";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function FavoritesPage() {
   const { favoriteAnimals, favoritesLoading } = useFavorite();
   const navigate = useNavigate();
-  
+
   if (favoritesLoading) {
     return <AnimalListPlaceholder />;
   }

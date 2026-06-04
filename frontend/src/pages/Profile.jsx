@@ -1,13 +1,12 @@
 import { Card } from "react-bootstrap";
 import { useAuth } from "../contexts/AuthContext";
-import { useNotification } from "../contexts/NotificationContext";
 import EditNameButton from "../components/profile/EditNameButton";
 import EditPasswordButton from "../components/profile/EditPasswordButton";
 import DeleteAccountButton from "../components/profile/DeleteAccountButton";
 
 function Profile() {
   const { user } = useAuth();
-  const { addNotification } = useNotification();
+
 
   return (
     <main
