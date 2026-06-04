@@ -37,9 +37,8 @@ const NavigationBar = () => {
                 <HouseFill size={25} className="me-2" /> Home
               </Nav.Link>
             </div>
-            <div className='d-flex flex-row gap-2'>
-              {
-                user ?
+            <div className="d-flex flex-row gap-2">
+              {user ? (
                 <>
                   <Button
                     as={Link}
@@ -56,23 +55,18 @@ const NavigationBar = () => {
                     onLogout={() => logoutUser(true, location.pathname)}
                   />
                 </>
-               : 
+              ) : (
                 <SigninButton />
-
-              }
+              )}
             </div>
           </Nav>
- 
-        
+
           <CollapsibleMenu
             user={user}
             onLogout={logoutUser}
             openLogin={openLogin}
           />
-  
-
         </Navbar.Collapse>
-      
       </Container>
     </Navbar>
   );
