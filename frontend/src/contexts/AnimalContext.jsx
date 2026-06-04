@@ -39,28 +39,31 @@ export const AnimalProvider = ({ children }) => {
     }
   }, [addNotification]);
 
-  const getAnimalById = useCallback(async (id) => {
-    setLoading(true);
-    setError(null);
-    try {
-      const animal = await fetchAnimalById(id);
-      if (!animal) {
-        throw new Error("Animal not found");
+  const getAnimalById = useCallback(
+    async (id) => {
+      setLoading(true);
+      setError(null);
+      try {
+        const animal = await fetchAnimalById(id);
+        if (!animal) {
+          throw new Error("Animal not found");
+        }
+        return animal;
+      } catch (error) {
+        setError(error.message || "Something went wrong while fetching animal");
+        addNotification(
+          "danger",
+          error.message
+            ? `An error has occurred while fetching animal: ${error.message}`
+            : "Something went wrong while fetching animal"
+        );
+        return null;
+      } finally {
+        setLoading(false);
       }
-      return animal;
-    } catch (error) {
-      setError(error.message || "Something went wrong while fetching animal");
-      addNotification(
-        "danger",
-        error.message
-          ? `An error has occurred while fetching animal: ${error.message}`
-          : "Something went wrong while fetching animal"
-      );
-      return null;
-    } finally {
-      setLoading(false);
-    }
-  }, [addNotification]);
+    },
+    [addNotification]
+  );
 
   const filters = useMemo(
     () => ({
@@ -122,11 +125,10 @@ export const AnimalProvider = ({ children }) => {
   // }, []);
 
   useEffect(() => {
-    const loadAnimals = async() => {
+    const loadAnimals = async () => {
       await getAnimals();
-    }
+    };
     loadAnimals();
-    
   }, [getAnimals]);
   return (
     <AnimalContext.Provider

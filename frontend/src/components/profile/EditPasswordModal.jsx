@@ -30,7 +30,7 @@ const EditPasswordModal = ({ showPasswordModal, onHide }) => {
     setConfirmPassword("");
     setConfirmPasswordError("");
     onHide();
-  }
+  };
 
   return (
     <Modal show={showPasswordModal} onHide={onHide}>

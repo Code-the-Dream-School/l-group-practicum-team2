@@ -18,7 +18,7 @@ const EditNameModal = ({ showNameModal, onHide }) => {
       name,
       currentPassword: currentPassword,
     });
-    if (success) handleClose()
+    if (success) handleClose();
   };
   const handleClose = () => {
     setName("");
@@ -26,8 +26,7 @@ const EditNameModal = ({ showNameModal, onHide }) => {
     setCurrentPassword("");
     setCurrentPasswordError("");
     onHide();
-  }
-
+  };
 
   return (
     <Modal show={showNameModal} onHide={onHide}>

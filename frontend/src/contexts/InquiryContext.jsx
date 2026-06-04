@@ -79,14 +79,12 @@ export const InquiryProvider = ({ children }) => {
     return handleAddInquiry(messageObj);
   };
 
-
   useEffect(() => {
-      const loadInquiries=async()=>{
-        await getInquiries();
-      }
-      loadInquiries();
-  
-    }, [ getInquiries]);
+    const loadInquiries = async () => {
+      await getInquiries();
+    };
+    loadInquiries();
+  }, [getInquiries]);
 
   useEffect(() => {
     if (!user || !pendingMessageObj) return;
@@ -96,7 +94,6 @@ export const InquiryProvider = ({ children }) => {
       setPendingMessageObj(null);
 
       await handleAddInquiry(msg);
-      
     };
 
     addPendingMessage();

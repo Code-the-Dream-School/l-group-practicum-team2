@@ -19,15 +19,14 @@ const DeleteAccountModal = ({ showDeleteModal, onHide }) => {
 
     if (success) handleClose();
   };
-  
-  const handleClose =() => {
-    setConfirmDelete("");
-      setConfirmDeleteError("");
-      setCurrentPassword("");
-      setCurrentPasswordError("");
-      onHide();
-  }
 
+  const handleClose = () => {
+    setConfirmDelete("");
+    setConfirmDeleteError("");
+    setCurrentPassword("");
+    setCurrentPasswordError("");
+    onHide();
+  };
 
   return (
     <Modal show={showDeleteModal} onHide={onHide}>
