@@ -11,19 +11,14 @@ import Home from "./pages/Home";
 import InquiriesPage from "./pages/InquiriesPage";
 import NotFound from "./pages/NotFound";
 import Profile from "./pages/Profile";
+import AppLoadingOverlay from "./components/loading/AppLoadingOverlay";
 
 function App() {
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        minHeight: "100vh",
-      }}
-    >
+    <>
       <AuthModal />
-      <NavigationBar />
       <NotificationContainer />
+      <AppLoadingOverlay />
       <div
         style={{
           maxWidth: "1320px",
@@ -31,44 +26,59 @@ function App() {
           margin: "0 auto",
           padding: "12rem 1rem 1rem",
           flexGrow: 1,
+          display: "flex",
+          flexDirection: "column",
+          minHeight: "100vh",
         }}
       >
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/animals/:id" element={<AnimalDetail />} />
+        <NavigationBar />
 
-          <Route
-            path="/profile/inquiries"
-            element={
-              <ProtectedRoute>
-                <InquiriesPage />
-              </ProtectedRoute>
-            }
-          />
+        <div
+          style={{
+            maxWidth: "1320px",
+            width: "100%",
+            margin: "0 auto",
+            padding: "1rem",
+            flexGrow: 1,
+          }}
+        >
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/animals/:id" element={<AnimalDetail />} />
 
-          <Route
-            path="/favorites"
-            element={
-              <ProtectedRoute>
-                <FavoritesPage />
-              </ProtectedRoute>
-            }
-          />
+            <Route
+              path="/profile/inquiries"
+              element={
+                <ProtectedRoute>
+                  <InquiriesPage />
+                </ProtectedRoute>
+              }
+            />
 
-          <Route
-            path="/profile"
-            element={
-              <ProtectedRoute>
-                <Profile />
-              </ProtectedRoute>
-            }
-          />
+            <Route
+              path="/favorites"
+              element={
+                <ProtectedRoute>
+                  <FavoritesPage />
+                </ProtectedRoute>
+              }
+            />
 
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <Profile />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </div>
+        <Footer />
       </div>
-      <Footer />
-    </div>
+    </>
   );
 }
 

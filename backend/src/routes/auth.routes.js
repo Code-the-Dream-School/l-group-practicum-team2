@@ -16,7 +16,6 @@ const {
   validateLoginInput,
 } = require('../validators/input-validation');
 
-
 const rateLimit = require('express-rate-limit');
 
 const authLimiter = rateLimit({

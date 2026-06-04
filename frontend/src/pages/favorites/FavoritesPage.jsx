@@ -1,18 +1,19 @@
 import { Button, Card } from "react-bootstrap";
 import AnimalCard from "../../components/animals/AnimalCard";
+import AnimalListPlaceholder from "../../components/placeholders/AnimalListPlaceholder";
 import { useFavorite } from "../../contexts/FavoriteContext";
-import { useNavigate } from "react-router-dom";
+import { Alert } from "react-bootstrap";
 
 function FavoritesPage() {
-  const navigate = useNavigate();
-  const { favoriteAnimals } = useFavorite();
+  const { favoriteAnimals, favoritesLoading } = useFavorite();
 
-  return (
-    <main className="app">
-      <h1>Favorites</h1>
-      <title>My Favorites - PawMatch</title>
-
-      {favoriteAnimals.length === 0 ? (
+  if (favoritesLoading) {
+    return <AnimalListPlaceholder />;
+  }
+  if (favoriteAnimals.length === 0) {
+    return (
+      <main className="app">
+        <h1>Favorites</h1>
         <Card className="p-4 text-center">
           <h3>No favorites yet</h3>
 
@@ -21,13 +22,17 @@ function FavoritesPage() {
           </p>
           <Button onClick={() => navigate("/")}>Browse Animals</Button>
         </Card>
-      ) : (
-        <div className="animals-grid">
-          {favoriteAnimals.map((animal) => (
-            <AnimalCard key={animal.id} animal={animal} isFavorite={true} />
-          ))}
-        </div>
-      )}
+      </main>
+    );
+  }
+  return (
+    <main className="app">
+      <h1>Favorites</h1>
+      <div className="animals-grid">
+        {favoriteAnimals.map((animal) => (
+          <AnimalCard key={animal.id} animal={animal} isFavorite={true} />
+        ))}
+      </div>
     </main>
   );
 }

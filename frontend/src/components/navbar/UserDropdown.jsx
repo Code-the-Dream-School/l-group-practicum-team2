@@ -9,6 +9,7 @@ const UserDropdown = ({ user, onLogout }) => {
     <DropdownButton
       id="dropdown-button-drop"
       size="lg"
+      className="user-dropdown"
       title={
         <>
           <PersonFill size={25} className="me-3" />

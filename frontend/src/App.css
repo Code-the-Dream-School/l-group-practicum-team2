@@ -622,3 +622,22 @@
     margin-top: 1rem;
   }
 }
+:root {
+  --signin-button-width: 11rem;
+}
+
+.user-dropdown .dropdown-toggle,
+.signin-button {
+  min-width: var(--signin-button-width);
+}
+.user-dropdown .dropdown-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.disabled-link {
+  pointer-events: none;
+  cursor: not-allowed !important;
+  /* opacity: 0.6; */
+}

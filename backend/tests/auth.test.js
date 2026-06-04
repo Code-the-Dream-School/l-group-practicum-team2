@@ -3,14 +3,13 @@ require('dotenv').config();
 
 process.env.NODE_ENV = 'test';
 process.env.JWT_SECRET = process.env.JWT_SECRET || 'testsecret';
-process.env.FRONTEND_URL =
-  process.env.FRONTEND_URL || 'http://localhost:5173';
+process.env.FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:5173';
 process.env.PORT = process.env.PORT || '8080';
 
 process.env.DATABASE_URL =
   process.env.DATABASE_URL ||
   'postgres://test:test@localhost:5432/pawmatch_test';
-  
+
 const request = require('supertest');
 const app = require('../src/app');
 const pool = require('../src/config/db.postgres');

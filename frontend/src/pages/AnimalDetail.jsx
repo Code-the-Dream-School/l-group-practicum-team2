@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import LoadingSpinner from "../components/LoadingSpinner";
 import ShelterInfo from "../components/shelters/ShelterInfo";
 import { useAnimal } from "../contexts/AnimalContext";
 import { useFavorite } from "../contexts/FavoriteContext";
@@ -8,6 +7,8 @@ import { formatLabel } from "../utils/formatLabel";
 import NotFound from "./NotFound";
 import InquiryButton from "../components/inquiries/InquiryButton";
 import { formatAnimalAge } from "../utils/formatAnimalAge";
+import AnimalPlaceholder from "../components/placeholders/AnimalPlaceholder";
+import { Spinner, Button } from "react-bootstrap";
 
 function normalizeAnimal(data) {
   if (!data) return null;
@@ -38,9 +39,9 @@ function normalizeAnimal(data) {
 }
 
 export default function AnimalDetail() {
-  const { getAnimalById, loading } = useAnimal();
+  const { getAnimalById, loading: animalLoading } = useAnimal();
   const { id } = useParams();
-  const { requestToggleFavorite, isFavorite } = useFavorite();
+  const { requestToggleFavorite, isFavorite, heartLoadingIds } = useFavorite();
 
   const [animal, setAnimal] = useState(undefined);
 
@@ -61,16 +62,11 @@ export default function AnimalDetail() {
     requestToggleFavorite(animal.id);
   };
 
-  if (loading || animal === undefined) {
-    return (
-      <main className="detail-page">
-        <title>Animal Details - PawMatch</title>
-        <LoadingSpinner message="Loading animal details..." />
-      </main>
-    );
+  if (animalLoading || !animal) {
+    return <AnimalPlaceholder />;
   }
 
-  if (!loading && animal === null) {
+  if (!animalLoading && !animal) {
     return <NotFound />;
   }
 
@@ -166,18 +162,29 @@ export default function AnimalDetail() {
           />
 
           <div className="detail-actions">
-            <button
-              type="button"
-              className={`btn ${isFavorite(animal.id) ? "btn-primary" : "btn-secondary"}`}
-              onClick={handleSave}
-              aria-label={
-                isFavorite(animal.id)
-                  ? "Remove from favorites"
-                  : "Add to favorites"
-              }
-            >
-              {isFavorite(animal.id) ? "Saved" : "Save"}
-            </button>
+            {heartLoadingIds.includes(id) ? (
+              <Button
+                variant="primary"
+                disabled
+                style={{ width: "75px", cursor: "not-allowed" }}
+              >
+                <Spinner animation="border" size="sm" />
+              </Button>
+            ) : (
+              <button
+                type="button"
+                className={`btn ${isFavorite(animal.id) ? "btn-primary" : "btn-secondary"}`}
+                style={{ width: "75px" }}
+                onClick={handleSave}
+                aria-label={
+                  isFavorite(animal.id)
+                    ? "Remove from favorites"
+                    : "Add to favorites"
+                }
+              >
+                {isFavorite(animal.id) ? "Saved" : "Save"}
+              </button>
+            )}
 
             <InquiryButton animalName={animal.name} animalId={animal.id} />
           </div>

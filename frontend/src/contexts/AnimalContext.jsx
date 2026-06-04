@@ -28,7 +28,6 @@ export const AnimalProvider = ({ children }) => {
       const data = await fetchAnimals();
       setAnimals(data.animals || []);
     } catch (error) {
-      setError(error.message || "Something went wrong while fetching animals");
       addNotification(
         "danger",
         error.message
@@ -38,7 +37,7 @@ export const AnimalProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [addNotification]);
 
   const getAnimalById = useCallback(async (id) => {
     setLoading(true);
@@ -117,11 +116,10 @@ export const AnimalProvider = ({ children }) => {
     filters.specialNeeds;
 
   useEffect(() => {
-    const loadAnimals = async () => {
-      getAnimals();
-    };
-    loadAnimals();
-  }, [getAnimals]);
+    (async () => {
+      await getAnimals();
+    })();
+  }, []);
 
   return (
     <AnimalContext.Provider

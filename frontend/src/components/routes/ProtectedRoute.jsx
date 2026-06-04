@@ -15,12 +15,14 @@ const ProtectedRoute = ({ children }) => {
     if (logoutClicked) {
       navigate("/", { replace: true });
     }
-    setTimeout(() => {
-      setLogoutClicked(false);
-    }, 1000);
+    return () => {
+      if (logoutClicked) {
+        setLogoutClicked(false);
+      }
+    };
   }, [logoutClicked, navigate, setLogoutClicked]);
 
-  if (!user && !logoutClicked) {
+  if (!user) {
     switch (location.pathname) {
       case "/profile":
         return <ProfilePlaceholder />;

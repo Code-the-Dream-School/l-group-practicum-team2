@@ -4,7 +4,7 @@ import { Modal } from "react-bootstrap";
 import SignupModal from "./SignupModal";
 import LoginModal from "./LoginModal";
 import { useLocation } from "react-router-dom";
-
+import { isPrivateRoute } from "../../utils/privateRoutes";
 const AuthModal = () => {
   const location = useLocation();
 
@@ -20,7 +20,7 @@ const AuthModal = () => {
 
   const handleHide = () => {
     closeAuthModal();
-    setLogoutClicked(true);
+    setLogoutClicked(isPrivateRoute(location.pathname));
   };
 
   useEffect(() => {
