@@ -38,7 +38,6 @@ const NavigationBar = () => {
               </Nav.Link>
             </div>
             <div className='d-flex flex-row gap-2'>
-
               {
                 user ?
                 <>
@@ -53,16 +52,16 @@ const NavigationBar = () => {
                     <span className="fs-5">Favorites</span>
                   </Button>
                   <UserDropdown
-                  user={user}
-                  onLogout={() => logoutUser(true, location.pathname)}
-                />
+                    user={user}
+                    onLogout={() => logoutUser(true, location.pathname)}
+                  />
                 </>
                : 
                 <SigninButton />
 
               }
-              </div>
-              </Nav>
+            </div>
+          </Nav>
  
         
           <CollapsibleMenu
