@@ -143,22 +143,21 @@ export const FavoriteProvider = ({ children }) => {
     getFavorites();
   }, [user, getFavorites]);
 
-  useEffect(()=>{
+  useEffect(() => {
     if (!user || !pendingFavoriteId) return;
-    
+
     const runPendingFavorite = async () => {
       const animalId = pendingFavoriteId;
 
       setPendingFavoriteId(null);
 
       if (favoriteIds.includes(animalId)) return;
-      
+
       await handleAddFavorite(animalId);
     };
 
     runPendingFavorite();
   }, [user, pendingFavoriteId, favoriteIds, handleAddFavorite]);
-
 
   return (
     <FavoriteContext.Provider

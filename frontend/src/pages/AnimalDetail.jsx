@@ -7,7 +7,7 @@ import { formatLabel } from "../utils/formatLabel";
 import NotFound from "./NotFound";
 import InquiryButton from "../components/inquiries/InquiryButton";
 import { formatAnimalAge } from "../utils/formatAnimalAge";
-import AnimalPlaceholder from "../components/placeholders/AnimalPlaceholder"
+import AnimalPlaceholder from "../components/placeholders/AnimalPlaceholder";
 
 function normalizeAnimal(data) {
   if (!data) return null;
