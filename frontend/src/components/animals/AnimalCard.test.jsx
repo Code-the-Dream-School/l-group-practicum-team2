@@ -32,7 +32,7 @@ const availableAnimal = {
 
 const renderWithRouter = (ui) => render(ui, { wrapper: MemoryRouter });
 
-describe("AnimalCard test suite", () => {
+describe("AnimalCard renders fields correctly", () => {
   it("contains an `a` html element", () => {
     renderWithRouter(<AnimalCard animal={availableAnimal} />);
     const linkElement = screen.getByRole("link");
