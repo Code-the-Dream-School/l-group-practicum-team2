@@ -94,8 +94,8 @@ export const InquiryProvider = ({ children }) => {
     const addPendingMessage = async () => {
       const msg = pendingMessageObj;
       setPendingMessageObj(null);
-      
-      await handleAddInquiry(pendingMessageObj);
+
+      await handleAddInquiry(msg);
       
     };
 
