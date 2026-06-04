@@ -5,7 +5,6 @@ import logo from "../../assets/PawMatch.png";
 import { useAuth } from "../../contexts/AuthContext";
 import UserDropdown from "./UserDropdown";
 import { SigninButton } from "./SigninButton";
-import { useLocation } from "react-router-dom";
 import CollapsibleMenu from "./CollapsibleMenu";
 
 const NavigationBar = () => {
