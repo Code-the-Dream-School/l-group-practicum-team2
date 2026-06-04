@@ -25,7 +25,28 @@ validateEnvVars();
 
 // Security & best‑practice middleware
 app.use(helmet());
-app.use(cors());
+
+const allowedOrigins = (
+  process.env.ALLOWED_ORIGINS || process.env.FRONTEND_URL || ''
+)
+  .split(',')
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      // Allow requests with no origin (e.g. curl, Postman)
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error(`CORS: origin ${origin} not allowed`));
+      }
+    },
+    credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  })
+);
 
 app.use(express.json());
 
