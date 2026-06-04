@@ -24,11 +24,12 @@ validateEnvVars();
 // Security & best‑practice middleware
 app.use(helmet());
 
-const allowedOrigins = [
-  'http://localhost:5173',
-  'http://localhost:3000',
-  process.env.FRONTEND_URL,
-].filter(Boolean);
+const allowedOrigins = (
+  process.env.ALLOWED_ORIGINS || process.env.FRONTEND_URL || ''
+)
+  .split(',')
+  .map((origin) => origin.trim())
+  .filter(Boolean);
 
 app.use(
   cors({
