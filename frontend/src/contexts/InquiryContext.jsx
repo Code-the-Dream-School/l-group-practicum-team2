@@ -79,23 +79,24 @@ export const InquiryProvider = ({ children }) => {
     return handleAddInquiry(messageObj);
   };
 
+
   useEffect(() => {
-    if (!user) {
-      setInquiries([]);
-      return;
-    }
-    const loadInquiries = async () => {
-      getInquiries();
-    };
-    loadInquiries();
-  }, [user, getInquiries]);
+      const loadInquiries=async()=>{
+        await getInquiries();
+      }
+      loadInquiries();
+  
+    }, [ getInquiries]);
 
   useEffect(() => {
     if (!user || !pendingMessageObj) return;
 
     const addPendingMessage = async () => {
-      await handleAddInquiry(pendingMessageObj);
+      const msg = pendingMessageObj;
       setPendingMessageObj(null);
+      
+      await handleAddInquiry(pendingMessageObj);
+      
     };
 
     addPendingMessage();
