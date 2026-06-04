@@ -1,13 +1,11 @@
 import { Row, Col, Placeholder, Card } from "react-bootstrap";
 
 const AnimalPlaceholder = () => {
-  const createItemArr = (count) =>
-    Array.from({ length: count }, (_, i) => i + 1);
-  const itemArr = createItemArr(4);
+  
   return (
     <Card className="w-100 rounded-4 overflow-hidden mb-3">
       <Row>
-        <Col xs={6} className="">
+        <Col xs={12} md={6} className="mb-3">
           <Placeholder
             as="div"
             animation="glow"
@@ -17,23 +15,40 @@ const AnimalPlaceholder = () => {
             <Placeholder xs={12} className="h-100 w-100" />
           </Placeholder>
         </Col>
-        <Col className="p-3">
-          <Placeholder as="h3" animation="wave" className="mb-5">
+        <Col xs={12} md={6} className="mb-3 pe-5">
+          <Placeholder as="h3" animation="wave" className="mb-5 mt-2">
             <Placeholder xs={4} />
           </Placeholder>
-          {itemArr.map((item) => (
-            <div key={item}>
-              <Card className="w-100 rounded-4 overflow-hidden mb-3">
+          <Row>
+            {Array.from({ length: 4 }).map((_, index) => (
+              <Col key={index} xs={6}>
+                <Card className="w-100 rounded-4 overflow-hidden mb-3 p-3 pb-5" >
+                  <Placeholder as="h5" animation="wave" className="mb-5">
+                    <Placeholder xs={6} />
+                  </Placeholder>
+                  <Placeholder xs={12} />
+                </Card>
+              </Col>
+            ))}
+            
+            
+          </Row>
+          <Row>
+         {Array.from({ length: 3 }).map((_, index) => (
+            <Col key={index} xs={12}>
+              <Card className="w-100 rounded-4 overflow-hidden mb-3 p-4">
                 <Placeholder as="h4" animation="wave" className="mb-3">
                   <Placeholder xs={4} />
                 </Placeholder>
                 <Placeholder as="p" animation="wave" className="">
                   <Placeholder xs={12} />
                   <Placeholder xs={12} />
+                  <Placeholder xs={12} />
                 </Placeholder>
               </Card>
-            </div>
+            </Col>
           ))}
+          </Row>
 
           <Row>
             <Col xs={3}>
