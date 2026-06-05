@@ -1,7 +1,7 @@
 import PasswordInputBox from "../auth/PasswordInputBox";
 import DeleteInputBox from "../auth/DeleteInputBox";
 import { useAuth } from "../../contexts/AuthContext";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Form, Modal, Button, Spinner } from "react-bootstrap";
 import PropTypes from "prop-types";
 const DeleteAccountModal = ({ showDeleteModal, onHide }) => {
@@ -17,17 +17,16 @@ const DeleteAccountModal = ({ showDeleteModal, onHide }) => {
 
     const success = await handleDelete(currentPassword);
 
-    if (success) onHide();
+    if (success) handleClose();
   };
 
-  useEffect(() => {
-    if (showDeleteModal) {
-      setConfirmDelete("");
-      setConfirmDeleteError("");
-      setCurrentPassword("");
-      setCurrentPasswordError("");
-    }
-  }, [showDeleteModal]);
+  const handleClose = () => {
+    setConfirmDelete("");
+    setConfirmDeleteError("");
+    setCurrentPassword("");
+    setCurrentPasswordError("");
+    onHide();
+  };
 
   return (
     <Modal show={showDeleteModal} onHide={onHide}>

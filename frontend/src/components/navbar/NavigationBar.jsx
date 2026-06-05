@@ -5,9 +5,7 @@ import logo from "../../assets/PawMatch.png";
 import { useAuth } from "../../contexts/AuthContext";
 import UserDropdown from "./UserDropdown";
 import { SigninButton } from "./SigninButton";
-import { useLocation } from "react-router-dom";
 import CollapsibleMenu from "./CollapsibleMenu";
-import { useState } from "react";
 
 const NavigationBar = () => {
   const { user, logoutUser, openLogin } = useAuth();
@@ -33,7 +31,7 @@ const NavigationBar = () => {
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="w-100 d-none d-lg-flex flex-row justify-content-between">
             <div className="fs-4 gap-2">
-              <Nav.Link href="/">
+              <Nav.Link as={Link} to="/">
                 <HouseFill size={25} className="me-2" /> Home
               </Nav.Link>
             </div>

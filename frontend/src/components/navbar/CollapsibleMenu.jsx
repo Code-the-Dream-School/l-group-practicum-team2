@@ -6,7 +6,8 @@ import {
   EnvelopeHeartFill,
   BoxArrowRight,
 } from "react-bootstrap-icons";
-import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
+
 const CollapsibleMenu = ({ user, onLogout, openLogin }) => {
   return (
     <Nav className="d-lg-none flex-column align-items-center text-center">
@@ -53,5 +54,19 @@ const CollapsibleMenu = ({ user, onLogout, openLogin }) => {
       )}
     </Nav>
   );
+};
+
+CollapsibleMenu.propTypes = {
+  user: PropTypes.shape({
+    id: PropTypes.string,
+    username: PropTypes.string,
+    email: PropTypes.string,
+  }),
+  onLogout: PropTypes.func.isRequired,
+  openLogin: PropTypes.func.isRequired,
+};
+
+CollapsibleMenu.defaultProps = {
+  user: null,
 };
 export default CollapsibleMenu;

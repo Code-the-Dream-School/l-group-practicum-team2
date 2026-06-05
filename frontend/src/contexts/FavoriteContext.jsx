@@ -136,12 +136,11 @@ export const FavoriteProvider = ({ children }) => {
   );
 
   useEffect(() => {
-    if (!user) {
-      setFavoriteIds([]);
-      return;
-    }
-    getFavorites();
-  }, [user, getFavorites]);
+    const loadFavorites = async () => {
+      await getFavorites();
+    };
+    loadFavorites();
+  }, [getFavorites]);
 
   useEffect(() => {
     if (!user || !pendingFavoriteId) return;

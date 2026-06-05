@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Spinner, Modal, Form, Button } from "react-bootstrap";
 import { useAuth } from "../../contexts/AuthContext";
 import PasswordInputBox from "../auth/PasswordInputBox";
@@ -19,18 +19,18 @@ const EditPasswordModal = ({ showPasswordModal, onHide }) => {
       newPassword,
       currentPassword: currentPassword,
     });
-    if (success) onHide();
+    if (success) handleClose();
   };
-  useEffect(() => {
-    if (showPasswordModal) {
-      setNewPassword("");
-      setNewPasswordError("");
-      setCurrentPassword("");
-      setCurrentPasswordError("");
-      setConfirmPassword("");
-      setConfirmPasswordError("");
-    }
-  }, [showPasswordModal]);
+
+  const handleClose = () => {
+    setNewPassword("");
+    setNewPasswordError("");
+    setCurrentPassword("");
+    setCurrentPasswordError("");
+    setConfirmPassword("");
+    setConfirmPasswordError("");
+    onHide();
+  };
 
   return (
     <Modal show={showPasswordModal} onHide={onHide}>
