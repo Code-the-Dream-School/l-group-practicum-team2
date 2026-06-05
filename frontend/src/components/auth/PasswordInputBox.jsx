@@ -17,7 +17,7 @@ const PasswordInputBox = ({
   };
   const validatePassword = (pa) => {
     const re = /^[A-Za-z0-9]{6,30}$/;
-    if (pa === "") setPasswordError("Password is required");
+    if (pa === "") setPasswordError("Password is required.");
     else if (!re.test(pa)) {
       setPasswordError(
         "Password must be between 6 and 30 characters and contain only letters and numbers."

@@ -13,7 +13,7 @@ const NameInputBox = ({ name, setName, nameError, setNameError }) => {
   const validateName = (name) => {
     const re = /^[a-zA-Z0-9 ._]{2,20}$/;
 
-    if (name === "") setNameError("Name is required");
+    if (name === "") setNameError("Name is required.");
     else if (!re.test(name))
       setNameError(
         "Name must be between 2 and 20 characters and contain only letters, numbers, spaces, dots, or underscores."
