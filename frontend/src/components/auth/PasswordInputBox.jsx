@@ -61,7 +61,7 @@ const PasswordInputBox = ({
         </button>
       </div>
 
-      {passwordError && <p className="text-danger">{passwordError}.</p>}
+      {passwordError && <p className="text-danger">{passwordError}</p>}
     </>
   );
 };

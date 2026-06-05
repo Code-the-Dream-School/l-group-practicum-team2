@@ -29,7 +29,7 @@ const NameInputBox = ({ name, setName, nameError, setNameError }) => {
         onChange={handleChange}
         onBlur={(e) => validateName(e.target.value)}
       />
-      {nameError && <p className="text-danger">{nameError}.</p>}
+      {nameError && <p className="text-danger">{nameError}</p>}
     </>
   );
 };
