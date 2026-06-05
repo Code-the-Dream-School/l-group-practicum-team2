@@ -118,11 +118,6 @@ export const AnimalProvider = ({ children }) => {
     filters.ageCategory !== "" ||
     filters.specialNeeds;
 
-  // useEffect(() => {
-  //   (async () => {
-  //     await getAnimals();
-  //   })();
-  // }, []);
 
   useEffect(() => {
     const loadAnimals = async () => {

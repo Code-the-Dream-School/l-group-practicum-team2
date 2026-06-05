@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
-import LoadingSpinner from "../components/LoadingSpinner";
+import LoadingSpinner from "../components/loading/LoadingSpinner";
 import ErrorMessage from "../components/ErrorMessage";
 
 function Register() {
@@ -16,7 +16,6 @@ function Register() {
     e.preventDefault();
 
     const success = await handleRegister({ name, email, password });
-    // redirect after success
     if (success) navigate("/");
   };
 

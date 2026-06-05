@@ -22,7 +22,6 @@ const SignupModal = () => {
     if (success) {
       closeAuthModal();
     }
-    // Notification bar (coming soon) will display the error
   };
   return (
     <Form style={{ width: "100%" }} onSubmit={handleSubmit}>
