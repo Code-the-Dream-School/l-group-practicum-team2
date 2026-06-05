@@ -16,11 +16,11 @@ const PasswordInputBox = ({
     if (passwordError) validatePassword(e.target.value);
   };
   const validatePassword = (pa) => {
-    const re = /^[A-Za-z0-9]{6,}$/;
+    const re = /^[A-Za-z0-9]{6,30}$/;
     if (pa === "") setPasswordError("Password is required");
     else if (!re.test(pa)) {
       setPasswordError(
-        "Password does not meet the required format. Minimum 6 characters, alphanumeric only"
+        "Password must be between 6 and 30 characters and contain only letters and numbers."
       );
     } else setPasswordError("");
   };

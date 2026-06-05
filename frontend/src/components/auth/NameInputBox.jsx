@@ -16,7 +16,7 @@ const NameInputBox = ({ name, setName, nameError, setNameError }) => {
     if (name === "") setNameError("Name is required");
     else if (!re.test(name))
       setNameError(
-        "Name must be between 2 and 20 letters and contain only alphanumeric characters and ._-"
+        "Name must be between 2 and 20 characters and contain only letters, numbers, spaces, dots, or underscores."
       );
     else setNameError("");
   };
