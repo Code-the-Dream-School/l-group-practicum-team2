@@ -19,7 +19,7 @@ const SpecialNeedCarousel = () => {
               width: "5rem",
               height: "5rem",
               borderRadius: "50%",
-              backgroundColor: "orange",
+              backgroundColor: "#F97316",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
