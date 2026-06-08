@@ -30,6 +30,8 @@ const errorHandlerMiddleware = (err, req, res, next) => {
     customError.statusCode = StatusCodes.BAD_REQUEST;
   }
 
+  console.error(`[Error] ${customError.statusCode} - ${customError.msg}`, err.stack || '');
+
   return res.status(customError.statusCode).json({
     success: false,
     message: customError.msg,
