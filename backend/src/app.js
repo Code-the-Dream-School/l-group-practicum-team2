@@ -26,18 +26,20 @@ validateEnvVars();
 // Security & best‑practice middleware
 app.use(helmet());
 
-const allowedOrigins = (
-  process.env.ALLOWED_ORIGINS ||
-  process.env.FRONTEND_URL ||
-  ''
-)
-  .split(',')
-  .map((origin) => origin.trim())
-  .filter(Boolean);
-
 app.use(
   cors({
     origin: (origin, callback) => {
+      const allowedOrigins = (
+        process.env.ALLOWED_ORIGINS ||
+        process.env.FRONTEND_URL ||
+        ''
+      )
+        .split(',')
+        .map((o) => o.trim())
+        .filter(Boolean);
+
+      console.log(`CORS: request from "${origin}" | allowed: [${allowedOrigins.join(', ')}]`);
+
       // Allow requests with no origin (e.g. curl, Postman)
       if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
