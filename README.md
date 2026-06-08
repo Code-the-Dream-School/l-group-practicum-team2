@@ -6,7 +6,9 @@ A fullstack pet adoption application with a Node.js backend and React frontend t
 
 ## Live Demo
 
-#### Frontend Live Site: https://your-github-pages-link.com
+#### Frontend Live Site: https://pawmatch-15gv.onrender.com
+
+#### Backend Live Site: https://pawmatch-api-0w2r.onrender.com
 
 #### Frontend Repo: https://github.com/Code-the-Dream-School/l-group-practicum-team2/tree/main/frontend
 
