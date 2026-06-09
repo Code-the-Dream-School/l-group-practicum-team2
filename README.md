@@ -245,14 +245,13 @@ Frontend will run on: http://localhost:5173 (VITE)
 #### Users
 
 | Column        | Type      | Description          |
-| ------------- | --------- | -------------------- | ----------- | --- |
+| ------------- | --------- | -------------------- |
 | id            | UUID      | Primary key          |
 | name          | STRING    | User name            |
 | email         | STRING    | Unique email address |
 | password_hash | STRING    | Hashed password      |
 | location      | STRING    | User location        |
 | created_at    | TIMESTAMP | Record creation time |
-| <!--          | role      | ENUM                 | USER, ADMIN | --> |
 
 ---
 
@@ -358,12 +357,12 @@ Frontend will run on: http://localhost:5173 (VITE)
 
 ## Team Members
 
-- Aya Dzhaparbekova (dzhaicholpon@gmail.com) - Role
-- Heather M. Smith (heathersmith9378@gmail.com)— Role
-- Maede Gholipour (Maedegholipour@gmail.com)— Role
-- Victor Manual Lameda Rojas (vmlr123@gmail.com) - Role
-- Villy Siu (villysiu@gmail.com)— Role
-- Volha Padlipskaya (o.podlipskaya@gmail.com) — Role
+- Aya Dzhaparbekova (dzhaicholpon@gmail.com) - Full Stack Developer
+- Heather M. Smith (heathersmith9378@gmail.com) - Full Stack Developer
+- Maede Gholipour (Maedegholipour@gmail.com) - Full Stack Developer
+- Victor Manual Lameda Rojas (vmlr123@gmail.com) - Full Stack Developer
+- Villy Siu (villysiu@gmail.com) - Full Stack Developer
+- Volha Padlipskaya (o.podlipskaya@gmail.com) - Full Stack Developer
 
 ## Workflow
 
