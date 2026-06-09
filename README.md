@@ -6,9 +6,13 @@ A fullstack pet adoption application with a Node.js backend and React frontend t
 
 ## Live Demo
 
+
 #### Frontend Live Site: https://pawmatch-15gv.onrender.com
 
 #### Backend Live Site: https://pawmatch-api-0w2r.onrender.com
+
+#### Presentation: https://youtu.be/6fTt48xRiBY
+
 
 #### Frontend Repo: https://github.com/Code-the-Dream-School/l-group-practicum-team2/tree/main/frontend
 
@@ -186,7 +190,7 @@ psql $DATABASE_URL -f src/db/20260517_add_animal_filter_indexes.sql
 ```
 cd frontend
 npm install
-npm run dev (vite)
+npm run dev
 ```
 
 Create a .env file inside the frontend folder:
@@ -278,13 +282,13 @@ Frontend will run on: http://localhost:5173 (VITE)
 | species       | STRING    | Animal type (dog, cat, etc.)        |
 | breed         | STRING    | Breed                               |
 | age_years     | FLOAT     | Age in years                        |
-| age_category  | ENUM      | young, adult, senior                |
-| size          | ENUM      | small, medium, large                |
+| age_category  | ENUM      | YOUNG, ADULT, SENIOR                |
+| size          | ENUM      | SMALL, MEDIUM, LARGE                |
 | special_needs | BOOLEAN   | Indicates special care requirements |
 | temperament   | TEXT      | Behavior description                |
 | description   | TEXT      | Detailed info                       |
 | photo_url     | STRING    | Image URL                           |
-| status        | ENUM      | available, adopted                  |
+| status        | ENUM      | AVAILABLE, ADOPTED                  |
 | created_at    | TIMESTAMP | Record creation time                |
 
 ---
@@ -308,7 +312,7 @@ Frontend will run on: http://localhost:5173 (VITE)
 | user_id    | UUID      | Foreign key → Users   |
 | animal_id  | UUID      | Foreign key → Animals |
 | message    | TEXT      | User inquiry message  |
-| status     | ENUM      | sent, reviewed        |
+| status     | ENUM      | SENT, REVIEWED        |
 | created_at | TIMESTAMP | Record creation time  |
 
 ## Frontend Routes
